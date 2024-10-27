@@ -1,18 +1,42 @@
 \chapter{Introdución}
 \label{chap:introducion}
 
-\lettrine{P}{rimer} capítulo da memoria, onde xeralmente se exporán as
-liñas mestras do traballo, os obxectivos, etc. Incluimos un par de
-exemplos de citas~\cite{ErlangBook,ErlangWebBook} e de referencias
-internas (sección \ref{sec:mostra}, páxina \pageref{sec:mostra}).
+\lettrine{N} este primer capítulo expóñense as motivacións e obxetivos deste traballo. Ademais, detallarase a estrutura da memoria e os apartados que a conforman.
 
-\Blindtext
+\section{Motivación}
+\label{sec:motivacion}
 
-\section{Sección de mostra}
-\label{sec:mostra}
+A oftalmoloxía válese da análise de imaxes obtidas por diversos métodos para realizar diagnósticos e seguimentos precisos.
+Non obstante, dado que estas imaxes poden prover de distintas modalidades e foron tomadas en instantes separados no tempo, é preciso aliñalas para poder comparalas de xeito efectivo.
+O aliñamento de imaxes é un proceso que se leva a cabo para poder comparar imaxes dun mesmo paciente tomadas en distintos momentos, ou para comparar imaxes de diferentes pacientes.
+Consiste en deformar dúas ou máis imaxes de forma que as características de interese se atopen na mesma posición (superpostas).
+Este é un proceso tedioso e propenso a erros, polo que calquer mellora nel é de gran interese para os profesionais da saúde. 
+Esta tarefa é axeitada para ser automatizada, xa que é non require dun xuízo clínico, senón que se basea na comparación de características visuais das imaxes. A automatización deste proceso permitiría aos profesionais da saúde dedicar máis tempo a tarefas máis relevantes.
 
-\Blindtext
+Xa existen diversas técnicas para realizar aliñamento de imaxes automático, especialmente ca chegada do deep learning á visión por computador para imaxes médicas, onde unha aproximación habitual é o uso de redes neuronais convolucionais.
+Estos métodos, aínda que efectivos, teñen limitacións. Unha delas é que requiren dunha gran cantidade de datos para o seu adestramento, o que pode ser un problema en campos como a medicina, onde a obtención de datos é cara e complexa. Ademais, xeralmente teñen unha precisión menor ca métodos automáticos convencionais, pese a que si que son máis rápidos.
+Adaptando o traballo realizado por \cite{wolterink2021implicit}, preténdese aplicar redes de representación implícita para o aliñamento de imaxes oftalmolóxicas.
 
-\subsection{Subsección de mostra}
+\section{Obxectivos}
 
-\Blindtext
+Neste traballo explorarase o uso de redes de representación implícita para o aliñamento de imaxes oftalmolóxicas, para determinar se son aptas para esta tarefa e se poden superar as limitacións dos métodos anteriores.
+Para iso, os obxectivos específicos son:
+\begin{itemize}
+    \item Adaptar o traballo de IDIR \cite{wolterink2021implicit} para aplicalo a imaxes oftalmolóxicas.
+    \item Comparar o rendemento do método proposto co de métodos automáticos convencionais nos datasets de FIRE \cite{FIRE} e RFMID \cite{RFMiD}.
+    \item Analizar a influencia de distintos parámetros no rendemento do método proposto, en particular a influencia da función de activación SIREN.
+\end{itemize}
+
+\section{Estructura }
+
+Nesta sección detallarase a estrutura da memoria e os apartados que a conforman.
+
+\begin{itemize}
+    \item \textbf{Capítulo 1: Introdución}: neste capítulo introdúcese o traballo, explicando as motivacións e obxetivos do mesmo.
+    \item \textbf{Capítulo 2: Contexto}: neste capítulo explicarase o contexto do traballo, introducindo conceptos básicos de visión por computador e imaxes médicas, así como o estado da arte en aliñamento de imaxes.
+    \item \textbf{Capítulo 3: Metodoloxía e planificación}: neste capítulo explicarase a metodoloxía empregada e a planificación do traballo.
+    \item \textbf{Capítulo 4: Experimentos e resultados}: neste capítulo presentaranse os experimentos realizados e os resultados obtidos.
+    \item \textbf{Capítulo 5: Discusión}: neste capítulo discutiranse os resultados e compararanse cos resultados de outros métodos.
+    \item \textbf{Capítulo 6: Conclusións}: neste capítulo presentaranse as conclusións do traballo e as súas implicacións.
+    \item \textbf{Capítulo 7: Traballo futuro}: neste capítulo propoñeranse liñas de traballo futuro.
+\end{itemize}
