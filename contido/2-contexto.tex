@@ -15,26 +15,68 @@ O ollo encargase de captar a luz e transformala en impulsos eléctricos que se e
  Esta información é interpretada polo cerebro, que mediante mecanismos como a atención e a memoria, permite a percepción visual.
  \dots
 
-\subsection{Imaxe médica}
-\label{subsec:Imaxe médica}
-\dots
-diabetes e hipertensión, así como a detección de tumores cerebrais.
+\subsection{Imaxe oftalmolóxica}
+\label{subsec:Imaxe oftalmolóxica}
+Existen diversas modalidades de imaxe médica que permiten observar o ollo, cada unha con diferentes propiedades e aplicacións. 
+As mais utilizadas son a fotografía de fondo de ollo (retinografía), a tomografía de coherencia óptica (OCT) e a angiografía con fluoresceína.
 
-\section{Aliñamento de imaxes}
-\label{sec:Aliñamento de imaxes}
-O aliñamento de imaxes é un proceso que consiste en deformar dúas ou máis imaxes de forma que as características de interese se atopen na mesma posición.
-Este proceso é de gran importancia en campos como a medicina, onde se emprega para comparar imaxes dun mesmo paciente tomadas en distintos momentos, ou para comparar imaxes de diferentes pacientes.
-Isto permite a revisión do avance dunha enfermidade ao longo do tempo, ou a comparación de imaxes de diferentes pacientes para detectar patróns comúns.
+\subsection{Retinografía}
+\label{subsec:Retinografía}
+Este traballo céntrase na retinografía xa que é a mais común.
+Isto é débese en gran parte á súa accesibilidade, requerindo equipo maís barato e menor entrenamento comparada cas outras modalidades
+Ademais, é unha técnica non invasiva e rápida de realizar, o que a fai preferible na maioría dos casos.
 
-O aliñamento de imaxes é un proceso tedioso e propenso a erros, polo que calquer mellora nel é de gran interese para os profesionais da saúde, 
-xa que permitiría aos profesionais da saúde dedicar máis tempo a tarefas máis relevantes.
+Para realizala utilízase unha cámara especial denominada retinógrafo, e xeralmente require da previa dilatación da pupila do paciente.
+Desta forma permítese maior entrada de luz nos ollos, o que provoca unha mellor visualización da retina e mellora a calidade da imaxe.
+Un especialista pode analizar a retinografía para detectar signos de enfermidades como a retinopatía diabética, a hipertensión ou a degeneración macular.
 
-\subsection{Métodos de aliñamento de imaxes}
-\label{subsec:Métodos de aliñamento de imaxes}
-Existen diversos métodos para realizar aliñamento de imaxes, que se poden clasificar en dúas categorías: métodos manuais e métodos automáticos.
+imagenFIRE
+
+\section{Rexistro de imaxes}
+\label{sec:Rexistro de imaxes}
+O rexistro de imaxes é un proceso que consiste en, sobre dúas ou mais imaxes, determinar a correspondencia espacial entre elas e alinealas nun sistema de coordenadas común.
+Así conséguese que as características de interese se atopen na mesma posición.
+Este proceso pode empregarse para comparar imaxes dun mesmo paciente tomadas en distintos momentos, en distintas modelidades ou para comparar entre diferentes pacientes.
+Isto permite a revisión do avance dunha enfermidade ao longo do tempo, a fusión de imaxes de distintas modalidades ou a detección de patróns comúns en distintos individuos.
+
+No caso de trabllar con dúas imaxes, a imaxe de referencia denomínase imaxe fixa (f) e a imaxe que se quere rexistrar imaxe móbil(m).
+
+\subsection{Métodos de aliñamento de imaxes automáticos}
+\label{subsec:Métodos de aliñamento de imaxes automáticos}
+Existen diversos métodos para realizar aliñamento de imaxes, que poden estar automatizados en maior ou menor medida.
 Os métodos manuais requiren da intervención dun experto para realizar o aliñamento, o que os fai pouco prácticos para grandes volumes de imaxes.
-Os métodos automáticos, pola súa banda, permiten realizar o aliñamento sen intervención humana, dentro destes hay diferentes enfoques.
+
+Dependendo do tipo de transformación esta pode ser clasificada en ríxida, afín ou deformable.
+
+A ríxida tan só permite rotación e traslación, mentres que a afín permite ademais escalado e cizallamento.
+Ámbas transformacións poden ser representadas por unha matriz de 2 dimensións xa que son deformacións lineais.
+Ao contrario, a transformación deformable é non lineal, polo que require dunha dimensión adicional ás da imaxe a rexistrar (unha imaxe de 2d require unha matriz 3d).
+Esta matriz denomínase campo de deformación, e permite representar deformacións locais na imaxe, facendoa moito mais flexible para representar transformacións complexas.
+
+Tradicionalmente impregáronse métodos iterativos \dots
+
+Ca chegada dos métodos de aprendizaxe profunda na imaxe médica, comezaron a empregarse redes neuronais para realizar o aliñamento de imaxes.
+Estos métodos tenden a ser mais rápidos que os métodos convencionais, a custo de algo de precisión. 
 \dots
 
 \subsection{Estado da arte}
 \label{subsec:Estado da arte}
+
+\dots
+
+\subsection{IDIR}
+\label{subsec:IDIR}
+IDIR (Implicit Deformable Image Registration) é un método de aliñamento de imaxes baseado en redes neuronais. 
+A súa principal diferenza frente a unha rede convolucional tradicional é que, 
+en lugar de predicir a transformación entre imaxes, optimízase unha rede para que represente esta transformación.
+
+
+\subsubsection{Arquitectura}
+\label{subsubsec:Arquitectura}
+
+\subsubsection{Termos de regularización}
+\label{subsubsec:Termos de regularización}
+ based on standard automatic differentiation techniques
+ 
+\subsubsection{Función de activación}
+\label{subsubsec:Función de activación}
