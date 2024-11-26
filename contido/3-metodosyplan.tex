@@ -6,6 +6,9 @@
 \section{Metodoloxía do desenrrolo}
 \label{sec:Metodoloxía do desenrrolo}
 
+Ao ser un proxecto de investigación, a metodoloxía de traballo mais adecuada é unha metodoloxía iterativa e incremental.
+
+Os requisitos evolucionan ao longo do proxecto, polo que é vital planificar para poder adaptarse a estes cambios.
 
 
 \section{Planificación do proxecto}
@@ -25,5 +28,55 @@ Escribir memoria.
 \section{Recursos utilizados}
 \label{sec:Recursos utilizados}
 
+\subsection{Software}
+\label{subsec:Software}
+
+Xa que parte do traballo consiste en adaptar un traballo previo, 
+decidíuse empregar moito do mesmo software ca o traballo orixinal para facilitar a implementación e reproducibilidade.
+O mais relvante é PyTorch, unha librería de código aberto para Python que facilita o desenrrolo de redes neuronais.
+(version y CUDA). Tamén se empregan librerías de apoio como NumPy (para traballar con matrices), Matplotlib (visualización), OpenCV ou scikit-learn (manxo de imaxes).
+(versions y links).
+
+Otro software empregado inclúe VSCode (IDE), Git (control de versións) e LaTeX (redacción de memoria).
+
+\subsection{Hardware}
+\label{subsec:Hardware}
+
+O proxecto foi desenrrolado nun ordenador portátil conectado por ssh a un servidor con GPU. 
+Utilizáronse dous sevidores diferentes, un montado por min\footnote{\url{https://blog.m19182.dev/writings/Building-my-Homelab}} e outro facilitado polo grupo de investigación VARPA (Visión Artificial y Reconocimiento de Patrones),
+que forma parte da infraestructura do CITIC (Centro de Investigación en Tecnologías de la Información y las Comunicaciones).
+
+A gran parte dos experimentos foron realizado no primero, mais para poder executar o proxecto cas imáxenes na súa resolución orixinal foi necesario empregar o segundo 
+debido ás limitacións de memoria da GPU. 
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Característica} & \textbf{Homelab} & \textbf{Servidor VARPA} \\ \hline
+Procesador & AMD Ryzen 9 5950X&  AMD Ryzen Threadripper 3960X \\ \hline
+GPU & NVIDIA 3090 & NVIDIA RTX A6000  \\ \hline
+\end{tabular}
+\caption{Comparativa entre os servidores utilizados}
+\label{tab:comparativa_servidores}
+\end{table}
+
+
 \subsection{Estimación de custos}
 \label{subsec:Estimación de custos}
+
+Os costos do hardware son ignorados xa que xa estaba disponible antes da realización do proxecto.
+Os costos dos recursos humanos calcúlanse para un estudante e doús tutores, resultando nun coste estimado de $PLACEHOLDER$.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Recurso} & \textbf{Coste por hora} &\textbf{Horas estimadas} & \textbf{Coste total} \\ \hline
+Estudante & & & € \\ \hline
+Titor 1 & & & € \\ \hline
+Titor 2 & & & € \\ \hline
+\end{tabular}
+\caption{Estimación de custos dos recursos humanos}
+\label{tab:estimacion_custos}
+\end{table}
