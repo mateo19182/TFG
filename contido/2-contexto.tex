@@ -40,18 +40,21 @@ Este proceso pode empregarse para comparar imaxes dun mesmo paciente tomadas en 
 Isto permite a revisión do avance dunha enfermidade ao longo do tempo, a fusión de imaxes de distintas modalidades ou a detección de patróns comúns en distintos individuos.
 
 No caso de trabllar con dúas imaxes, a imaxe de referencia denomínase imaxe fixa (f) e a imaxe que se quere rexistrar imaxe móbil(m).
-
-\subsection{Métodos de aliñamento de imaxes automáticos}
-\label{subsec:Métodos de aliñamento de imaxes automáticos}
-Existen diversos métodos para realizar aliñamento de imaxes, que poden estar automatizados en maior ou menor medida.
-Os métodos manuais requiren da intervención dun experto para realizar o aliñamento, o que os fai pouco prácticos para grandes volumes de imaxes.
+Ata recentemente, gran parte do traballo de rexistro facíase de forma manual por expertos, 
+e dependía das habilidades do profesional para detectar as características de interese e realizar o aliñamento.
+Isto facía que o proceso fose lento e propenso a erros, ademais de pouco práctico para grandes volumes de imaxes.
 
 Dependendo do tipo de transformación esta pode ser clasificada en ríxida, afín ou deformable.
-
 A ríxida tan só permite rotación e traslación, mentres que a afín permite ademais escalado e cizallamento.
 Ámbas transformacións poden ser representadas por unha matriz de 2 dimensións xa que son deformacións lineais.
 Ao contrario, a transformación deformable é non lineal, polo que require dunha dimensión adicional ás da imaxe a rexistrar (unha imaxe de 2d require unha matriz 3d).
 Esta matriz denomínase campo de vectores de deformación (DFV), e permite representar deformacións locais na imaxe, facendoa moito mais flexible para representar transformacións complexas.
+
+\subsection{Métodos de aliñamento de imaxes automáticos}
+\label{subsec:Métodos de aliñamento de imaxes automáticos}
+Existen diversos métodos para realizar aliñamento de imaxes, que poden estar automatizados en maior ou menor medida.
+
+
 \dots
 
 \subsection{Estado da arte}
@@ -60,6 +63,20 @@ Esta matriz denomínase campo de vectores de deformación (DFV), e permite repre
 
 Tradicionalmente impregáronse métodos iterativos baseádos na extracción de características 
 seguido dun proceso de optimización entre cada par de imaxes. 
+Isto require recoñecer as características de interese en cada imaxe e utilizar unha métrica de similitude 
+para determinar a calidade do rexistro.
+O proceso consiste en calcular o grado de semellanza entre as imaxes e 
+actualizar os parámetros da transformación de forma iterativa ata que se cumpran os criterios de terminación.
+O resultado final pode ser os parámetros da transformación ou a imaxe fusionada.
+
+\begin{figure}[hp!]
+    \centering
+    \includegraphics[width=0.75\textwidth]{imaxes/iterativoSubrato.png}
+    \caption{Pé de imaxe descritivo}
+    \label{fig:exemplo}
+  \end{figure}
+  
+
 \dots
 A principal desventaxa destes métodos é a súa lentitude.
 
@@ -82,9 +99,32 @@ Existen moitas extensións a esta aproximación, como o uso de múltiples etapas
 Tamén se propuxeron métodos híbridos que combinan a optimización iterativa ca aprendizaxe profunda, 
 entrenando unha CNN nova por cada parella de imaxes. Desta forma conséguese evitar a necesidade de grandes conxuntos de datos para o adestramento.
 
+Os métodos de aprendizaxe profunda poden ser clasificados en dous tipos según se requiran de DFVs anotados ou non na etapa de entrenamento: 
+supervisados (requíren de DFVs anotados) e non supervisados (non requíren de DFVs anotados).
 
-supervisados // no supervisados
+\subsubsection{Métodos Supervisados}
+\label{subsubsec:Métodos Supervisados}
+
+Existen dúas subcategorías según o grado de supervisión utilizado na etapa de entrenamento: totalmente supervisados ou débilmente supervisados.
+O rexistro totalmente supervisado fai uso de DVFs de referencia para supervisar o proceso de aprendizaxe.
+ O termo de perda adoita basearse na discrepancia entre os DVFs de referencia e os DVFs predicidos.
+ En lugar de empregar DVFs de referencia, o rexistro débilmente supervisado pode utilizar outras etiquetas de referencia implícitas.
+ Estas etiquetas non se basan en datos explícitos como os DFVs, senón que utilizan información indirecta para guiar o proceso de rexistro, como a semellanza entre as imaxes ou restricións baseadas na forma ou límites anatómicos das estruturas.
+ Máis de dous tipos de datos de referencia son frecuentemente utilizados para adestrar modelos de rexistro débilmente supervisados.
 \dots
+
+\subsubsection{Métodos Non Supervisados}
+\label{subsubsec:Métodos Non Supervisados}
+
+A creación de conxuntos de DFVs anotados é un proceso laborioso e costoso, polo que os métodos de rexistro non supervisados son de gran interese.
+Xa que a imaxen fixa e a imaxe móbil xa conteñen a información necesaria para un rexistro correcto, os métodos non supervisados parecen mais adecuados para a tarefa de rexistro.
+De forma similar aos métodos iterativos, é común empregar unha métrica de similitude entre as imaxes xunto con un termo de regularización para guiar o proceso de optimización evitando caer en transformación non realistas.
+O rexistro non supervisado de imaxes médicas utilizando GANs é unha subcategoría desta técnica.
+
+\subsubsection{Métodos baseasdos en Reinforcement Learning}
+\label{subsubsec:Métodos baseados en Reinforcement Learning}
+
+
 
 \cite{wolterink2021implicit} propuxeron un método de aliñamento de imaxes baseado en redes de representación implícita,
  que é no que se basa este traballo e descríbese en maior detalle na seguinte sección \ref{subsec:IDIR}.
@@ -193,7 +233,7 @@ Algúns exemplos de termos de regularización que se poden empregar son:
     A matriz de cofactores e o determinante da matriz do Jacobiano da transformación controlan a área e o volume respectivamente, 
     penalizando o crecemento e a contracción por igual.
     \dots
-    
+
     \item Bending energy penalty
     Pódese impoñer a suavidade do DVF empregando esta penalización proposta en (Rueckert et al., 1999).
     Require que as segundas derivadas do DVF sexan pequenas en todo o dominio, 
