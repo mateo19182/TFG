@@ -36,19 +36,32 @@ imagenFIRE
 \label{sec:Rexistro de imaxes}
 O rexistro de imaxes é un proceso que consiste en, sobre dúas ou mais imaxes, determinar a correspondencia espacial entre elas e alinealas nun sistema de coordenadas común.
 Así conséguese que as características de interese se atopen na mesma posición.
-Este proceso pode empregarse para comparar imaxes dun mesmo paciente tomadas en distintos momentos, en distintas modelidades ou para comparar entre diferentes pacientes.
-Isto permite a revisión do avance dunha enfermidade ao longo do tempo, a fusión de imaxes de distintas modalidades ou a detección de patróns comúns en distintos individuos.
 
-No caso de trabllar con dúas imaxes, a imaxe de referencia denomínase imaxe fixa (f) e a imaxe que se quere rexistrar imaxe móbil(m).
+Estas imaxes poden variar a nivel temporal, espacial, de dimensión ou de modalidade.
+
+O rexistro de imaxes ten utilidade en moitos campos diferentes como a imaxe satelital, xeografía, robótica... \cite{goshtasby2017theory} mais o 
+campo da imaxe médica é dos que mais utilidade e investigación ten e é o que se aborda neste traballo.
+
+No ámbito da saúde pode empregarse para comparar imaxes dun mesmo paciente tomadas en distintos momentos, en distintas modelidades ou para comparar entre diferentes pacientes.
+Isto permite a revisión do avance dunha enfermidade ao longo do tempo, a fusión de imaxes de distintas modalidades ou a detección de patróns comúns en distintos individuos.
+A fusión de imaxes permite interpretar moito mellor a información dispoñible nelas, e é de gran axuda para guiar aos médicos na toma de decisións.
+
+Tamén é fundamental para a intervención guiada por imaxe (telecirurxía, a radioterapia guiada por imaxe (IGRT)) que non 
+podería funcionar sen a utilización axeitada de técnicas de rexistro de imaxes.
+
+
 Ata recentemente, gran parte do traballo de rexistro facíase de forma manual por expertos, 
 e dependía das habilidades do profesional para detectar as características de interese e realizar o aliñamento.
 Isto facía que o proceso fose lento e propenso a erros, ademais de pouco práctico para grandes volumes de imaxes.
 
+No caso de trabllar con dúas imaxes, a imaxe de referencia denomínase imaxe fixa (f) e a imaxe que se quere rexistrar imaxe móbil (m).
 Dependendo do tipo de transformación esta pode ser clasificada en ríxida, afín ou deformable.
 A ríxida tan só permite rotación e traslación, mentres que a afín permite ademais escalado e cizallamento.
 Ámbas transformacións poden ser representadas por unha matriz de 2 dimensións xa que son deformacións lineais.
 Ao contrario, a transformación deformable é non lineal, polo que require dunha dimensión adicional ás da imaxe a rexistrar (unha imaxe de 2d require unha matriz 3d).
 Esta matriz denomínase campo de vectores de deformación (DFV), e permite representar deformacións locais na imaxe, facendoa moito mais flexible para representar transformacións complexas.
+
+\dots hablar más de los DFV \dots
 
 \subsection{Métodos de aliñamento de imaxes automáticos}
 \label{subsec:Métodos de aliñamento de imaxes automáticos}
@@ -57,28 +70,45 @@ Existen diversos métodos para realizar aliñamento de imaxes, que poden estar a
 
 \dots
 
+
 \subsection{Estado da arte}
 \label{subsec:Estado da arte}
-
+\begin{figure}[hp!]
+    \centering
+    \begin{tikzpicture}[node distance=2cm, scale=0.8, every node/.style={transform shape}]
+        % Nodes
+        \node (imageFixa) [process] {Imaxe Fixa};
+        \node (imageMobil) [process, right of=imageFixa, xshift=3cm] {Imaxe Móbil};
+        \node (featureExtraction) [process, below of=imageFixa, yshift=-1cm] {Cálculo de medida de similitude};
+        \node (parameterUpdate) [process, below of=featureExtraction, yshift=-1cm] {Actualización de Parámetros};
+        \node (applyTransformation) [process, below of=parameterUpdate, yshift=-1cm] {Aplicar a Transformación};
+        \node (criteriaCheck) [decision, below of=applyTransformation, yshift=-1cm] {Criterios Cumplidos?};
+        \node (result) [process, below of=criteriaCheck, yshift=-1cm] {Resultado};
+        % Arrows
+        \draw [arrow] (imageFixa) -- (featureExtraction);
+        \draw [arrow] (imageMobil) -- (featureExtraction);
+        \draw [arrow] (featureExtraction) -- (parameterUpdate);
+        \draw [arrow] (parameterUpdate) -- (applyTransformation);
+        \draw [arrow] (applyTransformation) -- (criteriaCheck);
+        \draw [arrow] (criteriaCheck) -- node[anchor=west] {Sí} (result);
+        \draw [arrow] (criteriaCheck.east) -- ++(1,0) node[anchor=south, xshift=0.5cm] {No} |- (featureExtraction.east);
+    \end{tikzpicture}
+\caption{Proceso de rexistro de imaxes iterativo}
+\label{fig:rexistro_iterativo}
+\end{figure}
 
 Tradicionalmente impregáronse métodos iterativos baseádos na extracción de características 
 seguido dun proceso de optimización entre cada par de imaxes. 
 Isto require recoñecer as características de interese en cada imaxe e utilizar unha métrica de similitude 
 para determinar a calidade do rexistro.
 O proceso consiste en calcular o grado de semellanza entre as imaxes e 
-actualizar os parámetros da transformación de forma iterativa ata que se cumpran os criterios de terminación.
+actualizar os parámetros da transformación de forma iterativa utilizando algún mecanismo de optimización
+ ata que se cumpran os criterios de terminación.
 O resultado final pode ser os parámetros da transformación ou a imaxe fusionada.
+A figura \ref{fig:rexistro_iterativo} mostra un diagrama do proceso de rexistro iterativo.
 
-\begin{figure}[hp!]
-    \centering
-    \includegraphics[width=0.75\textwidth]{imaxes/iterativoSubrato.png}
-    \caption{Pé de imaxe descritivo}
-    \label{fig:exemplo}
-  \end{figure}
-  
-
-\dots
-A principal desventaxa destes métodos é a súa lentitude.
+A principal desventaxa destes métodos é a súa lentitude, xa que requiren de moitas iteracións para converxer.
+Non obstante, son moi precisos e robustos, polo que aínda se empregan en moitos casos.
 
 \subsection{Métodos de aprendizaxe profunda}
 \label{subsec:Métodos de aprendizaxe profunda}
@@ -110,7 +140,7 @@ O rexistro totalmente supervisado fai uso de DVFs de referencia para supervisar 
  O termo de perda adoita basearse na discrepancia entre os DVFs de referencia e os DVFs predicidos.
  En lugar de empregar DVFs de referencia, o rexistro débilmente supervisado pode utilizar outras etiquetas de referencia implícitas.
  Estas etiquetas non se basan en datos explícitos como os DFVs, senón que utilizan información indirecta para guiar o proceso de rexistro, como a semellanza entre as imaxes ou restricións baseadas na forma ou límites anatómicos das estruturas.
- Máis de dous tipos de datos de referencia son frecuentemente utilizados para adestrar modelos de rexistro débilmente supervisados.
+ Máis de dous tipos de datos de referencia son frecuentemente utilizados para adestrar modelos de rexistro débilmente supervisados. \cite{bharati2022deeplearningmedicalimage}
 \dots
 
 \subsubsection{Métodos Non Supervisados}
