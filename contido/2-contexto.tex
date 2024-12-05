@@ -7,12 +7,25 @@ Para elo descríbese o campo da oftalmoloxía e a imaxe médica, así como o est
 \label{sec:Oftalmoloxía}
 A oftalmoloxía é a especialidade médica que se encarga do estudo e tratamento do ollo e os seus trastornos.
  O ollo humano é un dos órganos dos que mais dependemos e maior cantidade de información sensorial aporta, e en consecuencia tamén é un dos mais complexos do noso corpo.
- Así mesmo, é unha das rexións que máis datos aporta sobre o estado de saúde do paciente, xa que permite observar directamente os vasos sanguíneos e o tecido neuronal "in-vivo".
+Así mesmo, é unha das rexións que proporciona máis datos sobre o estado de saúde do paciente, xa que permite observar directamente os vasos sanguíneos e o tecido neuronal "in-vivo".
  Isto permite a detección temprana de enfermidades, que poden ser diagnosticadas mediante a observación da retina.
 \subsection{Anatomía do ollo humano}
 \label{subsec:Anatomía do ollo humano}
 O ollo encargase de captar a luz e transformala en impulsos eléctricos que se envían ao cerebro.
  Esta información é interpretada polo cerebro, que mediante mecanismos como a atención e a memoria, permite a percepción visual.
+ O ollo humano está composto por varias estruturas, cada unha cunha función específica que permite a percepción visual. Entre elas destacan:
+
+ (imagen ilustrativa do ollo con partes señaladas)
+
+ \begin{itemize}
+ \item Córnea e Cristalino: actúan xuntas para enfocar a luz na retina. A córnea, situada na parte exterior do ollo, proporciona maior parte da capacidade refractiva, mentres que o cristalino, unha lente flexible, axusta o enfoque para obxectos a diferentes distancias.
+ \item Pupila e Iris: regulan a cantidade de luz que entra no ollo. O iris, a parte coloreada do ollo, expándese ou contráese para controlar o tamaño da pupila, o orificio central.
+ \item Retina: unha capa de células sensibles á luz (fotorreceptores) que converten os estímulos luminosos en sinais eléctricas, procesados inicialmente na retina mesma.
+ \item Nervio óptico: transporta as sinais eléctricas xeradas na retina ata o cerebro, onde se interpretan como imaxes.
+ \item Disco óptico: tamén coñecido como "punto cego", é a área onde o nervio óptico sae do ollo; carece de fotorreceptores.
+ \item Vasos sanguíneos: distribúen os nutrientes e o osíxeno necesarios á retina e eliminan os seus residuos metabólicos.
+ \end{itemize}
+
  \dots
 
 \subsection{Imaxe oftalmolóxica}
@@ -23,56 +36,73 @@ As mais utilizadas son a fotografía de fondo de ollo (retinografía), a tomogra
 \subsection{Retinografía}
 \label{subsec:Retinografía}
 Este traballo céntrase na retinografía xa que é a mais común.
-Isto é débese en gran parte á súa accesibilidade, requerindo equipo maís barato e menor entrenamento comparada cas outras modalidades
+Isto é débese en gran parte á súa accesibilidade, requerindo equipo maís barato e menor entrenamento comparada cas outras modalidades. 
 Ademais, é unha técnica non invasiva e rápida de realizar, o que a fai preferible na maioría dos casos.
 
 Para realizala utilízase unha cámara especial denominada retinógrafo, e xeralmente require da previa dilatación da pupila do paciente.
 Desta forma permítese maior entrada de luz nos ollos, o que provoca unha mellor visualización da retina e mellora a calidade da imaxe.
-Un especialista pode analizar a retinografía para detectar signos de enfermidades como a retinopatía diabética, a hipertensión ou a degeneración macular.
+Un especialista pode analizar a retinografía para detectar signos de enfermidades como a retinopatía diabética, a hipertensión ou a dexeneración macular.
 
-imagenFIRE
+
+(imagen retina con partes señaladas)
+
+
 
 \section{Rexistro de imaxes}
 \label{sec:Rexistro de imaxes}
-O rexistro de imaxes é un proceso que consiste en, sobre dúas ou mais imaxes, determinar a correspondencia espacial entre elas e alinealas nun sistema de coordenadas común.
-Así conséguese que as características de interese se atopen na mesma posición.
+O rexistro de imaxes é un proceso que consiste en, sobre dúas ou mais imaxes, determinar a correspondencia espacial entre elas
+ e alinealas nun sistema de coordenadas común, co obxetivo de que as características de interese se atopen na mesma posición.
 
 Estas imaxes poden variar a nivel temporal, espacial, de dimensión ou de modalidade.
 
 O rexistro de imaxes ten utilidade en moitos campos diferentes como a imaxe satelital, xeografía, robótica... \cite{goshtasby2017theory} mais o 
-campo da imaxe médica é dos que mais utilidade e investigación ten e é o que se aborda neste traballo.
+campo da imaxe médica é dos mais interesantes póla súa aplicación práctica e é o que se aborda neste traballo.
 
-No ámbito da saúde pode empregarse para comparar imaxes dun mesmo paciente tomadas en distintos momentos, en distintas modelidades ou para comparar entre diferentes pacientes.
-Isto permite a revisión do avance dunha enfermidade ao longo do tempo, a fusión de imaxes de distintas modalidades ou a detección de patróns comúns en distintos individuos.
+No ámbito da saúde un rexistro adecuado pode empregarse para comparar imaxes dun mesmo paciente tomadas en distintos momentos, en distintas modalidades ou para comparar entre diferentes pacientes.
+Isto permite a revisión do avance dunha enfermidade ao longo do tempo, a fusión de imaxes de distintas modalidades ou a detección de patróns comúns entre distintos individuos.
 A fusión de imaxes permite interpretar moito mellor a información dispoñible nelas, e é de gran axuda para guiar aos médicos na toma de decisións.
+Tamén é útil para correxir os movementos involuntarios do paciente durante a adquisición de imaxes, como no caso da respiración en imaxes de pulmóns.
 
-Tamén é fundamental para a intervención guiada por imaxe (telecirurxía, a radioterapia guiada por imaxe (IGRT)) que non 
-podería funcionar sen a utilización axeitada de técnicas de rexistro de imaxes.
-
+Tamén é fundamental para a intervención guiada por imaxe (telecirurxía, radioterapia guiada por imaxe (IGRT)....) que non 
+podería funcionar sen a utilización axeitada de técnicas de rexistro de imaxes. \cite{wang2022neuralrenderingstereo3d}
 
 Ata recentemente, gran parte do traballo de rexistro facíase de forma manual por expertos, 
 e dependía das habilidades do profesional para detectar as características de interese e realizar o aliñamento.
 Isto facía que o proceso fose lento e propenso a erros, ademais de pouco práctico para grandes volumes de imaxes.
+Existen diversos métodos para realizar aliñamento de imaxes, que poden estar automatizados en maior ou menor medida, sendo gran parte deles híbridos.
 
 No caso de trabllar con dúas imaxes, a imaxe de referencia denomínase imaxe fixa (f) e a imaxe que se quere rexistrar imaxe móbil (m).
-Dependendo do tipo de transformación esta pode ser clasificada en ríxida, afín ou deformable.
+Dependendo do tipo de transformación utilizada esta pode ser clasificada en ríxida, afín ou deformable.
 A ríxida tan só permite rotación e traslación, mentres que a afín permite ademais escalado e cizallamento.
 Ámbas transformacións poden ser representadas por unha matriz de 2 dimensións xa que son deformacións lineais.
 Ao contrario, a transformación deformable é non lineal, polo que require dunha dimensión adicional ás da imaxe a rexistrar (unha imaxe de 2d require unha matriz 3d).
-Esta matriz denomínase campo de vectores de deformación (DFV), e permite representar deformacións locais na imaxe, facendoa moito mais flexible para representar transformacións complexas.
 
-\dots hablar más de los DFV \dots
+Esta matriz denomínase campo de vectores de deformación (DFV), e permite representar deformacións locais na imaxe, facendoa moito mais flexible para representar transformacións complexas e detalladas.
+\dots más de DFV \dots
 
-\subsection{Métodos de aliñamento de imaxes automáticos}
-\label{subsec:Métodos de aliñamento de imaxes automáticos}
-Existen diversos métodos para realizar aliñamento de imaxes, que poden estar automatizados en maior ou menor medida.
+Dentro da deformables poden distinguirse entre transformacións difeomórficas e non difeomórficas.
 
-
-\dots
+As transformacións difeomórficas son aquelas que son continuas, invertibles e diferenciables en todo o seu dominio.
+Se non tén esta característica, non se pode garantir que a información da imaxe móbil se manteña intacta tras a transformación.
+Por iso as transformacións difeomórficas son preferidas en moitos casos \cite{han2022diffeomorphicimageregistrationneural}, 
 
 
 \subsection{Estado da arte}
 \label{subsec:Estado da arte}
+
+Tradicionalmente impregáronse métodos iterativos baseádos na extracción de características 
+seguido dun proceso de optimización entre cada par de imaxes. 
+Isto require recoñecer as características de interese en cada imaxe e utilizar unha métrica de similitude 
+para determinar a calidade do rexistro.
+O proceso consiste en calcular o grado de semellanza entre as imaxes e 
+actualizar os parámetros da transformación de forma iterativa utilizando algún mecanismo de optimización
+ ata que se cumpran os criterios de terminación.
+O resultado final pode ser os parámetros da transformación ou a imaxe fusionada.
+A figura \ref{fig:rexistro_iterativo} mostra un diagrama do proceso de rexistro iterativo.
+
+A principal desventaxa destes métodos é a súa lentitude, xa que requiren de moitas iteracións para converxer.
+Non obstante, son moi precisos e robustos, polo que aínda se empregan en moitos casos.
+
 \begin{figure}[hp!]
     \centering
     \begin{tikzpicture}[node distance=2cm, scale=0.8, every node/.style={transform shape}]
@@ -96,19 +126,6 @@ Existen diversos métodos para realizar aliñamento de imaxes, que poden estar a
 \caption{Proceso de rexistro de imaxes iterativo}
 \label{fig:rexistro_iterativo}
 \end{figure}
-
-Tradicionalmente impregáronse métodos iterativos baseádos na extracción de características 
-seguido dun proceso de optimización entre cada par de imaxes. 
-Isto require recoñecer as características de interese en cada imaxe e utilizar unha métrica de similitude 
-para determinar a calidade do rexistro.
-O proceso consiste en calcular o grado de semellanza entre as imaxes e 
-actualizar os parámetros da transformación de forma iterativa utilizando algún mecanismo de optimización
- ata que se cumpran os criterios de terminación.
-O resultado final pode ser os parámetros da transformación ou a imaxe fusionada.
-A figura \ref{fig:rexistro_iterativo} mostra un diagrama do proceso de rexistro iterativo.
-
-A principal desventaxa destes métodos é a súa lentitude, xa que requiren de moitas iteracións para converxer.
-Non obstante, son moi precisos e robustos, polo que aínda se empregan en moitos casos.
 
 \subsection{Métodos de aprendizaxe profunda}
 \label{subsec:Métodos de aprendizaxe profunda}
@@ -138,7 +155,8 @@ supervisados (requíren de DFVs anotados) e non supervisados (non requíren de D
 Existen dúas subcategorías según o grado de supervisión utilizado na etapa de entrenamento: totalmente supervisados ou débilmente supervisados.
 O rexistro totalmente supervisado fai uso de DVFs de referencia para supervisar o proceso de aprendizaxe.
  O termo de perda adoita basearse na discrepancia entre os DVFs de referencia e os DVFs predicidos.
- En lugar de empregar DVFs de referencia, o rexistro débilmente supervisado pode utilizar outras etiquetas de referencia implícitas.
+ 
+No lugar dos DVFs de referencia, o rexistro débilmente supervisado pode utilizar outras etiquetas de referencia implícitas.
  Estas etiquetas non se basan en datos explícitos como os DFVs, senón que utilizan información indirecta para guiar o proceso de rexistro, como a semellanza entre as imaxes ou restricións baseadas na forma ou límites anatómicos das estruturas.
  Máis de dous tipos de datos de referencia son frecuentemente utilizados para adestrar modelos de rexistro débilmente supervisados. \cite{bharati2022deeplearningmedicalimage}
 \dots
@@ -146,59 +164,71 @@ O rexistro totalmente supervisado fai uso de DVFs de referencia para supervisar 
 \subsubsection{Métodos Non Supervisados}
 \label{subsubsec:Métodos Non Supervisados}
 
-A creación de conxuntos de DFVs anotados é un proceso laborioso e costoso, polo que os métodos de rexistro non supervisados son de gran interese.
-Xa que a imaxen fixa e a imaxe móbil xa conteñen a información necesaria para un rexistro correcto, os métodos non supervisados parecen mais adecuados para a tarefa de rexistro.
+Un dos maiores retos para traballar de forma automática con imaxes médicas é a recolección de datos anotados de calidade para o adestramento \cite{medicalimageanalysis}.
+A creación de conxuntos de DFVs anotados é un proceso laborioso e costoso, que normalmente sólo póde ser executado por especialistas, polo que os métodos de rexistro non supervisados son de gran interese.
+Xa que a imaxen fixa e a imaxe móbil xa conteñen toda a información necesaria para un rexistro correcto, os métodos non supervisados parecen mais adecuados para a tarefa de rexistro.
 De forma similar aos métodos iterativos, é común empregar unha métrica de similitude entre as imaxes xunto con un termo de regularización para guiar o proceso de optimización evitando caer en transformación non realistas.
+
+\cite{Balakrishnan_2019voxelmorph} é un dos métodos mais recoñecidos de rexistro de imaxes non supervisado facendo uso de CNNs.
+
 O rexistro non supervisado de imaxes médicas utilizando GANs é unha subcategoría desta técnica.
+
+
 
 \subsubsection{Métodos baseasdos en Reinforcement Learning}
 \label{subsubsec:Métodos baseados en Reinforcement Learning}
 
 
+\subsection{Representación Neuronais Implícitas}
+ \label{subsec:Representación Neuronais Implícitas}
+ 
+ As representacións neuronais implícitas están a recibir cada vez máis atención da comunidade médica \cite{molaei2023implicitneuralrepresentationmedical}. 
+ Son un paradigma innovador que permite modelar sinais continuas mediante funcións parametrizadas por redes neuronales.
+ Este enfoque utilízase ampliamente en áreas como visión por computador, xa que a diferencia das representaciones discretas tradicionais (vóxeles, píxeles...), 
+ representar o sinal como una función continua ten múltiples vantaxes:
 
+ É moito mais eficiente en memoria debido á compresión da información que realizan. Ao mesmo tempo, permite un nivel de detalle non limitado pola resolución da imaxe, senón pola capacidade da rede. 
+ Ademais, as representacións continuas son diferenciables, o que permite o cálculo de gradientes e derivadas de forma analítica en lugar de ter que aproximalos por diferencias finitas.
+ Isto tamén implica que as representacións implícitas son independentes da resolución, o que permite a reconstrucción en calquer escala espacial.
+ 
+ No contexto da imaxen médica, as representacións implícitas son útiles para as tarefas de imaxe inversa, que requiren a reconstrucción de imaxes a partir de datos incompletos ou ruidosos. 
+ No caso de \cite{shen2023nerpimplicitneuralrepresentation}, propuxeron unha representación implícita para a reconstrucción de imaxes de resonancia magnética a partir de datos incompletos facendo uso de redes implícitas, 
 
-\cite{wolterink2021implicit} propuxeron un método de aliñamento de imaxes baseado en redes de representación implícita,
- que é no que se basa este traballo e descríbese en maior detalle na seguinte sección \ref{subsec:IDIR}.
+\cite{mildenhall2020nerfrepresentingscenesneural} propuxeron unha representación implícita para a representación de escenas 3D, 
+ optimizando unha función volumétrica continua que modela a densidade de volume e a radiancia emitida en cada punto do espazo.
+ Utilizando un MLP, cuxa entrada é unha única coordenada continua 5D (localización espacial (x, y, z) e dirección de visión (θ, φ)) 
+ e cuxa saída é a densidade de volume e a radiancia emitida dependente da vista nesa localización espacial. 
+A única entrada necesaria para optimizar a súa representación é un conxunto de imaxes con poses de cámara coñecidas. 
+Demostrando que as representacións implícitas están capacitadas para modelar escenas 3D complexas con alta fidelidade visual.
+ 
+Isto é de de gran utilidade para a ciruxía asistida por robots, como no caso de \cite{inrrobots}, onde
+propuxeron un método para a reconstrucción de tecidos brandos en cirurxía robótica a partir de vídeos estereoscópicos endoscópicos con un único águlo de referencia. 
+Para iso fan uso de campos neuronais implícitos similares aos de NeRF, conseguindo renderizado neuronal para a reconstrución de escenas cirúrxicas.
 
-\subsection{IDIR}
-\label{subsec:IDIR}
+\cite{teleoperatdrob}, \cite{graphimplrbts} también interesantes pero no puedo acceder a ellos.
+
+\cite{velikova2024implicitneuralrepresentationsbreathingcompensated} and \cite{yu2024neuraltrajectorymodelimplicit} casos de uso interesantes.
+
+Tamén se empregan en segmentación, compresión e síntesis de imaxes.
+
+ No caso do aliñamento de imaxes, buscase optimizar a función que mapea cada localización da imaxe fixa a unha localización da móbil.
+ 
+\section{IDIR}
+\label{sec:IDIR}
 IDIR (Implicit Deformable Image Registration) é un método de aliñamento de imaxes baseado en redes neuronais. 
 A súa principal diferenza frente a unha rede convolucional tradicional é que, 
 en lugar de predicir a transformación entre imaxes, optimízase unha rede para esta mesma represente esta transformación.
 
-
-\subsubsection{Representación Neuronais Implícitas}
-\label{subsubsec:Representación Neuronais Implícitas}
-
-É común empregar redes convolucionais para o aliñamento de imaxes,
- tipicamente como un operador que mapea entre unha parella de imaxes e o DFV.
-
-O que \cite{wolterink2021implicit} propón é optimizar directamente o DFV facenda uso
+O que \cite{wolterink2021implicit} propón é optimizar directamente o DFV facendo uso
  dunha representación implícita, de forma que a deformación está representada nos propios pesos dunha MLP.
- 
-De acordo co teorema de aproximación universal [Hornik1989], calquera función ben comportada pode ser representada cunha precisión arbitraria por unha rede neuronal adecuada. 
-Na nosa aplicación, a rede pode variar en profundidade ou ancho, pero sempre terá n entradas e n saídas para transformacións en espazo euclidiano n-dimensional. (rewrite)
-
-As representaciones implícitas son un paradigma innovador que permite modelar sinais continuas mediante funciones parametrizadas por redes neuronales.
-Este enfoque utilízase ampliamente en áreas como visión por computador, xa que a diferencia das representaciones discretas tradicionais (vóxeles, píxeles), 
-representar o sinal como una función continua ten múltiples vantaxes:
-É moito mais eficiente en memoria debido á compresión da información que realizan. Ao mesmo tempo, permite un nivel de detalle non limitado pola resolución da imaxe, senón pola capacidade da rede. 
-Ademais, as representacións continuas son diferenciables, o que permite o cálculo de gradientes e derivadas de forma analítica en lugar de ter que aproximalos por diferencias finitas.
-Isto tamén implica que as representacións implícitas son independentes da resolución, o que permite a reconstrucción en calquer escala espacial.
-
-\cite{mildenhall2020nerfrepresentingscenesneural} propuxeron unha representación implícita para a representación de escenas 3D, 
-utilizando unha arquitectura de tipo MLP con función de activación ReLU e 
-
-...
-
-e \cite{sitzmann2020implicitneuralrepresentationsperiodic} propuxeron unha representación implícita periódica para a representación de sinais 2D que se explorará na seguinte sección.
-
-No caso do aliñamento de imaxes, buscase optimizar a función que mapea cada localización x nunha imaxe a unha localización na outra.
-
 
 \subsubsection{Arquitectura}
 \label{subsubsec:Arquitectura}
 
+Faise uso dun MLP de 3 capas, e determinaron experimentalmente que obtiñan mellor resultado con 256 unidades por capa que 128.
+Por cada epoch de entrenamento (2500 en total), 10000 puntos son muestreados aleatoriamente do espazo de coordenadas dentro da máscara.
+O término de perda é a 'normalized cross-correlation' entre os valores dos píxeles muestreados na imaxe fixa e os correspondentes da imaxe móbil.
+Utilizan Adam de optimizador, cun learning rate de 0.0001.
 
 \subsubsection{Función de activación}
 \label{subsubsec:Función de activación}
@@ -206,7 +236,7 @@ No caso do aliñamento de imaxes, buscase optimizar a función que mapea cada lo
 Unha elección estándar para a función de activación é ReLU: σ(x) = max(0, x). 
 Non obstante, para redes de representación implícita como ca que estamos traballando, esta ten unha serie de desventaxas.
 
-Sen embargo, as ReLUs teñen un sesgo cara a sinais de baixa frecuencia \cite{mildenhall2020nerfrepresentingscenesneural}, 
+Sen embargo, as ReLUs teñen un sesgo cara a sinais de baixa frecuencia \cite{rahaman2019spectralbiasneuralnetworks}, 
  o que significa que o modelo pode ter dificultades para representar pequenas deformacións locais no rexistro de imaxes.
  
 Existen varias formas de superar este sesgo, como preprocesar as coordenadas de entrada con funcións de activación periódicas \cite{mildenhall2020nerfrepresentingscenesneural} 
@@ -288,3 +318,11 @@ Neural Tangent Kernel (NTK) es un concepto que describe cómo un modelo de red n
 e dependendo da función de activación empregada, o NTK varía e a rede pode ser máis ou menos sensible a certas deformacións.
 
 Finalmente, entrenaráse unha nova rede por cada parella de imaxes, sendo esta unha rede bastante pequena en comparación e precindindo así da necesidade de grandes conxuntos de datos para o seu adestramento.
+
+
+
+\section{Traballo proposto}
+\label{sec:Traballo proposto}
+
+Baseándose no framework introducido por \cite{wolterink2021implicit},
+ propónse modificalo para adaptalo a imaxes médicas de retina.
