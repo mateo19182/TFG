@@ -53,7 +53,10 @@ Un especialista pode analizar a retinografía para detectar signos de enfermidad
 O rexistro de imaxes é un proceso que consiste en, sobre dúas ou mais imaxes, determinar a correspondencia espacial entre elas
  e alinealas nun sistema de coordenadas común, co obxetivo de que as características de interese se atopen na mesma posición.
 
-Estas imaxes poden variar a nivel temporal, espacial, de dimensión ou de modalidade.
+ Por exemplo, no caso do stitching de fotografías panorámicas, o rexistro de imaxes permite identificar correspondencias entre puntos característicos en múltiples tomas solapadas
+  e axustar a súa posición relativa nun marco común. Esta etapa é necesaria para a posterior fusión das imaxes, de modo que as distintas vistas se aliñen con precisión, producindo un resultado final continuo e sen irregularidades visuais.
+
+As imaxes poden variar a nivel temporal, espacial, de dimensión ou de modalidade.
 
 O rexistro de imaxes ten utilidade en moitos campos diferentes como a imaxe satelital, xeografía, robótica... \cite{goshtasby2017theory} mais o 
 campo da imaxe médica é dos mais interesantes póla súa aplicación práctica e é o que se aborda neste traballo.
@@ -89,6 +92,9 @@ Por iso as transformacións difeomórficas son preferidas en moitos casos \cite{
 
 \subsection{Estado da arte}
 \label{subsec:Estado da arte}
+
+\subsubsection{Métodos clásicos}
+\label{subsubsec:Métodos clásicos}
 
 Tradicionalmente impregáronse métodos iterativos baseádos na extracción de características 
 seguido dun proceso de optimización entre cada par de imaxes. 
@@ -127,8 +133,12 @@ Non obstante, son moi precisos e robustos, polo que aínda se empregan en moitos
 \label{fig:rexistro_iterativo}
 \end{figure}
 
-\subsection{Métodos de aprendizaxe profunda}
-\label{subsec:Métodos de aprendizaxe profunda}
+máis de rexistro con landmarks...
+
+
+
+\subsubsection{Métodos de aprendizaxe profunda}
+\label{subsubsec:Métodos de aprendizaxe profunda}
 
 Ca chegada dos métodos de aprendizaxe profunda á imaxe médica, comezaron a empregarse redes neuronais para realizar o aliñamento de imaxes.
 Estos métodos tenden a ser mais rápidos que os métodos convencionais, a custo de algo de precisión. 
@@ -149,8 +159,8 @@ entrenando unha CNN nova por cada parella de imaxes. Desta forma conséguese evi
 Os métodos de aprendizaxe profunda poden ser clasificados en dous tipos según se requiran de DFVs anotados ou non na etapa de entrenamento: 
 supervisados (requíren de DFVs anotados) e non supervisados (non requíren de DFVs anotados).
 
-\subsubsection{Métodos Supervisados}
-\label{subsubsec:Métodos Supervisados}
+\paragraph{Métodos Supervisados}
+\label{paragraph:Métodos Supervisados}
 
 Existen dúas subcategorías según o grado de supervisión utilizado na etapa de entrenamento: totalmente supervisados ou débilmente supervisados.
 O rexistro totalmente supervisado fai uso de DVFs de referencia para supervisar o proceso de aprendizaxe.
@@ -161,8 +171,8 @@ No lugar dos DVFs de referencia, o rexistro débilmente supervisado pode utiliza
  Máis de dous tipos de datos de referencia son frecuentemente utilizados para adestrar modelos de rexistro débilmente supervisados. \cite{bharati2022deeplearningmedicalimage}
 \dots
 
-\subsubsection{Métodos Non Supervisados}
-\label{subsubsec:Métodos Non Supervisados}
+\paragraph{Métodos Non Supervisados}
+\label{paragraph:Métodos Non Supervisados}
 
 Un dos maiores retos para traballar de forma automática con imaxes médicas é a recolección de datos anotados de calidade para o adestramento \cite{medicalimageanalysis}.
 A creación de conxuntos de DFVs anotados é un proceso laborioso e costoso, que normalmente sólo póde ser executado por especialistas, polo que os métodos de rexistro non supervisados son de gran interese.
@@ -174,25 +184,48 @@ De forma similar aos métodos iterativos, é común empregar unha métrica de si
 O rexistro non supervisado de imaxes médicas utilizando GANs é unha subcategoría desta técnica.
 
 
+\subsection{En retinas}
+\label{subsec:Retinas}
 
-\subsubsection{Métodos baseasdos en Reinforcement Learning}
-\label{subsubsec:Métodos baseados en Reinforcement Learning}
+Os métodos que funcionan ben en moitos dominios de imaxe médica (cerebro, pulmóns, etc) 
+suelen requirir de axustes para funcionar en retinas, polo que en imaxe oftalmolóxica hai un estado do arte paralelo.
+Rexistro con landmarks que é moi usado tanto en imaxe natural como en retinas.
 
 
-\subsection{Representación Neuronais Implícitas}
- \label{subsec:Representación Neuronais Implícitas}
+\section{Representación Neuronais Implícitas}
+\label{sec:Representación Neuronais Implícitas}
  
- As representacións neuronais implícitas están a recibir cada vez máis atención da comunidade médica \cite{molaei2023implicitneuralrepresentationmedical}. 
- Son un paradigma innovador que permite modelar sinais continuas mediante funcións parametrizadas por redes neuronales.
- Este enfoque utilízase ampliamente en áreas como visión por computador, xa que a diferencia das representaciones discretas tradicionais (vóxeles, píxeles...), 
- representar o sinal como una función continua ten múltiples vantaxes:
+A representación de coñecemento é un dos problemas máis importantes na área da computación, e as 
+redes profundas son unha das ferramentas máis útiles, especialmente no campo da visión por computador.
+Tradicionalmente empréganse representacións discretas, onde o espazo de entrada é dividido en celdas e cada celda é asignada un valor (por exemplo nubes de puntos, matrices de píxeles ou vóxeles...).
+Unha das principais desventaxas destas representacións é que a súa complexidade increméntase rápidamente co número de dimensións representadas, ademais do custo de memoria asociado.
 
- É moito mais eficiente en memoria debido á compresión da información que realizan. Ao mesmo tempo, permite un nivel de detalle non limitado pola resolución da imaxe, senón pola capacidade da rede. 
+ As representacións neuronais implícitas son un paradigma innovador que permite modelar sinais continuas mediante funcións parametrizadas por redes neuronales.
+ Codifican a información como unha función continua, que mapea valores de entrada aos valores correspondientes de saída, en lugar de almacenar directamente valores de características o señales.
+
+Representar o sinal como una función continua permite solucionar os problemas asociados á discretización e obtéñense outra serie de vantaxes.
+
+As INR son moito mais eficientes debido á compresión da información que realizan de forma implícita. Ao mesmo tempo, permite un nivel de detalle non limitado pola resolución da imaxe, senón pola capacidade da rede. 
  Ademais, as representacións continuas son diferenciables, o que permite o cálculo de gradientes e derivadas de forma analítica en lugar de ter que aproximalos por diferencias finitas.
  Isto tamén implica que as representacións implícitas son independentes da resolución, o que permite a reconstrucción en calquer escala espacial.
  
- No contexto da imaxen médica, as representacións implícitas son útiles para as tarefas de imaxe inversa, que requiren a reconstrucción de imaxes a partir de datos incompletos ou ruidosos. 
- No caso de \cite{shen2023nerpimplicitneuralrepresentation}, propuxeron unha representación implícita para a reconstrucción de imaxes de resonancia magnética a partir de datos incompletos facendo uso de redes implícitas, 
+Tipicamente emprégase un MLP como architectura para representar a función implícita. Non obstante, o uso da función de activación ReLU tende a non obter os mellores resultados \cite{rahaman2019spectralbiasneuralnetworks},
+polo que moita investigación diríxese a atopar alternativas que melloren a representación do sinal. \cite{essakine2024standimplicitneuralrepresentations}
+
+Por exemplo SIREN \cite{sitzmann2020implicitneuralrepresentationsperiodic}, sobre a que profundizaremos mais adiante.
+\cite{ramasinghe2022periodicityunifyingframeworkactivations} propón as funcións de activación gaussianas como alternativa a SIREN, e argumenta que poden obter mellores representacións e mais robustas.
+\cite{saragadam2023wirewaveletimplicitneural} achega unha nova función de activación baseada en wavelets, que demostra ser especialmente útil para a representación de imaxes.
+
+As representacións implícitas poden ser clasificadas en dúas categorías: generalizables e sobreajustadas \cite{yu2024neuraltrajectorymodelimplicit}. 
+As representacións sobreaxustadas céntranse en reproducir con precisión unha única sinal, mentres que as representacións generalizables poden modelar varias.
+
+As INR son utilizadas en todo tipo de campos, dende xeración de imaxes \cite{reddy2022multiimplicitneuralrepresentationfonts}, pasando por
+reconstrucción de obxetos \cite{mildenhall2020nerfrepresentingscenesneural} \cite{mescheder2019occupancynetworkslearning3d} ou modelado de sinais complexas \cite{wu2021iremhighresolutionmagneticresonance}.
+
+As representacións implícitas están a recibir cada vez máis atención da comunidade médica \cite{molaei2023implicitneuralrepresentationmedical}, e son 
+especialmente útiles para as tarefas de imaxe inversa, que requiren a reconstrucción de representacións correctas a partir de datos incompletos ou ruidosos. 
+No caso de \cite{shen2023nerpimplicitneuralrepresentation}, propuxeron unha representación implícita para a reconstrucción de imaxes de resonancia magnética a partir de datos incompletos facendo uso de redes implícitas, 
+e obtiveron resultados comparables a métodos tradicionais.
 
 \cite{mildenhall2020nerfrepresentingscenesneural} propuxeron unha representación implícita para a representación de escenas 3D, 
  optimizando unha función volumétrica continua que modela a densidade de volume e a radiancia emitida en cada punto do espazo.
@@ -201,18 +234,22 @@ O rexistro non supervisado de imaxes médicas utilizando GANs é unha subcategor
 A única entrada necesaria para optimizar a súa representación é un conxunto de imaxes con poses de cámara coñecidas. 
 Demostrando que as representacións implícitas están capacitadas para modelar escenas 3D complexas con alta fidelidade visual.
  
-Isto é de de gran utilidade para a ciruxía asistida por robots, como no caso de \cite{inrrobots}, onde
-propuxeron un método para a reconstrucción de tecidos brandos en cirurxía robótica a partir de vídeos estereoscópicos endoscópicos con un único águlo de referencia. 
-Para iso fan uso de campos neuronais implícitos similares aos de NeRF, conseguindo renderizado neuronal para a reconstrución de escenas cirúrxicas.
+As representacións implícitas teñen bastante potencial no campo de planificación de traxectorias, como demostran \cite{yu2024neuraltrajectorymodelimplicit} e \cite{trajectinr}, 
+que propóñen o uso de INRs para modelar entornos e planificar traxectorias para un ou varios axentes.
+A principal vantaxe de facelo desta forma frente á forma tradicional (algoritmos computacionalmente intensos, especialmente para multi-axentes) é a velocidade á que encontran solucións (por debaixo do milisegundo en GPUs).
+A maior desventaxe é que non garanten a converxencia a unha solución óptima e sen colisións, mais os autores demostran que a calidade das traxectorias xeradas é comparable ás obtidas é adecuada para a maioría das aplicacións.
 
-\cite{teleoperatdrob}, \cite{graphimplrbts} también interesantes pero no puedo acceder a ellos.
+Mais especificamente, en \cite{teleoperatdrob} utilizan este tipo de representacións para garantir a seguridade do paciente durante a cirurxía teleoperada e optimizar a traxectoria do robot para evitar colisións co paciente, neste caso na boca e gorxa.
+Con este método, evítase a reconstrución de mallas a partir de imaxes, que é un proceso costoso e imperfecto, e modélase mediante unha INR a partir dos datos médicos dispoñibles.
+Os comandos de movemento da man do operador son tomados como entrada polo modelo, que logo de un proceso de optimización, xera unha secuencia de movementos libre de colisións que será enviada á man robótica.
 
-\cite{velikova2024implicitneuralrepresentationsbreathingcompensated} and \cite{yu2024neuraltrajectorymodelimplicit} casos de uso interesantes.
+\cite{velikova2024implicitneuralrepresentationsbreathingcompensated} and  casos de uso interesantes.
 
 Tamén se empregan en segmentación, compresión e síntesis de imaxes.
 
  No caso do aliñamento de imaxes, buscase optimizar a función que mapea cada localización da imaxe fixa a unha localización da móbil.
  
+
 \section{IDIR}
 \label{sec:IDIR}
 IDIR (Implicit Deformable Image Registration) é un método de aliñamento de imaxes baseado en redes neuronais. 
