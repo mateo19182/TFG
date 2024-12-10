@@ -56,8 +56,6 @@ O rexistro de imaxes é un proceso que consiste en, sobre dúas ou mais imaxes, 
  Por exemplo, no caso do stitching de fotografías panorámicas, o rexistro de imaxes permite identificar correspondencias entre puntos característicos en múltiples tomas solapadas
   e axustar a súa posición relativa nun marco común. Esta etapa é necesaria para a posterior fusión das imaxes, de modo que as distintas vistas se aliñen con precisión, producindo un resultado final continuo e sen irregularidades visuais.
 
-As imaxes poden variar a nivel temporal, espacial, de dimensión ou de modalidade.
-
 O rexistro de imaxes ten utilidade en moitos campos diferentes como a imaxe satelital, xeografía, robótica... \cite{goshtasby2017theory} mais o 
 campo da imaxe médica é dos mais interesantes póla súa aplicación práctica e é o que se aborda neste traballo.
 
@@ -65,14 +63,27 @@ No ámbito da saúde un rexistro adecuado pode empregarse para comparar imaxes d
 Isto permite a revisión do avance dunha enfermidade ao longo do tempo, a fusión de imaxes de distintas modalidades ou a detección de patróns comúns entre distintos individuos.
 A fusión de imaxes permite interpretar moito mellor a información dispoñible nelas, e é de gran axuda para guiar aos médicos na toma de decisións.
 Tamén é útil para correxir os movementos involuntarios do paciente durante a adquisición de imaxes, como no caso da respiración en imaxes de pulmóns.
+As imaxes poden variar a nivel temporal, espacial, de dimensión ou de modalidade.
 
 Tamén é fundamental para a intervención guiada por imaxe (telecirurxía, radioterapia guiada por imaxe (IGRT)....) que non 
 podería funcionar sen a utilización axeitada de técnicas de rexistro de imaxes. \cite{wang2022neuralrenderingstereo3d}
 
-Ata recentemente, gran parte do traballo de rexistro facíase de forma manual por expertos, 
+Ata recentemente, gran parte do traballo de rexistro facíase de forma manual por expertos con software como BigWarp \cite{bigwarp}, 
 e dependía das habilidades do profesional para detectar as características de interese e realizar o aliñamento.
 Isto facía que o proceso fose lento e propenso a erros, ademais de pouco práctico para grandes volumes de imaxes.
-Existen diversos métodos para realizar aliñamento de imaxes, que poden estar automatizados en maior ou menor medida, sendo gran parte deles híbridos.
+
+O rexistro de imaxes pode ser clasificado en distintas categorías segundo as súas características:
+\cite{deeplernreview3dreg}, \cite{bharati2022deeplearningmedicalimage}
+\ref{fig:categorias_de_rexistro}
+
+
+
+\begin{figure}[hp!]
+    \centering
+    \includegraphics[width=1\textwidth]{imaxes/catreg.drawio.png}
+    \caption{Categorías de rexistro}
+    \label{fig:categorias_de_rexistro}
+\end{figure}
 
 No caso de trabllar con dúas imaxes, a imaxe de referencia denomínase imaxe fixa (f) e a imaxe que se quere rexistrar imaxe móbil (m).
 Dependendo do tipo de transformación utilizada esta pode ser clasificada en ríxida, afín ou deformable.
@@ -84,17 +95,40 @@ Esta matriz denomínase campo de vectores de deformación (DFV), e permite repre
 \dots más de DFV \dots
 
 Dentro da deformables poden distinguirse entre transformacións difeomórficas e non difeomórficas.
-
 As transformacións difeomórficas son aquelas que son continuas, invertibles e diferenciables en todo o seu dominio.
 Se non tén esta característica, non se pode garantir que a información da imaxe móbil se manteña intacta tras a transformación.
 Por iso as transformacións difeomórficas son preferidas en moitos casos \cite{han2022diffeomorphicimageregistrationneural}, 
 
+Existen diversos métodos para realizar aliñamento de imaxes, que poden estar automatizados en maior ou menor medida, sendo moitos deles híbridos. \cite{deeplernreview3dreg}
+
+Existe un gran interés polos métodos baseados en aprendizaxe profundo, 
+
+\begin{figure}[hp!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imaxes/methods_comp.png}
+    \caption{Comparación de pubicacións ó longo do tempo que relacionadas co rexistro de imaxes. Datos extraídos de \cite{scopus}, realizando as consultas: "TITLE-ABS-KEY(image AND registration) AND NOT(deep AND learning)" e "TITLE-ABS-KEY(image AND registration) AND (deep AND learning)"}
+    \label{fig:method_comp}
+\end{figure}
+
+\subsection{En retinas}
+\label{subsec:Retinas}
+
+Os métodos que funcionan ben en moitos dominios de imaxe médica (cerebro, pulmóns, etc) 
+suelen requirir de axustes para funcionar en retinas, polo que en imaxe oftalmolóxica hai un estado do arte paralelo.
+Rexistro con landmarks que é moi usado tanto en imaxe natural como en retinas.
 
 \subsection{Estado da arte}
 \label{subsec:Estado da arte}
 
+Pese á gran cantidade de avances que está a ocorren no campo do aprendizaxe profunda, os métodos clásicos de rexistro de imaxes seguen a ser o estado da arte na maioría de casos, 
+principalmente debido á importancia da precisión e a robustez en imaxe médica.
+
+
 \subsubsection{Métodos clásicos}
 \label{subsubsec:Métodos clásicos}
+
+Pese á gran cantidade de avances que está a ocorren no campo do aprendizaxe profunda, os métodos clásicos de rexistro de imaxes seguen a ser o estado da arte na maioría de casos, 
+principalmente debido á importancia da precisión e a robustez en imaxe médica.
 
 Tradicionalmente impregáronse métodos iterativos baseádos na extracción de características 
 seguido dun proceso de optimización entre cada par de imaxes. 
@@ -132,6 +166,8 @@ Non obstante, son moi precisos e robustos, polo que aínda se empregan en moitos
 \caption{Proceso de rexistro de imaxes iterativo}
 \label{fig:rexistro_iterativo}
 \end{figure}
+
+
 
 máis de rexistro con landmarks...
 
@@ -182,14 +218,6 @@ De forma similar aos métodos iterativos, é común empregar unha métrica de si
 \cite{Balakrishnan_2019voxelmorph} é un dos métodos mais recoñecidos de rexistro de imaxes non supervisado facendo uso de CNNs.
 
 O rexistro non supervisado de imaxes médicas utilizando GANs é unha subcategoría desta técnica.
-
-
-\subsection{En retinas}
-\label{subsec:Retinas}
-
-Os métodos que funcionan ben en moitos dominios de imaxe médica (cerebro, pulmóns, etc) 
-suelen requirir de axustes para funcionar en retinas, polo que en imaxe oftalmolóxica hai un estado do arte paralelo.
-Rexistro con landmarks que é moi usado tanto en imaxe natural como en retinas.
 
 
 \section{Representación Neuronais Implícitas}
@@ -243,6 +271,9 @@ Mais especificamente, en \cite{teleoperatdrob} utilizan este tipo de representac
 Con este método, evítase a reconstrución de mallas a partir de imaxes, que é un proceso costoso e imperfecto, e modélase mediante unha INR a partir dos datos médicos dispoñibles.
 Os comandos de movemento da man do operador son tomados como entrada polo modelo, que logo de un proceso de optimización, xera unha secuencia de movementos libre de colisións que será enviada á man robótica.
 
+Coin [18] compress an image by storing the
+weights of a neural field overfitted to it.
+
 \cite{velikova2024implicitneuralrepresentationsbreathingcompensated} and  casos de uso interesantes.
 
 Tamén se empregan en segmentación, compresión e síntesis de imaxes.
@@ -258,6 +289,10 @@ en lugar de predicir a transformación entre imaxes, optimízase unha rede para 
 
 O que \cite{wolterink2021implicit} propón é optimizar directamente o DFV facendo uso
  dunha representación implícita, de forma que a deformación está representada nos propios pesos dunha MLP.
+
+ \cite{sun2024medicalimageregistrationneural} e \cite{nodeo} propuxeron métodos de rexistro de imaxes similares de forma independente,
+ baseados en Neural ODE (ODE-Nets)\cite{neuralode}, unha familia de modelos de aprendizaxe profundo que trata a rede como un sistema continuo en lugar de unha secuencia de capas discretas.
+
 
 \subsubsection{Arquitectura}
 \label{subsubsec:Arquitectura}
