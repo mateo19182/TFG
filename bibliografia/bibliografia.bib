@@ -256,8 +256,29 @@ doi={10.1109/JBHI.2020.2984483}}
   keywords={Particle swarm optimization;Birds;Educational institutions;Marine animals;Testing;Humans;Genetic algorithms;Optimization methods;Artificial neural networks;Performance evaluation},
   doi={10.1109/ICNN.1995.488968}}
 
+@ARTICLE{GDB-ICP2,
+  author={Yang, Gehua and Stewart, Charles V. and Sofka, Michal and Tsai, Chia-Ling},
+  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence}, 
+  title={Registration of Challenging Image Pairs: Initialization, Estimation, and Decision}, 
+  year={2007},
+  volume={29},
+  number={11},
+  pages={1973-1989},
+  keywords={Layout;Lighting;Iterative algorithms;Change detection algorithms;Biomedical imaging;Parameter estimation;Testing;Iterative closest point algorithm;Stability criteria;Feature extraction;Image registration;feature extraction;iterative closest point;radial lens distortion;decision criteria;keypoint},
+  doi={10.1109/TPAMI.2007.1116}}
 
 @article{GDB-ICP,
+author = {Stewart, Charles and Tsai, Chia-Ling and Roysam, Badrinath},
+year = {2003},
+month = {12},
+pages = {1379-94},
+title = {The Dual-Bootstrap Iterative Closest Point Algorithm with Application to Retinal Image Registration},
+volume = {22},
+journal = {IEEE transactions on medical imaging},
+doi = {10.1109/TMI.2003.819276}
+}
+
+@article{GDB-ICP2,
   title={The dual-bootstrap iterative closest point algorithm with application to retinal image registration},
   author={Charles V. Stewart and Chia-Ling Tsai and Badrinath Roysam},
   journal={IEEE Transactions on Medical Imaging},
@@ -266,6 +287,20 @@ doi={10.1109/JBHI.2020.2984483}}
   pages={1379-1394},
   url={https://api.semanticscholar.org/CorpusID:1415570}
 }
+
+
+
+@INPROCEEDINGS{H-M16,
+  author={Hernandez-Matas, Carlos and Zabulis, Xenophon and Argyros, Antonis A.},
+  booktitle={2016 38th Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC)}, 
+  title={Retinal image registration through simultaneous camera pose and eye shape estimation}, 
+  year={2016},
+  volume={},
+  number={},
+  pages={3247-3251},
+  keywords={Cameras;Three-dimensional displays;Retina;Ellipsoids;Shape;Image registration;Mathematical model},
+  doi={10.1109/EMBC.2016.7591421}}
+
 
 
 
@@ -303,6 +338,56 @@ doi={10.1109/JBHI.2020.2984483}}
   url={https://api.semanticscholar.org/CorpusID:174065}
 }
 
+@article{ur-sift,
+author = {Ghassabi, Z.R. and Shanbezadeh, Jamshid and Sedaghat, Amin and Fatemizadeh, Emad},
+year = {2013},
+month = {12},
+pages = {1-16},
+title = {An efficient approach for robust multimodal retinal image registration based on UR-SIFT features and PIIFD descriptors},
+volume = {1},
+journal = {EURASIP Journal on Image and Video Processing},
+doi = {10.1186/1687-5281-2013-25}
+}
+
+@article{MFSP,
+author = {Tang, Haolin and Pan, Anning and Yang, Yang and Yang, Kun and Luo, Yi and Zhang, Su and Ong, Sim},
+year = {2018},
+month = {02},
+pages = {240-249},
+title = {Retinal Image Registration Based on Robust Non-Rigid Point Matching Method},
+volume = {8},
+journal = {Journal of Medical Imaging and Health Informatics},
+doi = {10.1166/jmihi.2018.2283}
+}
+
+@article{GMM,
+author = {Chengyin Liu and Jiayi Ma and Yong Ma and Jun Huang},
+journal = {J. Opt. Soc. Am. A},
+keywords = {Digital image processing; Medical and biological imaging; Algorithms ; Pattern recognition, image transforms ; Clinical applications; Computational imaging; Image metrics; Image registration; Optical imaging; Pattern recognition},
+number = {7},
+pages = {1267--1276},
+publisher = {Optica Publishing Group},
+title = {Retinal image registration via feature-guided Gaussian mixture model},
+volume = {33},
+month = {Jul},
+year = {2016},
+url = {https://opg.optica.org/josaa/abstract.cfm?URI=josaa-33-7-1267},
+doi = {10.1364/JOSAA.33.001267},
+abstract = {Registration of retinal images taken at different times, from different perspectives, or with different modalities is a critical prerequisite for the diagnoses and treatments of various eye diseases. This problem can be formulated as registration of two sets of sparse feature points extracted from the given images, and it is typically solved by first creating a set of putative correspondences and then removing the false matches as well as estimating the spatial transformation between the image pairs or solved by estimating the correspondence and transformation jointly involving an iteration process. However, the former strategy suffers from missing true correspondences, and the latter strategy does not make full use of local appearance information, which may be problematic for low-quality retinal images due to a lack of reliable features. In this paper, we propose a feature-guided Gaussian mixture model (GMM) to address these issues. We formulate point registration as the estimation of a feature-guided mixture of densities: A GMM is fitted to one point set, such that both the centers and local features of the Gaussian densities are constrained to coincide with the other point set. The problem is solved under a unified maximum-likelihood framework together with an iterative expectation-maximization algorithm initialized by the confident feature correspondences, where the image transformation is modeled by an affine function. Extensive experiments on various retinal images show the robustness of our approach, which consistently outperforms other state-of-the-art methods, especially when the data is badly degraded.},
+}
+
+@ARTICLE{TPS,
+  author={Bookstein, F.L.},
+  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence}, 
+  title={Principal warps: thin-plate splines and the decomposition of deformations}, 
+  year={1989},
+  volume={11},
+  number={6},
+  pages={567-585},
+  keywords={Integral equations;Shape;Steel;Interpolation;Image analysis;Biomedical imaging;Algebra;Biological system modeling;Deformable models;Functional analysis},
+  doi={10.1109/34.24792}}
+
+
 @article{surf,
 title = {Speeded-Up Robust Features (SURF)},
 journal = {Computer Vision and Image Understanding},
@@ -330,6 +415,26 @@ abstract = {This article presents a novel scale- and rotation-invariant detector
   keywords={Retina;Image registration;Bifurcation;Automation;Biomedical engineering;Robustness;Content addressable storage;Laboratories;Degenerative diseases;Automatic control;Harris detector;local feature;multimodal registration;partial intensity invariance;retinal images},
   doi={10.1109/TBME.2010.2042169}
   }
+
+@inproceedings{Harris1988ACC,
+  title={A Combined Corner and Edge Detector},
+  author={Christopher G. Harris and M. J. Stephens},
+  booktitle={Alvey Vision Conference},
+  year={1988},
+  url={https://api.semanticscholar.org/CorpusID:1694378}
+}
+
+@INPROCEEDINGS{BBF,
+  author={Beis, J.S. and Lowe, D.G.},
+  booktitle={Proceedings of IEEE Computer Society Conference on Computer Vision and Pattern Recognition}, 
+  title={Shape indexing using approximate nearest-neighbour search in high-dimensional spaces}, 
+  year={1997},
+  volume={},
+  number={},
+  pages={1000-1006},
+  keywords={Shape;Indexing;Spatial databases;Object detection;Image databases;Neural networks;Tree data structures;Computer science;Computer vision;Layout},
+  doi={10.1109/CVPR.1997.609451}}
+
 
 @INPROCEEDINGS{brisk,
   author={Leutenegger, Stefan and Chli, Margarita and Siegwart, Roland Y.},

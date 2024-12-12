@@ -91,7 +91,7 @@ O rexistro de imaxes pode ser clasificado en distintas categorías segundo as s�
     \label{fig:categorias_de_rexistro}
 \end{figure}
 
-No caso de trabllar con dúas imaxes, a imaxe de referencia denomínase imaxe fixa (f) e a imaxe que se quere rexistrar imaxe móbil (m).
+No caso de traballar con dúas imaxes, a imaxe de referencia denomínase imaxe fixa (f) e a imaxe que se quere rexistrar imaxe móbil (m).
 Dependendo do tipo de transformación utilizada esta pode ser clasificada en ríxida, afín ou deformable.
 A ríxida tan só permite rotación e traslación, mentres que a afín permite ademais escalado e cizallamento.
 Ámbas transformacións poden ser representadas por unha matriz de 2 dimensións xa que son deformacións lineais.
@@ -225,12 +225,31 @@ O rexistro non supervisado de imaxes médicas utilizando GANs é unha subcategor
 
 Os métodos que funcionan ben en moitos dominios de imaxe médica (cerebro, pulmóns, etc) 
 adoitan requirir de axustes para funcionar en retinas, polo que en imaxe oftalmolóxica hai un estado do arte paralelo.
-O rexistro mediante landmarks segue a ser moi usado neste contexto, e desenrroláronse múltiple metodoloxías específicas.
+O rexistro mediante landmarks segue a ser moi usado neste contexto, e Hay especial interese por métodos moi robustos que permitan
+ o rexistro e fusión de imaxes de diferentes modalidades, por exemplo entre retinografías e anxiografías.
 
-\cite{piifd}, \cite{GDB-ICP}  co obxetivo de mellorar o recoñecemento de puntos característicos en retinas.
+\gls{GDB-ICP} é un dos métodos tradicionalmente mais utilizados, proposto por \cite{GDB-ICP}, consiste en
+ comezar cunha ou máis estimacións iniciais que só son precisas en pequenas rexións da imaxe, chamadas rexións bootstrap. 
+ En cada rexión bootstrap, o algoritmo itera sobre os seguintes pasos: 
+ 
+1: refina a estimación da transformación usando restricións só dentro da rexión bootstrap; 
+2: expande a rexión bootstrap;
+3: comproba se se pode usar un modelo de transformación de orde superior, deténdose cando a rexión se expande para cubrir a superposición entre imaxes.
 
-\cite{rempe} propoñen a estimación simultánea da pose das cámaras que adquiriron as imaxes e da forma e pose do ollo. Utiliza un modelo elipsoidal para u ollo e a pose das cámaras estímase mediante RANSAC, seguido de una variante de \gls{PSO} \cite{pso}. 
 
+\cite{piifd} propón un framework nomeado Harris-PIIFD no cal comezan por detectar os puntos de esquina como candidatos a puntos de control utlizando Harris \cite{Harris1988ACC}.
+Posteriormente, introdúcen o algoritmo \gls{PIIFD} para describir os puntos característicos, e aplícase o algoritmo \gls{BBF} \cite{BBF} para identificar coincidencias entre pares de imaxes.
+Finalmente, refínanse as coincidencias e elimínanse as incorrectas, e escóllese o tipo de transformación a aplicar en función do número de coincidencias.
+A transformación máis sinxela (ríxida) require polo menos dous pares de puntos de control. Se o número de coincidencias é maior ou igual a tres pero menor que seis, aplícase a transformación afín; e se o número é maior ou igual a seis, aplícase a transformación polinomial de segunda orde.
+
+Varias melloras a este método foron propostas, como \cite{ur-sift}, que introduce o algoritmo \gls{UR-SIFT-PIIFD}, que combina UR-SIFT con Harris-PIIFD para extraer puntos invariantes á escala e obter unha maior robustez.
+\cite{GMM} propón un método baseado en \gls{GMM} para a extracción de puntos de control, que demostra ser mais robusto que os métodos anteriores, especialmente en imaxes con mala calidade ou pouca solapación.
+\cite{MFSP} constrúen sobre os modelos anteriores e utilizan \gls{SURF} para a extracción de puntos de control e \gls{PIIFD} para a descrición dos mesmos, 
+logo presentan \gls{MFSP}, un método non ríxido que combina a preservación de estrutura cos puntos característicos para o rexistro das imaxes. 
+A transformación final efectúase mediante \gls{TPS} \cite{TPS}.
+
+\gls{REMPE} \cite{rempe} propón a estimación simultánea da pose das cámaras que adquiriron as imaxes e da forma e pose do ollo. Utiliza un modelo elipsoidal para u ollo e estima a posición das cámaras inicialmente mediante RANSAC, seguido de una variante de \gls{PSO} \cite{pso} para refinala. 
+Versións anteriores deste método utilzaron modelos esféricos en lugar de elipsoidais, e \gls{SURF} en lugar de SIFT \cite{H-M16}.
 
 
 \ref{fig:retin_reg}
