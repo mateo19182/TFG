@@ -40,13 +40,9 @@ O ollo encargase de captar a luz e transformala en impulsos eléctricos que se e
 \subsection{Imaxe oftalmolóxica}
 \label{subsec:Imaxe oftalmolóxica}
 Existen diversas modalidades de imaxe médica que permiten observar o ollo, cada unha con diferentes propiedades e aplicacións. 
-Entre elas inclúense a fotografía de fondo de ollo (retinografía), a tomografía de coherencia óptica (OCT) e a angiografía con fluoresceína \cite{ilginis2014ophthalmic}.
+Entre elas inclúense a fotografía de fondo de ollo, a tomografía de coherencia óptica (OCT) e a angiografía con fluoresceína \cite{ilginis2014ophthalmic}.
 
-
-
-\subsection{Retinografía}
-\label{subsec:Retinografía}
-Este traballo céntrase na retinografía entre outras razóns polo seu uso común na práctica clínica.
+Este traballo céntrase na fotografía de fondo de ollo entre outras razóns polo seu uso común na práctica clínica.
 Isto é débese en gran parte á súa accesibilidade, requerindo equipo maís barato e menor entrenamento comparada cas outras modalidades. 
 Ademais, é unha técnica non invasiva e rápida de realizar, o que a fai preferible na maioría dos casos \cite{retinimaging}.
 
@@ -196,8 +192,8 @@ Existe un gran interés polos métodos baseados en aprendizaxe profundo, como se
     \label{fig:method_comp}
 \end{figure}
 
-\paragraph{Métodos Supervisados}
-\label{paragraph:Métodos Supervisados}
+\subparagraph{Métodos Supervisados}
+\label{subparagraph:Métodos Supervisados}
 
 Existen dúas subcategorías según o grado de supervisión utilizado na etapa de entrenamento: totalmente supervisados ou débilmente supervisados.
 O rexistro totalmente supervisado fai uso de DVFs de referencia para supervisar o proceso de aprendizaxe.
@@ -208,10 +204,10 @@ No lugar dos DVFs de referencia, o rexistro débilmente supervisado pode utiliza
  Máis de dous tipos de datos de referencia son frecuentemente utilizados para adestrar modelos de rexistro débilmente supervisados. \cite{bharati2022deeplearningmedicalimage}
 \dots
 
-\paragraph{Métodos Non Supervisados}
-\label{paragraph:Métodos Non Supervisados}
+\subparagraph{Métodos Non Supervisados}
+\label{subparagraph:Métodos Non Supervisados}
 
-Un dos maiores retos para traballar de forma automática con imaxes médicas é a recolección de datos anotados de calidade para o adestramento \cite{medicalimageanalysis}.
+Un dos maiores retos para entrenar redes efectivas con imaxes médicas é a recolección de datos anotados de calidade para o adestramento \cite{medicalimageanalysis}.
 A creación de conxuntos de DFVs anotados é un proceso laborioso e costoso, que normalmente sólo póde ser executado por especialistas, polo que os métodos de rexistro non supervisados son de gran interese.
 Xa que a imaxen fixa e a imaxe móbil xa conteñen toda a información necesaria para un rexistro correcto, os métodos non supervisados parecen mais adecuados para a tarefa de rexistro.
 De forma similar aos métodos iterativos, é común empregar unha métrica de similitude entre as imaxes xunto con un termo de regularización para guiar o proceso de optimización evitando caer en transformación non realistas.
@@ -226,7 +222,7 @@ O rexistro non supervisado de imaxes médicas utilizando GANs é unha subcategor
 Os métodos que funcionan ben en moitos dominios de imaxe médica (cerebro, pulmóns, etc) 
 adoitan requirir de axustes para funcionar en retinas, polo que en imaxe oftalmolóxica hai un estado do arte paralelo.
 O rexistro mediante landmarks segue a ser moi usado neste contexto, e Hay especial interese por métodos moi robustos que permitan
- o rexistro e fusión de imaxes de diferentes modalidades, por exemplo entre retinografías e anxiografías.
+ o rexistro e fusión de imaxes de diferentes modalidades, por exemplo entre imaxes de fondo do ollo e anxiografías.
 
 \gls{GDB-ICP} é un dos métodos tradicionalmente mais utilizados, proposto por \cite{GDB-ICP}, consiste en
  comezar cunha ou máis estimacións iniciais que só son precisas en pequenas rexións da imaxe, chamadas rexións bootstrap. 
@@ -359,7 +355,7 @@ Unha vantaxe engadida das funcións de activación periódicas nas redes SIREN �
 o que expande substancialmente o conxunto de termos de regularización que se poden empregar na rede, como veremos na seguinte sección.
 
 \cite{mildenhall2020nerfrepresentingscenesneural} non utiliza unha función de activación periódica, mais para a representación adecuada de zonas de alta frecuencia 
-utilizaron positional encoding para incorporálas de forma implícita na rede con bós resultados. \ref{chap:Positional Encoding}
+utilizaron positional encoding, que xa as incorpora de forma implícita na rede con bós resultados. \ref{chap:Positional Encoding}
 
 \subsubsection{Termos de regularización}
 \label{subsubsec:Termos de regularización}
