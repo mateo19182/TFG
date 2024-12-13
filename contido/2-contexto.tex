@@ -79,7 +79,6 @@ O rexistro de imaxes pode ser clasificado en distintas categorías segundo as s�
 \ref{fig:categorias_de_rexistro}
 
 
-
 \begin{figure}[hp!]
     \centering
     \includegraphics[width=1\textwidth]{imaxes/catreg.drawio.png}
@@ -87,7 +86,9 @@ O rexistro de imaxes pode ser clasificado en distintas categorías segundo as s�
     \label{fig:categorias_de_rexistro}
 \end{figure}
 
-No caso de traballar con dúas imaxes, a imaxe de referencia denomínase imaxe fixa (f) e a imaxe que se quere rexistrar imaxe móbil (m).
+O rexistro tamén se pode diferenciar entre simétrico e asimétrico, dependendo de se a transformación se calcula para unha imaxe ou para ambas.
+
+No caso de traballar con dúas imaxes de forma asimétrica, a imaxe de referencia denomínase imaxe fixa (f) e a imaxe que se quere rexistrar imaxe móbil (m).
 Dependendo do tipo de transformación utilizada esta pode ser clasificada en ríxida, afín ou deformable.
 A ríxida tan só permite rotación e traslación, mentres que a afín permite ademais escalado e cizallamento.
 Ámbas transformacións poden ser representadas por unha matriz de 2 dimensións xa que son deformacións lineais.
@@ -170,10 +171,10 @@ Ademais, estos métodos requiren dunha gran cantidade de datos para ser adestrad
 o que pode ser unha desventaxa xa que en moitos casos non se dispoñen de bases de datos anotadas do tamaño necesario.
 
 Unha aproximación común é empregar estes conxuntos de datos para optimizar unha CNN que,
- dadas dúas imaxes novas e non vistas, predice o DFV correspondente.
+ dadas dúas imaxes novas e non vistas, predice o DFV correspondente. \cite{defregcnn}
 
 Durante o proceso de entrenamento, a rede ten acceso aos DFVs ca deformación correcta,
- ou pódense obter indirectamente a través da optimización dunha métrica de similitude de imaxes [].
+ ou pódense obter indirectamente a través da optimización dunha métrica de similitude de imaxes.
 
 Existen moitas extensións a esta aproximación, como o uso de múltiples etapas ou o uso de redes adversarias durante o entrenamento.
 
@@ -181,7 +182,7 @@ Tamén se propuxeron métodos híbridos que combinan a optimización iterativa c
 entrenando unha CNN nova por cada parella de imaxes. Desta forma conséguese evitar a necesidade de grandes conxuntos de datos para o adestramento.
 
 Os métodos de aprendizaxe profunda poden ser clasificados en dous tipos según se requiran de DFVs anotados ou non na etapa de entrenamento: 
-supervisados (requíren de DFVs anotados) e non supervisados (non requíren de DFVs anotados).
+supervisados (requíren de DFVs anotados) e non supervisados (non requíren de DFVs anotados). \cite{nie2024medicalimageregistrationapplication}
 
 Existe un gran interés polos métodos baseados en aprendizaxe profundo, como se reflexa no crecente número de publicacións no campo \ref{fig:method_comp}.
 
@@ -212,16 +213,25 @@ A creación de conxuntos de DFVs anotados é un proceso laborioso e costoso, que
 Xa que a imaxen fixa e a imaxe móbil xa conteñen toda a información necesaria para un rexistro correcto, os métodos non supervisados parecen mais adecuados para a tarefa de rexistro.
 De forma similar aos métodos iterativos, é común empregar unha métrica de similitude entre as imaxes xunto con un termo de regularización para guiar o proceso de optimización evitando caer en transformación non realistas.
 
-\cite{Balakrishnan_2019voxelmorph} é un dos métodos mais recoñecidos de rexistro de imaxes non supervisado facendo uso de CNNs.
+\cite{Balakrishnan_2019voxelmorph} é un dos frameworks mais utilizados no rexistro de imaxes non supervisado facendo uso de CNNs.
 
-O rexistro non supervisado de imaxes médicas utilizando GANs é unha subcategoría desta técnica.
+\subparagraph{GANs}
+\label{subparagraph:GANs}
+
+As \gls{GAN} (Generative Adversarial Network) son un tipo de rede neuronal que consta de dous modelos que compiten entre si: un xerador e un discriminador. O xerador intenta crear datos falsos que sexan indistinguibles dos datos reais, mentres que o discriminador intenta distinguir entre os datos reais e os datos xerados. Este proceso de competición mellora iterativamente a calidade dos datos xerados e o criterio do discriminador.
+
+No contexto do rexistro de imaxes, as GANs poden ser utilizadas para aprender a transformación entre imaxes de forma non supervisada. O xerador pode ser adestrado para producir transformacións que aliñen a imaxe móbil coa imaxe fixa, mentres que o discriminador avalía a calidade do rexistro.
+Un exemplo de aplicación de GANs no rexistro de imaxes médicas é o traballo de \cite{mahapatra2019ganbasedmedicalimage}, onde se propón un modelo de rexistro de imaxes baseado en GANs que demostrou ser efectivo tanto en retinas como con resonancias magnéticas cardiovasculares.
+
+Posteriormente \cite{gan2} propuxo SymReg-GAN, baseado en GANs para o rexistro de imaxe simétrico, abordando os problemas inherentes ao rexistro asimétrico debido á súa natureza direccional.
+ O método proposto impón a simetría asegurando que a mapeo de imaxe A a B e de volta a A sexa consistente, e está deseñado para escenarios multimodais.
 
 \subsection{En retinas}
 \label{subsec:Retinas}
 
 Os métodos que funcionan ben en moitos dominios de imaxe médica (cerebro, pulmóns, etc) 
 adoitan requirir de axustes para funcionar en retinas, polo que en imaxe oftalmolóxica hai un estado do arte paralelo.
-O rexistro mediante landmarks segue a ser moi usado neste contexto, e Hay especial interese por métodos moi robustos que permitan
+O rexistro mediante landmarks segue a ser moi usado neste contexto, e hay especial interese por métodos moi robustos que permitan
  o rexistro e fusión de imaxes de diferentes modalidades, por exemplo entre imaxes de fondo do ollo e anxiografías.
 
 \gls{GDB-ICP} é un dos métodos tradicionalmente mais utilizados, proposto por \cite{GDB-ICP}, consiste en
