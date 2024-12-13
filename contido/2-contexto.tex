@@ -94,8 +94,16 @@ A ríxida tan só permite rotación e traslación, mentres que a afín permite a
 Ámbas transformacións poden ser representadas por unha matriz de 2 dimensións xa que son deformacións lineais.
 Ao contrario, a transformación deformable é non lineal, polo que require dunha dimensión adicional ás da imaxe a rexistrar (unha imaxe de 2d require unha matriz 3d).
 
-Esta matriz denomínase campo de vectores de deformación (DFV), e permite representar deformacións locais na imaxe, facendoa moito mais flexible para representar transformacións complexas e detalladas.
-\dots más de DFV \dots
+Esta matriz denomínase campo de vectores de deformación (\gls{DFV}s), e permite representar deformacións locais na imaxe, facendoa moito mais flexible para representar transformacións complexas e detalladas.
+Os DFVs adoitan ser representados cunha matriz de igual tamaño á imaxe, onde cada elemento representa un vector que indica a dirección e a magnitude da deformación.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imaxes/dfv_arrows.png}
+    \includegraphics[width=0.45\textwidth]{imaxes/dfv_grid.png}
+    \caption{Visualización do campo de vectores de deformación (DFV). Á esquerda, representación mediante frechas. Á dereita, esta deformación aplicada a unha cuadrícula.}
+    \label{fig:dfv_visualization}
+\end{figure}
 
 Dentro da deformables poden distinguirse entre transformacións difeomórficas e non difeomórficas.
 As transformacións difeomórficas son aquelas que son continuas, invertibles e diferenciables en todo o seu dominio.
