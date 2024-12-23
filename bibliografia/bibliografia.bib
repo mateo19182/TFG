@@ -108,6 +108,17 @@ eprint = { https://doi.org/10.1137/110835955},
 abstract = { Image registration is one of the most challenging problems in image processing, where ill-posedness arises due to noisy data as well as nonuniqueness, and hence the choice of regularization is crucial. This paper presents hyperelasticity as a regularizer and introduces a new and stable numerical implementation. On one hand, hyperelastic registration is an appropriate model for large and highly nonlinear deformations, for which a linear elastic model needs to fail. On the other hand, the hyperelastic regularizer yields very regular and diffeomorphic transformations. While hyperelasticity might be considered as just an additional outstanding regularization option for some applications, it becomes inevitable for applications involving higher order distance measures like mass-preserving registration. The paper gives a short introduction to image registration and hyperelasticity. The hyperelastic image registration problem is phrased in a variational setting, and an existence proof is provided. The focus of the paper, however, is on a robust numerical scheme. A key challenge is an unbiased discretization of hyperelasticity, which enables the numerical monitoring of variations of length, surface, and volume of infinitesimal reference elements. We resolve this issue by using a nodal-based discretization with a special tetrahedral partitioning. The potential of the hyperelastic registration is demonstrated in a direct comparison with a linear elastic registration in an academic example. The paper also presents a real life application from three-dimensional positron emission tomography of the human heart which requires mass preservation, and thus hyperelastic registration is the only option. }
 }
 
+@article{bendingenergy,
+author = {Rueckert, D. and Sonoda, Luke and Hayes, C. and Hill, Derek and Leach, M.O. and Hawkes, D.J.},
+year = {1999},
+month = {09},
+pages = {712 - 721},
+title = {Nonrigid Registration Using Free-Form Deformations: Application to Breast MR Images},
+volume = {18},
+journal = {Medical Imaging, IEEE Transactions on},
+doi = {10.1109/42.796284}
+}
+
 @misc{sun2024medicalimageregistrationneural,
       title={Medical Image Registration via Neural Fields}, 
       author={Shanlin Sun and Kun Han and Chenyu You and Hao Tang and Deying Kong and Junayed Naushad and Xiangyi Yan and Haoyu Ma and Pooya Khosravi and James S. Duncan and Xiaohui Xie},
@@ -814,4 +825,14 @@ doi = {10.1117/12.2292443}
       archivePrefix={arXiv},
       primaryClass={cs.LG},
       url={https://arxiv.org/abs/1802.07088}, 
+}
+
+@misc{sireninit,
+      title={Simple initialization and parametrization of sinusoidal networks via their kernel bandwidth}, 
+      author={Filipe de Avila Belbute-Peres and J. Zico Kolter},
+      year={2022},
+      eprint={2211.14503},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2211.14503}, 
 }

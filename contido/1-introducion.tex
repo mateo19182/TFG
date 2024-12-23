@@ -7,24 +7,23 @@
 \label{sec:motivacion}
 
 A oftalmoloxía válese da análise de imaxes obtidas por diversos métodos para realizar diagnósticos e seguimentos precisos.
-Non obstante, dado que estas imaxes poden prover de distintas modalidades e foron tomadas dende distintos puntos ou en instantes separados no tempo, é preciso aliñalas para poder comparalas de xeito efectivo.
-O aliñamento de imaxes é un proceso que se leva a cabo para poder comparar imaxes dun mesmo paciente tomadas en distintos momentos, ou para comparar imaxes de diferentes pacientes.
-Consiste en deformar dúas ou máis imaxes de forma que as características de interese se atopen na mesma posición (superpostas).
-Este é un proceso tedioso e propenso a erros, polo que calquer mellora nel é de gran interese para os profesionais da saúde. 
-Esta tarefa é axeitada para ser automatizada, xa que é non require dun xuízo clínico, senón que se basea na comparación de características visuais das imaxes. A automatización deste proceso permitiría aos profesionais da saúde dedicar máis tempo a tarefas máis relevantes.
+Non obstante, dado que estas imaxes poden prover de distintas modalidades e ser tomadas dende distintos puntos no espazo ou en instantes separados no tempo, é preciso aliñalas para poder comparalas de xeito efectivo.
+O aliñamento, tamén denominado rexistro, consiste en deformar dúas ou máis imaxes co obxetivo de que as características de interese se atopen na mesma posición (superpostas).
+Este é un proceso tedioso e propenso a erros cando se realiza manualmente, polo que calquer mellora nel é de gran utilidade para que os profesionais da saúde, que poderán adicar máis tempo a tarefas máis relevantes.
+Esta problema é axeitada para ser automatizada, xa que é non require dun xuízo clínico, senón que se basea na comparación de características visuais das imaxes.
 
-Xa existen diversas técnicas para realizar aliñamento de imaxes automático, especialmente ca chegada do deep learning á visión por computador para imaxes médicas, onde unha aproximación habitual é o uso de redes neuronais convolucionais \cite{medicalimageanalysis}.
+Xa existen diversas técnicas para realizar aliñamento de imaxes automático, especialmente ca chegada do deep learning á visión por computador para imaxes médicas, onde é habitual o uso de redes neuronais convolucionais (\gls{CNN}) \cite{medicalimageanalysis}.
 Estos métodos, aínda que efectivos, teñen limitacións. Unha delas é que requiren dunha gran cantidade de datos para o seu adestramento, o que pode ser un problema en campos como a medicina, onde a obtención de datos é cara e complexa. Ademais, xeralmente teñen unha precisión menor ca métodos automáticos convencionais, pese a que si que son máis rápidos \cite{bharati2022deeplearningmedicalimage}.
-Adaptando o traballo realizado por \cite{wolterink2021implicit}, preténdese aplicar redes de representación implícita para o aliñamento de imaxes oftalmolóxicas.
+Adaptando o traballo realizado por \cite{wolterink2021implicit}, preténdese aplicar redes de representación implícita para o aliñamento de imaxes oftalmolóxicas, para determinar se poden superar as limitacións dos métodos anteriores.
 
 \section{Obxectivos}
 
 Neste traballo explorarase o uso de redes de representación implícita para o aliñamento de imaxes oftalmolóxicas, para determinar se son aptas para esta tarefa e se poden superar as limitacións dos métodos anteriores.
 Para iso, os obxectivos específicos son:
 \begin{itemize}
-    \item Adaptar o traballo de IDIR \cite{wolterink2021implicit} para aplicalo a imaxes oftalmolóxicas.
-    \item Comparar o rendemento do método proposto co de métodos automáticos convencionais nos datasets de FIRE \cite{FIRE} e RFMID \cite{RFMiD}.
-    \item Analizar a influencia de distintos parámetros no rendemento do método proposto, en particular a influencia da función de activación SIREN.
+    \item Adaptar o traballo de IDIR \cite{wolterink2021implicit} para aplicalo a imaxes oftalmolóxicas de dúas dimensións.
+    \item Comparar o rendemento do método proposto nos datasets de FIRE \cite{FIRE} e RFMID \cite{RFMiD}.
+    \item Analizar a influencia de distintos parámetros no rendemento, en particular a influencia da función de activación SIREN.
 \end{itemize}
 
 \section{Estructura }

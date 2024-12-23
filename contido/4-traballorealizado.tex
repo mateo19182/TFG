@@ -7,6 +7,30 @@ Finalmete, presentaranse os resultados obtidos acompañados dunha análise dos m
 \section{Vista Xeral}
 \label{sec:VistaXeral}
 
+O proxecto consiste en adaptar o framework de IDIR, ideado para o rexistro de \gls{4DCT} torácicas, para o rexistro de imaxes de fondo de ollo en 2D.
+Para isto foi necesario modificar gran parte do código, así como adaptar o proceso de rexistro e avaliación.
+
+Inicialmente replicáronse os resultados obtidos por Wolterink et al \cite{wolterink2021implicit}, que se mostran na táboa seguinte:
+
+\begin{table}[ht]
+    \centering
+    \caption{Comparación de Resultados entre IDIR y Replicación}
+    \begin{tabular}{c|c}
+        Scan & {IDIR Original / Replicación} \\
+        1  & 0.76 (0.94) / 0.79 (0.92) \\
+        2  & 0.76 (0.94) / 0.71 (0.89) \\
+        3  & 0.94 (1.02) / 0.95 (1.01) \\
+        4  & 1.32 (1.27) / 1.32 (1.22) \\
+        5  & 1.23 (1.47) / 1.23 (1.46) \\
+        6  & 1.09 (1.03) / 1.15 (1.04) \\
+        7  & 1.12 (1.00) / 1.11 (0.99) \\
+        8  & 1.21 (1.29) / 1.20 (1.28) \\
+        9  & 1.22 (0.95) / 1.16 (0.99) \\
+        10 & 1.01 (1.05) / 1.09 (1.05) \\
+        Promedio & 1.07 / 1.07 (1.08) \\
+    \end{tabular}
+    \label{tab:comparison}
+\end{table}
 
 \section{Conxuntos de datos}
 \label{sec:Conxuntos de datos}
@@ -47,19 +71,19 @@ Inclúe 10 puntos de referencia para cada imaxe, que se utilizan para a avaliaci
 \subsection{RFMID}
 \label{subsec:RFMID}
 
-O conxunto de datos RFMiD \cite{RFMiD} proporciona 3200 imaxes de fondo de ollo en cor etiquetadas en normal ou anormal. 
-Tamén proporciona etiquetas para 45 diferentes enfermidades/anomalías anotadas por expertos.
+O conxunto de datos RFMiD \cite{RFMiD} proporciona 3200 imaxes de fondo de ollo en cor con resolución 1712x1712, etiquetadas según se teñen algunha anomalía ou non. 
+Tamén proporciona etiquetas para 45 diferentes anomalías anotadas por expertos.
 
 Para utilizalo neste traballo, seleccionamos unha submostra e xeramos transfomacións aleatorias. Gardamos as imaxes orixinais e as transformadas así como as matrices de transformación asociadas para a posterior avaliación.
 Tamén se divide entre transfomacións de cor e de xeometría.
 
-\dots preguntar 
+\dots preguntar David
 
 \section{Avaliación}
 \label{sec:Avaliación}
 
-Utilizamos o método de evaluación proposto por FIRE \cite{FIRE},
-creando un gráfico onde o eixo x representa o valor do límite de erro e o eixo y mostra a porcentaxe de pares de imaxes que foron rexistrados con éxito para cada límite de erro
+Utilizamos como principal método de evaluación o proposto por FIRE \cite{FIRE},
+xerando un gráfico onde o eixo x representa o valor do límite de erro e o eixo y mostra a porcentaxe de pares de imaxes que foron rexistrados con éxito para cada límite de erro.
 
 O error de rexistro calcúlase ca distancia media entre os puntos correspondentes na imaxe fixa e móbil (cj, rj).
 Cando o erro de rexistro entre un par de imaxes está por debaixo do límite, considérase que o rexistro foi exitoso e viceversa. Isto dá lugar a unha curva monótona continua que reflicte a relación entre a taxa de éxito e a precisión obxectivo, evitando así a necesidade de establecer un limiar arbitrario. 
@@ -77,6 +101,28 @@ Polo tanto, para RFMID, utilizamos o mesmo método de avaliación, pero xerándo
     \label{fig:fire_aval}
 \end{figure}
 
+\section{Proceso de Rexistro}
+\label{sec:Proceso de Rexistro}
+
+Inicializase a rede, ca arquitectura modificada nas capas de entrada e saída 
+(orixinalmente [3, 256, 256, 256, 3], agora [2, 256, 256, 256, 2]) 
+e o resto de parámetros relevantes (función de activación, optimizador, métrica de loss, termos de regularización, etc).
+
+A inicialización dos pesos da rede é especialmente relevante no caso da función de activación SIREN, que é sensible a valores iniciais.
+Tamén se xera un tensor de coordenadas inicial que contén todas as coordenadas dentro da máscara da imaxen fixa.
+
+Cando comeza o entrenamento por cada epoch repítese o seguinte proceso:
+
+Se muestrean "batch size" puntos no tensor de coordenadas orixinal e estos pásanse pola rede, 
+a cal devolve a transformación que predice para esas coordenadas.
+A continuación, aplicase esta transformación e calculase o loss entre a imaxe móbil transformada e a imaxe fixa.
+O valor de loss axústase según os termos de regularización usados, e finalmente propágase cara atrás para actualizar os pesos da rede.
+
+O proceso de muestreo pode ser aleatorio ou utilizando unha estratexia de muestreo específica.
+Mentres que para o caso dos pulmóns a estratexia aleatoria era suficiente, para o fondo de ollo é necesario unha estratexia mais intelixente xa que gran parte da imaxe non contén información relevante.
+As imaxes de rertinas conteñen a maior parte de información relevante nos arredores do disco óptico e vasos sanguíneos, polo que é necesario muestrear máis puntos nesta zona.
+Neste caso se implementouse unha estrategia na que probabilidad de que una coordenada sexa muestreada é determinada por un mapa de pesos que indica a importancia de cada punto.
+Este mapa de pesos é calculado ao inicia a partir da imaxen fixa, aplicando operadores de Sobel de 10 píxeles de tamaño para computar os gradientes e a súa magnitude, e posteriormente utilizando unha kernel gaussiano moi agresivo (201, 201) para suavizar o resultado.
 
 \section{Discusión}
 \label{sec:Discusión}

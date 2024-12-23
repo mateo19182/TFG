@@ -274,7 +274,6 @@ Versións anteriores deste método utilzaron modelos esféricos en lugar de elip
     \label{fig:retin_reg}
 \end{figure}
 
-
 \section{Representación Neuronais Implícitas}
 \label{sec:Representación Neuronais Implícitas}
  
@@ -334,7 +333,6 @@ weights of a neural field overfitted to it.
 Tamén se empregan en segmentación, compresión e síntesis de imaxes.
 
  No caso do aliñamento de imaxes, buscase optimizar a función que mapea cada localización da imaxe fixa a unha localización da móbil.
- 
 
 \section{IDIR}
 \label{sec:IDIR}
@@ -368,12 +366,49 @@ Sen embargo, as ReLUs teñen un sesgo cara a sinais de baixa frecuencia \cite{ra
  
 Existen varias formas de superar este sesgo, como preprocesar as coordenadas de entrada con funcións de activación periódicas \cite{mildenhall2020nerfrepresentingscenesneural} 
 ou substituír a función de activación ReLU por unha función de activación periódica \cite{sitzmann2020implicitneuralrepresentationsperiodic}.
-Neste traballo escollemos a segunda opción, utilizando unha función de activación periódica para obter un modelo de tipo SIREN, σ(x) = sin(x).
+Neste traballo escollemos a segunda opción, utilizando unha función de activación periódica para obter un modelo de tipo SIREN, σ(x) = sin(ax+b) with a, b ∈ R.
 Unha vantaxe engadida das funcións de activación periódicas nas redes SIREN é que poden ser diferenciadas varias veces, 
 o que expande substancialmente o conxunto de termos de regularización que se poden empregar na rede, como veremos na seguinte sección.
 
-\cite{mildenhall2020nerfrepresentingscenesneural} non utiliza unha función de activación periódica, mais para a representación adecuada de zonas de alta frecuencia 
+larger frequencies appear in the networks for weights with larger magnitudes.
+
+Outros traballos como \cite{mildenhall2020nerfrepresentingscenesneural} non utiliza unha función de activación periódica, mais para a representación adecuada de zonas de alta frecuencia 
 utilizaron positional encoding, que xa as incorpora de forma implícita na rede con bós resultados. \ref{chap:Positional Encoding}
+
+
+\paragraph{Inicialización de pesos}
+
+En \cite{sitzmann2020implicitneuralrepresentationsperiodic} propuxeron unha inicialización específica para as redes SIREN, 
+a cal consiste en inicializar a primeira capa de xeito que a función seno recorra múltiples períodos sobre o intervalo [−1,1][−1,1].
+Isto conséguese multiplicando os pesos da primeira capa por un factor de escala ω0, sobre o cal recomendan ω0=30.
+A fórmula para a inicialización dos pesos da primeira capa é a seguinte:
+
+\begin{figure}[ht!]
+    \centering
+    \[
+    w_i \sim U\left[ -\frac{1}{n}, \frac{1}{n} \right]
+    \]
+
+\caption{Inicialización primera capa}
+\end{figure}
+
+onde n é o número de neuronas de entrada (o tamaño da capa anterior).
+
+As seguintes capas inicialízanse da seguinte forma:
+\begin{figure}[ht!]
+    \centering
+    \[
+    w_i \sim U\left[ -\frac{\sqrt{\frac{6}{n}}}{w}, \frac{\sqrt{\frac{6}{n}}}{w} \right]
+    \]
+    \caption{Inicialización seguintes capas}
+\end{figure}
+
+Desta forma asegurase que a entrada a cada activación sinusoidal está distribuída normalmente cunha desviación estándar de 1,
+ o que debería mellorar a estabilidade e converxencia durante o adestramento da rede.
+
+En \cite{sireninit} implementan unha versión simplificada de SIREN (Simple Sinusoidal Networks) para facilitar o estudo destas, 
+e propoñen melloras proceso de inicialización. Unha delas e utilizar a distribución Kaiming (He) en lugar da uniforme.
+Tamén propoñen un método para escoller un valor de w apropiado según o problema a resolver.
 
 \subsubsection{Termos de regularización}
 \label{subsubsec:Termos de regularización}
@@ -394,37 +429,78 @@ Algúns exemplos de termos de regularización que se poden empregar son:
 \begin{itemize}
     \item Jacobian regularizer: 
     O determinante Jacobiano da transformación (det ∇Φ) nunha localización x é un indicador de estiramento ou compresión local.
-    Un determinante Jacobiano negativo indica que está a ocurrir folding e a transformación non será invertible.
-    \dots
+    Un determinante Jacobiano negativo ou moi cercano a 0 indica que están a ocurrir dobreces e a transformación non será invertible.
+    A matriz jacobiana é a matriz que contén todas as derivadas parciais da función de transformación (calculado mediante gradientes).
+    O termo de regularización do Jacobiano penaliza os valores do determinante Jacobiano que se desvían de 1, 
+    tentando preservar áreas locais e evitar estiramentos ou dobreces extremas.
 
+
+    \begin{figure}[ht!]
+        \centering
+        \[
+        S^{jac}[\Phi] = \int_{\Omega} \left| 1 - \det \left( \nabla \Phi \right) \right| \, dx
+        \]
+        \caption{Regulizador Jacobiano}
+    \end{figure}
+
+    Ω representa o dominio ou rexión do espazo sobre o cal está definida a transformación Φ.
+    
     \item Hyperelastic regularizer
     Tamén se póden engadir restricións ao DVF con este termo proposto por \cite{HyperelasticRegularization}.
     Consiste en tres termos, un termo de lonxitude, un termo de área e un termo de volumen co obxetivo de controlar variacións nestes aspectos.
-    O termo de lonxitude penaliza a variación da lonxitude dos vectores do DVF e está controlado pola matriz do Jacobiano da transformación.
-    A matriz de cofactores e o determinante da matriz do Jacobiano da transformación controlan a área e o volume respectivamente, 
-    penalizando o crecemento e a contracción por igual.
-    \dots
+    O termo de lonxitude penaliza a variación da lonxitude dos vectores do DVF, sendo u a medida desplazamiento dun punto no espacio.
+    A matriz de cofactores da matriz do Jacobiano da transformación controla o área, 
+    A función de máximo asegura que só as expansións que sobrepasen certo límite sexan penalizadas
+    O determinante da matriz do Jacobiana controla o volume, 
+    e ambas penalizan o crecemento e a contracción por igual.
+    αl, αa y αν son hiperparámetros que controlan a importancia de cada término.
+
+    \begin{figure}[ht!]
+        \centering
+        \[
+        S^{hyper}[\Phi] = \int_{\Omega} \left[ \frac{1}{2} \alpha_1 |\nabla u|^2 + \alpha_a \varphi_c (\text{cof} \nabla \Phi) + \alpha_\nu \psi(\det \nabla \Phi) \right] dx,
+        \]
+        \[
+        \text{Funcións convexas:} \quad \varphi_c(C) = \sum_{i=1}^3 \max \left\{ \sum_{j=1}^3 C_{ji}^2 - 1, 0 \right\}^2 \quad \text{and} \quad \psi(v) = \frac{(v-1)^4}{v^2}.
+        \]
+        \caption{Regulizador Hiperelástico.}
+    \end{figure}
+
 
     \item Bending energy penalty
-    Pódese impoñer a suavidade do DVF empregando esta penalización proposta en (Rueckert et al., 1999).
-    Require que as segundas derivadas do DVF sexan pequenas en todo o dominio, 
-    polo que non pode ser utilizado nunha rede que utilice ReLU como función de activación (a segunda derivada de unha ReLU é sempre igual a 0).
+    Pódese impoñer a suavidade da deformación empregando esta penalización proposta en \cite{bendingenergy}, que 
+    require que as segundas derivadas do DVF sexan pequenas en todo o dominio, o que evita deformacións bruscas e discontinuas.
+    Este termo non pode ser utilizado nunha rede que utilice ReLU como función de activación, xa que a segunda derivada de unha ReLU é sempre igual a 0.
     \dots
+    
+    \begin{figure}[ht!]
+        \centering
+        \[
+        S^{bending}[\Phi] = \frac{1}{8} \int_{-1}^{1} \int_{-1}^{1} \int_{-1}^{1} \left[ \left( \frac{\partial^2 \Phi}{\partial x^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial y^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial z^2} \right)^2 \right.
+        \]
+        \[
+        \left. + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial y} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial z} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial y \partial z} \right)^2 \right] dx\,dy\,dz
+        \]
+        \caption{Regulizador Bending Energy}
+    \end{figure}
+    
 \end{itemize}
 
+Para a implementación neste traballo modificaronse todos estos termos para que funcionaran con transfomacións de dúas dimensións en lugar de tres,
+ eliminando as derivadas parciais en z no de bending enerdy e o termo de volume no termo hiperelástico.
 
 \subsubsection{Método}
 \label{subsubsec:Método}
 
-Sendo o obxetivo encontrar unha transformación espacial óptima entre a imaxe fixa e a imaxe móbil,
-é necesario obter a función de deformación  Φ(x) = u(x) + x que mapea cada coordenada x na imaxe fixa a unha coordenada na imaxe móbil, 
+Sendo o obxetivo encontrar unha transformación espacial óptima entre a imaxe móbil e a imaxe fixa,
+é necesario obter a función de deformación  Φ(x) = u(x) + x que mapea cada coordenada x na imaxe móbil a unha coordenada na imaxe fixa, 
 de forma que a coordenada x na imaxe fixa corresponda anatomicamente á coordenada Φ(x) na imaxe móbil.
 Este problema pode ser formulado como un problema de optimización onde Ldata é unha métrica de similitude entre as imaxes fixa e móbil, Lreg é un termo de regularización na transformación Φ, e α é un termo de ponderación.
 \begin{equation}
    \hat{\Phi} = \operatorname*{Arg\,min}_{\Phi} L_{data}(M \circ \Phi, F) + \alpha L_{reg}(\Phi)
 \end{equation}
 
-A aportación clave é que a transformación Φ está implícitamente representada nunha rede neuronal.
+A aportación clave que realiza \cite{wolterink2021implicit} é que a transformación Φ está implícitamente representada na rede neuronal.
 
 Comparado cunha CNN tradicional, esta rede non recibe valores de intensidade de píxel como entrada,
 senón que recibe coordenadas espaciais (continuas) e devolve unha nova coordenada.
@@ -441,12 +517,11 @@ Isto permite obter gradientes máis precisos que as aproximacións por diferenci
 e permite aproveitar unha gran cantidade de literatura sobre regularización eficientes en imaxes médicas.
 
 Terceiro, pódese modificar a función de activación empregada na rede para axustala ás necesidades particulares da tarefa de rexistro de imaxes.
-Neural Tangent Kernel (NTK) es un concepto que describe cómo un modelo de red neuronal responde a cambios en sus parámetros durante el entrenamiento,
+
+O \gls{NTK} describe cómo un modelo de red neuronal responde a cambios en sus parámetros durante el entrenamiento,
 e dependendo da función de activación empregada, o NTK varía e a rede pode ser máis ou menos sensible a certas deformacións.
 
-Finalmente, entrenaráse unha nova rede por cada parella de imaxes, sendo esta unha rede bastante pequena en comparación e precindindo así da necesidade de grandes conxuntos de datos para o seu adestramento.
-
-
+Finalmente, entrenaráse unha nova rede por cada parella de imaxes, sendo esta unha rede bastante pequena en comparación e prescindindo da necesidade de grandes conxuntos de datos para o seu adestramento.
 
 \section{Traballo proposto}
 \label{sec:Traballo proposto}

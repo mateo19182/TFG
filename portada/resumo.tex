@@ -2,25 +2,29 @@
 
 \pagestyle{empty}
 \begin{abstract}
-O aliñamento da imaxe oftalmolóxica é un campo moi relevante. Aliñar imaxes médicas é útil para,
-entre outras cousas, revisar o avance dunha enfermidade ao longo do tempo ou fusionar diferentes modalidades. O caso dos ollos é de particular interese xa que permiten a observación in-vivo de tecido neuronal e vasos sanguíneos. Aliñar as imaxes manualmente é un proceso tedioso e complexo, polo que automatizar este proceso é moi beneficioso.
+O aliñamento da imaxe oftalmolóxica é útil para, entre outras cousas, revisar o avance dunha enfermidade ao longo do tempo, fusionar diferentes modalidades de imaxe ou comparar entre diferentes pacientes. 
+O caso dos ollos é de particular interese xa que permiten a observación in-vivo de tecido neuronal e vasos sanguíneos, o que posibilita a detección temprana de certas enfermidades.
+Aliñar as imaxes manualmente é un traballo tedioso e complexo, polo que automatizar este proceso é de gran interese.
 
-Neste traballo explórase o uso de redes de representación implícita,
- onde se parametriza a imaxe como unha función continua coas coordenadas como entrada e o valor do pixel como saída, como unha alternativa para o aliñamento de imaxes.
- Estas aportan vantaxes frente a representacións tradicionais discretas como a independencia de resolución e poder prescindir de grandes bases de datos xa que se adestran mediante un proceso de optimización para cada par de imaxes.
- Ademais, en lugar de usar funcións de activación estándar como RELU, adoitan empregar unha función de activación sinusoidal (SIREN \cite{sitzmann2020implicitneuralrepresentationsperiodic}), que pode axudar a eliminar o sesgo cara sinais de baixa frecuencia e mapear mellor deformación pequenas e detalladas.
+Neste traballo explórase o uso de redes de representación implícita aplicadas á tarefa de aliñamento de imaxes oftalmolóxicas. 
+Neste tipo de redes, a deformación é parametrizada como unha función continua nos propios pesos da rede, coas coordenadas da imaxe móbil como entrada e a deformación correspondente como saída.
+Representar a deformación de esta forma ten varias vantaxes frente a representacións tradicionais discretas, como a independencia de resolución e poder prescindir de grandes bases de datos xa que se adestran mediante un proceso de optimización para cada par de imaxes.
+Ademais, en lugar de usar funcións de activación estándar como RELU, estudamos empregar unha función de activación sinusoidal (SIREN \cite{sitzmann2020implicitneuralrepresentationsperiodic}), que pode axudar a eliminar o sesgo cara sinais de baixa frecuencia e mapear mellor deformación pequenas e detalladas.
 
 Adaptando o traballo realizado por Wolterink et al. \cite{wolterink2021implicit}, valoraráse se este método é apto para a tarefa de aliñamento de imaxes oftalmolóxicas.
 
-  \vspace*{25pt}
-  \begin{segundoresumo}
-    Ophthalmic image alignment is a highly relevant field. Aligning medical images is useful for, among other things, reviewing the progression of a disease over time or merging different modalities. The case of eyes is particularly important as they allow in-vivo observation of neuronal tissue and blood vessels. Manually aligning images is a tedious and complex process, so automating this process is beneficial.
+\vspace*{25pt}
+\begin{segundoresumo}
+The alignment of ophthalmic images is useful for, among other things, reviewing the progression of a disease over time, fusing different image modalities, or comparing different patients.
+The case of the eyes is of particular interest as it allows for in-vivo observation of neuronal tissue and blood vessels, enabling the early detection of certain diseases.
+Manually aligning images is a tedious and complex task, so automating this process is of great interest.
+
+This work explores the use of implicit neural representations applied to the task of ophthalmic image alignment. In this type of network, the deformation is parameterized as a continuous function in the network's weights, with the coordinates of the moving image as input and the corresponding deformation as output. Representing the deformation in this way has several advantages over traditional discrete representations, such as resolution independence and the ability to avoid large databases, as they are trained through an optimization process for each image pair.
+Moreover, instead of using standard activation functions like RELU, we explore using a sinusoidal activation function (SIREN \cite{sitzmann2020implicitneuralrepresentationsperiodic}), which can help eliminate the bias toward low-frequency signals and better map small and detailed deformations.
+
+By adapting the work of Wolterink et al. \cite{wolterink2021implicit}, it will be evaluated whether this method is suitable for the task of ophthalmic image alignment.
     
-    This work explores the use of implicit representation networks, where the image is parameterized as a continuous function with coordinates as input and pixel value as output. This provides advantages over traditional discrete representations such as resolution independence and the ability to dispense with large databases since they are trained through an optimization process for each group of images.
-    Furthermore, instead of using standard activation functions like RELU, they typically employ a sinusoidal activation function (SIREN), which can help eliminate bias towards low-frequency signals and better map small and detailed deformations.
-    
-    Based on the work done by Wolterink et al. \cite{wolterink2021implicit}, this study will evaluate whether this method is suitable for the task of aligning ophthalmic images and how it compares to conventional methods.
-  \end{segundoresumo}
+\end{segundoresumo}
 \vspace*{25pt}
 \input{portada/palabras_chave}
 \end{abstract}
