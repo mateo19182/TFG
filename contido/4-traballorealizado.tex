@@ -39,7 +39,7 @@ Inicialmente replicáronse os resultados obtidos por Wolterink et al \cite{wolte
 \label{subsec:FIRE}
 
 \cite{FIRE} composto por 134 pares de imaxes de retinas, con un tamaño de 2912 × 2912 pixels e un \gls{FOV} de 45◦× 45◦.
- Están clasificadas en 3 categorías según o grado de superposición e a presenza de diferencias anatómicas: textit{S}, textit{P} e textit{A}.
+ Están clasificadas en 3 categorías según o grado de superposición e a presenza de diferencias anatómicas: \textit{S}, \textit{P} e \textit{A}.
 
  \begin{figure}[ht]
     \centering
@@ -79,27 +79,46 @@ Tamén se divide entre transfomacións de cor e de xeometría.
 
 \dots preguntar David
 
-\section{Avaliación}
-\label{sec:Avaliación}
+\section{Métodos de Avaliación}
+\label{sec:Métodos de Avaliación}
 
-Utilizamos como principal método de evaluación o proposto por FIRE \cite{FIRE},
-xerando un gráfico onde o eixo x representa o valor do límite de erro e o eixo y mostra a porcentaxe de pares de imaxes que foron rexistrados con éxito para cada límite de erro.
+A evaluación divídese en dous tipos: a avaliación cualitativa, na cal analízanse os resultados de forma visual,
+ e a avaliación cuantitativa, na cal se utilizan métricas numéricas para comparar os resultados en base a un criterio obxetivo.
 
-O error de rexistro calcúlase ca distancia media entre os puntos correspondentes na imaxe fixa e móbil (cj, rj).
-Cando o erro de rexistro entre un par de imaxes está por debaixo do límite, considérase que o rexistro foi exitoso e viceversa. Isto dá lugar a unha curva monótona continua que reflicte a relación entre a taxa de éxito e a precisión obxectivo, evitando así a necesidade de establecer un limiar arbitrario. 
-Estes gráficos utilízanse para ilustrar a precisión do rexistro tanto para individuais como para o conxunto completo de datos.
+ Ambas avaliacións son necesarias para obter unha visión completa da calidade do rexistro, xa que a avaliación cuantitativa pode non ser suficiente para detectar problemas visuais que non se reflictan nas métricas.
 
+ \subsection{Avaliación Cuantitativa}
+ \label{subsec:Avaliación Cuantitativa}
+ 
+ Utilizamos como método de evaluación cuantitativa o proposto por FIRE \cite{FIRE},
+ xerando un gráfico onde o eixo x representa o valor do límite de erro e o eixo y mostra a porcentaxe de pares de imaxes que foron rexistrados con éxito para cada límite de erro.
+ 
+ O error de rexistro calcúlase ca distancia media entre os puntos correspondentes na imaxe fixa e móbil (cj, rj).
+ Cando o erro de rexistro entre un par de imaxes está por debaixo do límite, considérase que o rexistro foi exitoso e viceversa. Isto dá lugar a unha curva monótona e continua que reflicte a relación entre a taxa de éxito e a precisión obxectivo, evitando así a necesidade de establecer un limiar arbitrario. 
+ Estes gráficos utilízanse para ilustrar a precisión do rexistro tanto para casos individuais (onde se utilizan o porcentaxe de parellas de puntos rexistrados con éxito)
+  como para o conxunto completo de datos.
+ 
 Esta métrica facilita a comparación entre distintos métodos competidores e permite seleccionar o máis axeitado segundo a precisión desexada.
-
-Mentres que FIRE xa provee os puntos de referencia para a avaliación, RFMID non o fai.
-Polo tanto, para RFMID, utilizamos o mesmo método de avaliación, pero xerándo os puntos manualmente cubrindo toda a imaxe.
-
-\begin{figure}[ht]
+ 
+ Mentres que FIRE xa provee os puntos de referencia para a avaliación, RFMID non o fai.
+ Polo tanto, para RFMID, utilizamos o mesmo método de avaliación, pero xerándo os puntos manualmente de forma que cubran o interior da máscara da imaxe fixa (separados por 50 píxeles entre si).
+ 
+ \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{imaxes/fire_aval.png}
     \caption{Gráfico de avaliación FIRE, \cite{FIRE}}
     \label{fig:fire_aval}
 \end{figure}
+
+\subsection{Avaliación Cualitativa}
+\label{subsec:Avaliación Cualitativa}
+
+No caso deste traballo, a avaliación cualitativa cobra gran importancia, xa que na cuantitativa so se está a comparar sobre un número reducido de puntos en cada parexa de imaxes.
+A avaliación visual permite detectar problemas que non se reflictan nas métricas cuantitativas, como artefactos visuais ou deformacións non desexadas, 
+especialmente en rexistros que teñen deformacións locais que poden non coincidir con ningún punto.
+
+No caso do dataset FIRE \cite{FIRE}, a avaliación visual é especialmente relevante, xa que tan só se proporcionan 10 puntos de referencia por imaxe, que non son suficientes para avaliar a calidade do rexistro en moitas zonas da imaxe.
+Xa que en RFMID \cite{RFMiD} uilízanse puntos de referencia xerados manualmente que cubren toda a imaxe, a avaliación visual é algo menos relevante, xa que é mais probable que unha deformación local incorrecta sexa detectada por algún punto e se vexa reflexado nas métricas.
 
 \section{Proceso de Rexistro}
 \label{sec:Proceso de Rexistro}
@@ -123,6 +142,3 @@ Mentres que para o caso dos pulmóns a estratexia aleatoria era suficiente, para
 As imaxes de rertinas conteñen a maior parte de información relevante nos arredores do disco óptico e vasos sanguíneos, polo que é necesario muestrear máis puntos nesta zona.
 Neste caso se implementouse unha estrategia na que probabilidad de que una coordenada sexa muestreada é determinada por un mapa de pesos que indica a importancia de cada punto.
 Este mapa de pesos é calculado ao inicia a partir da imaxen fixa, aplicando operadores de Sobel de 10 píxeles de tamaño para computar os gradientes e a súa magnitude, e posteriormente utilizando unha kernel gaussiano moi agresivo (201, 201) para suavizar o resultado.
-
-\section{Discusión}
-\label{sec:Discusión}
