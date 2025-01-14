@@ -218,7 +218,7 @@ No lugar dos DVFs de referencia, o rexistro débilmente supervisado pode utiliza
 
 Un dos maiores retos para entrenar redes efectivas con imaxes médicas é a recolección de datos anotados de calidade para o adestramento \cite{medicalimageanalysis}.
 A creación de conxuntos de DFVs anotados é un proceso laborioso e costoso, que normalmente sólo póde ser executado por especialistas, polo que os métodos de rexistro non supervisados son de gran interese.
-Xa que a imaxen fixa e a imaxe móbil xa conteñen toda a información necesaria para un rexistro correcto, os métodos non supervisados parecen mais adecuados para a tarefa de rexistro.
+Xa que a imaxe fixa e a imaxe móbil xa conteñen toda a información necesaria para un rexistro correcto, os métodos non supervisados parecen mais adecuados para a tarefa de rexistro.
 De forma similar aos métodos iterativos, é común empregar unha métrica de similitude entre as imaxes xunto con un termo de regularización para guiar o proceso de optimización evitando caer en transformación non realistas.
 
 \cite{Balakrishnan_2019voxelmorph} é un dos frameworks mais utilizados no rexistro de imaxes non supervisado facendo uso de CNNs.
@@ -361,12 +361,15 @@ Utilizan Adam de optimizador, cun learning rate de 0.0001.
 Unha elección estándar para a función de activación é ReLU: σ(x) = max(0, x). 
 Non obstante, para redes de representación implícita como ca que estamos traballando, esta ten unha serie de desventaxas.
 
-Sen embargo, as ReLUs teñen un sesgo cara a sinais de baixa frecuencia \cite{rahaman2019spectralbiasneuralnetworks}, 
+As ReLUs teñen un sesgo cara a sinais de baixa frecuencia \cite{rahaman2019spectralbiasneuralnetworks}, 
  o que significa que o modelo pode ter dificultades para representar pequenas deformacións locais no rexistro de imaxes.
  
+\cite{ziyin2020neuralnetworksfaillearn} demostraron que a gran parte das funcións de activación utilizadas en redes neuronais (ReLU, tanh, sigmoide e todas as súas variantes)
+son incapaces de extrapolar función periódicas sinxelas debido á súa tendencia a converxer cara a comportamentos lineais cando se extrapolan fóra do rango de adestramento. 
+
 Existen varias formas de superar este sesgo, como preprocesar as coordenadas de entrada con funcións de activación periódicas \cite{mildenhall2020nerfrepresentingscenesneural} 
 ou substituír a función de activación ReLU por unha función de activación periódica \cite{sitzmann2020implicitneuralrepresentationsperiodic}.
-Neste traballo escollemos a segunda opción, utilizando unha función de activación periódica para obter un modelo de tipo SIREN, σ(x) = sin(ax+b) with a, b ∈ R.
+Neste traballo escollemos a segunda opción, utilizando unha función de activación periódica para obter un modelo de tipo SIREN, σ(x) = sin(ax+b), con a, b ∈ R.
 Unha vantaxe engadida das funcións de activación periódicas nas redes SIREN é que poden ser diferenciadas varias veces, 
 o que expande substancialmente o conxunto de termos de regularización que se poden empregar na rede, como veremos na seguinte sección.
 
@@ -410,14 +413,85 @@ En \cite{sireninit} implementan unha versión simplificada de SIREN (Simple Sinu
 e propoñen melloras proceso de inicialización. Unha delas e utilizar a distribución Kaiming (He) en lugar da uniforme.
 Tamén propoñen un método para escoller un valor de w apropiado según o problema a resolver.
 
+\subsubsection{Termos de loss}
+\label{subsubsec:Termos de loss}
+
+O termo de perda é a función que se optimiza durante o adestramento da rede, e é o que guía a rede cara a unha solución óptima.
+
+Para a tarefa de rexistro de imaxes, utilízanse dúas categorías principais de métricas para avaliar o aliñamento entre imaxes: 
+as métricas baseadas no erro e as métricas baseadas na similitude. As métricas baseadas no erro (MSE, L1...) miden as diferenzas píxel a píxel entre as imaxes, 
+sendo máis sensibles a diferenzas locais e proporcionando unha medida absoluta. 
+As métricas baseadas na similitude (NCC, SSIM...) teñen en conta patróns estructurais e relacións estatísticas entre as imaxes, sendo máis robustas fronte a variacións na iluminación e pequenos desprazamentos.
+\cite{simmetric}
+
+Os principais termos de perda valorados para este traballo son:
+
+\begin{itemize}
+    % Error-based metrics
+    \item \textbf{MSE (Mean Squared Error)}:
+    Erro cadrático promedio entre á imaxe fixa e a móbil. É sensible a valores atípicos e ruido.
+    \[
+    \text{MSE} = \mathbb{E}[(Y - \hat{Y})^2] = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2
+    \]
+    onde \( y_i \) é o valor do pixel da imaxe fixa, \( \hat{y}_i \) é o valor do pixel da imaxe móbil, e \( N \) é o número total de píxeles. \cite{Palubinskas02012017}
+
+    \item \textbf{L1 (Mean Absolute Error)}:
+    Mide o error absoluto promedio. Menos sensible a valores atípicos que MSE.
+    \[
+    \text{L1} = \mathbb{E}[|Y - \hat{Y}|] = \frac{1}{N} \sum_{i=1}^{N} |y_i - \hat{y}_i|
+    \]
+
+    % Robust error metrics
+    \item \textbf{Huber Loss}:
+    Combina MSE e L1, sendo cadrática para errores pequenos e lineal para errores grandes.
+    \[
+    \text{Huber}(y, \hat{y}) = \begin{cases}
+    \frac{1}{2}(y - \hat{y})^2 & \text{se } |y - \hat{y}| \leq \delta \\
+    \delta(|y - \hat{y}| - \frac{1}{2}\delta) & \text{noutro caso}
+    \end{cases}
+    \]
+    onde \( \delta \) é un hiperparámetro que define o punto de transición entre os comportamentos cadrático e lineal.
+
+    \item \textbf{Smooth L1 Loss}:
+    Similar a Huber Loss, pero cunha transición suave entre as rexións cadrática e lineal.
+    \[
+    \text{SmoothL1}(y, \hat{y}) = \begin{cases}
+    \frac{1}{2}(y - \hat{y})^2 & \text{se } |y - \hat{y}| \leq 1 \\
+    |y - \hat{y}| - \frac{1}{2} & \text{noutro caso}
+    \end{cases}
+    \]
+
+    % Similarity-based metrics
+    \item \textbf{NCC (Normalized Cross-Correlation)}:
+    Evalúa a similitude entre as dúas imaxes normalizando as súas intensidades. É invariante a cambios na iluminación.
+    \[
+    \text{NCC} = \frac{\sum_{i=1}^{N} (y_i - \mu_y)(\hat{y}_i - \mu_{\hat{y}})}{\sqrt{\sum_{i=1}^{N} (y_i - \mu_y)^2 \sum_{i=1}^{N} (\hat{y}_i - \mu_{\hat{y}})^2}}
+    \]
+    onde \( \mu_y \) e \( \mu_{\hat{y}} \) son as medias das imaxes fixa e móbil, respectivamente.
+
+    \item \textbf{SSIM (Structural Similarity Index)}:
+    Evalúa a similitude estructural entre as dúas imaxes, considerando luminancia, contraste e estructura.
+    \[
+    \text{SSIM}(y, \hat{y}) = \frac{(2\mu_y\mu_{\hat{y}} + C_1)(2\sigma_{y\hat{y}} + C_2)}{(\mu_y^2 + \mu_{\hat{y}}^2 + C_1)(\sigma_y^2 + \sigma_{\hat{y}}^2 + C_2)}
+    \]
+    onde \( \mu_y \), \( \mu_{\hat{y}} \) son as medias, \( \sigma_y \), \( \sigma_{\hat{y}} \) son as desviacións estándar, \( \sigma_{y\hat{y}} \) é a covarianza, e \( C_1 \), \( C_2 \) son constantes para evitar divisións entre cero. \cite{Palubinskas02012017}
+\end{itemize}
+
+Debido á natureza das imaxes de retina, onde poden existir diferencias de iluminación e contraste entre as imaxes fixa e móbil, 
+é mais apropiado empregar métricas baseadas na similitude como NCC ou SSIM.
+
+Para este traballo utilízase unha variante de NCC mais computacionalmente eficiente...
+
+Mutual information ?
+
 \subsubsection{Termos de regularización}
 \label{subsubsec:Termos de regularización}
 
 Debido a que el registro de imágenes deformables es un problema mal planteado (ill-posed problem**), 
 es común regularizar el DVF para evitar deformaciones poco realistas.
  Los métodos de registro basados en redes neuronales convolucionales (CNN) representan los DVF 
- como muestras en una cuadrícula de vóxeles, y por lo tanto, solo pueden aproximar gradientes espaciales
- mediante esquemas de diferencias finitas. Esto conlleva errores de discretización y pérdidas de precisión.
+ como muestras en una cuadrícula de vóxeles, e por lo tanto, solo pueden aproximar gradientes espaciales
+ mediante esquemas de diferencias finitas. Esto conlleva errores de discretización e pérdidas de precisión.
 
 Facendo uso de representacións implícitas, todas as operación son diferenciables, e os gradientes poden
  ser computados de forma analítica en lugar de ter que aproximalos.
@@ -453,7 +527,7 @@ Algúns exemplos de termos de regularización que se poden empregar son:
     A función de máximo asegura que só as expansións que sobrepasen certo límite sexan penalizadas
     O determinante da matriz do Jacobiana controla o volume, 
     e ambas penalizan o crecemento e a contracción por igual.
-    αl, αa y αν son hiperparámetros que controlan a importancia de cada término.
+    αl, αa e αν son hiperparámetros que controlan a importancia de cada término.
 
     \begin{figure}[ht!]
         \centering
@@ -479,7 +553,7 @@ Algúns exemplos de termos de regularización que se poden empregar son:
         S^{bending}[\Phi] = \frac{1}{8} \int_{-1}^{1} \int_{-1}^{1} \int_{-1}^{1} \left[ \left( \frac{\partial^2 \Phi}{\partial x^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial y^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial z^2} \right)^2 \right.
         \]
         \[
-        \left. + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial y} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial z} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial y \partial z} \right)^2 \right] dx\,dy\,dz
+        \left. + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial y} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial z} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial e \partial z} \right)^2 \right] dx\,dy\,dz
         \]
         \caption{Regulizador Bending Energy}
     \end{figure}
@@ -500,7 +574,7 @@ Este problema pode ser formulado como un problema de optimización onde Ldata é
    \hat{\Phi} = \operatorname*{Arg\,min}_{\Phi} L_{data}(M \circ \Phi, F) + \alpha L_{reg}(\Phi)
 \end{equation}
 
-A aportación clave que realiza \cite{wolterink2021implicit} é que a transformación Φ está implícitamente representada na rede neuronal.
+A principal innovación que introduce \cite{wolterink2021implicit} é que a transformación Φ está implícitamente representada na rede neuronal.
 
 Comparado cunha CNN tradicional, esta rede non recibe valores de intensidade de píxel como entrada,
 senón que recibe coordenadas espaciais (continuas) e devolve unha nova coordenada.
