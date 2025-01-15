@@ -358,7 +358,15 @@ Utilizan Adam de optimizador, cun learning rate de 0.0001.
 \subsubsection{Función de activación}
 \label{subsubsec:Función de activación}
 
-Unha elección estándar para a función de activación é ReLU: σ(x) = max(0, x). 
+Unha elección estándar para a función de activación é \textbf{ReLU}:
+
+\[
+f(x) = \max(0, x) = \begin{cases} 
+x & \text{si } x > 0 \\ 
+0 & \text{si } x \leq 0 
+\end{cases}
+\]
+
 Non obstante, para redes de representación implícita como ca que estamos traballando, esta ten unha serie de desventaxas.
 
 As ReLUs teñen un sesgo cara a sinais de baixa frecuencia \cite{rahaman2019spectralbiasneuralnetworks}, 
@@ -369,7 +377,13 @@ son incapaces de extrapolar función periódicas sinxelas debido á súa tendenc
 
 Existen varias formas de superar este sesgo, como preprocesar as coordenadas de entrada con funcións de activación periódicas \cite{mildenhall2020nerfrepresentingscenesneural} 
 ou substituír a función de activación ReLU por unha función de activación periódica \cite{sitzmann2020implicitneuralrepresentationsperiodic}.
-Neste traballo escollemos a segunda opción, utilizando unha función de activación periódica para obter un modelo de tipo SIREN, σ(x) = sin(ax+b), con a, b ∈ R.
+
+Neste traballo escollemos a segunda opción, utilizando unha función de activación periódica de tipo \textbf{SIREN}:
+
+\[
+f(x) = \sin(ax + b), \quad \text{con} \quad a, b \in \mathbb{R}
+\]
+
 Unha vantaxe engadida das funcións de activación periódicas nas redes SIREN é que poden ser diferenciadas varias veces, 
 o que expande substancialmente o conxunto de termos de regularización que se poden empregar na rede, como veremos na seguinte sección.
 
@@ -377,6 +391,23 @@ larger frequencies appear in the networks for weights with larger magnitudes.
 
 Outros traballos como \cite{mildenhall2020nerfrepresentingscenesneural} non utiliza unha función de activación periódica, mais para a representación adecuada de zonas de alta frecuencia 
 utilizaron positional encoding, que xa as incorpora de forma implícita na rede con bós resultados. \ref{chap:Positional Encoding}
+
+Outra das vantaxes que ten SIREN é que é unha función suave ou infinitamente diferenciable, é dicir, que admite derivadas de calquer orde.
+Outros exemplos de funcións de activación infinitamente diferenciables son:
+
+Sigmoide:  
+\[
+f(x) = \frac{1}{1 + e^{-x}}
+\]
+Tangente Hiperbólica:  
+\[
+f(x) = \tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}
+\]
+
+Softplus:  
+\[
+f(x) = \ln(1 + e^x)
+\]
 
 
 \paragraph{Inicialización de pesos}
@@ -408,8 +439,9 @@ As seguintes capas inicialízanse da seguinte forma:
 
 Desta forma asegurase que a entrada a cada activación sinusoidal está distribuída normalmente cunha desviación estándar de 1,
  o que debería mellorar a estabilidade e converxencia durante o adestramento da rede.
+Unha consecuencia desto é que, xa que os propios pesos da rede representan a deformación, inicialmente a rede comeza cunha deformacion moi similar en todos os casos, que o entrenamento deberá corrixir.
 
-En \cite{sireninit} implementan unha versión simplificada de SIREN (Simple Sinusoidal Networks) para facilitar o estudo destas, 
+En \cite{sireninit} implementan unha versión simplificada de SIREN para facilitar o estudo destas, 
 e propoñen melloras proceso de inicialización. Unha delas e utilizar a distribución Kaiming (He) en lugar da uniforme.
 Tamén propoñen un método para escoller un valor de w apropiado según o problema a resolver.
 
@@ -435,7 +467,7 @@ Os principais termos de perda valorados para este traballo son:
     \]
     onde \( y_i \) é o valor do pixel da imaxe fixa, \( \hat{y}_i \) é o valor do pixel da imaxe móbil, e \( N \) é o número total de píxeles. \cite{Palubinskas02012017}
 
-    \item \textbf{L1 (Mean Absolute Error)}:
+    Regulizador Hiperelástico en 2DRegulizador Hiperelástico en 2D    \item \textbf{L1 (Mean Absolute Error)}:
     Mide o error absoluto promedio. Menos sensible a valores atípicos que MSE.
     \[
     \text{L1} = \mathbb{E}[|Y - \hat{Y}|] = \frac{1}{N} \sum_{i=1}^{N} |y_i - \hat{y}_i|
@@ -487,16 +519,19 @@ Mutual information ?
 \subsubsection{Termos de regularización}
 \label{subsubsec:Termos de regularización}
 
-Debido a que el registro de imágenes deformables es un problema mal planteado (ill-posed problem**), 
-es común regularizar el DVF para evitar deformaciones poco realistas.
- Los métodos de registro basados en redes neuronales convolucionales (CNN) representan los DVF 
- como muestras en una cuadrícula de vóxeles, e por lo tanto, solo pueden aproximar gradientes espaciales
- mediante esquemas de diferencias finitas. Esto conlleva errores de discretización e pérdidas de precisión.
+Debido a que o rexistro de imáxenes deformables é un problema mal planteado (ill-posed problem**), 
+é común utilizar algún tipo de regularización sobre o DVF para evitar deformacións pouco realistas.
+ Os métodos de rexistro baseados en redes neuronaies convolucionais (CNN) representan os DVFs
+ como mostras en una cuadrícula de vóxeles, e polo tanto, solo se poden aproximar gradientes espaciais
+ mediante esquemas de diferencias finitas (aproximar derivadas mediante cálculo numérico de diferencias entre valores adyacentes en la cuadrícula).
+ Este é un proceso computacionalmente moi costoso e ineficiente, ademais implica errores de discretización e perdas de precisión.
+
 
 Facendo uso de representacións implícitas, todas as operación son diferenciables, e os gradientes poden
- ser computados de forma analítica en lugar de ter que aproximalos.
+ ser computados facilemente de forma analítica en lugar de ter que aproximalos, facendo uso da librearía de autodiferenciación de PyTorch.
+
 Utilizando ReLU como función de activación, a rede é diferenciable unha vez, mentres que utilizando
- unha función de activación periódica (como SIREN), a rede é diferenciable varias veces.
+ unha función de activación periódica (como SIREN), a rede é diferenciable todas as veces que se precise.
 Desta forma, podemos calcular calquera número de termos de regularización e incluilos na optimización da rede.
 
 Algúns exemplos de termos de regularización que se poden empregar son:
@@ -553,7 +588,7 @@ Algúns exemplos de termos de regularización que se poden empregar son:
         S^{bending}[\Phi] = \frac{1}{8} \int_{-1}^{1} \int_{-1}^{1} \int_{-1}^{1} \left[ \left( \frac{\partial^2 \Phi}{\partial x^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial y^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial z^2} \right)^2 \right.
         \]
         \[
-        \left. + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial y} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial z} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial e \partial z} \right)^2 \right] dx\,dy\,dz
+        \left. + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial y} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial z} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial y \partial z} \right)^2 \right] dx\,dy\,dz
         \]
         \caption{Regulizador Bending Energy}
     \end{figure}
@@ -561,7 +596,40 @@ Algúns exemplos de termos de regularización que se poden empregar son:
 \end{itemize}
 
 Para a implementación neste traballo modificaronse todos estos termos para que funcionaran con transfomacións de dúas dimensións en lugar de tres,
- eliminando as derivadas parciais en z no de bending enerdy e o termo de volume no termo hiperelástico.
+ sustituíndo o gradiente de 3 dimensión no Jacobiano por un de dúas, eliminando as derivadas parciais en z en bending energy e o termo de volume no termo hiperelástico.
+
+ \begin{itemize}
+    \item Jacobian regularizer:
+    \begin{figure}[ht!]
+        \centering
+        \[
+        S^{jac}[\Phi] = \int_{\Omega} \left| 1 - \det \left( \nabla \Phi \right) \right| \, dx \, dy
+        \]
+        \caption{Regulizador Jacobiano en 2D}
+    \end{figure}
+    
+    \item Hyperelastic regularizer:
+    \begin{figure}[ht!]
+        \centering
+        \[
+        S^{hyper}[\Phi] = \int_{\Omega} \left[ \frac{1}{2} \alpha_1 |\nabla u|^2 + \alpha_a \varphi_c (\text{cof} \nabla \Phi) \right] dx \, dy,
+        \]
+        \[
+        \varphi_c(C) = \sum_{i=1}^2 \max \left\{ \sum_{j=1}^2 C_{ji}^2 - 1, 0 \right\}^2
+        \]
+        \caption{Regulizador Hiperelástico en 2D}
+    \end{figure}
+    
+    \item Bending energy penalty:
+    \begin{figure}[ht!]
+        \centering
+        \[
+        S^{bending}[\Phi] = \frac{1}{8} \int_{-1}^{1} \int_{-1}^{1} \left[ \left( \frac{\partial^2 \Phi}{\partial x^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial y^2} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial y} \right)^2 \right] dx \, dy
+        \]
+        \caption{Regulizador Bending Energy en 2D}
+    \end{figure}
+    
+\end{itemize}
 
 \subsubsection{Método}
 \label{subsubsec:Método}
