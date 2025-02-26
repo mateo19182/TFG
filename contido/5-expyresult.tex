@@ -2,16 +2,154 @@
 \label{chap:Experimentos e resultados}
 \lettrine{N}{este} capítulo presentaranse os experimentos realizados e os resultados obtidos.
 Para iso, comezarase presentando unha vista xeral do proceso de experimentación, 
-A continuación, presentaranse os resultados obtidos cas diferentes configuracións probadas.
+seguido dos propios experimentos realizados, para 
+Finalmente analizar os resultados obtidos en conxunto e as conclusións que se poden extraer deles.
 
 \section{Vista Xeral}
 \label{sec:Vista Xeral}
 
-Diferentes funciones de loss 
-    - ncc, ssmi
+definiciones generales?
 
-\section{Estratexias de mostraxe}
-\label{sec:Estratexias de mostraxe}
+O obxetivo do traballo é determinar se as redes implícitas son aptas para a tarefa de rexistro de retinas.
+Aínda tomando o traballo de IDIR como punto de partida, a tarefa de rexistro de retinas é substancialmente diferente á de pulmóns, polo que non podemos asumir que os parámetros utilizados nese caso sexan os óptimos para este.
+
+A principal comparación que estamos a realizar ao longo de todos os experimentos é sobre a función de activación utilizada (SIREN ou ReLU)
+Debido ao gran espazo de búsqueda que implica probar todas as configuracións posibles, 
+os experimentos iniciais cetraránse en fixar unha unha seria de parámetros con valores razonables para poder experimentar só con aqueles que podan ter un impacto máis significativo.
+
+Ademais, debido ás diferencias entre as funcións de activación, cada unha require unha configuración diferente para obter os mellores resultados.
+Por exemplo, SIREN tende a requerir de dun learning rate mais baixo que ReLU, presumiblemente debido a unha maior sensibilidade aos valores de inicialización e inesabilidade.
+probar?
+
+\section{Experimentos}
+\label{sec:Experimentos}
+
+\subsection{Experimentos iniciais}
+\label{subsec:Experimentos iniciais}
+
+\subsubsection{Función de loss}
+\label{subsubsec:Función de loss}
+
+\paragraph{Planteamento}
+\label{par:Planteamento}
+
+A función de loss é un dos aspectos máis importantes á hora de entrenar unha rede neuronal.
+Entre as funcións de loss valoradas para este traballo, que xa forón explicadas en \ref{subsubsec:Termos de loss}, atopamos:
+
+\begin{itemize}
+    \item MSE (Mean Squared Error)
+    \item Huber
+    \item Smooth L1
+    \item NCC (Normalized Cross-Correlation)
+    \item SSIM (Structural Similarity Index)
+\end{itemize}
+
+
+Para determinar cal era a mellor función de loss para este traballo, realizáronse experimentos comparando o rendemento de cada unha sobre unha mostra de imaxes ...
+
+\paragraph{Resultados}
+\label{par:Resultados}
+
+... tablas ...
+
+\paragraph{Discusión}
+\label{par:Discusión}
+
+Aquelas métricas que non teñen en conta a estructura da imaxe (MSE, Huber, Smooth L1) non son ideais xa que é común que existan diferenzas de iluminación ou contraste entre a imaxe fixa e a imaxe móbil.
+Por outro lado, NCC e SSIM son máis robustas a estas diferenzas xa que teñen en conta a estructura da imaxe, polo que son mais preferibles.
+
+NCC é mais robusta a combios uniformes na intensidade global, mentres que SSIM é mais robusta a cambios locais a custo dun maior custo computacional e maior sensibilidade a ruido e o tamaño das seccións.
+
+\paragraph{Conclusións}
+\label{par:Conclusións}
+
+\subsubsection{paragraph}{Resolución da imaxe}
+\label{subsubsec:Resolución da imaxe}
+
+\paragraph{Planteamento}
+\label{par:Planteamento}
+
+A resolución da imaxe é un aspecto clave xa que inflúe de forma directa no resto de parámetros da rede.
+Por exemplo, un batch size de 1000 puntos nunha imaxe de 256x256 é unha densidade de puntos moito maior que nunha imaxe de 512x512.
+
+Ademais, a resolución da imaxe tamén inflúe na capacidade da rede para aprender as transformacións, xa que a información que se lle pasa é mais detallada, 
+o cal pode ser beneficioso se estos detalles conteñen información relevante ou perxudicial se conteñen ruido.
+
+O tamaño das imaxes tamén é unha das principais diferencias entre as imaxes de retina e as de pulmóns utilizadas orixinalmente por IDIR, tendo estas últimas de 512x512 e as primeiras de ata 2160x2160.
+
+Para determinar cal era a mellor resolución para este traballo, realizáronse experimentos comparando o rendemento de cada unha sobre unha mostra de imaxes ...
+
+\paragraph{Resultados}
+\label{par:Resultados}
+
+\paragraph{Discusión}
+\label{par:Discusión}
+
+\paragraph{Conclusións}
+\label{par:Conclusións}
+
+
+\subsubsection{paragraph}{Regularización}
+\label{subsubsec:Regularización}
+
+\paragraph{Planteamento}
+\label{par:Planteamento}
+
+O proceso de regularización axuda a rede a evitar o sobreaxuste, modificando o termo de loss para penalizar as transformacións pouco realistas.
+Entre as técnicas de regularización valoradas para este traballo, que xa forón explicadas en \ref{subsubsec:Regularización}, atopamos:
+
+\begin{itemize}
+    \item Jacobian regularizer
+    \item Hyperelastic regularizer
+    \item Bending energy penalty
+\end{itemize}
+
+Se os termos de regularización son demasiado grandes, a rede fará transformacións moi pequenas para evitar ser penalizada, o que resulta nunha transformación insuficiente.
+Por outro lado, se os termos son demasiado pequenos, a rede fará transformacións moi grandes, o que resulta nunha transformación irrealista e sobreaxustada.
+A cantidade óptima de regularización depende da parexa concreta de imaxes a alinear, polo que intentaremos determinar cal é a mellor para unha mostra de imaxes ...
+
+\paragraph{Resultados}
+\label{par:Resultados}
+
+\paragraph{Discusión}
+\label{par:Discusión}
+
+\paragraph{Conclusións}
+\label{par:Conclusións}
+
+
+
+\subsubsection{paragraph}{Learning rate}
+\label{subsubsec:Learning rate}
+
+\paragraph{Planteamento}
+\label{par:Planteamento}
+
+Debido á natureza da rede, o batch size utilzado ten unha relación directa co batch size, polo que tentaremos determinar a relación óptima entre ambos.
+Ao igual que os experimentos anteriores, esta norma pode ser diferente para cada función de activación, polo que realizaremos experimentos separados para cada unha.
+
+\paragraph{Resultados}
+\label{par:Resultados}
+
+\paragraph{Discusión}
+\label{par:Discusión}
+
+\paragraph{Conclusións}
+\label{par:Conclusións}
+
+
+\subsection{Batch size}
+\label{subsec:Batch size}
+
+Ao longo dos experimentos realizados, o análisis cualitativo revelou que o batch size é un dos parámetros que máis impacto ten no rendemento da rede.
+Unha vez determinados uns valores aceptables nos parámetros anteriores, realizáronse experimentos para determinar cal era o batch size óptimo.
+
+Obsérvase que un maior batch size tende a dar mellores resultados, pero a un custo computacional maior. Interesa determinar cal é o punto de inflexión onde o aumento do batch size non compensa o aumento do rendemento.
+
+Divídense os datasets en FIRE categoría S e RFMID por dificultade xa que testean cousas diferentes
+
+\subsection{Estratexias de mostraxe}
+\label{subsec:Estratexias de mostraxe}
 
 Orixinalmente IDIR utiliza unha estratexia de mostraxe aleatoria para seleccionar os puntos que se pasan á rede en cada iteración.
 Mentres que esta estretexia parece suficiente para o rexitro de pulmóns, no caso das imaxes de retina isto non ten porque ser así.
@@ -54,3 +192,13 @@ Así mesmo implementouse un scheduling do batch size, coa intención de utilizar
     \label{fig:sampling_heatmaps}
 \end{figure}
 
+
+Parece que non tén un impacto significativo no rendemento da rede, polo que se decidiu manter a estratexia de mostraxe aleatoria.
+
+\subsection{Inicialización}
+\label{subsec:Inicialización}
+
+É posible que a inicialización da rede sexa un factor mais importante que a estratexia de mostraxe\dots
+
+Implementouse unha lotería de inicialización, onde se utiliza o loss no epoch 0 para determinar a inicialización da rede mais beneficiosa.
+É posible que fore mellor esperar ata un epoch algo mais avanzado para determinar a inicialización, xa que no epoch 0 non hay ningunha seguridade de que non sexa un mínimo local.
