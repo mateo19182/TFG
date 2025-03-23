@@ -13,7 +13,7 @@ definiciones generales?
 O obxetivo do traballo é determinar se as redes implícitas son aptas para a tarefa de rexistro de retinas.
 Aínda tomando o traballo de IDIR como punto de partida, a tarefa de rexistro de retinas é substancialmente diferente á de pulmóns, polo que non podemos asumir que os parámetros utilizados nese caso sexan os óptimos para este.
 
-A principal comparación que estamos a realizar ao longo de todos os experimentos é sobre a función de activación utilizada (SIREN ou ReLU)
+A principal comparación que estamos a realizar ao longo de todos os experimentos é sobre a función de activación utilizada (SIREN ou ReLU).
 Debido ao gran espazo de búsqueda que implica probar todas as configuracións posibles, 
 os experimentos iniciais cetraránse en fixar unha unha seria de parámetros con valores razonables para poder experimentar só con aqueles que podan ter un impacto máis significativo.
 
@@ -26,6 +26,9 @@ probar?
 
 \subsection{Experimentos iniciais}
 \label{subsec:Experimentos iniciais}
+
+Inicialmente tentaremos determinar uns valores aceptables algúns dos parámetros da rede, para poder centrarnos en experimentar con aqueles que teñen un impacto máis significativo posteriormente.
+Isto é relevante xa que moitos destes parámetros son dependentes uns de outros (por exemplo, a resolución utilizada inflúe no tamaño do batch size que se pode utilizar).
 
 \subsubsection{Función de loss}
 \label{subsubsec:Función de loss}
@@ -45,12 +48,10 @@ Entre as funcións de loss valoradas para este traballo, que xa forón explicada
 \end{itemize}
 
 
-Para determinar cal era a mellor función de loss para este traballo, realizáronse experimentos comparando o rendemento de cada unha sobre unha mostra de imaxes ...
-
 \paragraph{Resultados}
 \label{par:Resultados}
 
-... tablas ...
+
 
 \paragraph{Discusión}
 \label{par:Discusión}
@@ -63,7 +64,7 @@ NCC é mais robusta a combios uniformes na intensidade global, mentres que SSIM 
 \paragraph{Conclusións}
 \label{par:Conclusións}
 
-\subsubsection{paragraph}{Resolución da imaxe}
+\subsubsection{Resolución da imaxe}
 \label{subsubsec:Resolución da imaxe}
 
 \paragraph{Planteamento}
@@ -72,24 +73,90 @@ NCC é mais robusta a combios uniformes na intensidade global, mentres que SSIM 
 A resolución da imaxe é un aspecto clave xa que inflúe de forma directa no resto de parámetros da rede.
 Por exemplo, un batch size de 1000 puntos nunha imaxe de 256x256 é unha densidade de puntos moito maior que nunha imaxe de 512x512.
 
-Ademais, a resolución da imaxe tamén inflúe na capacidade da rede para aprender as transformacións, xa que a información que se lle pasa é mais detallada, 
-o cal pode ser beneficioso se estos detalles conteñen información relevante ou perxudicial se conteñen ruido.
+Ademais, a resolución da imaxe tamén inflúe na capacidade da rede para aprender as transformacións, xa que a información que recibe é mais detallada. 
+Isto pode ser beneficioso se estos detalles conteñen información relevante para a tarefa de rexistro, pero tamén podería ser perxudicial se conteñen unha gran parte de ruido.
 
 O tamaño das imaxes tamén é unha das principais diferencias entre as imaxes de retina e as de pulmóns utilizadas orixinalmente por IDIR, tendo estas últimas de 512x512 e as primeiras de ata 2160x2160.
 
-Para determinar cal era a mellor resolución para este traballo, realizáronse experimentos comparando o rendemento de cada unha sobre unha mostra de imaxes ...
+Para determinar cal é a resolución mais adecuada, realizáronse experimentos comparando o rendemento de cada unha sobre unha mostra de imaxes dos datases de FIRE e RFMID.
+Debido a que a rede non é capaz de rexistrar con éxito a gran parte das imaxes, tomaráse a distancia media de todos os puntos como métrica de comparación.
 
 \paragraph{Resultados}
 \label{par:Resultados}
 
+\begin{table}[h]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \begin{tabular}{|c|c|}
+        \hline
+        Resolution & Mean Distance \\ \hline
+        250 & 251.29 \\ \hline
+        750 & 250.62 \\ \hline
+        1250 & 250.59 \\ \hline
+        1708 & 250.59 \\ \hline
+        \end{tabular}
+        \caption{Mean Distances for MLP (FIRE)}
+        \label{tab:mlp_mean_distances_fire}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \begin{tabular}{|c|c|}
+        \hline
+        Resolution & Mean Distance \\ \hline
+        250 & 263.85 \\ \hline
+        750 & 263.19 \\ \hline
+        1250 & 258.56 \\ \hline
+        1708 & 258.06 \\ \hline
+        \end{tabular}
+        \caption{Mean Distances for SIREN (FIRE)}
+        \label{tab:siren_mean_distances_fire}
+    \end{minipage}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \begin{tabular}{|c|c|}
+        \hline
+        Resolution & Mean Distance \\ \hline
+        250 & 36.18 \\ \hline
+        750 & 36.01 \\ \hline
+        1250 & 36.03 \\ \hline
+        1708 & 36.04 \\ \hline
+        \end{tabular}
+        \caption{Mean Distances for MLP (RFMID)}
+        \label{tab:mlp_mean_distances_rfmid}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \begin{tabular}{|c|c|}
+        \hline
+        Resolution & Mean Distance \\ \hline
+        250 & 73.42 \\ \hline
+        750 & 77.55 \\ \hline
+        1250 & 67.33 \\ \hline
+        1708 & 67.31 \\ \hline
+        \end{tabular}
+        \caption{Mean Distances for SIREN (RFMID)}
+        \label{tab:siren_mean_distances_rfmid}
+    \end{minipage}
+\end{table}
+
 \paragraph{Discusión}
 \label{par:Discusión}
+
+Pódese observar como unha maior resolución tende a dar mellores resultados, pero a un custo computacional maior.
 
 \paragraph{Conclusións}
 \label{par:Conclusións}
 
+Poderís ser interesante determinar cal é o punto de inflexión onde o aumento da resolución non compensa o aumento do rendemento.
 
-\subsubsection{paragraph}{Regularización}
+\subsubsection{Regularización}
 \label{subsubsec:Regularización}
 
 \paragraph{Planteamento}
@@ -119,7 +186,7 @@ A cantidade óptima de regularización depende da parexa concreta de imaxes a al
 
 
 
-\subsubsection{paragraph}{Learning rate}
+\subsubsection{Learning rate}
 \label{subsubsec:Learning rate}
 
 \paragraph{Planteamento}
