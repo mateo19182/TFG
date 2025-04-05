@@ -79,6 +79,14 @@ Tamén se divide entre transfomacións de cor e de xeometría.
 
 \dots preguntar David
 
+
+\subsection{Diferencias entre os datasets}
+\label{subsec:Diferencias entre os datasets}
+
+Unha vantaxe de utilizar dous conxutos de datos diferentes é que cada un deles ten características únicas que permiten avaliar o modelo en diferentes contextos.
+A principal diferencia é que RMIFD é un conxunto de datos sintético, no cal non introducimos diferenzas de cor e sempre teñen unha superposición do 100\%, polo que o único que se avalia é a capacidade do modelo para realizar os rexistros xeométricos.
+Polo contrario, FIRE é un conxunto de datos real, no cal existen cambios na iluminación, contraste, superposición e demais diferencias visuais, polo que se avalía a capacidade do modelo para realizar rexistros en condicións moito máis adversas.
+
 \section{Métodos de Avaliación}
 \label{sec:Métodos de Avaliación}
 
@@ -109,6 +117,8 @@ Esta métrica facilita a comparación entre distintos métodos competidores e pe
     \caption{Gráfico de avaliación FIRE, \cite{FIRE}}
     \label{fig:fire_aval}
 \end{figure}
+
+Nalgúns casos, utilizaremos a distancia media entre os puntos correspondentes como métrica adicional para avaliar a calidade do rexistro, xa que a taxa de éxito pode non ser suficiente para detectar os cambios.
 
 \subsection{Avaliación Cualitativa}
 \label{subsec:Avaliación Cualitativa}
