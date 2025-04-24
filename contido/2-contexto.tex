@@ -448,7 +448,8 @@ Tamén propoñen un método para escoller un valor de w apropiado según o probl
 \subsubsection{Termos de loss}
 \label{subsubsec:Termos de loss}
 
-O termo de perda é a función que se optimiza durante o adestramento da rede, e é o que guía a rede cara a unha solución óptima.
+O termo de perda é a función que se optimiza durante o adestramento, e é o que guía a rede cara a unha solución óptima.
+Esta cuantifica a discrepancia entre a saída da rede e o resultado desexado.
 
 Para a tarefa de rexistro de imaxes, utilízanse dúas categorías principais de métricas para avaliar o aliñamento entre imaxes: 
 as métricas baseadas no erro e as métricas baseadas na similitude. As métricas baseadas no erro (MSE, L1...) miden as diferenzas píxel a píxel entre as imaxes, 
@@ -510,11 +511,9 @@ Os principais termos de perda valorados para este traballo son:
 \end{itemize}
 
 Debido á natureza das imaxes de retina, onde poden existir diferencias de iluminación e contraste entre as imaxes fixa e móbil, 
-é mais apropiado empregar métricas baseadas na similitude como NCC ou SSIM.
+parece mais apropiado empregar métricas baseadas na similitude como NCC ou SSIM.
 
-Para este traballo utilízase unha variante de NCC mais computacionalmente eficiente...
-
-Mutual information ?
+NCC utilizouse a implementación de  https://github.com/BDdeVos/TorchIR/blob/main/torchir/metrics.py.
 
 \subsubsection{Termos de regularización}
 \label{subsubsec:Termos de regularización}

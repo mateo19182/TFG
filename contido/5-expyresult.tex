@@ -8,18 +8,15 @@ Finalmente analizar os resultados obtidos en conxunto e as conclusións que se p
 \section{Vista Xeral}
 \label{sec:Vista Xeral}
 
-definiciones generales?
-
 O obxetivo do traballo é determinar se as redes implícitas son aptas para a tarefa de rexistro de retinas.
 Aínda tomando o traballo de IDIR como punto de partida, a tarefa de rexistro de retinas é substancialmente diferente á de pulmóns, polo que non podemos asumir que os parámetros utilizados nese caso sexan os óptimos para este.
 
 A principal comparación que estamos a realizar ao longo de todos os experimentos é sobre a función de activación utilizada (SIREN ou ReLU).
 Debido ao gran espazo de búsqueda que implica probar todas as configuracións posibles, 
-os experimentos iniciais cetraránse en fixar unha unha seria de parámetros con valores razonables para poder experimentar só con aqueles que podan ter un impacto máis significativo.
+os experimentos iniciais cetraránse en fixar unha unha seria de parámetros con valores razoables para poder experimentar só con aqueles que teñan un impacto máis significativo.
 
-Ademais, debido ás diferencias entre as funcións de activación, cada unha require unha configuración diferente para obter os mellores resultados.
-Por exemplo, SIREN tende a requerir de dun learning rate mais baixo que ReLU, presumiblemente debido a unha maior sensibilidade aos valores de inicialización e inesabilidade.
-probar?
+Ademais, debido ás diferencias entre as funcións de activación, é posible que cada unha require unha configuración diferente para obter os mellores resultados.
+Por exemplo, o sesgo que SIREN ten cara sinais de alta frecuencia fará que o proceso de regularización sexa mais relevante para evitar o sobreaxuste.
 
 \section{Experimentos}
 \label{sec:Experimentos}
@@ -29,6 +26,23 @@ probar?
 
 Inicialmente tentaremos determinar uns valores aceptables para varios dos parámetros da rede para experimentar con aqueles que teñen un impacto máis significativo posteriormente.
 Isto é relevante xa que moitos destes parámetros son dependentes uns de outros (por exemplo, a resolución utilizada inflúe no tamaño do batch size).
+
+A menos que especificado de outro xeito, os parámetros utilizados para os experimentos son os seguintes:
+\begin{itemize}
+    \item Función de perda: NCC
+    \item Regularización:
+    \begin{itemize}
+         \item Bending energy penalty: 10.0
+         \item Jacobian regularizer: 0.05
+         \item Hyperelastic regularizer: 0.25
+    \end{itemize}
+    \item Learning rate: 0.0001
+    \item Batch size: 10000 puntos
+    \item Epochs: 1500
+    \item Optimizador: Adam
+    \item Resolución: 1000x1000
+\end{itemize}
+
 
 \subsubsection{Función de loss}
 \label{subsubsec:Función de loss}
@@ -46,7 +60,7 @@ Utilizouse un valor de batch size de 10000 puntos e un learning rate de 0.0001, 
 \paragraph{Resultados}
 \label{par:Resultados}
 
-Os resultados obtidos son os seguintes:
+Os resultados obtidos son os seguintes: \ref{tab:mean_distances}, \ref{fig:loss_functions_comparison}
 
 % \begin{table}[h]
 %     \centering
@@ -92,15 +106,13 @@ Os resultados obtidos son os seguintes:
 \paragraph{Discusión}
 \label{par:Discusión}
 
-Obsérvase como as métricas que teñen en conta a estructura da imaxe (NCC, Ssim) tenden a dar mellores resultados que aquelas que non o fan (MSE, Huber, Smooth L1) co dataset de FIRE, mentres que con RFMID ocurre ó contrario.
+Obsérvase como as métricas que teñen en conta a estructura da imaxe (NCC, SSIM) tenden a dar mellores resultados que aquelas que non o fan (MSE, Huber, Smooth L1) co dataset de FIRE, mentres que con RFMID ocurre ó contrario.
 Isto pode deberse a que as imaxes reais de retina teñen unha maior variabilidade na iluminación e contraste, polo que as métricas que non teñen en conta a estructura da imaxe serán menos robustas a estas diferenzas.
 No caso de RFMID, ao ser imaxes sintéticas, a variabilidade na iluminación e contraste é nula, o que explica os mellores resultados das métricas que non teñen en conta a estructura da imaxe.
 
 NCC é mais robusta a combios uniformes na intensidade global, mentres que SSIM é mais robusta a cambios locais a custo dun maior custo computacional e maior sensibilidade a ruido e o tamaño das seccións.
-SSIM puede que no tenga mucho sentido ya que para calcular el loss se comparan solo los puntos sampleados de la imagen, que no tienen una estructura definida o que aporte mucha información.
-Reconstruir la imagen en cada iteracion era computacionalmente muy costoso.
-\paragraph{Conclusións}
-\label{par:Conclusións}
+O custo engadido provén de que non é posible calcular SSIM an só comparando os puntos mostrados xa que utiliza xanelas deslizantes para evaluar luminancia, contraste e estrutura. 
+Para isto é necesario reconstruir a imaxen en cada iteracion o que ten un alto custo computacional. No caso de non reconstruir a imaxe e utilizar os puntos mostrados directamente, esta métrica funciona igualmente con resultados algo peores, xa que perde toda a súa capacidade de capturar variacións locais de luminancia, contraste e estrutura, o que se tradúce nunha función de perda global sen consideraciós locais.
 
 \paragraph{Conclusións}
 \label{par:Conclusións}
@@ -112,7 +124,7 @@ En base aos resultados obtidos, pódense extraer varias conclusións relevantes:
 3. Obsérvase unha diferenza sistemática entre os modelos Relu e SIREN, sendo os primeiros máis efectivos para o dataset RFMID, mentres que ambos mostran rendementos comparables para FIRE. Isto débese a que Relu tende a producir funcións predominantemente lineares, o que se adapta mellor ás transformacións realizadas no dataset RFMID.
 4. SSIM, a pesar de ser teoricamente robusta a cambios locais, non mostra unha vantaxe significativa sobre NCC.
 
-Considerando estes resultados, empregarase principalmente NCC como función de perda estándar para o dataset FIRE e RFMID.
+A elección de NCC como función de perda estándar baséase tanto na súa robustez empírica coma na súa consistencia co obxectivo clínico: aliñar estructuras vasculares que teñen forma e orientación característica, pero que poden variar en intensidade. 
 
 \subsubsection{Resolución da imaxe}
 \label{subsubsec:Resolución da imaxe}
@@ -126,13 +138,15 @@ Por exemplo, un batch size de 1000 puntos nunha imaxe de 256x256 é unha densida
 Ademais, a resolución da imaxe tamén inflúe na capacidade da rede para aprender as transformacións, xa que a información que recibe é mais detallada. 
 Isto pode ser beneficioso se estos detalles conteñen información relevante para a tarefa de rexistro, pero tamén podería ser perxudicial se conteñen unha gran parte de ruido.
 
-O tamaño das imaxes tamén é unha das principais diferencias entre as imaxes de retina e as de pulmóns utilizadas orixinalmente por IDIR, tendo estas últimas de 512x512 e as primeiras de ata 2160x2160.
+O tamaño das imaxes tamén é unha das principais diferencias entre as imaxes de retina e as de pulmóns utilizadas orixinalmente por IDIR, tendo estas últimas de 512x512 mentres que as imaxes dos ollos contan con resolucións de ata 2160x2160.
 
 Para determinar cal é a resolución mais adecuada, realizáronse experimentos comparando o rendemento de cada unha sobre unha mostra de imaxes dos datases de FIRE e RFMID.
 Debido a que a rede non é capaz de rexistrar con éxito a gran parte das imaxes, tomaráse a distancia media de todos os puntos como métrica de comparación.
 
 \paragraph{Resultados}
 \label{par:Resultados}
+
+\ref{tab:mlp_mean_distances_fire}, \ref{tab:siren_mean_distances_fire}, \ref{tab:mlp_mean_distances_rfmid}, \ref{tab:siren_mean_distances_rfmid}
 
 \begin{table}[h]
     \centering
@@ -141,12 +155,13 @@ Debido a que a rede non é capaz de rexistrar con éxito a gran parte das imaxes
         \begin{tabular}{|c|c|}
         \hline
         Resolution & Mean Distance \\ \hline
+        100 & 254.22 \\ \hline
         250 & 251.29 \\ \hline
         750 & 250.62 \\ \hline
         1250 & 250.59 \\ \hline
         1708 & 249.72 \\ \hline
         \end{tabular}
-        \caption{Mean Distances for Relu (FIRE)}
+        \caption{Distancias medias para o dataset FIRE ca función de activación Relu}
         \label{tab:mlp_mean_distances_fire}
     \end{minipage}
     \hfill
@@ -155,12 +170,13 @@ Debido a que a rede non é capaz de rexistrar con éxito a gran parte das imaxes
         \begin{tabular}{|c|c|}
         \hline
         Resolution & Mean Distance \\ \hline
+        100 & 266.43 \\ \hline
         250 & 263.85 \\ \hline
         750 & 263.19 \\ \hline
         1250 & 258.56 \\ \hline
         1708 & 258.06 \\ \hline
         \end{tabular}
-        \caption{Mean Distances for SIREN (FIRE)}
+        \caption{Distancias medias para o dataset FIRE ca función de activación SIREN}
         \label{tab:siren_mean_distances_fire}
     \end{minipage}
 \end{table}
@@ -172,12 +188,13 @@ Debido a que a rede non é capaz de rexistrar con éxito a gran parte das imaxes
         \begin{tabular}{|c|c|}
         \hline
         Resolution & Mean Distance \\ \hline
+        100 & 37.29 \\ \hline
         250 & 36.18 \\ \hline
         750 & 36.01 \\ \hline
         1250 & 35.03 \\ \hline
         1708 & 35.04 \\ \hline
         \end{tabular}
-        \caption{Mean Distances for MLP (RFMID)}
+        \caption{Distancias medias para o dataset RFMID ca función de activación Relu}
         \label{tab:mlp_mean_distances_rfmid}
     \end{minipage}
     \hfill
@@ -186,12 +203,13 @@ Debido a que a rede non é capaz de rexistrar con éxito a gran parte das imaxes
         \begin{tabular}{|c|c|}
         \hline
         Resolution & Mean Distance \\ \hline
+        100 & 68.12 \\ \hline
         250 & 73.42 \\ \hline
         750 & 77.55 \\ \hline
         1250 & 67.33 \\ \hline
         1708 & 67.31 \\ \hline
         \end{tabular}
-        \caption{Mean Distances for SIREN (RFMID)}
+        \caption{Distancias medias para o dataset RMIFD ca función de activación SIREN}
         \label{tab:siren_mean_distances_rfmid}
     \end{minipage}
 \end{table}
@@ -200,7 +218,8 @@ Debido a que a rede non é capaz de rexistrar con éxito a gran parte das imaxes
 \label{par:Discusión}
 
 Pódese observar como unha maior resolución tende a dar lixeiramente mellores resultados, pero a un custo computacional maior.
-Isto pode deberse mais á precisión ca que se fai a evaluación mais que a unha mellor capacidade da rede para aprender as transformacións.
+Isto pode deberse mais á precisión ca que se fai a evaluación mais que a unha mellor capacidade da rede para aprender as transformacións, xa que as diferencias son moi pequenas e consistentes entre os diferentes parellas de imaxes.
+Isto suxire que a resolución non ten un impacto significativo no rendemento da rede, e que a maioría da información relevante para a tarefa de rexistro xa está capturada en resolucións inferiores.
 
 
 \paragraph{Conclusións}
@@ -208,37 +227,49 @@ Isto pode deberse mais á precisión ca que se fai a evaluación mais que a unha
 
 Baseándonos nos resultados obtidos, podemos concluír que:
 
-1. Resolucións inferiores a 512×512 non capturan suficientes detalles das estruturas vasculares retinianas para realizar un rexistro preciso, especialmente en imaxes reais do dataset FIRE.
+1. Resolucións inferiores a 100×100 non capturan suficientes detalles das estruturas vasculares retinianas para realizar un rexistro preciso, especialmente en imaxes reais do dataset FIRE.
 
-2. Aumentar a resolución por encima de 1250x1250 non só non aporta beneficios significativos, senón que pode prexudicar o rendemento debido ao incremento na complexidade do modelo e á posible introdución de ruído nos detalles máis finos.
+2. Aumentar a resolución por encima de 1250x1250 non aporta beneficios significativos.
 
-3. O comportamento respecto á resolución é consistente para ambos tipos de modelos (Relu e SIREN) e para ambos datasets (FIRE e RFMID), o que suxire que estas conclusións son xeneralizables para diferentes situacións de rexistro de imaxes retinianas.
+3. O comportamento respecto á resolución é consistente para ambos tipos de modelos (Relu e SIREN) e para ambos datasets (FIRE e RFMID), o que suxire que estas conclusións son xeneralizables.
 
 Para os experimentos subseguintes, adoptarase unha resolución estándar de 1000x1000 píxeles, que demostrou proporcionar o mellor rendemento global para a tarefa de rexistro de retinas.
-
-Podería ser interesante determinar cal é o punto de inflexión onde o aumento da resolución non compensa o aumento do rendemento.
 
 \subsubsection{Regularización}
 \label{subsubsec:Regularización}
 
 \paragraph{Planteamento}
 \label{par:Planteamento}
-
 O proceso de regularización axuda a rede a evitar o sobreaxuste, modificando o termo de loss para penalizar as transformacións pouco realistas.
-As técnicas de regularización valoradas para este traballo xa forón explicadas en \ref{subsubsec:Termos de regularización}.
+As técnicas de regularización valoradas, que xa forón explicadas en detalle en \ref{subsubsec:Termos de regularización}, son as seguintes:
 
 \begin{itemize}
-    \item Jacobian regularizer
-    \item Hyperelastic regularizer
-    \item Bending energy penalty
+    \item Regularizador do Jacobiano: penaliza as desviaciones do determinante da matriz Jacobiana respecto a 1, limitando expansións ou compresións locais excesivas.
+    \item Regularizador hiperelástico: engade termos basados na enerxía de deformación, controlando a extensión e a expansión de superficie e garantindo transformacions suaves y difeomórficas.
+    \item Penalización da enerxía de flexión: mide a magnitude das segundas derivadas do campo de deformación, promovendo que a superficie resultante sea o mais realista posible e reduciendo oscilacións de alta frecuencia.
 \end{itemize}
 
-Se os termos de regularización son demasiado grandes, a rede fará transformacións moi pequenas para evitar ser penalizada, o que resulta nunha transformación insuficiente.
-Por outro lado, se os termos son demasiado pequenos, a rede fará transformacións moi grandes, o que resulta nunha transformación irrealista e sobreaxustada.
-A cantidade óptima de regularización depende da parexa concreta de imaxes a alinear, polo que intentaremos determinar cal é a mellor para unha mostra de imaxes ...
+Se os termos de regularización teñen demasiada influencia sobre o termo de loss, a rede fará transformacións moi pequenas para evitar ser penalizada, o que resultará nunha transformación insuficiente.
+Por outro lado, se os termos son demasiado pequenos, a rede fará transformacións moi grandes, o que resulta nunha transformación irrealista e sobreaxustada. Isto é especialmente evidente no caso da función de activación SIREN, que tende a sobreaxustarse facilmente debido ao seu sesgo cara sinais de alta frecuencia.
+A cantidade óptima de regularización depende da parexa concreta de imaxes a alinear, polo que intentaremos determinar cal é a mellor para unha mostra de imaxes.
+
+A regularización tamén ten un impacto significativo no tempo de computación, xa que require múltiples pasadas de retropropagación por época para calcular os distintos termos de penalización.
+Sen regularización só se fai 1 pasada para calcular o gradiente do termo de similitude da imaxe.
+Ca regularización do Jacobiano, ademais do termo de similitude, calcúlanse dúas derivadas (unha por dimensión) para obter o Jacobiano, resultando en 3 pasadas por época.
+Engadindo a regularización hiperelástica (sen termo de volume), é necesario calcular unha derivada adicional para o cofactor da matriz Jacobiana, facendo un total de 4 pasadas por época.
+Finalmente, ca penalización de enerxía de flexión, necesitanse derivadas segundas, o que implica 7 pasadas por época en total.
+Na traballo orixinal de IDIR, chegaban a usar 13 pasadas debido a que traballan en 3D.
+
+Ademais, pese a que os diferentes termos de regularización valoran diferentes aspectos, cabe ter en conta que tamén coinciden nalgunhas das propiedades que valoran.
+Por exemplo, o regularizador hiperelástico pode considerarse un caso mais xeral que inclúe indirectamente penalizaciones de volumen (Jacobian) e de suavidade (parte de la energía de flexión).
+
+Para determinar cal é a regularización óptima, realizáronse experimentos comparando o rendemento de cada unha sobre unha mostra de imaxes dos datases de FIRE e RFMID cas diferentes funcións de activación.
+Destes experimentos obterase un mapa de calor que mostra a distancia media entre os puntos correspondentes para cada combinación de parámetros.
 
 \paragraph{Resultados}
 \label{par:Resultados}
+
+\ref{fig:gs_single_heatmaps}
 
 \begin{figure}[ht]
     \centering
@@ -255,7 +286,7 @@ A cantidade óptima de regularización depende da parexa concreta de imaxes a al
         \label{fig:gs_single_FIRE_SIREN}
     \end{subfigure}
     
-    \vskip\baselineskip
+    \vskip0\baselineskip
     
     \begin{subfigure}[b]{0.45\textwidth}
         \centering
@@ -270,18 +301,17 @@ A cantidade óptima de regularización depende da parexa concreta de imaxes a al
         \label{fig:gs_single_RFMID_SIREN}
     \end{subfigure}
     
-    \caption{Single heatmap grid search results for regularization parameter tuning.}
+    \caption{Mapa de calor cos resultados de diferentes combinacións de termos de regularización e funcións de activación sobre os datasets FIRE e RFMID}
     \label{fig:gs_single_heatmaps}
 \end{figure}
-
 
 \paragraph{Discusión}
 \label{par:Discusión}
 
+Os resultados amosan que a regularización ten un impacto significativo no rendemento da rede.
+
 \paragraph{Conclusións}
 \label{par:Conclusións}
-
-
 
 \subsubsection{Learning rate}
 \label{subsubsec:Learning rate}
@@ -289,11 +319,22 @@ A cantidade óptima de regularización depende da parexa concreta de imaxes a al
 \paragraph{Planteamento}
 \label{par:Planteamento}
 
-Debido á natureza da rede, o batch size utilzado ten unha relación directa co batch size, polo que tentaremos determinar a relación óptima entre ambos.
-Ao igual que os experimentos anteriores, esta norma pode ser diferente para cada función de activación, polo que realizaremos experimentos separados para cada unha.
+O learning rate é un parámetro do optimizador (Adam neste caso) que regula o tamaño dos axustes efectuados aos parámetros do modelo durante cada iteración de actualización. Determina a magnitude do cambio aplicado para minimizar a función de perda, afectando tanto a velocidade de converxencia como a estabilidade do proceso de aprendizaxe.
+Un learning rate demasiado alto pode provocar que a rede diverxa, mentres que un learning rate demasiado baixo pode resultar en converxencia lenta ou quedar atrapado en mínimos locais.
+
+Debido á natureza da rede, o batch size utilzado ten unha relación directa co learning rate, polo que tentaremos determinar a relación óptima entre ambos.
+
+Unha das heurísiticas mais comúns para relacionar o learning rate e o batch size é a regla de escalado linear \cite{goyal2018accuratelargeminibatchsgd}. 
+A regla indica que o learning rate óptimo debe escalarse linearmente co tamaño do batch size. 
+
+Unha forma de explicar isto é, xa que con batches mais grandes temos unha mellor aproximación do gradiente real, é posible utilizar un learning rate maior sen que a rede diverxa.
+
+Para determinar cal é o learning rate óptimo, realizáronse experimentos comparando o rendemento de cada un sobre unha mostra de imaxes dos datases de FIRE e RFMID cas diferentes funcións de activación.
 
 \paragraph{Resultados}
 \label{par:Resultados}
+
+\ref{fig:grid_search_lr}, \ref{fig:e_heatmap_MLP_RFMID}
 
 \begin{figure}[ht]
     \centering
@@ -318,10 +359,9 @@ Ao igual que os experimentos anteriores, esta norma pode ser diferente para cada
         \caption{RFMID - Relu}
         \label{fig:grid_search_lr_RFMID_MLP}
     \end{subfigure}
-    \caption{Reusltados lr cos datasets FIRE e RFMID, empregando funcións de activación SIREN e Relu.}
+    \caption{Reusltados lr cos datasets FIRE e RFMID cas funcións de activación SIREN e Relu.}
     \label{fig:grid_search_lr}
 \end{figure}
-
 
 \begin{figure}[ht]
     \centering
@@ -333,17 +373,14 @@ Ao igual que os experimentos anteriores, esta norma pode ser diferente para cada
 \paragraph{Discusión}
 \label{par:Discusión}
 
-Unha das heurísiticas mais comúns para relacionar o learning rate e o batch size é a regla de escalado linear \cite{goyal2018accuratelargeminibatchsgd}. 
-A regla indica que o learning rate óptimo debe escalarse linearmente co tamaño do batch size. 
+Valores de learning rate moi altos (0.001 and 0.005) son contraproducentes, xa que a rede diverxe rapidamente.
 
-Unha forma de explicar isto é, xa que con batches mais grandes temos unha mellor aproximación do gradiente real, é posible utilizar un learning rate maior sen que a rede diverxa.
+A dependencia entre o learning rate e o batch size confirmase. Xeralmente un learning rate baixo (1.0e-05, 1.0e-06) parece requerir de batch sizes maiores e viceversa, o cal é consistente co que se esperaba.
 
+Tamén observase que batch sizes maiores tenden a dar mellores resultados.
 
 \paragraph{Conclusións}
 \label{par:Conclusións}
-
-
-
 
 \subsection{Batch size}
 \label{subsec:Batch size}
@@ -362,7 +399,7 @@ Esta é unha xeralización da distancia euclidiana aplicada a matrices, desta fo
 \label{par:Resultados}
 
 
-\begin{figure}[ht]
+\begin{figure}[ht] 
     \centering
     \includegraphics[width=0.8\textwidth]{imaxes/experiment_plot_RFMID_MLP_1e-05.png}
     \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes do dataset RFMID ca función de activación ReLU}
@@ -396,11 +433,19 @@ Esta aproximación estaba errada, \dots
 
 Posteriormente probouse unha estratexia de mostraxe uniforme, onde se seleccionan un número fixo de puntos en cada imaxe, independentemente da información que conteña.
 É unha estratexia similar ao mostraxe aleatorio, pero garantindo que se cubre a maior parte posible da imaxe. Isto é relevante en experimentos con batch sizes pequenos onde unha mostraxe aleatoria non ten por que cubrir toda a imaxe.
-Para implementalo useouse \dots 
-Fibonacci lattice points in polar form place points on a circle by assigning each point a radius (sqrt i / N) and an angle (2πi / φ²)
+Para implementalo empregouse unha distribución baseada na grella de Fibonacci (Fibonacci lattice), que permite repartir os puntos de maneira uniforme sobre a superficie circular da retina. 
+A posición de cada punto calcúlase en coordenadas polares, asignando a cada punto un radio proporcional á raíz cadrada do seu índice dividido polo número total de puntos, e un ángulo proporcional ao índice multiplicado por $2\pi$ e dividido polo cadrado do número áureo ($\varphi^2$):
+
+\[
+r_i = \sqrt{\frac{i}{N}}, \quad \theta_i = 2\pi \frac{i}{\varphi^2}
+\]
+
+onde $i$ é o índice do punto ($i = 1, \dots, N$), $N$ é o número total de puntos e $\varphi$ é o número áureo. 
+Deste xeito, conséguese unha cobertura uniforme e eficiente da rexión de interese, evitando agrupamentos ou zonas baleiras.
 
 Así mesmo implementouse un scheduling do batch size, coa intención de utilizar poucos puntos inicialmente para que a rede aprenda unha transformación global a grandes rasgos, e aumentar o número de puntos conforme avanzase o entrenamento para que a rede aprenda as transformación locais.
 A estratexia de mostraxe uniforme é a mais axeitada para este caso, especialmente cando se utiliza un batch size pequeno.
+O learning rate modificaráse de forma proporcional para manter a relación entre ambos.
 
 \begin{figure}[]
     \centering
@@ -456,7 +501,6 @@ Tamén variando o learning rate.
     \label{fig:sampling_comparison_SIREN}
 \end{figure}
 
-Falar da implementación de cada tipo...
 
 
 \paragraph{Discusión}
