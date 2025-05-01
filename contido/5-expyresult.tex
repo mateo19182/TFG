@@ -9,11 +9,11 @@ Finalmente analizar os resultados obtidos en conxunto e as conclusións que se p
 \label{sec:Vista Xeral}
 
 O obxetivo do traballo é determinar se as redes implícitas son aptas para a tarefa de rexistro de retinas.
-Aínda tomando o traballo de IDIR como punto de partida, a tarefa de rexistro de retinas é substancialmente diferente á de pulmóns, polo que non podemos asumir que os parámetros utilizados nese caso sexan os óptimos para este.
+Aínda que partimos do traballo de IDIR, a tarefa de rexistro de retinas presenta diferenzas importantes respecto ao rexistro de pulmóns. Por este motivo, non podemos asumir que os parámetros óptimos para pulmóns sexan tamén os mellores para retinas.
 
-A principal comparación que estamos a realizar ao longo de todos os experimentos é sobre a función de activación utilizada (SIREN ou ReLU).
+Ao longo dos experimentos, a comparación principal céntrase na función de activación empregada (SIREN ou ReLU).
 Debido ao gran espazo de búsqueda que implica probar todas as configuracións posibles, 
-os experimentos iniciais cetraránse en fixar unha unha seria de parámetros con valores razoables para poder experimentar só con aqueles que teñan un impacto máis significativo.
+os experimentos iniciais centraránse en fixar unha unha seria de parámetros con valores razoables para poder experimentar só con aqueles que teñan un impacto máis significativo.
 
 Ademais, debido ás diferencias entre as funcións de activación, é posible que cada unha require unha configuración diferente para obter os mellores resultados.
 Por exemplo, o sesgo que SIREN ten cara sinais de alta frecuencia fará que o proceso de regularización sexa mais relevante para evitar o sobreaxuste.
@@ -24,8 +24,8 @@ Por exemplo, o sesgo que SIREN ten cara sinais de alta frecuencia fará que o pr
 \subsection{Experimentos iniciais}
 \label{subsec:Experimentos iniciais}
 
-Inicialmente tentaremos determinar uns valores aceptables para varios dos parámetros da rede para experimentar con aqueles que teñen un impacto máis significativo posteriormente.
-Isto é relevante xa que moitos destes parámetros son dependentes uns de outros (por exemplo, a resolución utilizada inflúe no tamaño do batch size).
+Inicialmente tentaremos determinar uns valores aceptables para varios dos parámetros da rede.
+Isto é relevante xa que moitos destes parámetros son dependentes uns de outros.
 
 A menos que especificado de outro xeito, os parámetros utilizados para os experimentos son os seguintes:
 \begin{itemize}
@@ -55,7 +55,6 @@ As funcións de perda valoradas para este traballo xa forón explicadas en \ref{
 
 Para determinar cal é a función de perda mais adecuada para a tarefa de rexistro de retinas, realizáronse experimentos comparando o rendemento de cada unha sobre unha mostra de imaxes dos datases de FIRE e RFMID.
 Xa que a rede non é capaz de rexistrar con éxito a gran parte das imaxes, tomaráse a distancia media de todos os puntos como métrica de comparación.
-Utilizouse un valor de batch size de 10000 puntos e un learning rate de 0.0001, ao longo de 1500 epochs con regularización de bending e hyper con valores de 50 e 0.25 respectivamente.
 
 \paragraph{Resultados}
 \label{par:Resultados}
@@ -110,9 +109,10 @@ Obsérvase como as métricas que teñen en conta a estructura da imaxe (NCC, SSI
 Isto pode deberse a que as imaxes reais de retina teñen unha maior variabilidade na iluminación e contraste, polo que as métricas que non teñen en conta a estructura da imaxe serán menos robustas a estas diferenzas.
 No caso de RFMID, ao ser imaxes sintéticas, a variabilidade na iluminación e contraste é nula, o que explica os mellores resultados das métricas que non teñen en conta a estructura da imaxe.
 
-NCC é mais robusta a combios uniformes na intensidade global, mentres que SSIM é mais robusta a cambios locais a custo dun maior custo computacional e maior sensibilidade a ruido e o tamaño das seccións.
-O custo engadido provén de que non é posible calcular SSIM an só comparando os puntos mostrados xa que utiliza xanelas deslizantes para evaluar luminancia, contraste e estrutura. 
-Para isto é necesario reconstruir a imaxen en cada iteracion o que ten un alto custo computacional. No caso de non reconstruir a imaxe e utilizar os puntos mostrados directamente, esta métrica funciona igualmente con resultados algo peores, xa que perde toda a súa capacidade de capturar variacións locais de luminancia, contraste e estrutura, o que se tradúce nunha función de perda global sen consideraciós locais.
+NCC tende a ser mais robusta a combios uniformes na intensidade global, mentres que SSIM tende a ser mellor con cambios locais.
+SSIM tamén é menos robusta ao ruído, sensible o tamaño das seccións utilizadas e computacionalmente mais costosa. Ademais, ten outro custo engadido xa que non é posible calcular SSIM tan só comparando os puntos mostrados xa que utiliza xanelas deslizantes para evaluar luminancia, contraste e estrutura. 
+Para utilizala é necesario reconstruir a imaxen en cada iteracion o que ten un alto custo computacional.
+No caso de non reconstruir a imaxe e utilizar os puntos mostrados directamente, esta métrica funciona igualmente mais con resultados lixeiramente peores, xa que perde toda a súa capacidade de capturar variacións locais de luminancia, contraste e estrutura, o que se tradúce nunha función de perda global sen consideraciós locais.
 
 \paragraph{Conclusións}
 \label{par:Conclusións}
@@ -124,7 +124,7 @@ En base aos resultados obtidos, pódense extraer varias conclusións relevantes:
 3. Obsérvase unha diferenza sistemática entre os modelos Relu e SIREN, sendo os primeiros máis efectivos para o dataset RFMID, mentres que ambos mostran rendementos comparables para FIRE. Isto débese a que Relu tende a producir funcións predominantemente lineares, o que se adapta mellor ás transformacións realizadas no dataset RFMID.
 4. SSIM, a pesar de ser teoricamente robusta a cambios locais, non mostra unha vantaxe significativa sobre NCC.
 
-A elección de NCC como función de perda estándar baséase tanto na súa robustez empírica coma na súa consistencia co obxectivo clínico: aliñar estructuras vasculares que teñen forma e orientación característica, pero que poden variar en intensidade. 
+A elección de NCC como función de perda estándar baséase tanto na súa robustez empírica coma na súa consistencia co obxectivo de alinear imaxes reais de retina, onde a variabilidade en iluminación e contraste é un factor importante.
 
 \subsubsection{Resolución da imaxe}
 \label{subsubsec:Resolución da imaxe}
@@ -392,24 +392,73 @@ Ao longo dos experimentos realizados, o análisis cualitativo revelou que o batc
 Unha vez determinados uns valores aceptables nos parámetros anteriores, realizáronse experimentos para determinar cal era o batch size óptimo.
 
 Neste caso dividimos o conxunto de datos de RFMID en varios subconxuntos según a dificultade da transformación, medida mediante a norma de Frobenius.
-Esta é unha xeralización da distancia euclidiana aplicada a matrices, desta forma as imaxes con transformacións mais grandes considéranse mais difíciles.
+A norma de Frobenius dunha matriz $A \in \mathbb{R}^{m \times n}$ defínese como:
 
+\[
+\|A\|_F = \sqrt{\sum_{i=1}^{m} \sum_{j=1}^{n} |a_{ij}|^2}
+\]
+
+onde $a_{ij}$ son os elementos da matriz $A$.
+Esta é unha xeralización da distancia euclidiana aplicada a matrices, onde as imaxes con transformacións mais grandes considéranse mais difíciles.
+
+Desta forma podemos comparar o rendemento da rede en diferentes subconxuntos de imaxes, e determinar se o rendemento da rede é consistente entre eles.
+Ademais, xa que a rede si que é capaz de rexistrar correctamente as imaxes dos subconxuntos mais sinxelos, utilizaremos a métrica de FIRE para medir o pocentaxe de imaxes rexistradas correctamente.
 
 \paragraph{Resultados}
 \label{par:Resultados}
 
+\ref{fig:batch_size_comparison_relu_1e-5}, \ref{fig:batch_size_comparison_relu_5e-5}, \ref{fig:batch_size_comparison_relu_1e-4}
+\ref{fig:batch_size_comparison_siren_1e-4}, \ref{fig:batch_size_comparison_siren_1e-5}, \ref{fig:batch_size_comparison_siren_5e-5}
 
 \begin{figure}[ht] 
     \centering
-    \includegraphics[width=0.8\textwidth]{imaxes/experiment_plot_RFMID_MLP_1e-05.png}
-    \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes do dataset RFMID ca función de activación ReLU}
-    \label{fig:batch_size_comparison_relu}
+    \includegraphics[width=0.8\textwidth]{imaxes/batchsize/experiment_plot_RFMID_MLP_1e-05.png}
+    \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes do dataset RFMID ca función de activación ReLU (learning rate = 1e-5)}
+    \label{fig:batch_size_comparison_relu_1e-5}
 \end{figure}
+
+\begin{figure}[ht] 
+    \centering
+    \includegraphics[width=0.8\textwidth]{imaxes/batchsize/experiment_plot_RFMID_MLP_5e-05.png}
+    \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes do dataset RFMID ca función de activación ReLU (learning rate = 5e-5)}
+    \label{fig:batch_size_comparison_relu_5e-5}
+\end{figure}
+
+\begin{figure}[ht] 
+    \centering
+    \includegraphics[width=0.8\textwidth]{imaxes/batchsize/experiment_plot_RFMID_MLP_0.0001.png}
+    \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes do dataset RFMID ca función de activación ReLU (learning rate = 1e-4)}
+    \label{fig:batch_size_comparison_relu_1e-4}
+\end{figure}
+
+\begin{figure}[ht] 
+    \centering
+    \includegraphics[width=0.8\textwidth]{imaxes/batchsize/experiment_plot_RFMID_SIREN_1e-05.png}
+    \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes do dataset RFMID ca función de activación SIREN (learning rate = 1e-5)}
+    \label{fig:batch_size_comparison_siren_1e-5}
+\end{figure}
+
+\begin{figure}[ht] 
+    \centering
+    \includegraphics[width=0.8\textwidth]{imaxes/batchsize/experiment_plot_RFMID_SIREN_5e-05.png}
+    \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes do dataset RFMID ca función de activación SIREN (learning rate = 5e-5)}
+    \label{fig:batch_size_comparison_siren_5e-5}
+\end{figure}
+
+\begin{figure}[ht] 
+    \centering
+    \includegraphics[width=0.8\textwidth]{imaxes/batchsize/experiment_plot_RFMID_SIREN_0.0001.png}
+    \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes do dataset RFMID ca función de activación SIREN (learning rate = 1e-4)}
+    \label{fig:batch_size_comparison_siren_1e-4}
+\end{figure}
+
 
 \paragraph{Discusión}
 \label{par:Discusión}
 
-Obsérvase que un maior batch size tende a dar mellores resultados, pero a un custo computacional maior. 
+Obsérvase que as redes ca función de activación ReLU tenden a ter un rendemento moito mellor que as ca función de activación SIREN. Isto pode explicarse xa que as deformacións artificiais que se aplican nas imaxes do dataset RFMID son lineais, e a función de activación ReLU é adecuada para este tipo de transformacións.
+
+Tamén parece que o batch size é relevante, especialmente o cambio entre 1000 e 10000, mentres que batch sizes maiores (50000, 100000) non parecen ter tanto impacto, aínda que si un maior custo computacional.
 
 \paragraph{Conclusións}
 \label{par:Conclusións}
@@ -421,18 +470,18 @@ Interesa determinar cal é o punto de inflexión onde o aumento do batch size no
 
 Orixinalmente IDIR utiliza unha estratexia de mostraxe aleatoria para seleccionar os puntos que se pasan á rede en cada iteración.
 Mentres que esta estratexia parece suficiente para o rexitro de pulmóns, no caso das imaxes de retina isto non ten porque ser así.
-Isto débese a que as imaxes de retina teñen seccións con moita mais información que outras, frente os CTs de pulmóns onde o sinal é mais uniforme.
-Ademais, as retinografías teñen desprazamentos moito maiores e menor superposición entre cada parella. 
+Isto débese a que as imaxes de retina conteñen seccións con moita mais información que outras, frente os CTs de pulmóns onde o sinal é mais uniforme.
+Por exemplo, as seccións que conteñen vasos sanguíneos ou o disco óptico probablemente teñan mais información relevante para a tarefa de rexistro, frente outras seccións como o fondo da retina.
+Ademais, as retinografías teñen desprazamentos moito maiores e menor superposición entre cada parella, polo que a rede ten que aprender transformacións mais complexas.
 
 \paragraph{Planteamento}
 \label{par:Planteamento}
 
 Para solucionar isto, propúxose unha estratexia de mostraxe mais intellixente, onde se calcula unha máscara de probabilidade para cada imaxe, que se utiliza para seleccionar os puntos que se pasan á rede.
 Para calcular esta máscara, extráense mediante operadores de Sobel os vasos sanguíneos e mediante umbralización o disco óptico, que son as zonas onde se espera que haxa máis información, e dáselles maiores probabilidades de ser seleccionadas.
-Esta aproximación estaba errada, \dots
 
-Posteriormente probouse unha estratexia de mostraxe uniforme, onde se seleccionan un número fixo de puntos en cada imaxe, independentemente da información que conteña.
-É unha estratexia similar ao mostraxe aleatorio, pero garantindo que se cubre a maior parte posible da imaxe. Isto é relevante en experimentos con batch sizes pequenos onde unha mostraxe aleatoria non ten por que cubrir toda a imaxe.
+Posteriormente tamén se introducíu unha estratexia de mostraxe uniforme, onde se seleccionan un número fixo de puntos en cada imaxe.
+É unha estratexia similar ao mostraxe aleatorio, pero garantindo que se cubre a maior parte posible da imaxe. Isto é relevante en experimentos con batch sizes pequenos onde unha mostraxe aleatoria non ten por que cubrir toda a imaxe de forma uniforme.
 Para implementalo empregouse unha distribución baseada na grella de Fibonacci (Fibonacci lattice), que permite repartir os puntos de maneira uniforme sobre a superficie circular da retina. 
 A posición de cada punto calcúlase en coordenadas polares, asignando a cada punto un radio proporcional á raíz cadrada do seu índice dividido polo número total de puntos, e un ángulo proporcional ao índice multiplicado por $2\pi$ e dividido polo cadrado do número áureo ($\varphi^2$):
 
@@ -443,29 +492,31 @@ r_i = \sqrt{\frac{i}{N}}, \quad \theta_i = 2\pi \frac{i}{\varphi^2}
 onde $i$ é o índice do punto ($i = 1, \dots, N$), $N$ é o número total de puntos e $\varphi$ é o número áureo. 
 Deste xeito, conséguese unha cobertura uniforme e eficiente da rexión de interese, evitando agrupamentos ou zonas baleiras.
 
-Así mesmo implementouse un scheduling do batch size, coa intención de utilizar poucos puntos inicialmente para que a rede aprenda unha transformación global a grandes rasgos, e aumentar o número de puntos conforme avanzase o entrenamento para que a rede aprenda as transformación locais.
+Así mesmo implementouse un scheduling do batch size, ca idea de utilizar un batch size pequeno nos epochs iniciais para que a rede aprenda unha transformación global a grandes rasgos, e aumentar o número de puntos conforme avanza o entrenamento para que a rede aprenda as transformación locais.
 A estratexia de mostraxe uniforme é a mais axeitada para este caso, especialmente cando se utiliza un batch size pequeno.
 O learning rate modificaráse de forma proporcional para manter a relación entre ambos.
+
+Na figura \ref{fig:sampling_heatmaps} pódense observar os diferentes tipos de mostraxe utilizados.
 
 \begin{figure}[]
     \centering
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{imaxes/random_sampling_heatmap.png}
+        \includegraphics[width=\textwidth]{imaxes/muestraje/random_sampling_heatmap.png}
         \caption{Heatmap de mostraxe aleatorio}
         \label{fig:random_sampling_heatmap}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{imaxes/weighted_sampling_heatmap.png}
+        \includegraphics[width=\textwidth]{imaxes/muestraje/weighted_sampling_heatmap.png}
         \caption{Heatmap de mostraxe con peso}
         \label{fig:weighted_sampling_heatmap}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{imaxes/uniform_sampling_heatmap.png}
+        \includegraphics[width=\textwidth]{imaxes/muestraje/uniform_sampling_heatmap.png}
         \caption{Heatmap de mostraxe uniforme (100 puntos)}
         \label{fig:uniform_sampling_heatmap}
     \end{subfigure}
@@ -477,26 +528,35 @@ O learning rate modificaráse de forma proporcional para manter a relación entr
 \paragraph{Resultados}
 \label{par:Resultados}
 
-
+\ref{fig:sampling_comparison}
+\ref{fig:fire_samplingtype}
+\ref{fig:sampling_comparison_relu}
+\ref{fig:sampling_comparison_SIREN}
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{imaxes/RFMID_both__comp_sampling.png}
+    \includegraphics[width=0.8\textwidth]{imaxes/muestraje/RFMID_both__comp_sampling.png}
     \caption{Comparación das diferentes estratexias de mostraxe sobre imaxes do dataset RFMID}
     \label{fig:sampling_comparison}
 \end{figure}
 
-Tamén variando o learning rate.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imaxes/muestraje/fire_samplingtype.png}
+    \caption{Comparación das diferentes estratexias de mostraxe sobre imaxes do dataset FIRE}
+    \label{fig:fire_samplingtype}
+\end{figure}
+
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{imaxes/experiment_plot_RFMID_MLP_RvsU.png}
+    \includegraphics[width=0.8\textwidth]{imaxes/muestraje/experiment_plot_RFMID_MLP_RvsU.png}
     \caption{Comparación das diferentes estratexias de mostraxe sobre imaxes do dataset RFMID ca función de activación RELU}
     \label{fig:sampling_comparison_relu}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{imaxes/experiment_plot_RFMID_SIREN_RvsU.png}
+    \includegraphics[width=0.8\textwidth]{imaxes/muestraje/experiment_plot_RFMID_SIREN_RvsU.png}
     \caption{Comparación das diferentes estratexias de mostraxe sobre imaxes do dataset RFMID ca función de activación SIREN}
     \label{fig:sampling_comparison_SIREN}
 \end{figure}
@@ -506,8 +566,9 @@ Tamén variando o learning rate.
 \paragraph{Discusión}
 \label{par:Discusión}
 
-A hipótese inicial era que a estratexia de mostraxe con peso sería a mais axeitada, xa que se seleccionan máis puntos nas zonas onde se espera que haxa máis información.
-Non obstante, os resultados 
+A hipótese da estratexia de mostraxe intellixente non parece ser a mais axeitada, con resultados peores ca estratexia aleatoria. 
+A estratexia uniforme tampouco parece ser a mais adecuada, xa que non se obtén resultados significativamente mellores ca a aleatoria.
+
 
 \paragraph{Conclusións}
 \label{par:Conclusións}
@@ -519,3 +580,18 @@ Non obstante, os resultados
 
 Implementouse unha lotería de inicialización, onde se utiliza o loss no epoch 0 para determinar a inicialización da rede mais beneficiosa.
 É posible que fore mellor esperar ata un epoch algo mais avanzado para determinar a inicialización, xa que no epoch 0 non hay ningunha seguridade de que non sexa un mínimo local.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imaxes/lottery/initial_deformations_combinedMLP.png}
+    \caption{Exemplos das diferentes inicializacións ca función de activación RELU}
+    \label{fig:lottery_initial_deformations_combinedMLP}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imaxes/lottery/initial_deformations_combinedSIREN.png}
+    \caption{Exemplos das diferentes inicializacións ca función de activación SIREN}
+    \label{fig:lottery_initial_deformations_combinedSIREN}
+\end{figure}
+
