@@ -123,9 +123,6 @@ principalmente debido á importancia da precisión e a robustez en imaxe médica
 \subsubsection{Métodos clásicos}
 \label{subsubsec:Métodos clásicos}
 
-Pese á gran cantidade de avances que está a ocorren no campo do aprendizaxe profunda, os métodos clásicos de rexistro de imaxes seguen a ser o estado da arte na maioría de casos, 
-principalmente debido á importancia da precisión e a robustez en imaxe médica. \cite{}
-
 Tradicionalmente impregáronse métodos iterativos baseádos na extracción de características 
 seguido dun proceso de optimización entre cada par de imaxes. 
 Isto require recoñecer as características de interese en cada imaxe e utilizar unha métrica de similitude 
@@ -167,7 +164,7 @@ No proceso de extracción de características destacan algoritmos de SIFT \cite{
 
 Para encontrar a correspondencia entre os puntos característicos das imaxes, empreganse algoritmos como RANSAC \cite{ransac} ou FLANN \cite{flann}.
 
-Tamén existen múltiples programas que facilitan o rexistro de imaxes, como \cite{simpleitk}, Elastix \cite{elastix} ou ANTs \cite{ants}.
+Tamén existen múltiples programas que facilitan o rexistro de imaxes, como SimpleITK \cite{simpleitk}, Elastix \cite{elastix} ou ANTs \cite{ants}.
 
 
 \subsubsection{Métodos de aprendizaxe profunda}
@@ -197,7 +194,7 @@ Existe un gran interés polos métodos baseados en aprendizaxe profundo, como se
 \begin{figure}[hp!]
     \centering
     \includegraphics[width=0.8\textwidth]{imaxes/methods_comp.png}
-    \caption{Comparación de pubicacións ó longo do tempo que relacionadas co rexistro de imaxes. Datos extraídos de \cite{scopus}, realizando as consultas: "TITLE-ABS-KEY(image AND registration) AND NOT(deep AND learning)" e "TITLE-ABS-KEY(image AND registration) AND (deep AND learning)"}
+    \caption{Comparación de pubicacións ó longo do tempo que relacionadas co rexistro de imaxes. Datos extraídos de Scopus \cite{scopus}, realizando as consultas: "TITLE-ABS-KEY(image AND registration) AND NOT(deep AND learning)" e "TITLE-ABS-KEY(image AND registration) AND (deep AND learning)"}
     \label{fig:method_comp}
 \end{figure}
 
@@ -325,14 +322,13 @@ Mais especificamente, en \cite{teleoperatdrob} utilizan este tipo de representac
 Con este método, evítase a reconstrución de mallas a partir de imaxes, que é un proceso costoso e imperfecto, e modélase mediante unha INR a partir dos datos médicos dispoñibles.
 Os comandos de movemento da man do operador son tomados como entrada polo modelo, que logo de un proceso de optimización, xera unha secuencia de movementos libre de colisións que será enviada á man robótica.
 
-Coin [18] compress an image by storing the
-weights of a neural field overfitted to it.
+Outro uso interesante das representacións neuronais implícitas é a compresión de imaxes. COIN \cite{coin} converter os datos en representacións neuronais implícitas, funcións que mapean coordenadas a valores RGB, logrando unha compresión eficiente e unha redución significativa do tempo de codificación en moitas modalidades.
 
-\cite{velikova2024implicitneuralrepresentationsbreathingcompensated} and  casos de uso interesantes.
+\cite{velikova2024implicitneuralrepresentationsbreathingcompensated} ten outros casos de uso interesantes.
 
 Tamén se empregan en segmentación, compresión e síntesis de imaxes.
 
- No caso do aliñamento de imaxes, buscase optimizar a función que mapea cada localización da imaxe fixa a unha localización da móbil.
+No caso do aliñamento de imaxes, buscase optimizar a función que mapea cada localización da imaxe fixa a unha localización da móbil.
 
 \section{IDIR}
 \label{sec:IDIR}

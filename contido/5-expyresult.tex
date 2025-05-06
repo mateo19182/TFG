@@ -48,7 +48,7 @@ A menos que especificado de outro xeito, os parámetros utilizados para os exper
 \label{subsubsec:Función de loss}
 
 \paragraph{Planteamento}
-\label{par:Planteamento}
+\label{par:Planteamento-loss}
 
 A función de loss é un dos aspectos máis importantes á hora de entrenar unha rede neuronal.
 As funcións de perda valoradas para este traballo xa forón explicadas en \ref{subsubsec:Termos de loss}.
@@ -57,7 +57,7 @@ Para determinar cal é a función de perda mais adecuada para a tarefa de rexist
 Xa que a rede non é capaz de rexistrar con éxito a gran parte das imaxes, tomaráse a distancia media de todos os puntos como métrica de comparación.
 
 \paragraph{Resultados}
-\label{par:Resultados}
+\label{par:Resultados-loss}
 
 Os resultados obtidos son os seguintes: \ref{tab:mean_distances}, \ref{fig:loss_functions_comparison}
 
@@ -76,7 +76,7 @@ Os resultados obtidos son os seguintes: \ref{tab:mean_distances}, \ref{fig:loss_
 % \end{table}
 
 
-\begin{table}[h]
+\begin{table}[ht]
     \centering
     \begin{tabular}{|l|cc|cc|}
     \hline
@@ -93,7 +93,7 @@ Os resultados obtidos son os seguintes: \ref{tab:mean_distances}, \ref{fig:loss_
     \label{tab:mean_distances}
 \end{table}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.75\textwidth]{imaxes/losstype.png}
     \caption{Comparación de diferentes funcións de perda sobre imaxes de FIRE e RFMID}
@@ -103,7 +103,7 @@ Os resultados obtidos son os seguintes: \ref{tab:mean_distances}, \ref{fig:loss_
 
 
 \paragraph{Discusión}
-\label{par:Discusión}
+\label{par:Discusion-loss}
 
 Obsérvase como as métricas que teñen en conta a estructura da imaxe (NCC, SSIM) tenden a dar mellores resultados que aquelas que non o fan (MSE, Huber, Smooth L1) co dataset de FIRE, mentres que con RFMID ocurre ó contrario.
 Isto pode deberse a que as imaxes reais de retina teñen unha maior variabilidade na iluminación e contraste, polo que as métricas que non teñen en conta a estructura da imaxe serán menos robustas a estas diferenzas.
@@ -115,7 +115,7 @@ Para utilizala é necesario reconstruir a imaxen en cada iteracion o que ten un 
 No caso de non reconstruir a imaxe e utilizar os puntos mostrados directamente, esta métrica funciona igualmente mais con resultados lixeiramente peores, xa que perde toda a súa capacidade de capturar variacións locais de luminancia, contraste e estrutura, o que se tradúce nunha función de perda global sen consideraciós locais.
 
 \paragraph{Conclusións}
-\label{par:Conclusións}
+\label{par:Conclusions-loss}
 
 En base aos resultados obtidos, pódense extraer varias conclusións relevantes:
 
@@ -130,7 +130,7 @@ A elección de NCC como función de perda estándar baséase tanto na súa robus
 \label{subsubsec:Resolución da imaxe}
 
 \paragraph{Planteamento}
-\label{par:Planteamento}
+\label{par:Planteamento-resolution}
 
 A resolución da imaxe é un aspecto clave xa que inflúe de forma directa no resto de parámetros da rede.
 Por exemplo, un batch size de 1000 puntos nunha imaxe de 256x256 é unha densidade de puntos moito maior que nunha imaxe de 512x512.
@@ -144,11 +144,11 @@ Para determinar cal é a resolución mais adecuada, realizáronse experimentos c
 Debido a que a rede non é capaz de rexistrar con éxito a gran parte das imaxes, tomaráse a distancia media de todos os puntos como métrica de comparación.
 
 \paragraph{Resultados}
-\label{par:Resultados}
+\label{par:Resultados-resolution}
 
 \ref{tab:mlp_mean_distances_fire}, \ref{tab:siren_mean_distances_fire}, \ref{tab:mlp_mean_distances_rfmid}, \ref{tab:siren_mean_distances_rfmid}
 
-\begin{table}[h]
+\begin{table}[h]]
     \centering
     \begin{minipage}[t]{0.45\linewidth}
         \centering
@@ -215,7 +215,7 @@ Debido a que a rede non é capaz de rexistrar con éxito a gran parte das imaxes
 \end{table}
 
 \paragraph{Discusión}
-\label{par:Discusión}
+\label{par:Discusion-resolution}
 
 Pódese observar como unha maior resolución tende a dar lixeiramente mellores resultados, pero a un custo computacional maior.
 Isto pode deberse mais á precisión ca que se fai a evaluación mais que a unha mellor capacidade da rede para aprender as transformacións, xa que as diferencias son moi pequenas e consistentes entre os diferentes parellas de imaxes.
@@ -223,7 +223,7 @@ Isto suxire que a resolución non ten un impacto significativo no rendemento da 
 
 
 \paragraph{Conclusións}
-\label{par:Conclusións}
+\label{par:Conclusions-resolution}
 
 Baseándonos nos resultados obtidos, podemos concluír que:
 
@@ -239,7 +239,7 @@ Para os experimentos subseguintes, adoptarase unha resolución estándar de 1000
 \label{subsubsec:Regularización}
 
 \paragraph{Planteamento}
-\label{par:Planteamento}
+\label{par:Planteamento-regularization}
 O proceso de regularización axuda a rede a evitar o sobreaxuste, modificando o termo de loss para penalizar as transformacións pouco realistas.
 As técnicas de regularización valoradas, que xa forón explicadas en detalle en \ref{subsubsec:Termos de regularización}, son as seguintes:
 
@@ -267,7 +267,7 @@ Para determinar cal é a regularización óptima, realizáronse experimentos com
 Destes experimentos obterase un mapa de calor que mostra a distancia media entre os puntos correspondentes para cada combinación de parámetros.
 
 \paragraph{Resultados}
-\label{par:Resultados}
+\label{par:Resultados-regularization}
 
 \ref{fig:gs_single_heatmaps}
 
@@ -306,18 +306,18 @@ Destes experimentos obterase un mapa de calor que mostra a distancia media entre
 \end{figure}
 
 \paragraph{Discusión}
-\label{par:Discusión}
+\label{par:Discusion-regularization}
 
 Os resultados amosan que a regularización ten un impacto significativo no rendemento da rede.
 
 \paragraph{Conclusións}
-\label{par:Conclusións}
+\label{par:Conclusions-regularization}
 
 \subsubsection{Learning rate}
 \label{subsubsec:Learning rate}
 
 \paragraph{Planteamento}
-\label{par:Planteamento}
+\label{par:Planteamento-learningrate}
 
 O learning rate é un parámetro do optimizador (Adam neste caso) que regula o tamaño dos axustes efectuados aos parámetros do modelo durante cada iteración de actualización. Determina a magnitude do cambio aplicado para minimizar a función de perda, afectando tanto a velocidade de converxencia como a estabilidade do proceso de aprendizaxe.
 Un learning rate demasiado alto pode provocar que a rede diverxa, mentres que un learning rate demasiado baixo pode resultar en converxencia lenta ou quedar atrapado en mínimos locais.
@@ -332,7 +332,7 @@ Unha forma de explicar isto é, xa que con batches mais grandes temos unha mello
 Para determinar cal é o learning rate óptimo, realizáronse experimentos comparando o rendemento de cada un sobre unha mostra de imaxes dos datases de FIRE e RFMID cas diferentes funcións de activación.
 
 \paragraph{Resultados}
-\label{par:Resultados}
+\label{par:Resultados-learningrate}
 
 \ref{fig:grid_search_lr}, \ref{fig:e_heatmap_MLP_RFMID}
 
@@ -371,7 +371,7 @@ Para determinar cal é o learning rate óptimo, realizáronse experimentos compa
 \end{figure}
 
 \paragraph{Discusión}
-\label{par:Discusión}
+\label{par:Discusion-learningrate}
 
 Valores de learning rate moi altos (0.001 and 0.005) son contraproducentes, xa que a rede diverxe rapidamente.
 
@@ -380,13 +380,13 @@ A dependencia entre o learning rate e o batch size confirmase. Xeralmente un lea
 Tamén observase que batch sizes maiores tenden a dar mellores resultados.
 
 \paragraph{Conclusións}
-\label{par:Conclusións}
+\label{par:Conclusions-learningrate}
 
 \subsection{Batch size}
 \label{subsec:Batch size}
 
 \paragraph{Planteamento}
-\label{par:Planteamento}
+\label{par:Planteamento-batchsize}
 
 Ao longo dos experimentos realizados, o análisis cualitativo revelou que o batch size é un dos parámetros que máis impacto ten no rendemento da rede.
 Unha vez determinados uns valores aceptables nos parámetros anteriores, realizáronse experimentos para determinar cal era o batch size óptimo.
@@ -405,7 +405,7 @@ Desta forma podemos comparar o rendemento da rede en diferentes subconxuntos de 
 Ademais, xa que a rede si que é capaz de rexistrar correctamente as imaxes dos subconxuntos mais sinxelos, utilizaremos a métrica de FIRE para medir o pocentaxe de imaxes rexistradas correctamente.
 
 \paragraph{Resultados}
-\label{par:Resultados}
+\label{par:Resultados-batchsize}
 
 \ref{fig:batch_size_comparison_relu_1e-5}, \ref{fig:batch_size_comparison_relu_5e-5}, \ref{fig:batch_size_comparison_relu_1e-4}
 \ref{fig:batch_size_comparison_siren_1e-4}, \ref{fig:batch_size_comparison_siren_1e-5}, \ref{fig:batch_size_comparison_siren_5e-5}
@@ -454,14 +454,14 @@ Ademais, xa que a rede si que é capaz de rexistrar correctamente as imaxes dos 
 
 
 \paragraph{Discusión}
-\label{par:Discusión}
+\label{par:Discusion-batchsize}
 
 Obsérvase que as redes ca función de activación ReLU tenden a ter un rendemento moito mellor que as ca función de activación SIREN. Isto pode explicarse xa que as deformacións artificiais que se aplican nas imaxes do dataset RFMID son lineais, e a función de activación ReLU é adecuada para este tipo de transformacións.
 
 Tamén parece que o batch size é relevante, especialmente o cambio entre 1000 e 10000, mentres que batch sizes maiores (50000, 100000) non parecen ter tanto impacto, aínda que si un maior custo computacional.
 
 \paragraph{Conclusións}
-\label{par:Conclusións}
+\label{par:Conclusions-batchsize}
 
 Interesa determinar cal é o punto de inflexión onde o aumento do batch size non compensa o aumento do rendemento.
 
@@ -475,7 +475,7 @@ Por exemplo, as seccións que conteñen vasos sanguíneos ou o disco óptico pro
 Ademais, as retinografías teñen desprazamentos moito maiores e menor superposición entre cada parella, polo que a rede ten que aprender transformacións mais complexas.
 
 \paragraph{Planteamento}
-\label{par:Planteamento}
+\label{par:Planteamento-sampling}
 
 Para solucionar isto, propúxose unha estratexia de mostraxe mais intellixente, onde se calcula unha máscara de probabilidade para cada imaxe, que se utiliza para seleccionar os puntos que se pasan á rede.
 Para calcular esta máscara, extráense mediante operadores de Sobel os vasos sanguíneos e mediante umbralización o disco óptico, que son as zonas onde se espera que haxa máis información, e dáselles maiores probabilidades de ser seleccionadas.
@@ -498,7 +498,7 @@ O learning rate modificaráse de forma proporcional para manter a relación entr
 
 Na figura \ref{fig:sampling_heatmaps} pódense observar os diferentes tipos de mostraxe utilizados.
 
-\begin{figure}[]
+\begin{figure}[ht]
     \centering
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
@@ -526,7 +526,7 @@ Na figura \ref{fig:sampling_heatmaps} pódense observar os diferentes tipos de m
 
 
 \paragraph{Resultados}
-\label{par:Resultados}
+\label{par:Resultados-sampling}
 
 \ref{fig:sampling_comparison}
 \ref{fig:fire_samplingtype}
@@ -564,14 +564,14 @@ Na figura \ref{fig:sampling_heatmaps} pódense observar os diferentes tipos de m
 
 
 \paragraph{Discusión}
-\label{par:Discusión}
+\label{par:Discusion-sampling}
 
 A hipótese da estratexia de mostraxe intellixente non parece ser a mais axeitada, con resultados peores ca estratexia aleatoria. 
 A estratexia uniforme tampouco parece ser a mais adecuada, xa que non se obtén resultados significativamente mellores ca a aleatoria.
 
 
 \paragraph{Conclusións}
-\label{par:Conclusións}
+\label{par:Conclusions-sampling}
 
 \subsection{Inicialización}
 \label{subsec:Inicialización}
@@ -579,7 +579,7 @@ A estratexia uniforme tampouco parece ser a mais adecuada, xa que non se obtén 
 
 
 \paragraph{Planteamento}
-\label{par:Planteamento}
+\label{par:Planteamento-initialization}
 
 É posible que a inicialización da rede sexa un factor mais importante que a estratexia de mostraxe. É posible que certas inicializacións coloquen os despraszamentos de forma que a rede sexa incapaz de aprender a transformación correcta, ou que lle custe moito mais aprenderla.
 
@@ -587,9 +587,11 @@ Para testar esta hipótese implementouse unha lotería de inicialización, onde 
 É posible que fore mellor esperar ata un epoch algo mais avanzado para determinar a inicialización, xa que no epoch 0 non hay ningunha seguridade de que non sexa un mínimo local, pero isto tamén implicaría un maior custo computacional.
 
 \paragraph{Resultados}
-\label{par:Resultados}
+\label{par:Resultados-initialization}
 
 \ref{fig:lottery_initial_deformations_combinedMLP}, \ref{fig:lottery_initial_deformations_combinedSIREN}
+
+\ref{tab:initialization_phase_results_RFMID}, \ref{tab:initialization_phase_results_FIRE}, \ref{tab:initialization_lottery_results_RFMID}, \ref{tab:initialization_lottery_results_FIRE}
 
 \begin{figure}[ht]
     \centering
@@ -605,11 +607,76 @@ Para testar esta hipótese implementouse unha lotería de inicialización, onde 
     \label{fig:lottery_initial_deformations_combinedSIREN}
 \end{figure}
 
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|l|c|c|}
+    \hline
+    Network Type & N-Phases & Mean Distance \\ \hline
+    MLP & 1 & 99.73 \\ \hline
+    MLP & 2 & 144.88 \\ \hline
+    MLP & 3 & 307.01 \\ \hline
+    SIREN & 1 & 80.69 \\ \hline
+    SIREN & 2 & 64.22 \\ \hline
+    SIREN & 3 & 75.76 \\ \hline
+    \end{tabular}
+    \caption{Distancia media segundo o número de fases, para ambos tipos de rede, co dataset FIRE}
+    \label{tab:initialization_phase_results_FIRE}
+\end{table}
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|l|c|c|}
+    \hline
+    Network Type & N-Phases & Mean Distance \\ \hline
+    MLP & 1 & 30.90 \\ \hline
+    MLP & 2 & 91.24 \\ \hline
+    MLP & 3 & 122.94 \\ \hline
+    SIREN & 1 & 66.95 \\ \hline
+    SIREN & 2 & 133.85 \\ \hline
+    SIREN & 3 & 176.36 \\ \hline
+    \end{tabular}
+    \caption{Distancia media segundo o número de fases, para ambos tipos de rede, co dataset RFMID}
+    \label{tab:initialization_phase_results_RFMID}
+\end{table}
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|l|c|c|}
+    \hline
+    Network Type & lottery & Mean Distance \\ \hline
+    Relu & 1 & 97.20 \\ \hline
+    Relu & 5 & 94.35 \\ \hline
+    Relu & 25 & 98.18 \\ \hline
+    SIREN & 1 & 66.08 \\ \hline
+    SIREN & 5 & 58.71 \\ \hline
+    SIREN & 25 & 64.45 \\ \hline
+    \end{tabular}
+    \caption{Distancia media segundo o número de lotería, para ambos tipos de rede, co dataset FIRE}
+    \label{tab:initialization_lottery_results_FIRE}
+\end{table}
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|l|c|c|}
+    \hline
+    Network Type & Loss Function & Mean Distance \\ \hline
+    Relu & 1 & 31.42 \\ \hline
+    Relu & 5 & 31.45 \\ \hline
+    Relu & 25 & 30.16 \\ \hline
+    SIREN & 1 & 64.74 \\ \hline
+    SIREN & 5 & 61.49 \\ \hline
+    SIREN & 25 & 60.95 \\ \hline
+    \end{tabular}
+    \caption{Distancia media segundo o número de lotería, para ambos tipos de rede, co dataset RFMID}
+    \label{tab:initialization_lottery_results_RFMID}
+\end{table}
+
 \paragraph{Discusión}
-\label{par:Discusión}
+\label{par:Discusion-initialization}
 
 \paragraph{Conclusións}
-\label{par:Conclusións}
+\label{par:Conclusions-initialization}
 
 \subsection{Exemplos de rexistro}
 \label{subsec:Exemplos de rexistro}

@@ -415,6 +415,25 @@
   abstract  = {Registration of retinal images taken at different times, from different perspectives, or with different modalities is a critical prerequisite for the diagnoses and treatments of various eye diseases. This problem can be formulated as registration of two sets of sparse feature points extracted from the given images, and it is typically solved by first creating a set of putative correspondences and then removing the false matches as well as estimating the spatial transformation between the image pairs or solved by estimating the correspondence and transformation jointly involving an iteration process. However, the former strategy suffers from missing true correspondences, and the latter strategy does not make full use of local appearance information, which may be problematic for low-quality retinal images due to a lack of reliable features. In this paper, we propose a feature-guided Gaussian mixture model (GMM) to address these issues. We formulate point registration as the estimation of a feature-guided mixture of densities: A GMM is fitted to one point set, such that both the centers and local features of the Gaussian densities are constrained to coincide with the other point set. The problem is solved under a unified maximum-likelihood framework together with an iterative expectation-maximization algorithm initialized by the confident feature correspondences, where the image transformation is modeled by an affine function. Extensive experiments on various retinal images show the robustness of our approach, which consistently outperforms other state-of-the-art methods, especially when the data is badly degraded.}
 }
 
+@article{coin,
+  author       = {Emilien Dupont and
+                  Hrushikesh Loya and
+                  Milad Alizadeh and
+                  Adam Golinski and
+                  Yee Whye Teh and
+                  Arnaud Doucet},
+  title        = {{COIN++:} Data Agnostic Neural Compression},
+  journal      = {CoRR},
+  volume       = {abs/2201.12904},
+  year         = {2022},
+  url          = {https://arxiv.org/abs/2201.12904},
+  eprinttype    = {arXiv},
+  eprint       = {2201.12904},
+  timestamp    = {Wed, 02 Feb 2022 15:00:01 +0100},
+  biburl       = {https://dblp.org/rec/journals/corr/abs-2201-12904.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
 @article{TPS,
   author   = {Bookstein, F.L.},
   journal  = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
