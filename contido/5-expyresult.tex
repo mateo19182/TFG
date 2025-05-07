@@ -589,7 +589,7 @@ Para testar esta hipótese implementouse unha lotería de inicialización, onde 
 
 \ref{fig:lottery_initial_deformations_combinedMLP}, \ref{fig:lottery_initial_deformations_combinedSIREN}
 
-\ref{fig:nphases}, \ref{fig:lottery}
+\ref{fig:lottery}
 
 \begin{figure}[ht]
     \centering
@@ -605,12 +605,6 @@ Para testar esta hipótese implementouse unha lotería de inicialización, onde 
     \label{fig:lottery_initial_deformations_combinedSIREN}
 \end{figure}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.8\textwidth]{imaxes/lottery/nphases.png}
-    \caption{Resultados de usar distinto número de fases}
-    \label{fig:nphases}
-\end{figure}
 
 \begin{figure}[ht]
     \centering
@@ -622,14 +616,42 @@ Para testar esta hipótese implementouse unha lotería de inicialización, onde 
 \paragraph{Discusión}
 \label{par:Discusion-initialization}
 
-Obsérvase que varias o batch size ao longo do proceso de optimización non ten os resultados esperados, empeorando o rendemento da rede.
-Tamén se observa que a lotería de inicialización si que provoca unha mellora, aínda que non moi significativa, e non se beneficia particularmente de utilizar mais de 5 inicializacións.
+Obsérvase que a lotería de inicialización si que provoca unha mellora, aínda que non moi significativa, e non se beneficia particularmente de utilizar mais de 5 inicializacións.
 
 \paragraph{Conclusións}
 \label{par:Conclusions-initialization}
 
 Unha posible mellora á lotería de inicialización sería utilizar un número maior de epochs antes de determinar a inicialización gañadora, xa que o loss inicial non é necesariamente representativo do rendemento final da rede.
 Poderíase tamén determinar como de sensible é a rede a diferentes inicializacións.
+
+\subsection{Fases}
+\label{subsec:Fases}
+\paragraph{Planteamento}
+\label{par:Planteamento-phases}
+
+Teorízase que a rede pode beneficiarse de dividir o proceso de rexistro en diferentes fases, onde inicialmente utilízase un batch size reducido para aprender a transformación global, e posteriormente aumentase o batch size para aprender as transformacións locais.
+Para isto utilizaremos a estratexia de mostraxe uniforme, que permite asegurar que se cubre toda a imaxe de forma uniforme, o que é mais importante con batch sizes pequenos.
+
+\paragraph{Resultados}
+\label{par:Resultados-phases}
+
+\ref{fig:nphases}, 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imaxes/lottery/nphases.png}
+    \caption{Resultados de usar distinto número de fases}
+    \label{fig:nphases}
+\end{figure}
+
+\paragraph{Discusión}
+\label{par:Discusion-phases}
+
+A hipótese parece errada, xa que o uso de fases tende a empeorar o rendemento da rede.
+Isto pode deberse a que a rede xa é capaz de aprender as transformacións globais e locais simultaneamente, ou que a hipótese de que un menor batch size ayuda a aprender as transformacións globais non é correcta.
+
+\paragraph{Conclusións}
+\label{par:Conclusions-phases}
+
 
 \subsection{Exemplos de rexistro}
 \label{subsec:Exemplos de rexistro}
