@@ -148,7 +148,7 @@ Debido a que a rede non é capaz de rexistrar con éxito a gran parte das imaxes
 
 \ref{tab:mlp_mean_distances_fire}, \ref{tab:siren_mean_distances_fire}, \ref{tab:mlp_mean_distances_rfmid}, \ref{tab:siren_mean_distances_rfmid}
 
-\begin{table}[h]]
+\begin{table}[h]
     \centering
     \begin{minipage}[t]{0.45\linewidth}
         \centering
@@ -576,8 +576,6 @@ A estratexia uniforme tampouco parece ser a mais adecuada, xa que non se obtén 
 \subsection{Inicialización}
 \label{subsec:Inicialización}
 
-
-
 \paragraph{Planteamento}
 \label{par:Planteamento-initialization}
 
@@ -591,7 +589,7 @@ Para testar esta hipótese implementouse unha lotería de inicialización, onde 
 
 \ref{fig:lottery_initial_deformations_combinedMLP}, \ref{fig:lottery_initial_deformations_combinedSIREN}
 
-\ref{tab:initialization_phase_results_RFMID}, \ref{tab:initialization_phase_results_FIRE}, \ref{tab:initialization_lottery_results_RFMID}, \ref{tab:initialization_lottery_results_FIRE}
+\ref{fig:nphases}, \ref{fig:lottery}
 
 \begin{figure}[ht]
     \centering
@@ -607,76 +605,31 @@ Para testar esta hipótese implementouse unha lotería de inicialización, onde 
     \label{fig:lottery_initial_deformations_combinedSIREN}
 \end{figure}
 
-
-\begin{table}[ht]
+\begin{figure}[ht]
     \centering
-    \begin{tabular}{|l|c|c|}
-    \hline
-    Network Type & N-Phases & Mean Distance \\ \hline
-    MLP & 1 & 99.73 \\ \hline
-    MLP & 2 & 144.88 \\ \hline
-    MLP & 3 & 307.01 \\ \hline
-    SIREN & 1 & 80.69 \\ \hline
-    SIREN & 2 & 64.22 \\ \hline
-    SIREN & 3 & 75.76 \\ \hline
-    \end{tabular}
-    \caption{Distancia media segundo o número de fases, para ambos tipos de rede, co dataset FIRE}
-    \label{tab:initialization_phase_results_FIRE}
-\end{table}
+    \includegraphics[width=0.8\textwidth]{imaxes/lottery/nphases.png}
+    \caption{Resultados de usar distinto número de fases}
+    \label{fig:nphases}
+\end{figure}
 
-\begin{table}[ht]
+\begin{figure}[ht]
     \centering
-    \begin{tabular}{|l|c|c|}
-    \hline
-    Network Type & N-Phases & Mean Distance \\ \hline
-    MLP & 1 & 30.90 \\ \hline
-    MLP & 2 & 91.24 \\ \hline
-    MLP & 3 & 122.94 \\ \hline
-    SIREN & 1 & 66.95 \\ \hline
-    SIREN & 2 & 133.85 \\ \hline
-    SIREN & 3 & 176.36 \\ \hline
-    \end{tabular}
-    \caption{Distancia media segundo o número de fases, para ambos tipos de rede, co dataset RFMID}
-    \label{tab:initialization_phase_results_RFMID}
-\end{table}
-
-\begin{table}[ht]
-    \centering
-    \begin{tabular}{|l|c|c|}
-    \hline
-    Network Type & lottery & Mean Distance \\ \hline
-    Relu & 1 & 97.20 \\ \hline
-    Relu & 5 & 94.35 \\ \hline
-    Relu & 25 & 98.18 \\ \hline
-    SIREN & 1 & 66.08 \\ \hline
-    SIREN & 5 & 58.71 \\ \hline
-    SIREN & 25 & 64.45 \\ \hline
-    \end{tabular}
-    \caption{Distancia media segundo o número de lotería, para ambos tipos de rede, co dataset FIRE}
-    \label{tab:initialization_lottery_results_FIRE}
-\end{table}
-
-\begin{table}[ht]
-    \centering
-    \begin{tabular}{|l|c|c|}
-    \hline
-    Network Type & Loss Function & Mean Distance \\ \hline
-    Relu & 1 & 31.42 \\ \hline
-    Relu & 5 & 31.45 \\ \hline
-    Relu & 25 & 30.16 \\ \hline
-    SIREN & 1 & 64.74 \\ \hline
-    SIREN & 5 & 61.49 \\ \hline
-    SIREN & 25 & 60.95 \\ \hline
-    \end{tabular}
-    \caption{Distancia media segundo o número de lotería, para ambos tipos de rede, co dataset RFMID}
-    \label{tab:initialization_lottery_results_RFMID}
-\end{table}
+    \includegraphics[width=0.8\textwidth]{imaxes/lottery/lotery.png}
+    \caption{Resultados da lotería de inicialización}
+    \label{fig:lottery}
+\end{figure}
 
 \paragraph{Discusión}
 \label{par:Discusion-initialization}
 
+Obsérvase que varias o batch size ao longo do proceso de optimización non ten os resultados esperados, empeorando o rendemento da rede.
+Tamén se observa que a lotería de inicialización si que provoca unha mellora, aínda que non moi significativa, e non se beneficia particularmente de utilizar mais de 5 inicializacións.
+
 \paragraph{Conclusións}
 \label{par:Conclusions-initialization}
+
+Unha posible mellora á lotería de inicialización sería utilizar un número maior de epochs antes de determinar a inicialización gañadora, xa que o loss inicial non é necesariamente representativo do rendemento final da rede.
+Poderíase tamén determinar como de sensible é a rede a diferentes inicializacións.
 
 \subsection{Exemplos de rexistro}
 \label{subsec:Exemplos de rexistro}
