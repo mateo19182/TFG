@@ -6,24 +6,20 @@
 \section{Metodoloxía do desenrrolo}
 \label{sec:Metodoloxía do desenrrolo}
 
-Ao ser un proxecto de investigación, a metodoloxía de traballo mais adecuada é unha metodoloxía iterativa e incremental.
-
-Os requisitos evolucionan ao longo do proxecto, polo que é vital planificar para poder adaptarse a estes cambios.
-
+Ao ser un proxecto de investigación, a metodoloxía de traballo mais adecuada é unha metodoloxía iterativa e incremental, que permite poder adaptarse aos cambios que van xurdindo durante o desenrrolo do proxecto.
 
 \section{Planificación do proxecto}
 \label{sec:Planificación do proxecto}
 
-Implementar IDIR orixinal e replicar resultados.
+Comezaráse por replicar os resultados do traballo orixinal de IDIR.
 
-Implementar adptacións necesarias para o seu uso en imaxes oftalmolóxicas.
-    - Imaxes de pulmón son 4d, imaxes oftalmolóxicas son 2d (ignoramos color non aporta moita información)
+Posteriormente, implementaránse as adaptacións necesarias para o seu uso en imaxes oftalmolóxicas. Os principais cambios están principalmente relacionados coas dimensións das imaxes, xa que as imaxes de pulmóns son 4D (3 espazo + 1 tempo) e as imaxes oftalmolóxicas son 2D.
 
-Implmentar evaluación para FIRE e RFMID.
+Logo disto, haberá que crear unha avaliación adecuada para o novo dominio. 
 
-Experimentar para mellorar resultados.
+Finalmente, realizarase múltiple experimentos, que tentarán mellorar o rendemento da rede e avaliar a súa validez en imaxes oftalmolóxicas.
 
-Escribir memoria.
+Tras isto, redactarase a memoria do traballo ca información obtida durante o desenrrolo do proxecto.
 
 \section{Recursos utilizados}
 \label{sec:Recursos utilizados}
@@ -33,11 +29,9 @@ Escribir memoria.
 
 Xa que parte do traballo consiste en adaptar un traballo previo, 
 decidíuse empregar moito do mesmo software ca o traballo orixinal para facilitar a implementación e reproducibilidade.
-O mais relevante é PyTorch, unha librería de código aberto para Python que facilita o desenrrolo de redes neuronais.
-(version y CUDA). Tamén se empregan librerías de apoio como NumPy (para traballar con matrices), Matplotlib (visualización), OpenCV ou scikit-learn (manxo de imaxes).
-(versions y links).
+O mais relevante é PyTorch, unha librería de código aberto para Python que facilita o desenrrolo de redes neuronais. Utilizáronse as versións de Python 3.12.3 e CUDA 12.2. Tamén se empregan librerías de apoio como NumPy (para traballar con matrices), Matplotlib (visualización), OpenCV ou scikit-learn (manexo de imaxes).
 
-Otro software empregado inclúe VSCode (IDE), Git (control de versións) e LaTeX (redacción de memoria).
+Outro software empregado inclúe VSCode (IDE), Git (control de versións) e LaTeX (redacción de memoria).
 
 \subsection{Hardware}
 \label{subsec:Hardware}
@@ -45,7 +39,7 @@ Otro software empregado inclúe VSCode (IDE), Git (control de versións) e LaTeX
 O proxecto foi desenrrolado nun ordenador portátil conectado por ssh a un servidor con GPU. 
 Utilizáronse dous sevidores diferentes, un montado por min\footnote{\url{https://blog.m19182.dev/writings/Building-my-Homelab}} e outro facilitado polo grupo de investigación VARPA (Visión Artificial y Reconocimiento de Patrones).
 
-A gran parte dos experimentos foron realizado no primero, mais para poder executar o proxecto cas imáxenes na súa resolución orixinal foi necesario empregar o segundo 
+A gran parte dos experimentos foron realizado no primeiro, mais para poder executar o proxecto cas imáxenes na súa resolución orixinal foi necesario empregar o segundo 
 debido ás limitacións de memoria da GPU. 
 
 \begin{table}[h]

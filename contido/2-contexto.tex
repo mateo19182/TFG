@@ -288,15 +288,18 @@ As INR son moito mais eficientes debido á compresión da información que reali
  Ademais, as representacións continuas son diferenciables, o que permite o cálculo de gradientes e derivadas de forma analítica en lugar de ter que aproximalos por diferencias finitas.
  Isto tamén implica que as representacións implícitas son independentes da resolución, o que permite a reconstrucción en calquer escala espacial.
  
-Tipicamente emprégase un MLP como architectura para representar a función implícita. Non obstante, o uso da función de activación ReLU tende a non obter os mellores resultados \cite{rahaman2019spectralbiasneuralnetworks},
+Tipicamente emprégase un MLP como architectura para representar a función implícita. Non obstante, o uso da función de activación ReLU tende a non obter os mellores resultados, debido a que son incapaces de representar deformacións locais sen afectar o sea comportamento global \cite{rahaman2019spectralbiasneuralnetworks},
 polo que moita investigación diríxese a atopar alternativas que melloren a representación do sinal. \cite{essakine2024standimplicitneuralrepresentations}
 
-Por exemplo SIREN \cite{sitzmann2020implicitneuralrepresentationsperiodic}, sobre a que profundizaremos mais adiante.
-\cite{ramasinghe2022periodicityunifyingframeworkactivations} propón as funcións de activación gaussianas como alternativa a SIREN, e argumenta que poden obter mellores representacións e mais robustas.
-\cite{saragadam2023wirewaveletimplicitneural} achega unha nova función de activación baseada en wavelets, que demostra ser especialmente útil para a representación de imaxes.
+Unha destas alternativas é SIREN \cite{sitzmann2020implicitneuralrepresentationsperiodic}, sobre a que profundizaremos mais adiante.
+Outras propostas inclúen \cite{ramasinghe2022periodicityunifyingframeworkactivations} propón as funcións de activación gaussianas como alternativa a SIREN, e argumenta que poden obter mellores representacións e mais robustas.
+\cite{saragadam2023wirewaveletimplicitneural} achega unha nova función de activación baseada en wavelets, que parece ser especialmente útil para a representación de imaxes.
 
-As representacións implícitas poden ser clasificadas en dúas categorías: generalizables e sobreajustadas \cite{yu2024neuraltrajectorymodelimplicit}. 
-As representacións sobreaxustadas céntranse en reproducir con precisión unha única sinal, mentres que as representacións generalizables poden modelar varias.
+As representacións implícitas poden ser clasificadas en dúas categorías: xeneralizables e sobreaxustadas \cite{yu2024neuraltrajectorymodelimplicit}. 
+As representacións sobreaxustadas céntranse en reproducir con precisión unha única sinal, mentres que as representacións xeneralizables poden modelar varias nunha mesma rede.
+
+\subsection{Aplicacións}
+\label{subsec:Aplicacións}
 
 As INR son utilizadas en todo tipo de campos, dende xeración de imaxes \cite{reddy2022multiimplicitneuralrepresentationfonts}, pasando por
 reconstrucción de obxetos \cite{mildenhall2020nerfrepresentingscenesneural} \cite{mescheder2019occupancynetworkslearning3d} ou modelado de sinais complexas \cite{wu2021iremhighresolutionmagneticresonance}.
@@ -626,25 +629,56 @@ Para a implementación neste traballo modificaronse todos estos termos para que 
     
 \end{itemize}
 
+A regularización tamén ten un impacto significativo no tempo de computación, xa que require múltiples pasadas de retropropagación por época para calcular os distintos termos de penalización.
+Sen regularización só se fai 1 pasada para calcular o gradiente do termo de similitude da imaxe.
+Ca regularización do Jacobiano, ademais do termo de similitude, calcúlanse dúas derivadas (unha por dimensión) para obter o Jacobiano, resultando en 3 pasadas por época.
+Engadindo a regularización hiperelástica (sen termo de volume), é necesario calcular unha derivada adicional para o cofactor da matriz Jacobiana, facendo un total de 4 pasadas por época.
+Finalmente, ca penalización de enerxía de flexión, necesitanse derivadas segundas, o que implica 7 pasadas por época en total.
+Na traballo orixinal de IDIR, chegaban a usar 13 pasadas debido a que traballan en 3D.
+
+Se os termos de regularización teñen demasiada influencia sobre o termo de loss, a rede fará transformacións moi pequenas para evitar ser penalizada, o que resultará nunha transformación insuficiente.
+Por outro lado, se os termos son demasiado pequenos, a rede fará transformacións moi grandes, o que resulta nunha transformación irrealista e sobreaxustada. Isto é especialmente evidente no caso da función de activación SIREN, que tende a sobreaxustarse facilmente debido ao seu sesgo cara sinais de alta frecuencia.
+A cantidade óptima de regularización depende da parexa concreta de imaxes a alinear, polo que intentaremos determinar cal é a mellor para unha mostra de imaxes.
+
+Ademais, pese a que os diferentes termos de regularización valoran diferentes aspectos, cabe ter en conta que tamén superposición nalgunhas das propiedades que valoran.
+Por exemplo, o regularizador hiperelástico pode considerarse un termo mais xeral que inclúe indirectamente penalizaciones do Jacobiano (ambos penalizan as "dobreces") e de suavidade das transfomacións (como fai o bending pero en menor grado).
+
+\subsubsection{Learning rate e batch size}
+\label{subsubsec:Learning rate e batch size}
+
+O learning rate é un parámetro do optimizador (Adam neste caso) que regula o tamaño dos axustes efectuados aos parámetros do modelo durante cada iteración de actualización. 
+Determina a magnitude do cambio aplicado para minimizar a función de perda, afectando tanto a velocidade de converxencia como a estabilidade do proceso de aprendizaxe.
+Un learning rate demasiado alto pode provocar que a rede diverxa, mentres que un learning rate demasiado baixo pode resultar en converxencia lenta ou quedar atrapado en mínimos locais.
+
+Debido á natureza da rede, o batch size utilzado ten unha relación directa co learning rate, polo que tentaremos determinar a relación óptima entre ambos.
+
+Unha das heurísiticas mais comúns para relacionar o learning rate e o batch size é a regla de escalado linear \cite{goyal2018accuratelargeminibatchsgd}. 
+A regla indica que o learning rate óptimo debe escalarse linearmente co tamaño do batch size. 
+
+Unha forma de explicar isto é, xa que con batches mais grandes temos unha mellor aproximación do gradiente real, é posible utilizar un learning rate maior sen que a rede diverxa.
+
+O batch size nesta rede representa o número de coordenadas amostradas aleatoriamente do espazo de coordenadas dentro da máscara.
+
 \subsubsection{Método}
 \label{subsubsec:Método}
 
 Sendo o obxetivo encontrar unha transformación espacial óptima entre a imaxe móbil e a imaxe fixa,
 é necesario obter a función de deformación  Φ(x) = u(x) + x que mapea cada coordenada x na imaxe móbil a unha coordenada na imaxe fixa, 
 de forma que a coordenada x na imaxe fixa corresponda anatomicamente á coordenada Φ(x) na imaxe móbil.
-Este problema pode ser formulado como un problema de optimización onde Ldata é unha métrica de similitude entre as imaxes fixa e móbil, Lreg é un termo de regularización na transformación Φ, e α é un termo de ponderación.
+Este problema pode ser formulado como un problema de optimización onde $L_{data}$ é unha métrica de similitude entre as imaxes fixa ($F$) e móbil ($M$), $L_{reg}$ é un termo de regularización na transformación Φ, e α é un termo de ponderación.
 \begin{equation}
-   \hat{\Phi} = \operatorname*{Arg\,min}_{\Phi} L_{data}(M \circ \Phi, F) + \alpha L_{reg}(\Phi)
+    \hat{\Phi} = \operatorname*{Arg\,min}_{\Phi} L_{data}(M \circ \Phi, F) + \alpha L_{reg}(\Phi)
 \end{equation}
 
-A principal innovación que introduce \cite{wolterink2021implicit} é que a transformación Φ está implícitamente representada na rede neuronal.
+
+A principal innovación que introduce IDIR\cite{wolterink2021implicit} é que a transformación Φ está implícitamente representada na rede neuronal.
 
 Comparado cunha CNN tradicional, esta rede non recibe valores de intensidade de píxel como entrada,
 senón que recibe coordenadas espaciais (continuas) e devolve unha nova coordenada.
 Xa que os pesos da rede definen a transformación, estos poden ser optimizados directamente 
 facendo uso dunha métrica de similitude como función de perda.
 
-Parametrizar a función de deformación como unha INR dentro dun MLP ten varias vantaxes para o rexistro de imaxes.
+Parametrizar a función de deformación como unha \glossary{INR} dentro dun \glossary{MLP} ten varias vantaxes para o rexistro de imaxes.
 En primeiro lugar, a representación da transformación é continua e polo tanto independente da resolución da imaxe, 
 grazas a iso o mesmo modelo poder ser empregado para imaxes de calquer tamaño, ao contrario dunha CNN tradicional 
 que ten que ser adaptada para cada resolución.
@@ -664,4 +698,4 @@ Finalmente, entrenaráse unha nova rede por cada parella de imaxes, sendo esta u
 \label{sec:Traballo proposto}
 
 Baseándose no framework introducido por \cite{wolterink2021implicit},
- propónse modificalo para adaptalo a imaxes médicas de retina.
+ propónse modificalo para adaptalo á tarefa de rexistro de retinografías. O obxetivo é conseguir rexistros consistentemente precisos, especialmente no dataset de FIRE que contén imaxes reais de retina.

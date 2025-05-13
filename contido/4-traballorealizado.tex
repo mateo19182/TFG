@@ -14,9 +14,9 @@ Inicialmente replicáronse os resultados obtidos por Wolterink et al \cite{wolte
 
 \begin{table}[ht]
     \centering
-    \caption{Comparación de Resultados entre IDIR y Replicación}
+    \caption{Rreplicación dos resultados de IDIR}
     \begin{tabular}{c|c}
-        Scan & {IDIR Original / Replicación} \\
+        Scan & {IDIR / Replicación} \\
         1  & 0.76 (0.94) / 0.79 (0.92) \\
         2  & 0.76 (0.94) / 0.71 (0.89) \\
         3  & 0.94 (1.02) / 0.95 (1.01) \\
@@ -31,6 +31,8 @@ Inicialmente replicáronse os resultados obtidos por Wolterink et al \cite{wolte
     \end{tabular}
     \label{tab:comparison}
 \end{table}
+
+\FloatBarrier
 
 \section{Conxuntos de datos}
 \label{sec:Conxuntos de datos}
@@ -58,6 +60,7 @@ Inicialmente replicáronse os resultados obtidos por Wolterink et al \cite{wolte
     \caption{Clasificación dos pares de imaxes en categorías.}
     \label{tab:categorias}
 \end{figure}
+\FloatBarrier
 
 Inclúe 10 puntos de referencia para cada imaxe, que se utilizan para a avaliación do rexistro, así como unha máscara por cada imaxe que indica a localización dos píxeles con información de cor.
 
@@ -77,7 +80,7 @@ Tamén proporciona etiquetas para 45 diferentes anomalías anotadas por expertos
 Para utilizalo neste traballo, seleccionamos unha submostra e xeramos transfomacións aleatorias. Gardamos as imaxes orixinais e as transformadas así como as matrices de transformación asociadas para a posterior avaliación.
 Tamén se divide entre transfomacións de cor e de xeometría.
 
-\dots preguntar David
+% \dots preguntar David
 
 
 \subsection{Diferencias entre os datasets}
@@ -127,7 +130,7 @@ No caso deste traballo, a avaliación cualitativa cobra gran importancia, xa que
 A avaliación visual permite detectar problemas que non se reflictan nas métricas cuantitativas, como artefactos visuais ou deformacións non desexadas, 
 especialmente en rexistros que teñen deformacións locais que poden non coincidir con ningún punto.
 
-No caso do dataset FIRE \cite{FIRE}, a avaliación visual é especialmente relevante, xa que tan só se proporcionan 10 puntos de referencia por imaxe, que non son suficientes para avaliar a calidade do rexistro en moitas zonas da imaxe.
+No caso do dataset FIRE \cite{FIRE}, a avaliación visual é especialmente relevante, xa que tan só se proporcionan 10 puntos de referencia por imaxe, que poden non ser suficientes para avaliar a calidade do rexistro en moitas zonas da imaxe.
 Xa que en RFMID \cite{RFMiD} uilízanse puntos de referencia xerados manualmente que cubren toda a imaxe, a avaliación visual é algo menos relevante, xa que é mais probable que unha deformación local incorrecta sexa detectada por algún punto e se vexa reflexado nas métricas.
 
 \section{Proceso de Rexistro}
@@ -147,8 +150,7 @@ a cal devolve a transformación que predice para esas coordenadas.
 A continuación, aplicase esta transformación e calculase o loss entre a imaxe móbil transformada e a imaxe fixa.
 O valor de loss axústase según os termos de regularización usados, e finalmente propágase cara atrás para actualizar os pesos da rede.
 
-O proceso de muestreo pode ser aleatorio ou utilizando unha estratexia de muestreo específica.
-Mentres que para o caso dos pulmóns a estratexia aleatoria era suficiente, para o fondo de ollo é necesario unha estratexia mais intelixente xa que gran parte da imaxe non contén información relevante.
-As imaxes de rertinas conteñen a maior parte de información relevante nos arredores do disco óptico e vasos sanguíneos, polo que é necesario muestrear máis puntos nesta zona.
-Neste caso se implementouse unha estrategia na que probabilidad de que una coordenada sexa muestreada é determinada por un mapa de pesos que indica a importancia de cada punto.
-Este mapa de pesos é calculado ao inicia a partir da imaxen fixa, aplicando operadores de Sobel de 10 píxeles de tamaño para computar os gradientes e a súa magnitude, e posteriormente utilizando unha kernel gaussiano moi agresivo (201, 201) para suavizar o resultado.
+O proceso de muestreo pode ser aleatorio ou utilizando unha estratexia específica.
+
+Cabe destacar que a tarefa de rexistro de pulmóns é diferente da de retinografías. O tamaño das deformacións é moito maior, así como o grado de superposición entre as imaxes.
+Por este motivo, non podemos asumir que os parámetros óptimos para pulmóns sexan tamén os mellores para retinas.
