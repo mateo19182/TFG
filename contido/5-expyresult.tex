@@ -33,7 +33,7 @@ Por exemplo, o sesgo que SIREN ten cara sinais de alta frecuencia fará que o pr
 \label{subsec:Experimentos iniciais}
 
 Inicialmente tentaremos determinar uns valores aceptables para varios dos parámetros da rede.
-Isto é relevante xa que moitos destes parámetros son dependentes uns de outros.
+% Isto é relevante xa que moitos destes parámetros son dependentes uns de outros.
 
 A menos que especificado de outro xeito, os parámetros utilizados para os experimentos son os seguintes:
 \begin{table}[h]
@@ -424,12 +424,33 @@ onde $a_{ij}$ son os elementos da matriz $A$.
 Esta é unha xeralización da distancia euclidiana aplicada a matrices, onde as imaxes con transformacións mais grandes considéranse mais difíciles.
 
 Desta forma podemos comparar o rendemento da rede en diferentes subconxuntos de imaxes, e determinar se o rendemento da rede é consistente entre eles.
-% Ademais, xa que a rede si que é capaz de rexistrar correctamente as imaxes dos subconxuntos mais sinxelos, utilizaremos a métrica de FIRE para medir o pocentaxe de imaxes rexistradas correctamente.
+Nos experimentos co dataset FIRE, decidiuse limitarse á categoría S, xa que é a que maior número de exemplos tén e ten un maior grao de superposición entre as imaxes, o que facilita a tarefa de rexistro.
+Ademais, xa que a rede si que é capaz de rexistrar correctamente as imaxes dos subconxuntos mais sinxelos, utilizaremos a métrica de FIRE para medir o pocentaxe de imaxes rexistradas correctamente.
 
 \paragraph{Resultados}
 \label{par:Resultados-batchsize}
 
-Con esta nova división do dataset, realizouse a avaliación polo método de FIRE, que se pode ver na figuras \ref{fig:FIRERFMID_relu} e \ref{fig:FIRERFMID_SIREN}.
+Nas figuras \ref{fig:batch_size_comparison_relu_rfmid} e \ref{fig:batch_size_comparison_siren_rfmid} pódense observar os resultados da experimentación co dataset RFMID a distintas dificultades e con distintos tamaños de batch.
+
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imaxes/batchsize/experiment_plot_RFMID_bs_relu.png}
+        \caption{Función de activación ReLU}
+        \label{fig:batch_size_comparison_relu_rfmid}
+    \end{subfigure}\hfill
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imaxes/batchsize/experiment_plot_RFMID_bs_siren.png}
+        \caption{Función de activación SIREN}
+        \label{fig:batch_size_comparison_siren_rfmid}
+    \end{subfigure}
+    \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes do dataset RFMID}
+    \label{fig:batch_size_comparisons_rfmid}
+\end{figure}
+
+Con esta nova división do dataset, tamén se realizou a avaliación polo método de FIRE, que se pode ver na figuras \ref{fig:FIRERFMID_relu} e \ref{fig:FIRERFMID_SIREN}.
 
 \begin{figure}[ht]
     \centering
@@ -445,33 +466,33 @@ Con esta nova división do dataset, realizouse a avaliación polo método de FIR
         \caption{Métrica FIRE ca función de activación SIREN}
         \label{fig:FIRERFMID_SIREN}
     \end{subfigure}
-    \caption{Métricas dataset FIRE co dataset RFMID}
+    \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes do dataset FIRE}
     \label{fig:FIRERFMID_scores}
 \end{figure}
 
 
-Nas figuras \ref{fig:batch_size_comparison_relu} e \ref{fig:batch_size_comparison_siren} pódense observar os resultados da experimentación.
-
+Nas figuras \ref{fig:batch_size_comparison_relu} e \ref{fig:batch_size_comparison_siren} mostranse os resultados da experimentación co dataset FIRE.
 
 % \ref{fig:batch_size_comparison_relu_1e-5}, \ref{fig:batch_size_comparison_relu_5e-5}, \ref{fig:batch_size_comparison_relu_1e-4}
-% \ref{fig:batch_size_comparison_siren_1e-4}, \ref{fig:batch_size_comparison_siren_1e-5}, \ref{fig:batch_size_comparison_siren_5e-5}
 \begin{figure}[ht]
     \centering
     \begin{subfigure}[b]{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{imaxes/batchsize/experiment_plot_RFMID_bs_relu.png}
+        \includegraphics[width=\textwidth]{imaxes/batchsize/fire_registration_scores_bs_relu_S.png}
         \caption{Función de activación ReLU}
         \label{fig:batch_size_comparison_relu}
     \end{subfigure}\hfill
     \begin{subfigure}[b]{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{imaxes/batchsize/experiment_plot_RFMID_bs_siren.png}
+        \includegraphics[width=\textwidth]{imaxes/batchsize/fire_registration_scores_bs_siren_S.png}
         \caption{Función de activación SIREN}
         \label{fig:batch_size_comparison_siren}
     \end{subfigure}
-    \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes do dataset RFMID}
-    \label{fig:batch_size_comparisons}
+    \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes da categoría S do dataset FIRE}
+    \label{fig:batch_size_comparisons_fire}
 \end{figure}
+
+
 
 % \begin{figure}[ht] 
 %     \centering

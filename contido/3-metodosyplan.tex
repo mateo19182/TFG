@@ -7,19 +7,45 @@
 \label{sec:Metodoloxía do desenrrolo}
 
 Ao ser un proxecto de investigación, a metodoloxía de traballo mais adecuada é unha metodoloxía iterativa e incremental, que permite poder adaptarse aos cambios que van xurdindo durante o desenrrolo do proxecto.
+Esta metodoloxía permite obter un artefacto funcional ao final de cada iteración, o que permite obter feedback constante sobre o desenrrolo do proxecto.
+Cada iteración comeza cunha análise do que se quere conseguir, seguida das fases de deseño e codificación, e remata cunha fase de testeo do produto desenvolvido.
 
 \section{Planificación do proxecto}
 \label{sec:Planificación do proxecto}
+O proxecto inicialmente divídese nas seguintes fases principais:
 
-Comezaráse por replicar os resultados do traballo orixinal de IDIR.
+\begin{itemize}
+    \item \textbf{Revisión do estado da arte:}
+    \begin{itemize}
+        \item Estudo do dominio biolóxico: características das imaxes oftalmolóxicas, a súa importancia e aplicacións.
+        \item Análise de traballos relacionados con IDIR, representacións implícitas e segmentación de imaxes oftalmolóxicas mediante redes neuronais.
+    \end{itemize}
 
-Posteriormente, implementaránse as adaptacións necesarias para o seu uso en imaxes oftalmolóxicas. Os principais cambios están principalmente relacionados coas dimensións das imaxes, xa que as imaxes de pulmóns son 4D (3 espazo + 1 tempo) e as imaxes oftalmolóxicas son 2D.
+    \item \textbf{Análise do traballo base:}
+    \begin{itemize}
+        \item Estudo en profundidade do código orixinal de IDIR.
+        \item Replicación dos resultados orixinais para verificar o funcionamento correcto.
+    \end{itemize}
 
-Logo disto, haberá que crear unha avaliación adecuada para o novo dominio. 
+    \item \textbf{Adaptación ao novo dominio:}
+    \begin{itemize}
+        \item Modificación da arquitectura para traballar con imaxes 2D en lugar de 4D.
+        \item Implementación das adaptacións necesarias para imaxes oftalmolóxicas.
+    \end{itemize}
 
-Finalmente, realizarase múltiple experimentos, que tentarán mellorar o rendemento da rede e avaliar a súa validez en imaxes oftalmolóxicas.
+    \item \textbf{Avaliación e experimentación:}
+    \begin{itemize}
+        \item Deseño dunha metodoloxía de avaliación específica para o novo dominio.
+        \item Realización de múltiples experimentos para optimizar o rendemento.
+        \item Validación da efectividade en imaxes oftalmolóxicas.
+    \end{itemize}
 
-Tras isto, redactarase a memoria do traballo ca información obtida durante o desenrrolo do proxecto.
+    \item \textbf{Documentación:}
+    \begin{itemize}
+        \item Redacción da memoria final do proxecto.
+        \item Análise e presentación dos resultados obtidos.
+    \end{itemize}
+\end{itemize}
 
 \section{Recursos utilizados}
 \label{sec:Recursos utilizados}
