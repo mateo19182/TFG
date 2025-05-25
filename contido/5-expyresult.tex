@@ -16,7 +16,6 @@ Experimentaráse sobre as seguintes variables:
     \item Función de perda
     \item Resolución da imaxe
     \item Regularización
-    \item Learning rate
     \item Batch size
     \item Estratexias de mostraxe
     \item Inicialización
@@ -29,45 +28,9 @@ Por exemplo, o sesgo que SIREN ten cara sinais de alta frecuencia fará que o pr
 \section{Experimentos}
 \label{sec:Experimentos}
 
-\subsection{Experimentos iniciais}
-\label{subsec:Experimentos iniciais}
-
-Inicialmente tentaremos determinar uns valores aceptables para varios dos parámetros da rede.
-% Isto é relevante xa que moitos destes parámetros son dependentes uns de outros.
-
-A menos que especificado de outro xeito, os parámetros utilizados para os experimentos son os seguintes:
-\begin{table}[h]
-    \centering
-    \begin{tabular}{|l|l|}
-        \hline
-        \textbf{Parámetro} & \textbf{Valor} \\
-        \hline
-        Función de perda & NCC \\
-        \hline
-        Learning rate & 0.0001 \\
-        \hline
-        Batch size & 10000 puntos \\
-        \hline
-        Epochs & 1500 \\
-        \hline
-        Optimizador & Adam \\
-        \hline
-        Resolución & 1000x1000 \\
-        \hline
-        Regularización de enerxía elástica & 10.0 \\
-        \hline
-        Regularización xacobiana & 0.05 \\
-        \hline
-        Regularización hiperelástica & 0.25 \\
-        \hline
-    \end{tabular}
-    \caption{Parámetros utilizados nos experimentos iniciais}
-    \label{tab:parametros_experimentos_iniciais}
-\end{table}
-
+Inicialmente realizouse a avaliación de FIRE completa, que se pode ver nas figuras \ref{fig:FIRE_relu} e \ref{fig:FIRE_SIREN} desglosadas por categoría.
+A menos que especificado de outro xeito, utilizarase un learning rate de 0.0001, batch size de 10000 puntos e 1500 epochs. 
 Estos determináronse a partir dos utilizados orixinalmente por IDIR e ca análises cualitativa dos resultados obtidos en experimentos preliminares.
-
-Con estos parámetros realizouse a avaliación de FIRE completa, que se pode ver nas figuras \ref{fig:FIRE_relu} e \ref{fig:FIRE_SIREN} desglosadas por categoría.
 
 \begin{figure}[ht]
     \centering
@@ -88,7 +51,15 @@ Con estos parámetros realizouse a avaliación de FIRE completa, que se pode ver
 \end{figure}
 
 Obsérvase que a categoría P resulta imposible de rexistrar, teorízase que debido ao baixo grado de superposición entre as imaxes (<75\%) que impide que a rede aprenda a transformación adecuada.
-Nas categorías S e A algo mellor, con taxas de éxito de arredor do 20\%. 
+Nas categorías S e A os resultados son algo mellores, con taxas de éxito de arredor do 20\%. 
+
+Co obxetivo de mellorar o rendemento da rede nesta tarefa, realizáronse experimentos adicionais para determinar os parámetros mais relevantes e optimizalos.
+
+\subsection{Experimentos iniciais}
+\label{subsec:Experimentos iniciais}
+
+% Inicialmente tentaremos determinar uns valores aceptables para varios dos parámetros da rede.
+% Isto é relevante xa que moitos destes parámetros son dependentes uns de outros.
 
 \FloatBarrier
 
@@ -171,7 +142,7 @@ No caso de non reconstruir a imaxe e utilizar os puntos mostrados directamente, 
 \paragraph{Conclusións}
 \label{par:Conclusions-loss}
 
-En base aos resultados obtidos, pódense extraer as seguintes conclusións relevantes:
+En base aos resultados obtidos, pódense extraer as seguintes conclusións:
 \begin{itemize}
     \item Para o dataset FIRE, que contén imaxes reais de retina con variabilidade en iluminación e contraste, as funcións de perda baseadas en características estruturais como NCC e SSIM proporcionan resultados significativamente mellores.
     \item Para o dataset RFMID, que contén imaxes con tan só variación xeométrica, as funcións de perda baseadas en píxeles como L1 e Huber ofrecen mellores resultados.
@@ -249,9 +220,9 @@ Baseándonos nos resultados obtidos, podemos concluír que:
 
 2. Aumentar a resolución por encima de 1250x1250 non aporta beneficios significativos.
 
-3. O comportamento respecto á resolución é consistente para ambos tipos de modelos (Relu e SIREN) e para ambos datasets (FIRE e RFMID), o que suxire que estas conclusións son xeneralizables.
+% 3. O comportamento respecto á resolución é consistente para ambos tipos de modelos (Relu e SIREN) e para ambos datasets (FIRE e RFMID), o que suxire que estas conclusións son xeneralizables.
 
-Para os experimentos subseguintes, adoptarase unha resolución estándar de 1000x1000 píxeles, que demostrou proporcionar o mellor rendemento global para a tarefa de rexistro de retinas.
+Para os experimentos subseguintes, adoptarase unha resolución estándar de 1000x1000 píxeles, que demostrou proporcionar un bo balance entre rendemento e eficiencia computacional.
 
 \subsubsection{Regularización}
 \label{subsubsec:Regularización}
@@ -328,7 +299,7 @@ Na figura \ref{fig:regularization_examples} pódense observar exemplos de rexist
 
 Nos resultados obsérvase que Relu segue a dar mellores resultados que SIREN no dataset RFMID, mentres que no dataset FIRE ambos parecen ter un rendemento similar.
 
-A regularización óptima depende do tipo de rexistro que se está a realizar. Os rexistros de transformacións lineais (RFMID) beneficianse de pouca ou ningunha regularización, mentres que os rexistros de transformacións non lineais (FIRE) e con pouca superposición beneficianse de regularizacións mais elevadas (10).
+A regularización óptima depende do tipo de rexistro que se está a realizar. Os rexistros de transformacións lineais (RFMID) beneficianse de pouca ou ningunha regularización, mentres que os rexistros de transformacións non lineais (FIRE) e con pouca superposición beneficianse de regularizacións mais elevadas.
 Isto suxire que a regularización é mais relevante onde a rede ten que aprender transformacións mais complexas, xa que evita que caia en mínimos locais non desexados.
 
 \FloatBarrier
@@ -413,7 +384,7 @@ Isto suxire que a regularización é mais relevante onde a rede ten que aprender
 
 Ao longo dos experimentos realizados, o análisis cualitativo revelou que o batch size é un dos parámetros que máis impacto ten no rendemento da rede.
 
-Neste caso dividimos o conxunto de datos de RFMID en varios subconxuntos según a dificultade da transformación, medida mediante a norma de Frobenius.
+De agora en adiante dividimos o conxunto de datos de RFMID en varios subconxuntos según a dificultade da transformación, medida mediante a norma de Frobenius.
 A norma de Frobenius dunha matriz $A \in \mathbb{R}^{m \times n}$ defínese como:
 
 \[
@@ -450,7 +421,7 @@ Nas figuras \ref{fig:batch_size_comparison_relu_rfmid} e \ref{fig:batch_size_com
     \label{fig:batch_size_comparisons_rfmid}
 \end{figure}
 
-Con esta nova división do dataset, tamén se realizou a avaliación polo método de FIRE, que se pode ver na figuras \ref{fig:FIRERFMID_relu} e \ref{fig:FIRERFMID_SIREN}.
+Con esta nova división do dataset, tamén se realizou a avaliación polo método de avaliación de FIRE, que se pode ver na figuras \ref{fig:FIRERFMID_relu} e \ref{fig:FIRERFMID_SIREN}.
 
 \begin{figure}[ht]
     \centering
@@ -538,6 +509,7 @@ Isto é mais notable cando se utiliza a función de activación SIREN, que ten d
 \label{par:Conclusions-batchsize}
 
 O principal factor limitador do rendemento da rede é o tamaño e complexidade das transformacións que tenta aprender.
+Un batch size maior parece axudar, pero non é suficiente para rexistrar correctamente as imaxes con transformacións mais difíciles.
 
 \subsection{Estratexias de mostraxe}
 \label{subsec:Estratexias de mostraxe}
@@ -659,11 +631,11 @@ Na figura \ref{fig:sampling_types_comparisons} preséntanse os resultados das di
 \paragraph{Discusión}
 \label{par:Discusion-sampling}
 
-A hipótese da estratexia de mostraxe intelixente non parece ser a mais axeitada, con resultados similares á estratexia aleatoria. 
-O mesmo ocurre ca estratexia uniforme, especialmente ca función de activación SIREN, onde os rendementos son moi similares.
+A hipótese da estratexia de mostraxe intelixente non parece ser axeitada, con resultados similares á estratexia aleatoria. 
+O mesmo ocurre ca estratexia uniforme.
 
 Igual que en experimentos anteriores, a función de activación ReLU parece dar mellores resultados que SIREN con RFMID, especialmente con maiores dificultades de transfomación.
-Non se experimentou con FIRE xa que os resultados iniciais non foron satisfactorios.
+% Non se experimentou con FIRE xa que os resultados iniciais non foron satisfactorios.
 
 % \paragraph{Conclusións}
 % \label{par:Conclusions-sampling}
@@ -674,10 +646,9 @@ Non se experimentou con FIRE xa que os resultados iniciais non foron satisfactor
 \paragraph{Planteamento}
 \label{par:Planteamento-initialization}
 
-É posible que a inicialización da rede sexa un factor mais importante que a estratexia de mostraxe, e que certos desprazamentos iniciais provoque que que a rede sexa incapaz de aprender a transformación correcta, ou que lle custe moito mais aprenderla.
+É posible que a inicialización da rede sexa un factor clave, e que certos desprazamentos iniciais provoque que que a rede sexa incapaz de aprender a transformación correcta, ou que lle custe moito mais aprenderla.
 
-Para testar esta hipótese implementouse unha lotería de inicialización, onde se utiliza o loss no epoch 0 para determinar a inicialización da rede mais beneficiosa.
-É posible que fore mellor esperar ata un epoch algo mais avanzado para determinar a inicialización, xa que no epoch 0 non hay ningunha seguridade de que non sexa un mínimo local, pero isto tamén implicaría un maior custo computacional.
+Para testar esta hipótese implementouse unha lotería de inicialización, onde se utiliza o loss no epoch 0 para determinar a inicialización da rede mais beneficiosa sobre a que seguir entrenando.
 
 % \ref{fig:lottery_initial_deformations_combinedMLP}, \ref{fig:lottery_initial_deformations_combinedSIREN}
 
@@ -717,12 +688,12 @@ Na figura \ref{fig:lottery} amósanse os resultados de diferentes valores da lot
 \label{par:Discusion-initialization}
 
 Obsérvase que a lotería de inicialización si que provoca unha mellora, aínda que non moi significativa, e non se beneficia particularmente de utilizar mais de 5 inicializacións.
+É posible que fore mellor esperar ata un epoch algo mais avanzado para determinar a inicialización, xa que no epoch 0 non hay ningunha seguridade de que non sexa un mínimo local, pero isto tamén implicaría un maior custo computacional.
 
 \paragraph{Conclusións}
 \label{par:Conclusions-initialization}
 
 Unha posible mellora á lotería de inicialización sería utilizar un número maior de epochs antes de determinar a inicialización gañadora, xa que o loss inicial non é necesariamente representativo do rendemento final da rede.
-Poderíase tamén determinar como de sensible é a rede a diferentes inicializacións.
 
 \subsection{Axuste dinámico do batch size}
 \label{subsec:Dynamic batch size}
@@ -730,7 +701,7 @@ Poderíase tamén determinar como de sensible é a rede a diferentes inicializac
 \label{par:Planteamento-phases}
 
 Teorízase que a rede pode beneficiarse de dividir o proceso de rexistro en diferentes fases, onde inicialmente utilízase un batch size reducido para aprender a transformación global, e posteriormente aumentase o batch size para aprender as transformacións locais.
-Para isto utilizaremos a estratexia de mostraxe uniforme, que permite asegurar que se cubre toda a imaxe de forma uniforme, o que é mais importante con batch sizes pequenos. O learning rate modifícase de forma proporcional para manter a relación entre este e o batch size.
+Para isto utilizaremos a estratexia de mostraxe uniforme, que permite asegurar que se cubre toda a imaxe de ca mesma densidade, o que é mais importante con batch sizes pequenos. O learning rate modifícase de forma proporcional para manter a relación entre este e o batch size.
 
 \paragraph{Resultados}
 \label{par:Resultados-phases}

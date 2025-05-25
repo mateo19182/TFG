@@ -55,8 +55,8 @@ Un especialista pode analizar a retinografía para detectar signos de enfermidad
 O rexistro de imaxes é un proceso que consiste en, sobre dúas ou mais imaxes, determinar a correspondencia espacial entre elas
  e alinealas nun sistema de coordenadas común, co obxetivo de que as características de interese se atopen na mesma posición.
 
- Por exemplo, no caso do stitching de fotografías panorámicas, o rexistro de imaxes permite identificar correspondencias entre puntos característicos en múltiples tomas solapadas
-  e axustar a súa posición relativa nun marco común. Esta etapa é necesaria para a posterior fusión das imaxes, de modo que as distintas vistas se aliñen con precisión, producindo un resultado final continuo e sen irregularidades visuais.
+Por exemplo, no caso do stitching de fotografías panorámicas, o rexistro de imaxes permite identificar correspondencias entre puntos característicos en múltiples tomas solapadas
+ e axustar a súa posición relativa nun marco común. Esta etapa é necesaria para a posterior fusión das imaxes, de modo que as distintas vistas se aliñen con precisión, producindo un resultado final continuo e sen irregularidades visuais.
 
 O rexistro de imaxes ten utilidade en moitos campos diferentes como a imaxe satelital, xeografía, robótica... \cite{goshtasby2017theory} mais o 
 campo da imaxe médica é dos mais interesantes póla súa aplicación práctica e é o que se aborda neste traballo.
@@ -655,9 +655,11 @@ Debido á natureza da rede, o batch size utilzado ten unha relación directa co 
 Unha das heurísiticas mais comúns para relacionar o learning rate e o batch size é a regla de escalado linear \cite{goyal2018accuratelargeminibatchsgd}. 
 A regla indica que o learning rate óptimo debe escalarse linearmente co tamaño do batch size. 
 
-Unha forma de explicar isto é, xa que con batches mais grandes temos unha mellor aproximación do gradiente real, é posible utilizar un learning rate maior sen que a rede diverxa.
+Unha forma de explicar isto é, xa que con batches mais grandes temos unha mellor aproximación do gradiente real, é posible utilizar un learning rate maior sen que a rede diverxa. \cite{kexuefm-10542}
+
 
 O batch size nesta rede representa o número de coordenadas amostradas aleatoriamente do espazo de coordenadas dentro da máscara.
+
 
 \subsubsection{Método}
 \label{subsubsec:Método}
