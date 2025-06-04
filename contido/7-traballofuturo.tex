@@ -1,32 +1,45 @@
 \chapter{Traballo futuro}
 \label{chap:Traballo futuro}
 
-\lettrine{E}{xisten} varias liñas de traballo futuro que se poden seguir para mellorar o sistema.
-A continuación, descríbense algunhas das que teñen maior potencial:
+\lettrine{E}{xisten} varias liñas de traballo futuro que se poden seguir para mellorar o sistema actual.
+ Os resultados obtidos neste traballo, aínda que demostran a viabilidade de adaptar o framework IDIR para o aliñamento de imaxes oftalmolóxicas 2D, tamén revelan limitacións á hora de acadar a precisión e robustez desexables.
+ As seguintes liñas de traballo futuro considéranse prometedoras para superar estes desafíos e avanzar no campo:
 
-\section{Instant Neural Graphics Primitives}
-\label{sec:Instant Neural Graphics Primitives}
+% \section{Instant Neural Graphics Primitives}
+% \label{sec:Instant Neural Graphics Primitives}
 
-Introducidas por \cite{mueller2022instant}, propoñen encodear os inputs da rede a un espacio dimensional superior.
+% Introducidas por \cite{mueller2022instant}, propoñen encodear os inputs da rede a un espacio dimensional superior.
 
-Encodear os inputs da rede é unha técnica que xa se emprega en moitas ocasións (one-hot encodings, transformers...)
-Eles utilizan 'sparse parametric encodings' utilizando unha tabla de hashes de múltiples resolucións, que tamén tén parámetros entrenables e fai parte do traballo de aprendizaxe da rede.
-Isto permítelles un entrenamento e inferencia moito mais rápido que outros métodos, sen ter que sacrificar en rendemento.
+% Encodear os inputs da rede é unha técnica que xa se emprega en moitas ocasións (one-hot encodings, transformers...)
+% Eles utilizan 'sparse parametric encodings' utilizando unha tabla de hashes de múltiples resolucións, que tamén tén parámetros entrenables e fai parte do traballo de aprendizaxe da rede.
+% Isto permítelles un entrenamento e inferencia moito mais rápido que outros métodos, sen ter que sacrificar en rendemento.
 
-\cite{li2024neuralgraphicsprimitivesdeformable} aplicao estas ideas á tarefa de rexistro, con moi bós resultados.
-Notablemente, resuelven o 'sliding boundary problem', que se refiere ás complicación de modelar o movemento relativo entre diferentes estructuras. 
-No caso da imaxe pulmonar, surxe cuando os lóbulos dos pulmóns se deslizan entre sí durante la respiración.
+% \cite{li2024neuralgraphicsprimitivesdeformable} aplicao estas ideas á tarefa de rexistro, con moi bós resultados.
+% Notablemente, resuelven o 'sliding boundary problem', que se refiere ás complicación de modelar o movemento relativo entre diferentes estructuras. 
+% No caso da imaxe pulmonar, surxe cuando os lóbulos dos pulmóns se deslizan entre sí durante la respiración.
 
+\section{Arquitecturas alternativas}
+\label{sec:Arquitecturas alternativas}
 
+Unha liña relevante de traballo futuro é a exploración de arquitecturas alternativas. 
+Mentres que os perceptróns multicapa (MLPs) son considerados aproximadores universais \cite{HORNIK1989359} (son capaces de aproximar calquera función continua dada unha cantidade suficiente de neuronas), é posible que a arquitectura utilizada de 3 capas con 256 neuronas por capa non sexa o suficientemente grande para capturar as complexidades das transformacións entre as retinografías.
+
+Unha opción sería aumentar o número de capas ou neuronas por capa. Outra sería implementar o use de codificación posicional, que parece ser útil para a tarefa de rexistro \cite{mueller2022instant}.
 
 \section{Invertibilidade}
 \label{sec:Invertibilidade}
 
-Os resultados de esta rede non teñen ningunha garantía de ser difeomórficos, 
-mais grazas aos termos de regularización utilizados durante o adestramento son poucos os casos nos que o determinante jacobiano é negativo (o que indicaría que a transformación non é invertible).
+Unha direción interesante para o traballo futuro é a exploración de métodos que garantan a invertibilidade das transformacións aprendidas pola rede.
+A rede IDIR actual non garante a invertibilidade das transformacións aprendidas, o que significa que non é posíbel aplicar a transformación inversa de maneira fiable.
 
-É posible garantir a invertibilidade da transfomación facendo uso de redes invertibles \cite{jacobsen2018irevnetdeepinvertiblenetworks}.
+Grazas aos termos de regularización utilizados durante o adestramento son poucos os casos nos que o determinante jacobiano é negativo (o que indicaría que a transformación non é invertible).
 
-Tamén con campos de velocidade neuronais \cite{sun2024medicalimageregistrationneural} ...
+Aproximación como a de i-RevNet \cite{jacobsen2018irevnetdeepinvertiblenetworks} ou aqueles baseados en campos vectoriais de velocidade \cite{sun2024medicalimageregistrationneural} permiten garantir a invertibilidade das transformacións aprendidas, o que podería mellorar a precisión e a robustez do rexistro e funcionaría como un mecanismo de regulación implícita.
 
-Ademais, o campo de desprazamento que se obteñen da rede actualemente tan só permiten a transformación nunha dirección, xa que non se pode aplicar a transformación inversa.
+\section{Enfoque híbrido}
+\label{sec:Enfoque híbrido}
+
+Outra liña de traballo futuro é a exploración de enfoques híbridos que combinen o rexistro baseado en redes neuronais con técnicas tradicionais de rexistro.
+Unha posibilidade sería utilizar o rexistro tradicional para proporcionar un rexistro inicial robusto, que despois podería ser refinado por unha rede neuronal.
+
+Así mesmo, poderíanse explorar con máis profundidade o preprocesado das imaxes, xa que é inexistente no método actual pero podería ser útil para mellorar a calidade das imaxes e facilitar o rexistro.

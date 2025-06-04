@@ -3,7 +3,7 @@
 
 \lettrine{N}{este} apartado presentarase o traballo realizado, comezando por unha vista xeral do proceso, 
 seguido dunha explicación dos diferentes módulos desenvolvidos e a súa interacción, así como os conxuntos de datos empregados.
-Finalmete, presentaranse os resultados obtidos acompañados dunha análise dos mesmos.
+Finalmente, presentaranse os resultados obtidos acompañados dunha análise dos mesmos.
 \section{Vista Xeral}
 \label{sec:VistaXeral}
 
@@ -14,7 +14,7 @@ Inicialmente replicáronse os resultados obtidos por Wolterink et al \cite{wolte
 
 \begin{table}[ht]
     \centering
-    \caption{Rreplicación dos resultados de IDIR}
+    \caption{Replicación dos resultados de IDIR}
     \begin{tabular}{c|c}
         Scan & {IDIR / Replicación} \\
         1  & 0.76 (0.94) / 0.79 (0.92) \\
@@ -77,7 +77,7 @@ Inclúe 10 puntos de referencia para cada imaxe, que se utilizan para a avaliaci
 O conxunto de datos RFMiD \cite{RFMiD} proporciona 3200 imaxes de fondo de ollo en cor con resolución 1712x1712, etiquetadas según se teñen algunha anomalía ou non. 
 Tamén proporciona etiquetas para 45 diferentes anomalías anotadas por expertos.
 
-Para utilizalo neste traballo, seleccionamos unha submostra e xeramos transfomacións aleatorias. Gardamos as imaxes orixinais e as transformadas así como as matrices de transformación asociadas para a posterior avaliación.
+Para utilizalo neste traballo, seleccionamos unha submostra e xeramos transformacións aleatorias. Gardamos as imaxes orixinais e as transformadas así como as matrices de transformación asociadas para a posterior avaliación.
 Tamén se divide entre transfomacións de cor e de xeometría.
 
 % \dots preguntar David
@@ -87,7 +87,7 @@ Tamén se divide entre transfomacións de cor e de xeometría.
 \label{subsec:Diferencias entre os datasets}
 
 Unha vantaxe de utilizar dous conxutos de datos diferentes é que cada un deles ten características únicas que permiten avaliar o modelo en diferentes contextos.
-A principal diferencia é que RMIFD é un conxunto de datos sintético, no cal non introducimos diferenzas de cor e sempre teñen unha superposición do 100\%, polo que o único que se avalia é a capacidade do modelo para realizar os rexistros xeométricos.
+A principal diferencia é que RMiFD é un conxunto de datos sintético, no cal non introducimos diferenzas de cor e sempre teñen unha superposición do 100\%, polo que o único que se avalia é a capacidade do modelo para realizar os rexistros xeométricos.
 Polo contrario, FIRE é un conxunto de datos real, no cal existen cambios na iluminación, contraste, superposición e demais diferencias visuais, polo que se avalía a capacidade do modelo para realizar rexistros en condicións moito máis adversas.
 
 \section{Métodos de Avaliación}
@@ -131,7 +131,7 @@ A avaliación visual permite detectar problemas que non se reflictan nas métric
 especialmente en rexistros que teñen deformacións locais que poden non coincidir con ningún punto.
 
 No caso do dataset FIRE \cite{FIRE}, a avaliación visual é especialmente relevante, xa que tan só se proporcionan 10 puntos de referencia por imaxe, que poden non ser suficientes para avaliar a calidade do rexistro en moitas zonas da imaxe.
-Xa que en RFMID \cite{RFMiD} uilízanse puntos de referencia xerados manualmente que cubren toda a imaxe, a avaliación visual é algo menos relevante, xa que é mais probable que unha deformación local incorrecta sexa detectada por algún punto e se vexa reflexado nas métricas.
+Xa que en RFMID \cite{RFMiD} utilízanse puntos de referencia xerados manualmente que cubren toda a imaxe, a avaliación visual é algo menos relevante, xa que é máis probable que unha deformación local incorrecta sexa detectada por algún punto e se vexa reflexado nas métricas.
 
 \section{Proceso de Rexistro}
 \label{sec:Proceso de Rexistro}
@@ -143,14 +143,14 @@ e o resto de parámetros relevantes (función de activación, optimizador, métr
 A inicialización dos pesos da rede é especialmente relevante no caso da función de activación SIREN, que é sensible a valores iniciais.
 Tamén se xera un tensor de coordenadas inicial que contén todas as coordenadas dentro da máscara da imaxen fixa.
 
-Cando comeza o entrenamento por cada epoch repítese o seguinte proceso:
+Cando comeza o adestramento por cada epoch repítese o seguinte proceso:
 
-Se muestrean "batch size" puntos no tensor de coordenadas orixinal e estos pásanse pola rede, 
+Mostreanse "batch size" puntos no tensor de coordenadas orixinal e estos pásanse pola rede, 
 a cal devolve a transformación que predice para esas coordenadas.
 A continuación, aplicase esta transformación e calculase o loss entre a imaxe móbil transformada e a imaxe fixa.
-O valor de loss axústase según os termos de regularización usados, e finalmente propágase cara atrás para actualizar os pesos da rede.
+O valor de loss axústase según os termos de regularización usados, e finalmente realízase a retropropagación para actualizar os pesos da rede.
 
-O proceso de muestreo pode ser aleatorio ou utilizando unha estratexia específica.
+O proceso de mostraxe pode ser aleatorio ou utilizando unha estratexia específica.
 
 Cabe destacar que a tarefa de rexistro de pulmóns é diferente da de retinografías. O tamaño das deformacións é moito maior, así como o grado de superposición entre as imaxes.
 Por este motivo, non podemos asumir que os parámetros óptimos para pulmóns sexan tamén os mellores para retinas.

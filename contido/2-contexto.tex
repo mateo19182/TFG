@@ -208,7 +208,6 @@ O rexistro totalmente supervisado fai uso de DVFs de referencia para supervisar 
 No lugar dos DVFs de referencia, o rexistro débilmente supervisado pode utilizar outras etiquetas de referencia implícitas.
  Estas etiquetas non se basan en datos explícitos como os DFVs, senón que utilizan información indirecta para guiar o proceso de rexistro, como a semellanza entre as imaxes ou restricións baseadas na forma ou límites anatómicos das estruturas.
  Máis de dous tipos de datos de referencia son frecuentemente utilizados para adestrar modelos de rexistro débilmente supervisados. \cite{bharati2022deeplearningmedicalimage}
-\dots
 
 \subparagraph{Métodos Non Supervisados}
 \label{subparagraph:Métodos Non Supervisados}
@@ -389,7 +388,7 @@ o que expande substancialmente o conxunto de termos de regularización que se po
 larger frequencies appear in the networks for weights with larger magnitudes.
 
 Outros traballos como \cite{mildenhall2020nerfrepresentingscenesneural} non utiliza unha función de activación periódica, mais para a representación adecuada de zonas de alta frecuencia 
-utilizaron positional encoding, que xa as incorpora de forma implícita na rede con bós resultados. 
+utilizaron codificación posicional, que xa as incorpora de forma implícita na rede con bós resultados. 
 
 Outra das vantaxes que ten SIREN é que é unha función suave ou infinitamente diferenciable, é dicir, que admite derivadas de calquer orde.
 Outros exemplos de funcións de activación infinitamente diferenciables son:
@@ -467,7 +466,7 @@ Os principais termos de perda valorados para este traballo son:
     \]
     onde \( y_i \) é o valor do pixel da imaxe fixa, \( \hat{y}_i \) é o valor do pixel da imaxe móbil, e \( N \) é o número total de píxeles. \cite{Palubinskas02012017}
 
-    Regulizador Hiperelástico en 2DRegulizador Hiperelástico en 2D    \item \textbf{L1 (Mean Absolute Error)}:
+    Regulizador Hiperelástico en 2D   \item \textbf{L1 (Mean Absolute Error)}:
     Mide o error absoluto promedio. Menos sensible a valores atípicos que MSE.
     \[
     \text{L1} = \mathbb{E}[|Y - \hat{Y}|] = \frac{1}{N} \sum_{i=1}^{N} |y_i - \hat{y}_i|
@@ -578,8 +577,7 @@ Algúns exemplos de termos de regularización que se poden empregar son:
     Pódese impoñer a suavidade da deformación empregando esta penalización proposta en \cite{bendingenergy}, que 
     require que as segundas derivadas do DVF sexan pequenas en todo o dominio, o que evita deformacións bruscas e discontinuas.
     Este termo non pode ser utilizado nunha rede que utilice ReLU como función de activación, xa que a segunda derivada de unha ReLU é sempre igual a 0.
-    \dots
-    
+
     \begin{figure}[ht!]
         \centering
         \[
@@ -634,7 +632,7 @@ Sen regularización só se fai 1 pasada para calcular o gradiente do termo de si
 Ca regularización do Jacobiano, ademais do termo de similitude, calcúlanse dúas derivadas (unha por dimensión) para obter o Jacobiano, resultando en 3 pasadas por época.
 Engadindo a regularización hiperelástica (sen termo de volume), é necesario calcular unha derivada adicional para o cofactor da matriz Jacobiana, facendo un total de 4 pasadas por época.
 Finalmente, ca penalización de enerxía de flexión, necesitanse derivadas segundas, o que implica 7 pasadas por época en total.
-Na traballo orixinal de IDIR, chegaban a usar 13 pasadas debido a que traballan en 3D.
+No traballo orixinal de IDIR, chegaban a usar 13 pasadas debido a que traballan en 3D.
 
 Se os termos de regularización teñen demasiada influencia sobre o termo de loss, a rede fará transformacións moi pequenas para evitar ser penalizada, o que resultará nunha transformación insuficiente.
 Por outro lado, se os termos son demasiado pequenos, a rede fará transformacións moi grandes, o que resulta nunha transformación irrealista e sobreaxustada. Isto é especialmente evidente no caso da función de activación SIREN, que tende a sobreaxustarse facilmente debido ao seu sesgo cara sinais de alta frecuencia.
@@ -655,7 +653,7 @@ Debido á natureza da rede, o batch size utilzado ten unha relación directa co 
 Unha das heurísiticas mais comúns para relacionar o learning rate e o batch size é a regla de escalado linear \cite{goyal2018accuratelargeminibatchsgd}. 
 A regla indica que o learning rate óptimo debe escalarse linearmente co tamaño do batch size. 
 
-Unha forma de explicar isto é, xa que con batches mais grandes temos unha mellor aproximación do gradiente real, é posible utilizar un learning rate maior sen que a rede diverxa. \cite{kexuefm-10542}
+Unha forma de explicar isto é, xa que con batches mais grandes temos unha mellor aproximación do gradiente real, é posible utilizar un learning rate maior sen que a rede diverxa. \cite{kexuefm}
 
 
 O batch size nesta rede representa o número de coordenadas amostradas aleatoriamente do espazo de coordenadas dentro da máscara.

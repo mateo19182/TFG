@@ -5,21 +5,28 @@
 En especial valoramos o uso da función de activación SIREN, proposta como alternativa á función ReLU para mellorar a representación das deformacións.
 
 A aliñación de retinografías é un problema relevante xa que é un proceso laborioso para os expertos, mais con moita uilidade clínica.
-A etapa inicial da revisión do estado da arte revelou que xa existían varios traballos previos que abordaban este problema, sendo os mais exitosos os baseados en métodos iterativos.
+A etapa inicial da revisión do estado da arte revelou que xa existían varios traballos previos que abordaban este problema, sendo os máis exitosos os baseados en métodos iterativos.
 Actualmente os métodos de aprendizaxe profunda son unha alternativa prometedora que está gañando prominencia no campo. Particularmente, o uso de representacións implícitas para esta tarefa é un enfoque innovador que podería superar os métodos tradicionais. 
 
-Para avaliar a efectividade do método proposto, escolléronse dous datasets de retinografías: FIRE, que permite a avaliación do método en imaxes reais, e RFMID, sobre o que se efectuaron transformacións artificiais para simular diferentes escenarios de aliñación.
+Para avaliar a efectividade do método proposto, escolléronse dous conxuntos de datos de retinografías: FIRE, que permite a avaliación do método en imaxes reais, e RFMID, sobre o que se efectuaron transformacións artificiais para simular diferentes escenarios de aliñación.
 
-Durante a fase de experimentación exploráronse diferentes combinacións de hiperparámetros (loss, regularización, resolución, batch size...) e introducíronse diferentes técnicas para tentar mellorar a converxencia do modelo, como diferentes esquemas de muestreo, inicialización, e técnicas de axuste dinámico do batch size.
+Durante a fase de experimentación exploráronse diferentes combinacións de hiperparámetros (loss, regularización, resolución, batch size...) e introducíronse diferentes técnicas para tentar mellorar a converxencia do modelo, como diferentes esquemas de mostraxe, inicialización, e técnicas de axuste dinámico do batch size.
 
 Algunhas das dificultades atopadas durante o desenrrolo do proxecto foron: a falta de documentación sobre o funcionamento do código orixinal, que dificultou a súa adaptación ao novo dominio; o deseño do proceso de avaliación, no cal foi complexo atopar visualizacións que permitisen interpretar os resultados facilmente; e o tempo de cómputo que requerían algúns experimentos, que requeriu a implementación de optimizacións para facilitar a experimentación.
 
-Os resultados obtidos amosan que esta arquitectura non é a mais adecuada para a terefa de rexistro de retinografías.
+Os resultados obtidos amosan que esta arquitectura non é a máis adecuada para a tarefa de rexistro de retinografías.
 
 Si que se obteñen bós resultados no dataset RFMID, que se basea en imaxes con transformacións sintéticas, onde a función de activación ReLU tende a obter mellores resultados ca SIREN, xa que está mellor preparada para representar as transformacións lineais globais que se producen entre estas imaxes.
-Obsérvase tamén que o tamaño da transfomación ten un impacto significativo no rendemento, xa que as imaxes de maior tamaño presentan un maior erro de rexistro.
+Obsérvase tamén que o tamaño da transformación ten un impacto significativo no rendemento, xa que as imaxes de maior tamaño presentan un maior erro de rexistro.
 
-No dataset FIRE, que contén imaxes reais, os resultados son peores ca no dataset RFMID, especialmente en nas parellas de imaxes que presentan grandes deformacións o baixo nivel de superposición.
+No dataset FIRE, que contén imaxes reais, os resultados son peores ca no dataset RFMID, especialmente nas parellas de imaxes que presentan grandes deformacións ou baixo nivel de superposición.
 A función de activación SIREN obtén mellores resultados aquí, xa que é capaz de representar mellor as deformacións non lineais e locais que se producen entre as imaxes.
-Non obstante, os resultados son considerablemente peores ca os obtidos con outros métodos de rexistro tradicionais.
 
+Estas diferencias no rendemento destacan a importancia da elección da función de activación en función da natureza específica das transformacións esperadas.
+A fase de experimentación tamén revelou que a regularización é un factor fundamental, especialmente na función de activación SIREN, onde a ausencia de regularización leva a un sobreaxuste significativo e a un rendemento moi pobre.
+
+Non obstante, os resultados son considerablemente peores ca os obtidos con outros métodos de rexistro, onde métodos como REMPE \cite{rempe} conseguen rexistrar exitosamente a totalidade da categoría S de FIRE mentres que o noso método foi incapaz de rexistrar máis da metade das imaxes desta categoría.
+
+Unha observación a destacar é a diferencia entre o rendemento entre o conxunto de datos sintético (RFMID) e o conxunto de datos real (FIRE). Esta brecha demostra a dificultade de aplicar modelos adestrados en datos sintéticos a imaxes reais.
+
+Todos estes achados responden aos obxectivos propostos no inicio do proxecto, onde adaptamos o framework IDIR para o rexistro de retinografías, exploramos a función de activación SIREN e avaliamos o rendemento do modelo en diferentes condicións.

@@ -396,7 +396,7 @@ Esta é unha xeralización da distancia euclidiana aplicada a matrices, onde as 
 
 Desta forma podemos comparar o rendemento da rede en diferentes subconxuntos de imaxes, e determinar se o rendemento da rede é consistente entre eles.
 Nos experimentos co dataset FIRE, decidiuse limitarse á categoría S, xa que é a que maior número de exemplos tén e ten un maior grao de superposición entre as imaxes, o que facilita a tarefa de rexistro.
-Ademais, xa que a rede si que é capaz de rexistrar correctamente as imaxes dos subconxuntos mais sinxelos, utilizaremos a métrica de FIRE para medir o pocentaxe de imaxes rexistradas correctamente.
+Ademais, xa que a rede si que é capaz de rexistrar correctamente as imaxes dos subconxuntos mais sinxelos, utilizaremos a métrica de FIRE para medir o porcentaxe de imaxes rexistradas correctamente.
 
 \paragraph{Resultados}
 \label{par:Resultados-batchsize}
@@ -503,7 +503,7 @@ Obsérvase que as redes ca función de activación ReLU tenden a ter un rendemen
 Tamén parece que o batch size é relevante, especialmente o cambio entre 1000 e 10000, mentres que batch sizes maiores (50000, 100000) non parecen ter tanto impacto, aínda que si un maior custo computacional. 
 
 Mentres que a rede é capaz de rexistrar correctamente consistentemente as imaxes do subconxunto mais sinxelos (0-150, 150-300), o rendemento decae notablemente para transformacións mais complexas (300+). 
-Isto é mais notable cando se utiliza a función de activación SIREN, que ten dificultades incluso con transformacións de complexidade media, mentres que con ReLU o decae de forma lineal.
+Isto é mais notable cando se utiliza a función de activación SIREN, que ten dificultades incluso con transformacións de complexidade media, mentres que con ReLU decae de forma lineal.
 
 \paragraph{Conclusións}
 \label{par:Conclusions-batchsize}
@@ -520,10 +520,10 @@ Isto débese a que as imaxes de retina conteñen seccións con moita mais inform
 Por exemplo, as seccións que conteñen vasos sanguíneos ou o disco óptico probablemente teñan mais información relevante para a tarefa de rexistro, frente outras seccións como o fondo da retina.
 Ademais, as retinografías teñen desprazamentos moito maiores e menor superposición entre cada parella, polo que a rede ten que aprender transformacións mais complexas.
 
-\paragraph{Planteamento}
-\label{par:Planteamento-sampling}
+\paragraph{Plantexamento}
+\label{par:Plantexamento-sampling}
 
-Para solucionar isto, propúxose unha estratexia de mostraxe mais intellixente, onde se calcula unha máscara de probabilidade para cada imaxe, que se utiliza para seleccionar os puntos que se pasan á rede.
+Para solucionar isto, propúxose unha estratexia de mostraxe mais intelixente, onde se calcula unha máscara de probabilidade para cada imaxe, que se utiliza para seleccionar os puntos que se pasan á rede.
 Para calcular esta máscara, extráense mediante operadores de Sobel os vasos sanguíneos e mediante umbralización o disco óptico, que son as zonas onde se espera que haxa máis información, e dáselles maiores probabilidades de ser seleccionadas.
 
 Posteriormente tamén se introducíu unha estratexia de mostraxe uniforme, onde se seleccionan un número fixo de puntos en cada imaxe.
@@ -545,14 +545,14 @@ Na figura \ref{fig:sampling_heatmaps} pódense observar os diferentes tipos de m
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{imaxes/muestraje/random_sampling_heatmap.png}
-        \caption{Heatmap de mostraxe aleatorio}
+        \caption{Mapa de calor de mostraxe aleatorio}
         \label{fig:random_sampling_heatmap}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{imaxes/muestraje/weighted_sampling_heatmap.png}
-        \caption{Heatmap de mostraxe con peso}
+        \caption{Mapa de calor de mostraxe con peso}
         \label{fig:weighted_sampling_heatmap}
     \end{subfigure}
     \hfill
@@ -562,7 +562,7 @@ Na figura \ref{fig:sampling_heatmaps} pódense observar os diferentes tipos de m
         \caption{Heatmap de mostraxe uniforme (100 puntos)}
         \label{fig:uniform_sampling_heatmap}
     \end{subfigure}
-    \caption{Heatmaps de mostraxe}
+    \caption{Mapas de calor de mostraxe}
     \label{fig:sampling_heatmaps}
 \end{figure}
 \FloatBarrier
@@ -648,7 +648,7 @@ Igual que en experimentos anteriores, a función de activación ReLU parece dar 
 
 É posible que a inicialización da rede sexa un factor clave, e que certos desprazamentos iniciais provoque que que a rede sexa incapaz de aprender a transformación correcta, ou que lle custe moito mais aprenderla.
 
-Para testar esta hipótese implementouse unha lotería de inicialización, onde se utiliza o loss no epoch 0 para determinar a inicialización da rede mais beneficiosa sobre a que seguir entrenando.
+Para testar esta hipótese implementouse unha lotería de inicialización, onde se utiliza o loss no epoch 0 para determinar a inicialización da rede máis beneficiosa sobre a que seguir entrenando.
 
 % \ref{fig:lottery_initial_deformations_combinedMLP}, \ref{fig:lottery_initial_deformations_combinedSIREN}
 
@@ -688,7 +688,7 @@ Na figura \ref{fig:lottery} amósanse os resultados de diferentes valores da lot
 \label{par:Discusion-initialization}
 
 Obsérvase que a lotería de inicialización si que provoca unha mellora, aínda que non moi significativa, e non se beneficia particularmente de utilizar mais de 5 inicializacións.
-É posible que fore mellor esperar ata un epoch algo mais avanzado para determinar a inicialización, xa que no epoch 0 non hay ningunha seguridade de que non sexa un mínimo local, pero isto tamén implicaría un maior custo computacional.
+É posible que fose mellor esperar ata unha iteración algo mais avanzado para determinar a inicialización, xa que no epoch 0 non hai ningunha seguridade de que non sexa un mínimo local, pero isto tamén implicaría un maior custo computacional.
 
 \paragraph{Conclusións}
 \label{par:Conclusions-initialization}
@@ -726,9 +726,9 @@ Isto pode deberse a que a rede xa é capaz de aprender as transformacións globa
 \label{subsec:Exemplos de rexistro}
 
 Na figura \ref{fig:reg_examples} pódense observar diferentes exemplos de rexistro, tanto exitosos como fallidos.
-A primeira imaxe corresponde ca imaxe fixa, a segunda corresponde ca imaxe rexistrada, a terceira ca imaxe móbil e a cuarta o campos de deformación aplicado a unha gralla cadrada.
-
-Pódense observar os puntos de control, sendo os blancos os da imaxe fixa, os verdes os da imaxe móbil e os azuis os desprazados pola rede.
+A primeira imaxe corresponde ca imaxe fixa, a segunda corresponde ca imaxe rexistrada, a terceira ca imaxe móbil e a cuarta o campo de deformación aplicado a unha grella cadrada.
+ 
+Pódense observar os puntos de control, sendo os brancos os da imaxe fixa, os verdes os da imaxe móbil e os azuis os desprazados pola rede.
 \begin{figure}[ht]
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
@@ -789,7 +789,7 @@ Pódense observar os puntos de control, sendo os blancos os da imaxe fixa, os ve
         \label{fig:reg_example_RFMID_SIREN_mala}
     \end{subfigure}
 
-    \caption{Exemplos de rexistro: combinacións de dataset (FIRE/RFMID), función de activatción (relu/SIREN) e éxito.}
+    \caption{Exemplos de rexistro: combinacións de dataset (FIRE/RFMID), función de activación (relu/SIREN) e éxito.}
     \label{fig:reg_examples}
 \end{figure}
 

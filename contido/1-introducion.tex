@@ -1,7 +1,7 @@
 \chapter{Introdución}
 \label{chap:introducion}
 
-\lettrine{N} este primer capítulo expóñense as motivacións e obxetivos deste traballo. Ademais, detallarase a estrutura da memoria e os apartados que a conforman.
+\lettrine{N} este primer capítulo expóñense as motivacións e obxectivos deste traballo. Ademais, detallarase a estrutura da memoria e os apartados que a conforman.
 
 \section{Motivación}
 \label{sec:motivacion}
@@ -10,28 +10,30 @@ A oftalmoloxía válese da análise de imaxes obtidas por diversos métodos para
 Non obstante, dado que estas imaxes poden prover de distintas modalidades e ser tomadas dende distintos puntos no espazo ou en instantes separados no tempo, é preciso aliñalas para poder comparalas de xeito efectivo.
 O aliñamento, tamén denominado rexistro, consiste en deformar dúas ou máis imaxes co obxetivo de que as características de interese se atopen na mesma posición (superpostas).
 Este é un proceso tedioso e propenso a erros cando se realiza manualmente, polo que calquer mellora nel é de gran utilidade para que os profesionais da saúde, que poderán adicar máis tempo a tarefas máis relevantes.
-Esta problema é axeitada para ser automatizada, xa que é non require dun xuízo clínico, senón que se basea na comparación de características visuais das imaxes.
+Esta problema é axeitada para ser automatizada, xa que non require dun xuízo clínico, senón que se basea na comparación de características visuais das imaxes.
 
-Xa existen diversas técnicas para realizar aliñamento de imaxes automático, especialmente ca chegada do deep learning á visión por computador para imaxes médicas, onde é habitual o uso de redes neuronais convolucionais (\gls{CNN}) \cite{medicalimageanalysis}.
+Xa existen diversas técnicas para realizar aliñamento de imaxes automático, especialmente ca chegada do aprendizaxe profundo á visión por computador para imaxes médicas, onde é habitual o uso de redes neuronais convolucionais (\gls{CNN}) \cite{medicalimageanalysis}.
 Estos métodos, aínda que efectivos, teñen limitacións. Unha delas é que requiren dunha gran cantidade de datos para o seu adestramento, o que pode ser un problema en campos como a medicina, onde a obtención de datos é cara e complexa. Ademais, xeralmente teñen unha precisión menor ca métodos automáticos convencionais, pese a que si que son máis rápidos \cite{bharati2022deeplearningmedicalimage}.
 Adaptando o traballo realizado por IDIR \cite{wolterink2021implicit}, preténdese aplicar redes de representación implícita para o aliñamento de imaxes oftalmolóxicas, para determinar se poden superar as limitacións dos métodos anteriores.
 
 \section{Obxectivos}
+\label{sec:obxectivos}
 
 Neste traballo explorarase o uso de redes de representación implícita para o aliñamento de imaxes oftalmolóxicas, para determinar se son aptas para esta tarefa e se poden superar as limitacións dos métodos anteriores.
 Para iso, os obxectivos específicos son:
 \begin{itemize}
     \item Adaptar o traballo de IDIR \cite{wolterink2021implicit} para aplicalo a imaxes oftalmolóxicas de dúas dimensións.
-    \item Comparar o rendemento do método proposto nos datasets de FIRE \cite{FIRE} e RFMID \cite{RFMiD}.
+    \item Comparar o rendemento do método proposto nos conxuntos de datos de FIRE \cite{FIRE} e RFMID \cite{RFMiD}.
     \item Analizar a influencia de distintos parámetros no rendemento, en particular a influencia da función de activación SIREN.
 \end{itemize}
 
-\section{Estructura }
+\section{Estrutura }
+\label{sec:estrutura}
 
 Nesta sección detallarase a estrutura da memoria e os apartados que a conforman.
 
 \begin{itemize}
-    \item \textbf{Capítulo 1: Introdución}: neste capítulo introdúcese o traballo, explicando as motivacións e obxetivos do mesmo.
+    \item \textbf{Capítulo 1: Introdución}: neste capítulo introdúcese o traballo, explicando as motivacións e obxectivos do mesmo.
     \item \textbf{Capítulo 2: Contexto}: neste capítulo explicarase o contexto do traballo, introducindo conceptos básicos de visión por computador e imaxes médicas, así como o estado da arte en aliñamento de imaxes.
     \item \textbf{Capítulo 3: Metodoloxía e planificación}: neste capítulo explicarase a metodoloxía empregada e a planificación do traballo.
     \item \textbf{Capítulo 4: Traballo realizado}: neste capítulo descríbese o traballo realizado.
