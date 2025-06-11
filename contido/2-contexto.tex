@@ -61,14 +61,12 @@ O rexistro de imaxes é un proceso que consiste en, sobre dúas ou mais imaxes, 
 
 O rexistro de imaxes ten utilidade en moitos campos diferentes como a imaxe satelital, xeografía, robótica... \cite{goshtasby2017theory} mais o 
 campo da imaxe médica é dos mais interesantes póla súa aplicación práctica e é o que se aborda neste traballo.
+Estas imaxes poden variar a nivel temporal, espacial, de dimensión ou de modalidade.
 
 No ámbito da saúde un rexistro adecuado pode empregarse para comparar imaxes dun mesmo paciente tomadas en distintos momentos, en distintas modalidades ou para comparar entre diferentes pacientes.
 Isto permite a revisión do avance dunha enfermidade ao longo do tempo, a fusión de imaxes de distintas modalidades ou a detección de patróns comúns entre distintos individuos.
 A fusión de imaxes permite interpretar moito mellor a información dispoñible nelas, e é de gran axuda para guiar aos médicos na toma de decisións.
-Tamén é útil para correxir os movementos involuntarios do paciente durante a adquisición de imaxes, como no caso da respiración en imaxes de pulmóns.
-As imaxes poden variar a nivel temporal, espacial, de dimensión ou de modalidade.
-
-Tamén é fundamental para a intervención guiada por imaxe (telecirurxía, (\gls{IGRT})) que non 
+Tamén é útil para correxir os movementos involuntarios do paciente durante a adquisición de imaxes, como no caso da respiración en imaxes de pulmóns, ou para a intervención guiada por imaxe (telecirurxía, (\gls{IGRT})) que non 
 podería funcionar sen a utilización axeitada de técnicas de rexistro de imaxes \cite{wang2022neuralrenderingstereo3d}. 
 
 Ata recentemente, gran parte do traballo de rexistro facíase de forma manual por expertos con software como BigWarp \cite{bigwarp}, 
@@ -105,7 +103,7 @@ O rexistro de imaxes pode ser clasificado en distintas categorías segundo as s�
         \item \textit{Ríxida:} Só permite traslación e rotación, mantendo as distancias e ángulos.
         \item \textit{Afín:} Ademais de traslación e rotación, permite escalado e cizallamento.
         \item \textit{Deformable (non ríxida):} Permite deformacións locais complexas e non lineais.
-        \item \textit{Difeomórfica:} Unha transformación non ríxida que é continua, invertible e diferenciable en todo o seu dominio.
+        \item \textit{Difeomórfica:} Unha transformación non ríxida que é continua, invertible e diferenciable en todo o seu dominio. Se non tén esta característica, non se pode garantir que a transformación sexa reversíbel, polo que son preferidas en moitos casos \cite{han2022diffeomorphicimageregistrationneural}.
     \end{itemize}
 
     \item \textbf{Segundo o grao de automatización:} \cite{deeplernreview3dreg}
@@ -118,7 +116,7 @@ O rexistro de imaxes pode ser clasificado en distintas categorías segundo as s�
     \item \textbf{Segundo a natureza da transformación:}
     \begin{itemize}
         \item \textit{Simétrico:} A transformación é consistente en ambas direccións entre as imaxes.
-        \item \textit{Asimétrico:} A transformación calcúlase só nun sentido (de móbil a fixa).
+        \item \textit{Asimétrico:} A transformación calcúlase só nun sentido. Cando se traballa con imaxes de forma asimétrica, a imaxe de referencia denomínase imaxe fixa e a imaxe que se quere rexistrar imaxe móbil.
     \end{itemize}
 
 \end{itemize}
@@ -157,12 +155,9 @@ O rexistro de imaxes pode ser clasificado en distintas categorías segundo as s�
     \end{itemize}
 \end{itemize}
 
-Cando se traballa con imaxes de forma asimétrica, a imaxe de referencia denomínase imaxe fixa e a imaxe que se quere rexistrar imaxe móbil.
-Segundo o tipo de transformación utilizada esta pode ser clasificada en ríxida, afín ou deformable.
+As transformacións lineais globais soen representanse en matrices de transformación, onde cada elemento da matriz representa un parámetro da transformación.
 
-As transformacións podense representar en matrices, onde cada elemento da matriz representa un parámetro da transformación.
-
-Esta matriz denomínase campo de vectores de deformación (\gls{DFV}s), e permite representar deformacións locais na imaxe, facendoa moito mais flexible para representar transformacións complexas e detalladas.
+No caso de transformacións mais complexas, utilízanse campos de vectores de deformación (\gls{DFV}s), que permite representar deformacións locais na imaxe, facendoa moito mais flexible para representar transformacións non lineais e detalladas.
 Os DFVs adoitan ser representados cunha matriz de igual tamaño á imaxe, onde cada elemento representa un vector que indica a dirección e a magnitude da deformación.
 
 Na figura \ref{fig:dfv_visualization} móstranse dúas formas de visualizar un DFV: mediante frechas que indican a dirección e magnitude da deformación, e aplicando a deformación a unha cuadrícula para ver como se distorsiona.
@@ -175,14 +170,15 @@ Na figura \ref{fig:dfv_visualization} móstranse dúas formas de visualizar un D
     \label{fig:dfv_visualization}
 \end{figure}
 
-As transformacións difeomórficas son aquelas que son continuas, invertibles e diferenciables en todo o seu dominio.
-Se non tén esta característica, non se pode garantir que a transformación sexa reversíbel, polo que son preferidas en moitos casos \cite{han2022diffeomorphicimageregistrationneural}, 
-
 \subsection{Estado da arte}
 \label{subsec:Estado da arte}
 
-% Pese á gran cantidade de avances que está a ocorren no campo do aprendizaxe profunda, os métodos clásicos de rexistro de imaxes seguen a ser o estado da arte na maioría de casos, 
+% Pese á gran cantidade de avances que está a ocorren no campo do aprendizaxe profunda, os métodos clásicos de rexistro de imaxes seguen a ser o estado do arte na maioría de casos,
 % principalmente debido á importancia da precisión e a robustez en imaxe médica.
+
+
+No eido da oftalmoloxía, os métodos que funcionan ben en varios dominios de imaxe médica (cerebro, pulmóns, etc) adoitan requirir de axustes para funcionar en retinas, polo que hai un estado da arte paralelo. 
+
 
 \subsubsection{Métodos clásicos}
 \label{subsubsec:Métodos clásicos}
@@ -194,12 +190,16 @@ O resultado final pode ser os parámetros da transformación ou a imaxe fusionad
 
 \paragraph{Métodos baseados en similitude de imaxe}
 \label{par:Métodos baseados en similitude de imaxe}
- 
+
 O rexistro realízase comparando os valores de intensidade dos píxeles ou voxeles mediante unha métrica de similitude entre a imaxe fixa e a imaxe móbil.
-Este enfoque tende a requerir de múltiples iteracións para converxer, nas cales calcúlase o grado de semellanza entre as imaxes e 
+Este enfoque tende a requerir de múltiples iteracións para converxer, nas cales calcúlase o grado de semellanza entre as imaxes e
 actualízanse os parámetros da transformación utilizando un mecanismo de optimización ata que se cumpran os criterios de terminación.
 
+Os métodos de rexistro tradicionais teñen tres compoñentes principais: a métrica de similitude, o optimizador e o modelo de transformación. 
+
 A figura \ref{fig:rexistro_iterativo} mostra un diagrama do proceso de rexistro iterativo.
+
+% ejemplos?
 
 \paragraph{Métodos baseados en características}
 \label{par:Métodos baseados en características}
@@ -208,33 +208,39 @@ O rexistro realízase identificando e emparellando características salientables
 Tipicamente, estes métodos teñen 3 pasos principais:
 
 \begin{itemize}
-    \item \textbf{Detección de puntos de interese:} Identificación de puntos ou rexións salientables nas imaxes, como bordes, esquinas ou texturas. Para isto poden utilizarse utilízanse algoritmos como SIFT \cite{sift}, SURF \cite{surf}, BRISK \cite{brisk} ou FREAK \cite{freakkeypoint}.
-    \item \textbf{Descrición de características:}  os puntos detectados son descritos e comparados entre imaxes usando descritores e algoritmos de emparellamento como FLANN \cite{flann} ou RANSAC \cite{ransac}.
-    \item \textbf{Estimación da transformación:} unha vez atopadas as correspondencias, calcúlase a transformación que aliña as imaxes.
+\item \textbf{Detección de puntos de interese:} Identificación de puntos ou rexións salientables nas imaxes, como bordes, esquinas ou texturas. Para isto poden utilizarse utilízanse algoritmos como SIFT \cite{sift}, SURF \cite{surf}, BRISK \cite{brisk} ou FREAK \cite{freakkeypoint}.
+\item \textbf{Descrición de características:}  os puntos detectados son descritos e comparados entre imaxes usando descritores e algoritmos de emparellamento como FLANN \cite{flann} ou RANSAC \cite{ransac}.
+\item \textbf{Estimación da transformación:} unha vez atopadas as correspondencias, calcúlase a transformación que aliña as imaxes.
 \end{itemize}
 
-Unha vantaxe deste enfoque é a capacidade para rexistrar imaxes con grandes variacións locais ou modalidades diferentes.
+Algúns dos métodos tradicionalmente máis utilizados neste campo son \gls{GDB-ICP} \cite{GDB-ICP} e Harris-PIIFD \cite{piifd}. Este último utiliza o algoritmo Harris \cite{Harris1988ACC} para a detección de puntos de interese, descríbenos con \gls{PIIFD}, e emparéllanse usando \gls{BBF} \cite{BBF}.
+ Finalmente, refínanse as coincidencias e escóllese a transformación (ríxida, afín ou polinomial) segundo o número de pares de puntos válidos. Sobre esta base propuxéronse varias melloras como \cite{ur-sift} ou \gls{GMM} \cite{GMM}.
+
+Unha vantaxe deste enfoque é a capacidade para rexistrar imaxes con grandes variacións locais ou modalidades diferentes, xa que non depende tanto da semellanza global entre as imaxes.
+
+No campo da imaxe de ollo, \gls{REMPE} \cite{rempe} é un método que estima simultaneamente a pose das cámaras e a forma do ollo. Fai uso de un modelo elipsoidal para o ollo e estima a posición das cámaras con RANSAC, para logo refinala cunha variante de \gls{PSO} \cite{pso}. 
+% Versións anteriores deste método utilizaron modelos esféricos e \gls{SURF} no canto de SIFT \cite{H-M16}.
 
 \begin{figure}[hp!]
-    \centering
-    \begin{tikzpicture}[node distance=2cm, scale=0.8, every node/.style={transform shape}]
-        % Nodes
-        \node (imageFixa) [process] {Imaxe Fixa};
-        \node (imageMobil) [process, right of=imageFixa, xshift=3cm] {Imaxe Móbil};
-        \node (featureExtraction) [process, below of=imageFixa, yshift=-1cm] {Cálculo de medida de similitude};
-        \node (parameterUpdate) [process, below of=featureExtraction, yshift=-1cm] {Actualización de Parámetros};
-        \node (applyTransformation) [process, below of=parameterUpdate, yshift=-1cm] {Aplicar a Transformación};
-        \node (criteriaCheck) [decision, below of=applyTransformation, yshift=-1cm] {Criterios Cumplidos?};
-        \node (result) [process, below of=criteriaCheck, yshift=-1cm] {Resultado};
-        % Arrows
-        \draw [arrow] (imageFixa) -- (featureExtraction);
-        \draw [arrow] (imageMobil) -- (featureExtraction);
-        \draw [arrow] (featureExtraction) -- (parameterUpdate);
-        \draw [arrow] (parameterUpdate) -- (applyTransformation);
-        \draw [arrow] (applyTransformation) -- (criteriaCheck);
-        \draw [arrow] (criteriaCheck) -- node[anchor=west] {Sí} (result);
-        \draw [arrow] (criteriaCheck.east) -- ++(1,0) node[anchor=south, xshift=0.5cm] {No} |- (featureExtraction.east);
-    \end{tikzpicture}
+\centering
+\begin{tikzpicture}[node distance=2cm, scale=0.8, every node/.style={transform shape}]
+% Nodes
+\node (imageFixa) [process] {Imaxe Fixa};
+\node (imageMobil) [process, right of=imageFixa, xshift=3cm] {Imaxe Móbil};
+\node (featureExtraction) [process, below of=imageFixa, yshift=-1cm] {Cálculo de medida de similitude};
+\node (parameterUpdate) [process, below of=featureExtraction, yshift=-1cm] {Actualización de Parámetros};
+\node (applyTransformation) [process, below of=parameterUpdate, yshift=-1cm] {Aplicar a Transformación};
+\node (criteriaCheck) [decision, below of=applyTransformation, yshift=-1cm] {Criterios Cumpridos?};
+\node (result) [process, below of=criteriaCheck, yshift=-1cm] {Resultado};
+% Arrows
+\draw [arrow] (imageFixa) -- (featureExtraction);
+\draw [arrow] (imageMobil) -- (featureExtraction);
+\draw [arrow] (featureExtraction) -- (parameterUpdate);
+\draw [arrow] (parameterUpdate) -- (applyTransformation);
+\draw [arrow] (applyTransformation) -- (criteriaCheck);
+\draw [arrow] (criteriaCheck) -- node[anchor=west] {Sí} (result);
+\draw [arrow] (criteriaCheck.east) -- ++(1,0) node[anchor=south, xshift=0.5cm] {No} |- (featureExtraction.east);
+\end{tikzpicture}
 \caption{Proceso de rexistro de imaxes iterativo}
 \label{fig:rexistro_iterativo}
 \end{figure}
@@ -249,70 +255,68 @@ Existen múltiples programas que fan uso de estos métodos para facilitar o rexi
 Ca chegada dos métodos de aprendizaxe profunda á imaxe médica, comezaron a empregarse redes neuronais para realizar o aliñamento de imaxes.
 Existe un gran interés polos métodos baseados en aprendizaxe profundo, como se reflexa no crecente número de publicacións no campo. Na figura \ref{fig:method_comp} móstrase a evolución do número de publicacións sobre rexistro de imaxes, diferenciando entre os métodos baseados en aprendizaxe profunda e os métodos tradicionais.
 
-% Estos métodos tenden a ser mais rápidos que os métodos convencionais, a custo de algo de precisión. 
+% Estos métodos tenden a ser mais rápidos que os métodos convencionais, a custo de algo de precisión.
 Estos métodos tenden a requerir dunha gran cantidade de datos para ser adestrados, o que pode ser unha desventaxa xa que en moitos casos non se dispoñen de bases de datos anotadas do tamaño necesario.
-Os métodos de aprendizaxe profunda poden ser clasificados en dous tipos según se requiran de \glossary{DFV}s anotados ou non na etapa de entrenamento: 
-supervisados (requíren anotacións) e non supervisados (non requíren anotacións) \cite{nie2024medicalimageregistrationapplication}. 
+Os métodos de aprendizaxe profunda poden ser clasificados en dous tipos según se requiran de \glossary{DFV}s anotados ou non na etapa de entrenamento:
+supervisados (requíren anotacións) e non supervisados (non requíren anotacións) \cite{nie2024medicalimageregistrationapplication}.
 
 Estes enfoques son útiles tanto na súa capacidade de aprender a tarefa de rexistro de maneira end-to-end, como para substituír módulos concretos do proceso tradicional.
 Nese sentido, os métodos de aprendizaxe profunda poden ser categorizados según a tarefa do proceso de rexistro que substitúen.
 
 \begin{figure}[hp!]
-    \centering
-    \includegraphics[width=0.8\textwidth]{imaxes/methods_comp.png}
-    \caption{Comparación de pubicacións ó longo do tempo que relacionadas co rexistro de imaxes. Datos extraídos de Scopus \cite{scopus}, realizando as consultas: "TITLE-ABS-KEY(image AND registration) AND NOT(deep AND learning)" e "TITLE-ABS-KEY(image AND registration) AND (deep AND learning)"}
-    \label{fig:method_comp}
+\centering
+\includegraphics[width=0.8\textwidth]{imaxes/methods_comp.png}
+\caption{Comparación de pubicacións ó longo do tempo que relacionadas co rexistro de imaxes. Datos extraídos de Scopus \cite{scopus}, realizando as consultas: "TITLE-ABS-KEY(image AND registration) AND NOT(deep AND learning)" e "TITLE-ABS-KEY(image AND registration) AND (deep AND learning)"}
+\label{fig:method_comp}
 \end{figure}
 
-\paragraph{Sustitución de módulos en rexistro baseado en imaxes (IBR)}
+Os métodos de aprendizaxe profunda poden substituír calquera destes pasos que forman os métodos de rexistro clásicos de forma independente ou en combinación.
+
+\paragraph{En rexistro baseado en intensidade (IBR)}
 \label{par:IBR_substitution}
 
-Os métodos de rexistro tradicionais teñen tres compoñentes principais: a métrica de similitude, o optimizador e o modelo de transformación. Os métodos de aprendizaxe profunda poden substituír calquera destes módulos de forma independente ou en combinación.
-
 \begin{itemize}
-    \item \textbf{Métrica de similitude:} Os métodos de aprendizaxe profunda poden aprender métricas de similitude máis robustas que as tradicionais. Estas métricas aprendidas poden ser máis efectivas en imaxes multimodais ou con artefactos. 
-    Por exemplo, Czolbe et al \cite{semanticsimilarity} propoñen dúas métricas de similitude semánticas que aprende a semellanza entre imaxes comparando as características de alto nivel extraídas. Presentan unha aproximación non supervisada que fai uso de autoencoders e outra semisupervisada que incorpora datos de segmentación.
-    \item \textbf{Optimizador:} Os métodos de aprendizaxe profunda poden substituír o proceso de optimización iterativa tradicional por redes que aprenden a predicir directamente os parámetros de transformación óptimos. Unha aproximación común é empregar estes conxuntos de datos para optimizar unha CNN que, dadas dúas imaxes novas e non vistas, predice o DFV correspondente \cite{defregcnn}. Durante o proceso de entrenamento, a rede pode ter acceso aos DFVs ca deformación correcta, ou pódense obter indirectamente a través da optimización dunha métrica de similitude de imaxes.
-    \item \textbf{Modelo de transformación:} Estes métodos aprenden representacións implícitas da transformación a través de redes neuronais, permitindo modelar deformacións mais complexas que os modelos paramétricos tradicionais. Os métodos como IDIR \cite{wolterink2021implicit} encaixan nesta categoría, utilizando campos neuronais implícitos para representar as transformacións de rexistro.
+\item \textbf{Métrica de similitude:} Os métodos de aprendizaxe profunda poden aprender métricas de similitude máis robustas que as tradicionais. Estas métricas aprendidas poden ser máis efectivas en imaxes multimodais ou con artefactos.
+Por exemplo, Czolbe et al \cite{semanticsimilarity} propoñen dúas métricas de similitude semánticas que aprende a semellanza entre imaxes comparando as características de alto nivel extraídas. Presentan unha aproximación non supervisada que fai uso de autoencoders e outra semisupervisada que incorpora datos de segmentación.
+\item \textbf{Optimizador:} Os métodos de aprendizaxe profunda poden substituír o proceso de optimización iterativa tradicional por redes que aprenden a predicir directamente os parámetros de transformación óptimos. Unha aproximación común é empregar estes conxuntos de datos para optimizar unha CNN que, dadas dúas imaxes novas e non vistas, predice o DFV correspondente \cite{defregcnn}. Durante o proceso de entrenamento, a rede pode ter acceso aos DFVs ca deformación correcta, ou pódense obter indirectamente a través da optimización dunha métrica de similitude de imaxes.
+\item \textbf{Modelo de transformación:} Estes métodos aprenden representacións implícitas da transformación a través de redes neuronais, permitindo modelar deformacións mais complexas que os modelos paramétricos tradicionais. Os métodos como IDIR \cite{wolterink2021implicit} encaixan nesta categoría, utilizando campos neuronais implícitos para representar as transformacións de rexistro.
 \end{itemize}
 
 % Existen diferentes extensións a esta aproximación, como o uso de múltiples etapas ou o uso de redes adversarias durante o entrenamento.
 
-% Tamén se propuxeron métodos híbridos que combinan a optimización iterativa ca aprendizaxe profunda, 
+% Tamén se propuxeron métodos híbridos que combinan a optimización iterativa ca aprendizaxe profunda,
 % entrenando unha CNN nova por cada parella de imaxes. Desta forma conséguese evitar a necesidade de grandes conxuntos de datos para o adestramento.
 
-
-\paragraph{Sustitución de módulos en rexistro baseado en características (FBR)}
+\paragraph{En rexistro baseado en características (FBR)}
 \label{par:FBR_substitution}
 
-Os métodos de rexistro baseado en características dependen de tres etapas secuenciais: detección de características, descrición de características e emparellamento. Os métodos de aprendizaxe profunda poden substituír cada un destes módulos de forma independente ou en combinación.
-
 \begin{itemize}
-    \item \textbf{Detectores de características:} As redes neuronais poden aprender a detectar puntos de interese mais robustos e repetibles que os detectores clásicos como \glossary{SIFT}. SuperPoint \cite{superpoint} introduce un detector de características baseado en redes neuronais que aprende a detectar puntos de interese e a describilos simultaneamente.
-    \item \textbf{Descriptores de características:} Os descriptores aprendidos mediante redes neuronais poden capturar información mais discriminativa, mellorando a precisión do emparellamento posterior. Estes métodos aprenden representacións que son invariantes a transformacións específicas do dominio.
-    \item \textbf{Emparellamento:} As redes neuronais poden aprender a realizar o emparellamento de características de forma mais robusta, especialmente en presenza de cambios de iluminación ou perspectiva. SuperGlue \cite{superglue} é un exemplo de modelo que aprende a emparellar puntos de interese detectados utilizando unha arquitectura baseada en atención para capturar as relacións entre os puntos.
+\item \textbf{Detectores de características:} As redes neuronais poden aprender a detectar puntos de interese mais robustos e repetibles que os detectores clásicos como \glossary{SIFT}. SuperPoint \cite{superpoint} introduce un detector de características baseado en redes neuronais que aprende a detectar puntos de interese e a describilos simultaneamente.
+\item \textbf{Descriptores de características:} Os descriptores aprendidos mediante redes neuronais poden capturar información mais discriminativa, mellorando a precisión do emparellamento posterior. Estes métodos aprenden representacións que son invariantes a transformacións específicas do dominio.
+\item \textbf{Emparellamento:} As redes neuronais poden aprender a realizar o emparellamento de características de forma mais robusta, especialmente en presenza de cambios de iluminación ou perspectiva. SuperGlue \cite{superglue} é un exemplo de modelo que aprende a emparellar puntos de interese detectados utilizando unha arquitectura baseada en atención para capturar as relacións entre os puntos.
 \end{itemize}
 
 \paragraph{Métodos de regresión directa}
 \label{par:direct_regression}
-Estes métodos representan unha aproximación diferente, onde a rede neuronal aprende a mapear directamente desde un par de imaxes ata os parámetros da transformación, sen necesidade de optimización iterativa nin extracción explícita de características. 
+Estes métodos representan unha aproximación diferente, onde a rede neuronal aprende a mapear directamente desde un par de imaxes ata os parámetros da transformación, sen necesidade de optimización iterativa nin extracción explícita de características.
 
 Tamén son denominados métodos de inferencia amortizada debido á capacidade de realizar múltiples inferencias (rexistros) tras un único proceso de entrenamento, en contraposición aos métodos tradicionais que requiren optimización individual para cada par de imaxes.
 Estes enfoques son útiles tanto na súa capacidade de aprender a tarefa de rexistro de principio a final, como pola súa eficiencia computacional na fase de inferencia.
 
-% mergear lo de abajo en lo de arriba-
 
+
+-------
 
 \subparagraph{Métodos Supervisados}
 \label{subparagraph:Métodos Supervisados}
 
 Existen dúas subcategorías según o grado de supervisión utilizado na etapa de entrenamento: totalmente supervisados ou débilmente supervisados.
 O rexistro totalmente supervisado fai uso de DVFs de referencia para supervisar o proceso de aprendizaxe.
- O termo de perda adoita basearse na discrepancia entre os DVFs de referencia e os DVFs predicidos.
- 
+O termo de perda adoita basearse na discrepancia entre os DVFs de referencia e os DVFs predicidos.
+
 No lugar dos DVFs de referencia, o rexistro débilmente supervisado pode utilizar outras etiquetas de referencia implícitas.
- Estas etiquetas non se basan en datos explícitos como os DFVs, senón que utilizan información indirecta para guiar o proceso de rexistro, como a semellanza entre as imaxes ou restricións baseadas na forma ou límites anatómicos das estruturas.
- Máis de dous tipos de datos de referencia son frecuentemente utilizados para adestrar modelos de rexistro débilmente supervisados \cite{bharati2022deeplearningmedicalimage}.
+Estas etiquetas non se basan en datos explícitos como os DFVs, senón que utilizan información indirecta para guiar o proceso de rexistro, como a semellanza entre as imaxes ou restricións baseadas na forma ou límites anatómicos das estruturas.
+Máis de dous tipos de datos de referencia son frecuentemente utilizados para adestrar modelos de rexistro débilmente supervisados \cite{bharati2022deeplearningmedicalimage}.
 
 \subparagraph{Métodos Non Supervisados}
 \label{subparagraph:Métodos Non Supervisados}
@@ -333,46 +337,7 @@ No contexto do rexistro de imaxes, as GANs poden ser utilizadas para aprender a 
 Un exemplo de aplicación de GANs no rexistro de imaxes médicas é o traballo de \cite{mahapatra2019ganbasedmedicalimage}, onde se propón un modelo de rexistro de imaxes baseado en GANs que demostrou ser efectivo tanto en retinas como con resonancias magnéticas cardiovasculares.
 
 Posteriormente \cite{gan2} propuxo SymReg-GAN, baseado en GANs para o rexistro de imaxe simétrico, abordando os problemas inherentes ao rexistro asimétrico debido á súa natureza direccional.
- O método proposto impón a simetría asegurando que a mapeo de imaxe A a B e de volta a A sexa consistente, e está deseñado para escenarios multimodais.
-
-\subsubsection{Aplicación en retinas}
-\label{subsec:Aplicación en retinas}
-
-Os métodos que funcionan ben en varios dominios de imaxe médica (cerebro, pulmóns, etc) 
-adoitan requirir de axustes para funcionar en retinas, polo que en imaxe oftalmolóxica hai un estado do arte paralelo.
-
-O rexistro mediante landmarks segue a ser moi usado neste contexto, e hay especial interese por métodos moi robustos que permitan
- o rexistro e fusión de imaxes de diferentes modalidades, por exemplo entre imaxes de fondo do ollo e anxiografías.
-
- Na figura \ref{fig:retin_reg} móstrase un exemplo de rexistro de imaxes de retina, onde se pode observar como as estruturas anatómicas da retina son aliñadas entre si.
-
-
-------  meter arriba con el resto de cosas
-
-\gls{GDB-ICP} é un dos métodos tradicionalmente mais utilizados, proposto por \cite{GDB-ICP}, consiste en
- comezar cunha ou máis estimacións iniciais que só son precisas en pequenas rexións da imaxe, chamadas rexións bootstrap. 
- En cada rexión bootstrap, o algoritmo itera sobre os seguintes pasos: 
- 
-1: refina a estimación da transformación usando restricións só dentro da rexión bootstrap; 
-2: expande a rexión bootstrap;
-3: comproba se se pode usar un modelo de transformación de orde superior, deténdose cando a rexión se expande para cubrir a superposición entre imaxes.
-
-
-\cite{piifd} propón un framework nomeado Harris-PIIFD no cal comezan por detectar os puntos de esquina como candidatos a puntos de control utlizando Harris \cite{Harris1988ACC}.
-Posteriormente, introdúcen o algoritmo \gls{PIIFD} para describir os puntos característicos, e aplícase o algoritmo \gls{BBF} \cite{BBF} para identificar coincidencias entre pares de imaxes.
-Finalmente, refínanse as coincidencias e elimínanse as incorrectas, e escóllese o tipo de transformación a aplicar en función do número de coincidencias.
-A transformación máis sinxela (ríxida) require polo menos dous pares de puntos de control. Se o número de coincidencias é maior ou igual a tres pero menor que seis, aplícase a transformación afín; e se o número é maior ou igual a seis, aplícase a transformación polinomial de segunda orde.
-
-Varias melloras a este método foron propostas, como \cite{ur-sift}, que introduce o algoritmo \gls{UR-SIFT-PIIFD}, que combina UR-SIFT con Harris-PIIFD para extraer puntos invariantes á escala e obter unha maior robustez.
-\cite{GMM} propón un método baseado en \gls{GMM} para a extracción de puntos de control, que demostra ser mais robusto que os métodos anteriores, especialmente en imaxes con mala calidade ou pouca solapación.
-\cite{MFSP} constrúen sobre os modelos anteriores e utilizan \gls{SURF} para a extracción de puntos de control e \gls{PIIFD} para a descrición dos mesmos, 
-logo presentan \gls{MFSP}, un método non ríxido que combina a preservación de estrutura cos puntos característicos para o rexistro das imaxes. 
-A transformación final efectúase mediante \gls{TPS} \cite{TPS}.
-
-\gls{REMPE} \cite{rempe} propón a estimación simultánea da pose das cámaras que adquiriron as imaxes e da forma e pose do ollo. Utiliza un modelo elipsoidal para u ollo e estima a posición das cámaras inicialmente mediante RANSAC, seguido de una variante de \gls{PSO} \cite{pso} para refinala. 
-Versións anteriores deste método utilzaron modelos esféricos en lugar de elipsoidais, e \gls{SURF} en lugar de SIFT \cite{H-M16}.
-
-----------
+O método proposto impón a simetría asegurando que a mapeo de imaxe A a B e de volta a A sexa consistente, e está deseñado para escenarios multimodais.
 
 
 \ref{fig:retin_reg}
@@ -383,9 +348,13 @@ Versións anteriores deste método utilzaron modelos esféricos en lugar de elip
     \label{fig:retin_reg}
 \end{figure}
 
+----------------
+
+
+
 \section{Representación Neuronais Implícitas}
 \label{sec:Representación Neuronais Implícitas}
- 
+
 A representación de coñecemento é un dos problemas máis importantes na área da computación, e as 
 redes profundas son unha das ferramentas máis útiles, especialmente no campo da visión por computador.
 Tradicionalmente empréganse representacións discretas, onde o espazo de entrada é dividido en celdas e cada celda é asignada un valor (por exemplo nubes de puntos, matrices de píxeles ou vóxeles...).
@@ -448,7 +417,7 @@ No caso do aliñamento de imaxes, buscase optimizar a función que mapea cada lo
 \section{Traballo proposto}
 \label{sec:Traballo proposto}
 
-A pesar do potencial das representaciones neuronales implícitas en diversos dominios médicos, a súa aplicación específica ao rexistro de retinografías permanece inexplorada.
+Como mostramos neste capítulo, a pesar do potencial das representaciones neuronales implícitas en diversos dominios médicos, a súa aplicación específica ao rexistro de retinografías permanece inexplorada.
 
 Este falta de investigación é especialmente relevante dadas as potenciais vantaxes que ofrecen as INRs, como a capacidade de modelar deformacións complexas e a súa independencia da resolución.
 
