@@ -181,24 +181,39 @@ Se non tén esta característica, non se pode garantir que a transformación sex
 \subsection{Estado da arte}
 \label{subsec:Estado da arte}
 
-Pese á gran cantidade de avances que está a ocorren no campo do aprendizaxe profunda, os métodos clásicos de rexistro de imaxes seguen a ser o estado da arte na maioría de casos, 
-principalmente debido á importancia da precisión e a robustez en imaxe médica.
+% Pese á gran cantidade de avances que está a ocorren no campo do aprendizaxe profunda, os métodos clásicos de rexistro de imaxes seguen a ser o estado da arte na maioría de casos, 
+% principalmente debido á importancia da precisión e a robustez en imaxe médica.
 
 \subsubsection{Métodos clásicos}
 \label{subsubsec:Métodos clásicos}
 
-Tradicionalmente impregáronse métodos iterativos baseádos na extracción de características 
-seguido dun proceso de optimización entre cada par de imaxes. 
-Isto require recoñecer as características de interese en cada imaxe e utilizar unha métrica de similitude 
-para determinar a calidade do rexistro.
-O proceso consiste en calcular o grado de semellanza entre as imaxes e 
-actualizar os parámetros da transformación de forma iterativa utilizando algún mecanismo de optimización
- ata que se cumpran os criterios de terminación.
+Os métodos clásicos de rexistro de imaxes médicas poden clasificarse en dúas categorías principais:
+Aqueles baseados en similitude de imaxe (\gls{IBR}) e aqueles baseados en características (\gls{FBR}).
+Tamén existen métodos híbridos que combinan ambos enfoques \cite{integrateintfeat}.
 O resultado final pode ser os parámetros da transformación ou a imaxe fusionada.
+
+\paragraph{Métodos baseados en similitude de imaxe}
+\label{par:Métodos baseados en similitude de imaxe}
+ 
+O rexistro realízase comparando os valores de intensidade dos píxeles ou voxeles mediante unha métrica de similitude entre a imaxe fixa e a imaxe móbil.
+Este enfoque tende a requerir de múltiples iteracións para converxer, nas cales calcúlase o grado de semellanza entre as imaxes e 
+actualízanse os parámetros da transformación utilizando un mecanismo de optimización ata que se cumpran os criterios de terminación.
+
 A figura \ref{fig:rexistro_iterativo} mostra un diagrama do proceso de rexistro iterativo.
 
-A principal desventaxa destes métodos é a súa lentitude, xa que requiren varias iteracións para converxer.
-Non obstante, son moi precisos e robustos, polo que aínda se empregan en moitos casos.
+\paragraph{Métodos baseados en características}
+\label{par:Métodos baseados en características}
+
+O rexistro realízase identificando e emparellando características salientables entre as imaxes, como puntos, liñas ou bordes.
+Tipicamente, estes métodos teñen 3 pasos principais:
+
+\begin{itemize}
+    \item \textbf{Detección de puntos de interese:} Identificación de puntos ou rexións salientables nas imaxes, como bordes, esquinas ou texturas. Para isto poden utilizarse utilízanse algoritmos como SIFT \cite{sift}, SURF \cite{surf}, BRISK \cite{brisk} ou FREAK \cite{freakkeypoint}.
+    \item \textbf{Descrición de características:}  os puntos detectados son descritos e comparados entre imaxes usando descritores e algoritmos de emparellamento como FLANN \cite{flann} ou RANSAC \cite{ransac}.
+    \item \textbf{Estimación da transformación:} unha vez atopadas as correspondencias, calcúlase a transformación que aliña as imaxes.
+\end{itemize}
+
+Unha vantaxe deste enfoque é a capacidade para rexistrar imaxes con grandes variacións locais ou modalidades diferentes.
 
 \begin{figure}[hp!]
     \centering
@@ -224,36 +239,23 @@ Non obstante, son moi precisos e robustos, polo que aínda se empregan en moitos
 \label{fig:rexistro_iterativo}
 \end{figure}
 
-No proceso de extracción de características destacan algoritmos de SIFT \cite{sift}, SURF \cite{surf}, BRISK \cite{brisk} ou FREAK \cite{freakkeypoint}.
+\paragraph{Ferramentas}
 
-Para encontrar a correspondencia entre os puntos característicos das imaxes, empreganse algoritmos como RANSAC \cite{ransac} ou FLANN \cite{flann}.
-
-Tamén existen múltiples programas que facilitan o rexistro de imaxes, como SimpleITK \cite{simpleitk}, Elastix \cite{elastix} ou ANTs \cite{ants}.
-
+Existen múltiples programas que fan uso de estos métodos para facilitar o rexistro de imaxes, como SimpleITK \cite{simpleitk}, Elastix \cite{elastix} ou ANTs \cite{ants}.
 
 \subsubsection{Métodos de aprendizaxe profunda}
 \label{subsubsec:Métodos de aprendizaxe profunda}
 
 Ca chegada dos métodos de aprendizaxe profunda á imaxe médica, comezaron a empregarse redes neuronais para realizar o aliñamento de imaxes.
-Estos métodos tenden a ser mais rápidos que os métodos convencionais, a custo de algo de precisión. 
-Ademais, estos métodos requiren dunha gran cantidade de datos para ser adestrados, 
-o que pode ser unha desventaxa xa que en moitos casos non se dispoñen de bases de datos anotadas do tamaño necesario.
+Existe un gran interés polos métodos baseados en aprendizaxe profundo, como se reflexa no crecente número de publicacións no campo. Na figura \ref{fig:method_comp} móstrase a evolución do número de publicacións sobre rexistro de imaxes, diferenciando entre os métodos baseados en aprendizaxe profunda e os métodos tradicionais.
 
-Unha aproximación común é empregar estes conxuntos de datos para optimizar unha CNN que,
- dadas dúas imaxes novas e non vistas, predice o DFV correspondente. \cite{defregcnn}
+% Estos métodos tenden a ser mais rápidos que os métodos convencionais, a custo de algo de precisión. 
+Estos métodos tenden a requerir dunha gran cantidade de datos para ser adestrados, o que pode ser unha desventaxa xa que en moitos casos non se dispoñen de bases de datos anotadas do tamaño necesario.
+Os métodos de aprendizaxe profunda poden ser clasificados en dous tipos según se requiran de \glossary{DFV}s anotados ou non na etapa de entrenamento: 
+supervisados (requíren anotacións) e non supervisados (non requíren anotacións) \cite{nie2024medicalimageregistrationapplication}. 
 
-Durante o proceso de entrenamento, a rede ten acceso aos DFVs ca deformación correcta,
- ou pódense obter indirectamente a través da optimización dunha métrica de similitude de imaxes.
-
-Existen moitas extensións a esta aproximación, como o uso de múltiples etapas ou o uso de redes adversarias durante o entrenamento.
-
-Tamén se propuxeron métodos híbridos que combinan a optimización iterativa ca aprendizaxe profunda, 
-entrenando unha CNN nova por cada parella de imaxes. Desta forma conséguese evitar a necesidade de grandes conxuntos de datos para o adestramento.
-
-Os métodos de aprendizaxe profunda poden ser clasificados en dous tipos según se requiran de DFVs anotados ou non na etapa de entrenamento: 
-supervisados (requíren de DFVs anotados) e non supervisados (non requíren de DFVs anotados). \cite{nie2024medicalimageregistrationapplication}
-
-Existe un gran interés polos métodos baseados en aprendizaxe profundo, como se reflexa no crecente número de publicacións no campo \ref{fig:method_comp}.
+Estes enfoques son útiles tanto na súa capacidade de aprender a tarefa de rexistro de maneira end-to-end, como para substituír módulos concretos do proceso tradicional.
+Nese sentido, os métodos de aprendizaxe profunda poden ser categorizados según a tarefa do proceso de rexistro que substitúen.
 
 \begin{figure}[hp!]
     \centering
@@ -261,6 +263,45 @@ Existe un gran interés polos métodos baseados en aprendizaxe profundo, como se
     \caption{Comparación de pubicacións ó longo do tempo que relacionadas co rexistro de imaxes. Datos extraídos de Scopus \cite{scopus}, realizando as consultas: "TITLE-ABS-KEY(image AND registration) AND NOT(deep AND learning)" e "TITLE-ABS-KEY(image AND registration) AND (deep AND learning)"}
     \label{fig:method_comp}
 \end{figure}
+
+\paragraph{Sustitución de módulos en rexistro baseado en imaxes (IBR)}
+\label{par:IBR_substitution}
+
+Os métodos de rexistro tradicionais teñen tres compoñentes principais: a métrica de similitude, o optimizador e o modelo de transformación. Os métodos de aprendizaxe profunda poden substituír calquera destes módulos de forma independente ou en combinación.
+
+\begin{itemize}
+    \item \textbf{Métrica de similitude:} Os métodos de aprendizaxe profunda poden aprender métricas de similitude máis robustas que as tradicionais. Estas métricas aprendidas poden ser máis efectivas en imaxes multimodais ou con artefactos. 
+    Por exemplo, Czolbe et al \cite{semanticsimilarity} propoñen dúas métricas de similitude semánticas que aprende a semellanza entre imaxes comparando as características de alto nivel extraídas. Presentan unha aproximación non supervisada que fai uso de autoencoders e outra semisupervisada que incorpora datos de segmentación.
+    \item \textbf{Optimizador:} Os métodos de aprendizaxe profunda poden substituír o proceso de optimización iterativa tradicional por redes que aprenden a predicir directamente os parámetros de transformación óptimos. Unha aproximación común é empregar estes conxuntos de datos para optimizar unha CNN que, dadas dúas imaxes novas e non vistas, predice o DFV correspondente \cite{defregcnn}. Durante o proceso de entrenamento, a rede pode ter acceso aos DFVs ca deformación correcta, ou pódense obter indirectamente a través da optimización dunha métrica de similitude de imaxes.
+    \item \textbf{Modelo de transformación:} Estes métodos aprenden representacións implícitas da transformación a través de redes neuronais, permitindo modelar deformacións mais complexas que os modelos paramétricos tradicionais. Os métodos como IDIR \cite{wolterink2021implicit} encaixan nesta categoría, utilizando campos neuronais implícitos para representar as transformacións de rexistro.
+\end{itemize}
+
+% Existen diferentes extensións a esta aproximación, como o uso de múltiples etapas ou o uso de redes adversarias durante o entrenamento.
+
+% Tamén se propuxeron métodos híbridos que combinan a optimización iterativa ca aprendizaxe profunda, 
+% entrenando unha CNN nova por cada parella de imaxes. Desta forma conséguese evitar a necesidade de grandes conxuntos de datos para o adestramento.
+
+
+\paragraph{Sustitución de módulos en rexistro baseado en características (FBR)}
+\label{par:FBR_substitution}
+
+Os métodos de rexistro baseado en características dependen de tres etapas secuenciais: detección de características, descrición de características e emparellamento. Os métodos de aprendizaxe profunda poden substituír cada un destes módulos de forma independente ou en combinación.
+
+\begin{itemize}
+    \item \textbf{Detectores de características:} As redes neuronais poden aprender a detectar puntos de interese mais robustos e repetibles que os detectores clásicos como \glossary{SIFT}. SuperPoint \cite{superpoint} introduce un detector de características baseado en redes neuronais que aprende a detectar puntos de interese e a describilos simultaneamente.
+    \item \textbf{Descriptores de características:} Os descriptores aprendidos mediante redes neuronais poden capturar información mais discriminativa, mellorando a precisión do emparellamento posterior. Estes métodos aprenden representacións que son invariantes a transformacións específicas do dominio.
+    \item \textbf{Emparellamento:} As redes neuronais poden aprender a realizar o emparellamento de características de forma mais robusta, especialmente en presenza de cambios de iluminación ou perspectiva. SuperGlue \cite{superglue} é un exemplo de modelo que aprende a emparellar puntos de interese detectados utilizando unha arquitectura baseada en atención para capturar as relacións entre os puntos.
+\end{itemize}
+
+\paragraph{Métodos de regresión directa}
+\label{par:direct_regression}
+Estes métodos representan unha aproximación diferente, onde a rede neuronal aprende a mapear directamente desde un par de imaxes ata os parámetros da transformación, sen necesidade de optimización iterativa nin extracción explícita de características. 
+
+Tamén son denominados métodos de inferencia amortizada debido á capacidade de realizar múltiples inferencias (rexistros) tras un único proceso de entrenamento, en contraposición aos métodos tradicionais que requiren optimización individual para cada par de imaxes.
+Estes enfoques son útiles tanto na súa capacidade de aprender a tarefa de rexistro de principio a final, como pola súa eficiencia computacional na fase de inferencia.
+
+% mergear lo de abajo en lo de arriba-
+
 
 \subparagraph{Métodos Supervisados}
 \label{subparagraph:Métodos Supervisados}
@@ -294,13 +335,19 @@ Un exemplo de aplicación de GANs no rexistro de imaxes médicas é o traballo d
 Posteriormente \cite{gan2} propuxo SymReg-GAN, baseado en GANs para o rexistro de imaxe simétrico, abordando os problemas inherentes ao rexistro asimétrico debido á súa natureza direccional.
  O método proposto impón a simetría asegurando que a mapeo de imaxe A a B e de volta a A sexa consistente, e está deseñado para escenarios multimodais.
 
-\subsection{En retinas}
-\label{subsec:Retinas}
+\subsubsection{Aplicación en retinas}
+\label{subsec:Aplicación en retinas}
 
-Os métodos que funcionan ben en moitos dominios de imaxe médica (cerebro, pulmóns, etc) 
+Os métodos que funcionan ben en varios dominios de imaxe médica (cerebro, pulmóns, etc) 
 adoitan requirir de axustes para funcionar en retinas, polo que en imaxe oftalmolóxica hai un estado do arte paralelo.
+
 O rexistro mediante landmarks segue a ser moi usado neste contexto, e hay especial interese por métodos moi robustos que permitan
  o rexistro e fusión de imaxes de diferentes modalidades, por exemplo entre imaxes de fondo do ollo e anxiografías.
+
+ Na figura \ref{fig:retin_reg} móstrase un exemplo de rexistro de imaxes de retina, onde se pode observar como as estruturas anatómicas da retina son aliñadas entre si.
+
+
+------  meter arriba con el resto de cosas
 
 \gls{GDB-ICP} é un dos métodos tradicionalmente mais utilizados, proposto por \cite{GDB-ICP}, consiste en
  comezar cunha ou máis estimacións iniciais que só son precisas en pequenas rexións da imaxe, chamadas rexións bootstrap. 
@@ -324,6 +371,8 @@ A transformación final efectúase mediante \gls{TPS} \cite{TPS}.
 
 \gls{REMPE} \cite{rempe} propón a estimación simultánea da pose das cámaras que adquiriron as imaxes e da forma e pose do ollo. Utiliza un modelo elipsoidal para u ollo e estima a posición das cámaras inicialmente mediante RANSAC, seguido de una variante de \gls{PSO} \cite{pso} para refinala. 
 Versións anteriores deste método utilzaron modelos esféricos en lugar de elipsoidais, e \gls{SURF} en lugar de SIFT \cite{H-M16}.
+
+----------
 
 
 \ref{fig:retin_reg}
@@ -396,370 +445,13 @@ Tamén se empregan en segmentación, compresión e síntesis de imaxes.
 
 No caso do aliñamento de imaxes, buscase optimizar a función que mapea cada localización da imaxe fixa a unha localización da móbil.
 
-\section{IDIR}
-\label{sec:IDIR}
-IDIR (Implicit Deformable Image Registration) é un método de aliñamento de imaxes baseado en redes neuronais. 
-A súa principal diferenza frente a unha rede convolucional tradicional é que, 
-en lugar de predicir a transformación entre imaxes, optimízase unha rede para esta mesma represente esta transformación.
-
-O que \cite{wolterink2021implicit} propón é optimizar directamente o DFV facendo uso
- dunha representación implícita, de forma que a deformación está representada nos propios pesos dunha MLP.
-
- \cite{sun2024medicalimageregistrationneural} e \cite{nodeo} propuxeron métodos de rexistro de imaxes similares de forma independente,
- baseados en Neural ODE (ODE-Nets)\cite{neuralode}, unha familia de modelos de aprendizaxe profundo que trata a rede como un sistema continuo en lugar de unha secuencia de capas discretas.
-
-
-\subsubsection{Arquitectura}
-\label{subsubsec:Arquitectura}
-
-Faise uso dun MLP de 3 capas, e determinaron experimentalmente que obtiñan mellor resultado con 256 unidades por capa que 128.
-Por cada epoch de entrenamento (2500 en total), 10000 puntos son muestreados aleatoriamente do espazo de coordenadas dentro da máscara.
-O término de perda é a 'normalized cross-correlation' entre os valores dos píxeles muestreados na imaxe fixa e os correspondentes da imaxe móbil.
-Utilizan Adam de optimizador, cun learning rate de 0.0001.
-
-\subsubsection{Función de activación}
-\label{subsubsec:Función de activación}
-
-Unha elección estándar para a función de activación é \textbf{ReLU}:
-
-\[
-f(x) = \max(0, x) = \begin{cases} 
-x & \text{si } x > 0 \\ 
-0 & \text{si } x \leq 0 
-\end{cases}
-\]
-
-Non obstante, para redes de representación implícita como ca que estamos traballando, esta ten unha serie de desventaxas.
-
-As ReLUs teñen un sesgo cara a sinais de baixa frecuencia \cite{rahaman2019spectralbiasneuralnetworks}, 
- o que significa que o modelo pode ter dificultades para representar pequenas deformacións locais no rexistro de imaxes.
- 
-\cite{ziyin2020neuralnetworksfaillearn} demostraron que a gran parte das funcións de activación utilizadas en redes neuronais (ReLU, tanh, sigmoide e todas as súas variantes)
-son incapaces de extrapolar función periódicas sinxelas debido á súa tendencia a converxer cara a comportamentos lineais cando se extrapolan fóra do rango de adestramento. 
-
-Existen varias formas de superar este sesgo, como preprocesar as coordenadas de entrada con funcións de activación periódicas \cite{mildenhall2020nerfrepresentingscenesneural} 
-ou substituír a función de activación ReLU por unha función de activación periódica \cite{sitzmann2020implicitneuralrepresentationsperiodic}.
-
-Neste traballo escollemos a segunda opción, utilizando unha función de activación periódica de tipo \textbf{SIREN}:
-
-\[
-f(x) = \sin(ax + b), \quad \text{con} \quad a, b \in \mathbb{R}
-\]
-
-Unha vantaxe engadida das funcións de activación periódicas nas redes SIREN é que poden ser diferenciadas varias veces, 
-o que expande substancialmente o conxunto de termos de regularización que se poden empregar na rede, como veremos na seguinte sección.
-
-larger frequencies appear in the networks for weights with larger magnitudes.
-
-Outros traballos como \cite{mildenhall2020nerfrepresentingscenesneural} non utiliza unha función de activación periódica, mais para a representación adecuada de zonas de alta frecuencia 
-utilizaron codificación posicional, que xa as incorpora de forma implícita na rede con bós resultados. 
-
-Outra das vantaxes que ten SIREN é que é unha función suave ou infinitamente diferenciable, é dicir, que admite derivadas de calquer orde.
-Outros exemplos de funcións de activación infinitamente diferenciables son:
-
-Sigmoide:  
-\[
-f(x) = \frac{1}{1 + e^{-x}}
-\]
-Tangente Hiperbólica:  
-\[
-f(x) = \tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}
-\]
-
-Softplus:  
-\[
-f(x) = \ln(1 + e^x)
-\]
-
-
-\paragraph{Inicialización de pesos}
-
-En \cite{sitzmann2020implicitneuralrepresentationsperiodic} propuxeron unha inicialización específica para as redes SIREN, 
-a cal consiste en inicializar a primeira capa de xeito que a función seno recorra múltiples períodos sobre o intervalo [−1,1][−1,1].
-Isto conséguese multiplicando os pesos da primeira capa por un factor de escala ω0, sobre o cal recomendan ω0=30.
-A fórmula para a inicialización dos pesos da primeira capa é a seguinte:
-
-\begin{figure}[ht!]
-    \centering
-    \[
-    w_i \sim U\left[ -\frac{1}{n}, \frac{1}{n} \right]
-    \]
-
-\caption{Inicialización primera capa}
-\end{figure}
-
-onde n é o número de neuronas de entrada (o tamaño da capa anterior).
-
-As seguintes capas inicialízanse da seguinte forma:
-\begin{figure}[ht!]
-    \centering
-    \[
-    w_i \sim U\left[ -\frac{\sqrt{\frac{6}{n}}}{w}, \frac{\sqrt{\frac{6}{n}}}{w} \right]
-    \]
-    \caption{Inicialización seguintes capas}
-\end{figure}
-
-Desta forma asegurase que a entrada a cada activación sinusoidal está distribuída normalmente cunha desviación estándar de 1,
- o que debería mellorar a estabilidade e converxencia durante o adestramento da rede.
-Unha consecuencia desto é que, xa que os propios pesos da rede representan a deformación, inicialmente a rede comeza cunha deformacion moi similar en todos os casos, que o entrenamento deberá corrixir.
-
-En \cite{sireninit} implementan unha versión simplificada de SIREN para facilitar o estudo destas, 
-e propoñen melloras proceso de inicialización. Unha delas e utilizar a distribución Kaiming (He) en lugar da uniforme.
-Tamén propoñen un método para escoller un valor de w apropiado según o problema a resolver.
-
-\subsubsection{Termos de loss}
-\label{subsubsec:Termos de loss}
-
-O termo de perda é a función que se optimiza durante o adestramento, e é o que guía a rede cara a unha solución óptima.
-Esta cuantifica a discrepancia entre a saída da rede e o resultado desexado.
-
-Para a tarefa de rexistro de imaxes, utilízanse dúas categorías principais de métricas para avaliar o aliñamento entre imaxes: 
-as métricas baseadas no erro e as métricas baseadas na similitude. As métricas baseadas no erro (MSE, L1...) miden as diferenzas píxel a píxel entre as imaxes, 
-sendo máis sensibles a diferenzas locais e proporcionando unha medida absoluta. 
-As métricas baseadas na similitude (NCC, SSIM...) teñen en conta patróns estructurais e relacións estatísticas entre as imaxes, sendo máis robustas fronte a variacións na iluminación e pequenos desprazamentos.
-\cite{simmetric}
-
-Os principais termos de perda valorados para este traballo son:
-
-\begin{itemize}
-    % Error-based metrics
-    \item \textbf{MSE (Mean Squared Error)}:
-    Erro cadrático promedio entre á imaxe fixa e a móbil. É sensible a valores atípicos e ruido.
-    \[
-    \text{MSE} = \mathbb{E}[(Y - \hat{Y})^2] = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2
-    \]
-    onde \( y_i \) é o valor do pixel da imaxe fixa, \( \hat{y}_i \) é o valor do pixel da imaxe móbil, e \( N \) é o número total de píxeles. \cite{Palubinskas02012017}
-
-    Regulizador Hiperelástico en 2D   \item \textbf{L1 (Mean Absolute Error)}:
-    Mide o error absoluto promedio. Menos sensible a valores atípicos que MSE.
-    \[
-    \text{L1} = \mathbb{E}[|Y - \hat{Y}|] = \frac{1}{N} \sum_{i=1}^{N} |y_i - \hat{y}_i|
-    \]
-
-    % Robust error metrics
-    \item \textbf{Huber Loss}:
-    Combina MSE e L1, sendo cadrática para errores pequenos e lineal para errores grandes.
-    \[
-    \text{Huber}(y, \hat{y}) = \begin{cases}
-    \frac{1}{2}(y - \hat{y})^2 & \text{se } |y - \hat{y}| \leq \delta \\
-    \delta(|y - \hat{y}| - \frac{1}{2}\delta) & \text{noutro caso}
-    \end{cases}
-    \]
-    onde \( \delta \) é un hiperparámetro que define o punto de transición entre os comportamentos cadrático e lineal.
-
-    \item \textbf{Smooth L1 Loss}:
-    Similar a Huber Loss, pero cunha transición suave entre as rexións cadrática e lineal.
-    \[
-    \text{SmoothL1}(y, \hat{y}) = \begin{cases}
-    \frac{1}{2}(y - \hat{y})^2 & \text{se } |y - \hat{y}| \leq 1 \\
-    |y - \hat{y}| - \frac{1}{2} & \text{noutro caso}
-    \end{cases}
-    \]
-
-    % Similarity-based metrics
-    \item \textbf{NCC (Normalized Cross-Correlation)}:
-    Evalúa a similitude entre as dúas imaxes normalizando as súas intensidades. É invariante a cambios na iluminación.
-    \[
-    \text{NCC} = \frac{\sum_{i=1}^{N} (y_i - \mu_y)(\hat{y}_i - \mu_{\hat{y}})}{\sqrt{\sum_{i=1}^{N} (y_i - \mu_y)^2 \sum_{i=1}^{N} (\hat{y}_i - \mu_{\hat{y}})^2}}
-    \]
-    onde \( \mu_y \) e \( \mu_{\hat{y}} \) son as medias das imaxes fixa e móbil, respectivamente.
-
-    \item \textbf{SSIM (Structural Similarity Index)}:
-    Evalúa a similitude estructural entre as dúas imaxes, considerando luminancia, contraste e estructura.
-    \[
-    \text{SSIM}(y, \hat{y}) = \frac{(2\mu_y\mu_{\hat{y}} + C_1)(2\sigma_{y\hat{y}} + C_2)}{(\mu_y^2 + \mu_{\hat{y}}^2 + C_1)(\sigma_y^2 + \sigma_{\hat{y}}^2 + C_2)}
-    \]
-    onde \( \mu_y \), \( \mu_{\hat{y}} \) son as medias, \( \sigma_y \), \( \sigma_{\hat{y}} \) son as desviacións estándar, \( \sigma_{y\hat{y}} \) é a covarianza, e \( C_1 \), \( C_2 \) son constantes para evitar divisións entre cero. \cite{Palubinskas02012017}
-\end{itemize}
-
-Debido á natureza das imaxes de retina, onde poden existir diferencias de iluminación e contraste entre as imaxes fixa e móbil, 
-parece mais apropiado empregar métricas baseadas na similitude como NCC ou SSIM.
-
-NCC utilizouse a implementación de  https://github.com/BDdeVos/TorchIR/blob/main/torchir/metrics.py.
-
-\subsubsection{Termos de regularización}
-\label{subsubsec:Termos de regularización}
-
-Debido a que o rexistro de imáxenes deformables é un problema mal planteado (ill-posed problem**), 
-é común utilizar algún tipo de regularización sobre o DVF para evitar deformacións pouco realistas.
- Os métodos de rexistro baseados en redes neuronaies convolucionais (CNN) representan os DVFs
- como mostras en una cuadrícula de vóxeles, e polo tanto, solo se poden aproximar gradientes espaciais
- mediante esquemas de diferencias finitas (aproximar derivadas mediante cálculo numérico de diferencias entre valores adyacentes en la cuadrícula).
- Este é un proceso computacionalmente moi costoso e ineficiente, ademais implica errores de discretización e perdas de precisión.
-
-
-Facendo uso de representacións implícitas, todas as operación son diferenciables, e os gradientes poden
- ser computados facilemente de forma analítica en lugar de ter que aproximalos, facendo uso da librearía de autodiferenciación de PyTorch.
-
-Utilizando ReLU como función de activación, a rede é diferenciable unha vez, mentres que utilizando
- unha función de activación periódica (como SIREN), a rede é diferenciable todas as veces que se precise.
-Desta forma, podemos calcular calquera número de termos de regularización e incluilos na optimización da rede.
-
-Algúns exemplos de termos de regularización que se poden empregar son:
-\begin{itemize}
-    \item Jacobian regularizer: 
-    O determinante Jacobiano da transformación (det ∇Φ) nunha localización x é un indicador de estiramento ou compresión local.
-    Un determinante Jacobiano negativo ou moi cercano a 0 indica que están a ocurrir dobreces e a transformación non será invertible.
-    A matriz jacobiana é a matriz que contén todas as derivadas parciais da función de transformación (calculado mediante gradientes).
-    O termo de regularización do Jacobiano penaliza os valores do determinante Jacobiano que se desvían de 1, 
-    tentando preservar áreas locais e evitar estiramentos ou dobreces extremas.
-
-
-    \begin{figure}[ht!]
-        \centering
-        \[
-        S^{jac}[\Phi] = \int_{\Omega} \left| 1 - \det \left( \nabla \Phi \right) \right| \, dx
-        \]
-        \caption{Regulizador Jacobiano}
-    \end{figure}
-
-    Ω representa o dominio ou rexión do espazo sobre o cal está definida a transformación Φ.
-    
-    \item Hyperelastic regularizer
-    Tamén se póden engadir restricións ao DVF con este termo proposto por \cite{HyperelasticRegularization}.
-    Consiste en tres termos, un termo de lonxitude, un termo de área e un termo de volumen co obxetivo de controlar variacións nestes aspectos.
-    O termo de lonxitude penaliza a variación da lonxitude dos vectores do DVF, sendo u a medida desplazamiento dun punto no espacio.
-    A matriz de cofactores da matriz do Jacobiano da transformación controla o área, 
-    A función de máximo asegura que só as expansións que sobrepasen certo límite sexan penalizadas
-    O determinante da matriz do Jacobiana controla o volume, 
-    e ambas penalizan o crecemento e a contracción por igual.
-    αl, αa e αν son hiperparámetros que controlan a importancia de cada término.
-
-    \begin{figure}[ht!]
-        \centering
-        \[
-        S^{hyper}[\Phi] = \int_{\Omega} \left[ \frac{1}{2} \alpha_1 |\nabla u|^2 + \alpha_a \varphi_c (\text{cof} \nabla \Phi) + \alpha_\nu \psi(\det \nabla \Phi) \right] dx,
-        \]
-        \[
-        \text{Funcións convexas:} \quad \varphi_c(C) = \sum_{i=1}^3 \max \left\{ \sum_{j=1}^3 C_{ji}^2 - 1, 0 \right\}^2 \quad \text{and} \quad \psi(v) = \frac{(v-1)^4}{v^2}.
-        \]
-        \caption{Regulizador Hiperelástico.}
-    \end{figure}
-
-
-    \item Bending energy penalty
-    Pódese impoñer a suavidade da deformación empregando esta penalización proposta en \cite{bendingenergy}, que 
-    require que as segundas derivadas do DVF sexan pequenas en todo o dominio, o que evita deformacións bruscas e discontinuas.
-    Este termo non pode ser utilizado nunha rede que utilice ReLU como función de activación, xa que a segunda derivada de unha ReLU é sempre igual a 0.
-
-    \begin{figure}[ht!]
-        \centering
-        \[
-        S^{bending}[\Phi] = \frac{1}{8} \int_{-1}^{1} \int_{-1}^{1} \int_{-1}^{1} \left[ \left( \frac{\partial^2 \Phi}{\partial x^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial y^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial z^2} \right)^2 \right.
-        \]
-        \[
-        \left. + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial y} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial z} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial y \partial z} \right)^2 \right] dx\,dy\,dz
-        \]
-        \caption{Regulizador Bending Energy}
-    \end{figure}
-    
-\end{itemize}
-
-Para a implementación neste traballo modificaronse todos estos termos para que funcionaran con transfomacións de dúas dimensións en lugar de tres,
- sustituíndo o gradiente de 3 dimensión no Jacobiano por un de dúas, eliminando as derivadas parciais en z en bending energy e o termo de volume no termo hiperelástico.
-
- \begin{itemize}
-    \item Jacobian regularizer:
-    \begin{figure}[ht!]
-        \centering
-        \[
-        S^{jac}[\Phi] = \int_{\Omega} \left| 1 - \det \left( \nabla \Phi \right) \right| \, dx \, dy
-        \]
-        \caption{Regulizador Jacobiano en 2D}
-    \end{figure}
-    
-    \item Hyperelastic regularizer:
-    \begin{figure}[ht!]
-        \centering
-        \[
-        S^{hyper}[\Phi] = \int_{\Omega} \left[ \frac{1}{2} \alpha_1 |\nabla u|^2 + \alpha_a \varphi_c (\text{cof} \nabla \Phi) \right] dx \, dy,
-        \]
-        \[
-        \varphi_c(C) = \sum_{i=1}^2 \max \left\{ \sum_{j=1}^2 C_{ji}^2 - 1, 0 \right\}^2
-        \]
-        \caption{Regulizador Hiperelástico en 2D}
-    \end{figure}
-    
-    \item Bending energy penalty:
-    \begin{figure}[ht!]
-        \centering
-        \[
-        S^{bending}[\Phi] = \frac{1}{8} \int_{-1}^{1} \int_{-1}^{1} \left[ \left( \frac{\partial^2 \Phi}{\partial x^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial y^2} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial y} \right)^2 \right] dx \, dy
-        \]
-        \caption{Regulizador Bending Energy en 2D}
-    \end{figure}
-    
-\end{itemize}
-
-A regularización tamén ten un impacto significativo no tempo de computación, xa que require múltiples pasadas de retropropagación por época para calcular os distintos termos de penalización.
-Sen regularización só se fai 1 pasada para calcular o gradiente do termo de similitude da imaxe.
-Ca regularización do Jacobiano, ademais do termo de similitude, calcúlanse dúas derivadas (unha por dimensión) para obter o Jacobiano, resultando en 3 pasadas por época.
-Engadindo a regularización hiperelástica (sen termo de volume), é necesario calcular unha derivada adicional para o cofactor da matriz Jacobiana, facendo un total de 4 pasadas por época.
-Finalmente, ca penalización de enerxía de flexión, necesitanse derivadas segundas, o que implica 7 pasadas por época en total.
-No traballo orixinal de IDIR, chegaban a usar 13 pasadas debido a que traballan en 3D.
-
-Se os termos de regularización teñen demasiada influencia sobre o termo de loss, a rede fará transformacións moi pequenas para evitar ser penalizada, o que resultará nunha transformación insuficiente.
-Por outro lado, se os termos son demasiado pequenos, a rede fará transformacións moi grandes, o que resulta nunha transformación irrealista e sobreaxustada. Isto é especialmente evidente no caso da función de activación SIREN, que tende a sobreaxustarse facilmente debido ao seu sesgo cara sinais de alta frecuencia.
-A cantidade óptima de regularización depende da parexa concreta de imaxes a alinear, polo que intentaremos determinar cal é a mellor para unha mostra de imaxes.
-
-Ademais, pese a que os diferentes termos de regularización valoran diferentes aspectos, cabe ter en conta que tamén superposición nalgunhas das propiedades que valoran.
-Por exemplo, o regularizador hiperelástico pode considerarse un termo mais xeral que inclúe indirectamente penalizaciones do Jacobiano (ambos penalizan as "dobreces") e de suavidade das transfomacións (como fai o bending pero en menor grado).
-
-\subsubsection{Learning rate e batch size}
-\label{subsubsec:Learning rate e batch size}
-
-O learning rate é un parámetro do optimizador (Adam neste caso) que regula o tamaño dos axustes efectuados aos parámetros do modelo durante cada iteración de actualización. 
-Determina a magnitude do cambio aplicado para minimizar a función de perda, afectando tanto a velocidade de converxencia como a estabilidade do proceso de aprendizaxe.
-Un learning rate demasiado alto pode provocar que a rede diverxa, mentres que un learning rate demasiado baixo pode resultar en converxencia lenta ou quedar atrapado en mínimos locais.
-
-Debido á natureza da rede, o batch size utilzado ten unha relación directa co learning rate, polo que tentaremos determinar a relación óptima entre ambos.
-
-Unha das heurísiticas mais comúns para relacionar o learning rate e o batch size é a regla de escalado linear \cite{goyal2018accuratelargeminibatchsgd}. 
-A regla indica que o learning rate óptimo debe escalarse linearmente co tamaño do batch size. 
-
-Unha forma de explicar isto é, xa que con batches mais grandes temos unha mellor aproximación do gradiente real, é posible utilizar un learning rate maior sen que a rede diverxa. \cite{kexuefm}
-
-
-O batch size nesta rede representa o número de coordenadas amostradas aleatoriamente do espazo de coordenadas dentro da máscara.
-
-
-\subsubsection{Método}
-\label{subsubsec:Método}
-
-Sendo o obxetivo encontrar unha transformación espacial óptima entre a imaxe móbil e a imaxe fixa,
-é necesario obter a función de deformación  Φ(x) = u(x) + x que mapea cada coordenada x na imaxe móbil a unha coordenada na imaxe fixa, 
-de forma que a coordenada x na imaxe fixa corresponda anatomicamente á coordenada Φ(x) na imaxe móbil.
-Este problema pode ser formulado como un problema de optimización onde $L_{data}$ é unha métrica de similitude entre as imaxes fixa ($F$) e móbil ($M$), $L_{reg}$ é un termo de regularización na transformación Φ, e α é un termo de ponderación.
-\begin{equation}
-    \hat{\Phi} = \operatorname*{Arg\,min}_{\Phi} L_{data}(M \circ \Phi, F) + \alpha L_{reg}(\Phi)
-\end{equation}
-
-
-A principal innovación que introduce IDIR\cite{wolterink2021implicit} é que a transformación Φ está implícitamente representada na rede neuronal.
-
-Comparado cunha CNN tradicional, esta rede non recibe valores de intensidade de píxel como entrada,
-senón que recibe coordenadas espaciais (continuas) e devolve unha nova coordenada.
-Xa que os pesos da rede definen a transformación, estos poden ser optimizados directamente 
-facendo uso dunha métrica de similitude como función de perda.
-
-Parametrizar a función de deformación como unha \glossary{INR} dentro dun \glossary{MLP} ten varias vantaxes para o rexistro de imaxes.
-En primeiro lugar, a representación da transformación é continua e polo tanto independente da resolución da imaxe, 
-grazas a iso o mesmo modelo poder ser empregado para imaxes de calquer tamaño, ao contrario dunha CNN tradicional 
-que ten que ser adaptada para cada resolución.
-
-Segundo, facelo desta forma permite aproveitar as capacidades de librerías como PyTorch para calcular os gradientes da transformación respecto das coordenadas.
-Isto permite obter gradientes máis precisos que as aproximacións por diferencias finitas 
-e permite aproveitar unha gran cantidade de literatura sobre regularización eficientes en imaxes médicas.
-
-Terceiro, pódese modificar a función de activación empregada na rede para axustala ás necesidades particulares da tarefa de rexistro de imaxes.
-
-O \gls{NTK} describe cómo un modelo de red neuronal responde a cambios en sus parámetros durante el entrenamiento,
-e dependendo da función de activación empregada, o NTK varía e a rede pode ser máis ou menos sensible a certas deformacións.
-
-Finalmente, entrenaráse unha nova rede por cada parella de imaxes, sendo esta unha rede bastante pequena en comparación e prescindindo da necesidade de grandes conxuntos de datos para o seu adestramento.
-
 \section{Traballo proposto}
 \label{sec:Traballo proposto}
 
-Baseándose no framework introducido por \cite{wolterink2021implicit},
- propónse modificalo para adaptalo á tarefa de rexistro de retinografías. O obxetivo é conseguir rexistros consistentemente precisos, especialmente no dataset de FIRE que contén imaxes reais de retina.
+A pesar do potencial das representaciones neuronales implícitas en diversos dominios médicos, a súa aplicación específica ao rexistro de retinografías permanece inexplorada.
+
+Este falta de investigación é especialmente relevante dadas as potenciais vantaxes que ofrecen as INRs, como a capacidade de modelar deformacións complexas e a súa independencia da resolución.
+
+Baseándose no framework introducido por \cite{wolterink2021implicit}, propónse modificalo para adaptalo á tarefa de rexistro de retinografías. O obxetivo é conseguir rexistros consistentemente precisos, especialmente no dataset de FIRE que contén imaxes reais de retina.
+
+Esta adaptación representa unha contribución novel ao estado da arte no rexistro de retinografías, explorando por primera vez o potencial das representaciones neuronales implícitas neste dominio específico.

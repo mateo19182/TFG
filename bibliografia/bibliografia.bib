@@ -25,6 +25,7 @@
   pages        = {16–28}
 }
 
+
 @misc{molaei2023implicitneuralrepresentationmedical,
   title         = {Implicit Neural Representation in Medical Imaging: A Comparative Survey},
   author        = {Amirali Molaei and Amirhossein Aminimehr and Armin Tavakoli and Amirhossein Kazerouni and Bobby Azad and Reza Azad and Dorit Merhof},
@@ -257,6 +258,40 @@ abstract = {This paper rigorously establishes that standard multilayer feedforwa
   author   = {Meira Fogel-Levin and SriniVas R. Sadda and Philip J. Rosenfeld and Nadia Waheed and Giuseppe Querques and Bailey K Freund and David Sarraf},
   keywords = {Color fundus photography, Widefield imaging, Fundus autofluorescence, Near infrared reflectance, Optical coherence tomography angiography, En-face optical coherence tomography, Multimodal approach},
   abstract = {Imaging is an integral part of the evaluation and management of retinal disorders. Each imaging modality has its own unique capabilities and can show a different aspect or perspective of disease. Multimodal retinal imaging provides a wealth of substantive and insightful information; however, the integration of all this complex data can be overwhelming. We discuss the applications and the strengths and limitations of the many different retinal imaging tools that are approved for clinical use. These modalities include color fundus photography, widefield imaging, fundus autofluorescence, near infrared reflectance, optical coherence tomography angiography, and en face optical coherence tomography. We also cover the advantages and disadvantages of a multimodal approach.}
+}
+
+@article{semanticsimilarity,
+title = {Semantic similarity metrics for image registration},
+journal = {Medical Image Analysis},
+volume = {87},
+pages = {102830},
+year = {2023},
+issn = {1361-8415},
+doi = {https://doi.org/10.1016/j.media.2023.102830},
+url = {https://www.sciencedirect.com/science/article/pii/S1361841523000907},
+author = {Steffen Czolbe and Paraskevas Pegios and Oswin Krause and Aasa Feragen},
+keywords = {Image registration, Deep learning, Representation learning},
+abstract = {Image registration aims to find geometric transformations that align images. Most algorithmic and deep learning-based methods solve the registration problem by minimizing a loss function, consisting of a similarity metric comparing the aligned images, and a regularization term ensuring smoothness of the transformation. Existing similarity metrics like Euclidean Distance or Normalized Cross-Correlation focus on aligning pixel intensity values or correlations, giving difficulties with low intensity contrast, noise, and ambiguous matching. We propose a semantic similarity metric for image registration, focusing on aligning image areas based on semantic correspondence instead. Our approach learns dataset-specific features that drive the optimization of a learning-based registration model. We train both an unsupervised approach extracting features with an auto-encoder, and a semi-supervised approach using supplemental segmentation data. We validate the semantic similarity metric using both deep-learning-based and algorithmic image registration methods. Compared to existing methods across four different image modalities and applications, the method achieves consistently high registration accuracy and smooth transformation fields.}
+}
+
+@misc{superpoint,
+      title={SuperPoint: Self-Supervised Interest Point Detection and Description}, 
+      author={Daniel DeTone and Tomasz Malisiewicz and Andrew Rabinovich},
+      year={2018},
+      eprint={1712.07629},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/1712.07629}, 
+}
+
+@misc{superglue,
+      title={SuperGlue: Learning Feature Matching with Graph Neural Networks}, 
+      author={Paul-Edouard Sarlin and Daniel DeTone and Tomasz Malisiewicz and Andrew Rabinovich},
+      year={2020},
+      eprint={1911.11763},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/1911.11763}, 
 }
 
 @article{retreggood,
@@ -801,6 +836,27 @@ author = {Barbara Zitová and Jan Flusser},
 keywords = {Image registration, Feature detection, Feature matching, Mapping function, Resampling},
 abstract = {This paper aims to present a review of recent as well as classic image registration methods. Image registration is the process of overlaying images (two or more) of the same scene taken at different times, from different viewpoints, and/or by different sensors. The registration geometrically align two images (the reference and sensed images). The reviewed approaches are classified according to their nature (area-based and feature-based) and according to four basic steps of image registration procedure: feature detection, feature matching, mapping function design, and image transformation and resampling. Main contributions, advantages, and drawbacks of the methods are mentioned in the paper. Problematic issues of image registration and outlook for the future research are discussed too. The major goal of the paper is to provide a comprehensive reference source for the researchers involved in image registration, regardless of particular application areas.}
 }
+
+@InProceedings{integrateintfeat,
+author="Papademetris, Xenophon
+and Jackowski, Andrea P.
+and Schultz, Robert T.
+and Staib, Lawrence H.
+and Duncan, James S.",
+editor="Barillot, Christian
+and Haynor, David R.
+and Hellier, Pierre",
+title="Integrated Intensity and Point-Feature Nonrigid Registration",
+booktitle="Medical Image Computing and Computer-Assisted Intervention -- MICCAI 2004",
+year="2004",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="763--770",
+abstract="In this work, we present a method for the integration of fea- ture and intensity information for non rigid registration. Our method is based on a free-form deformation model, and uses a normalized mu- tual information intensity similarity metric to match intensities and the robust point matching framework to estimate feature (point) correspon- dences. The intensity and feature components of the registration are posed in a single energy functional with associated weights. We com- pare our method to both point-based and intensity-based registrations. In particular, we evaluate registration accuracy as measured by point landmark distances and image intensity similarity on a set of seventeen normal subjects. These results suggest that the integration of intensity and point-based registration is highly effective in yielding more accurate registrations.",
+isbn="978-3-540-30135-6"
+}
+
+
 
 @misc{mescheder2019occupancynetworkslearning3d,
   title         = {Occupancy Networks: Learning 3D Reconstruction in Function Space},
