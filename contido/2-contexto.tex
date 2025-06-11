@@ -17,7 +17,7 @@ A observación directa dos vasos sanguíneos e do tecido neuronal 'in vivo' perm
 \label{subsec:Anatomía do ollo humano}
 O ollo encargase de captar a luz e transformala en impulsos eléctricos que se envían ao cerebro.
  Esta información é interpretada polo cerebro, que mediante mecanismos como a atención e a memoria, permite a percepción visual. \cite{eyefunct}
- O ollo humano está composto por varias estruturas, cada unha cunha función específica que permite a percepción visual. Entre elas destacan:
+ O ollo humano está composto por varias estruturas, cada unha cunha función específica que permite a percepción visual \cite{eyeanat}. Entre elas destacan:
 
  \begin{itemize}
  \item Córnea e Cristalino: actúan xuntas para enfocar a luz na retina. A córnea, situada na parte exterior do ollo, proporciona maior parte da capacidade refractiva, mentres que o cristalino, unha lente flexible, axusta o enfoque para obxectos a diferentes distancias.
@@ -27,7 +27,8 @@ O ollo encargase de captar a luz e transformala en impulsos eléctricos que se e
  \item Disco óptico: tamén coñecido como "punto cego", é a área onde o nervio óptico sae do ollo; carece de fotorreceptores.
  \item Vasos sanguíneos: distribúen os nutrientes e o osíxeno necesarios á retina e eliminan os seus residuos metabólicos.
  \end{itemize}
-\cite{visionyojo}, \cite{eyeanat}
+
+A figura \ref{fig:imaxes_ojo} mostra estas estruturas en imaxes do ollo humano.
 
 \begin{figure}[ht!]
     \centering
@@ -55,8 +56,8 @@ Un especialista pode analizar a retinografía para detectar signos de enfermidad
 O rexistro de imaxes é un proceso que consiste en, sobre dúas ou mais imaxes, determinar a correspondencia espacial entre elas
  e alinealas nun sistema de coordenadas común, co obxetivo de que as características de interese se atopen na mesma posición.
 
-Por exemplo, no caso do stitching de fotografías panorámicas, o rexistro de imaxes permite identificar correspondencias entre puntos característicos en múltiples tomas solapadas
- e axustar a súa posición relativa nun marco común. Esta etapa é necesaria para a posterior fusión das imaxes, de modo que as distintas vistas se aliñen con precisión, producindo un resultado final continuo e sen irregularidades visuais.
+% Por exemplo, no caso do stitching de fotografías panorámicas, o rexistro de imaxes permite identificar correspondencias entre puntos característicos en múltiples tomas solapadas
+%  e axustar a súa posición relativa nun marco común. Esta etapa é necesaria para a posterior fusión das imaxes, de modo que as distintas vistas se aliñen con precisión, producindo un resultado final continuo e sen irregularidades visuais.
 
 O rexistro de imaxes ten utilidade en moitos campos diferentes como a imaxe satelital, xeografía, robótica... \cite{goshtasby2017theory} mais o 
 campo da imaxe médica é dos mais interesantes póla súa aplicación práctica e é o que se aborda neste traballo.
@@ -68,34 +69,103 @@ Tamén é útil para correxir os movementos involuntarios do paciente durante a 
 As imaxes poden variar a nivel temporal, espacial, de dimensión ou de modalidade.
 
 Tamén é fundamental para a intervención guiada por imaxe (telecirurxía, (\gls{IGRT})) que non 
-podería funcionar sen a utilización axeitada de técnicas de rexistro de imaxes. \cite{wang2022neuralrenderingstereo3d}
+podería funcionar sen a utilización axeitada de técnicas de rexistro de imaxes \cite{wang2022neuralrenderingstereo3d}. 
 
 Ata recentemente, gran parte do traballo de rexistro facíase de forma manual por expertos con software como BigWarp \cite{bigwarp}, 
 e dependía das habilidades do profesional para detectar as características de interese e realizar o aliñamento.
 Isto facía que o proceso fose lento e propenso a erros, ademais de pouco práctico para grandes volumes de imaxes.
 
-O rexistro de imaxes pode ser clasificado en distintas categorías segundo as súas características:
-\cite{deeplernreview3dreg}, \cite{bharati2022deeplearningmedicalimage}
-\ref{fig:categorias_de_rexistro}
+\subsection{Categorías de rexistro}
+\label{subsec:Categorías de rexistro}
 
+% O rexistro de imaxes pode ser clasificado en distintas categorías segundo as súas características. Na figura \ref{fig:categorias_de_rexistro} un resumo móstranse das categorías mais comúns.
+O rexistro de imaxes pode ser clasificado en distintas categorías segundo as súas características.
+% \begin{figure}[hp!]
+%     \centering
+%     \includegraphics[width=1\textwidth]{imaxes/catreg.drawio.png}
+%     \caption{Categorías de rexistro}
+%     \label{fig:categorias_de_rexistro}
+% \end{figure}
 
-\begin{figure}[hp!]
-    \centering
-    \includegraphics[width=1\textwidth]{imaxes/catreg.drawio.png}
-    \caption{Categorías de rexistro}
-    \label{fig:categorias_de_rexistro}
-\end{figure}
+\begin{itemize}
+    \item \textbf{Segundo o número de imaxes:}
+    \begin{itemize}
+        \item \textit{Par a par:} O rexistro realízase entre dúas imaxes, unha fixa e unha móbil.
+        \item \textit{Múltiple:} Rexístranse varias imaxes simultaneamente, buscando unha correspondencia global.
+    \end{itemize}
 
-O rexistro tamén se pode diferenciar entre simétrico e asimétrico, dependendo de se a transformación se calcula para unha imaxe ou para ambas.
+    \item \textbf{Segundo a modalidade:}
+    \begin{itemize}
+        \item \textit{Intra-modalidade:} As imaxes pertencen á mesma modalidade (por exemplo, dúas retinografías).
+        \item \textit{Inter-modalidade:} As imaxes proveñen de modalidades diferentes (por exemplo, retinografía e OCT).
+    \end{itemize}
 
-No caso de traballar con dúas imaxes de forma asimétrica, a imaxe de referencia denomínase imaxe fixa (f) e a imaxe que se quere rexistrar imaxe móbil (m).
-Dependendo do tipo de transformación utilizada esta pode ser clasificada en ríxida, afín ou deformable.
-A ríxida tan só permite rotación e traslación, mentres que a afín permite ademais escalado e cizallamento.
-Ámbas transformacións poden ser representadas por unha matriz de 2 dimensións xa que son deformacións lineais.
-Ao contrario, a transformación deformable é non lineal, polo que require dunha dimensión adicional ás da imaxe a rexistrar (unha imaxe de 2d require unha matriz 3d).
+    \item \textbf{Segundo o tipo de transformación:}
+    \begin{itemize}
+        \item \textit{Ríxida:} Só permite traslación e rotación, mantendo as distancias e ángulos.
+        \item \textit{Afín:} Ademais de traslación e rotación, permite escalado e cizallamento.
+        \item \textit{Deformable (non ríxida):} Permite deformacións locais complexas e non lineais.
+        \item \textit{Difeomórfica:} Unha transformación non ríxida que é continua, invertible e diferenciable en todo o seu dominio.
+    \end{itemize}
+
+    \item \textbf{Segundo o grao de automatización:} \cite{deeplernreview3dreg}
+    \begin{itemize}
+        \item \textit{Manual:} O usuario selecciona puntos de control ou axusta parámetros.
+        \item \textit{Automático:} O proceso realízase sen intervención humana, mediante algoritmos.
+        \item \textit{Semiautomático:} Combina intervención manual e automática.
+    \end{itemize}
+
+    \item \textbf{Segundo a natureza da transformación:}
+    \begin{itemize}
+        \item \textit{Simétrico:} A transformación é consistente en ambas direccións entre as imaxes.
+        \item \textit{Asimétrico:} A transformación calcúlase só nun sentido (de móbil a fixa).
+    \end{itemize}
+
+\end{itemize}
+
+\begin{itemize}
+    \item \textbf{Metodoloxía}
+    \begin{itemize}
+        \item \textbf{Técnicas clásicas} \cite{zitova2003imageregistrationsurvey}
+        \begin{itemize}
+            \item \textit{Por correlación:} Optimizan funcións de correlación entre as intensidades das imaxes para atopar a mellor aliñación.
+            \item \textit{Por entropía:} Baseados na maximización da información mutua, resultan especialmente útiles en rexistro multimodal.
+            \item \textit{Por contornos:} Empregan características xeométricas, como bordes ou liñas estruturais, para establecer correspondencias espaciais.
+            \item \textit{Por wavelet:} Utilizan descomposicións en diferentes frecuencias e resolucións para capturar información relevante.
+        \end{itemize}
+        
+        \item \textbf{Técnicas baseadas en aprendizaxe} \cite{deeplernreview3dreg, bharati2022deeplearningmedicalimage}
+        \begin{itemize}
+            \item \textit{Iterativo profundo:} Estratexias que aplican redes neurais de forma recursiva para refinar progresivamente a transformación estimada.
+            
+            \item \textbf{Aprendizaxe supervisada}
+            \begin{itemize}
+                \item \textit{Totalmente supervisado:} Require datos de adestramento con aliñacións precisas (ground truth), que permiten optimizar directamente a tarefa de rexistro.
+                \item \textit{Debilmente supervisado:} Emprega información parcial ou indirecta, como anotacións espaciais limitadas ou métricas proxy.
+                \item \textit{Supervisión dual:} Combina diferentes formas de supervisión, como etiquetas explícitas e funcións de perda auto-supervisadas, para aumentar a xeneralización.
+            \end{itemize}
+            
+            \item \textbf{Aprendizaxe non supervisada}
+            \begin{itemize}
+                \item \textit{Métrica de similitude:} Optimiza criterios de similitude (e.g., NCC, SSIM) sen necesidade de datos anotados, favorecendo adaptación a novos dominios.
+                \item \textit{Baseado en GANs:} Emprega arquitecturas adversarias para aprender transformacións realistas entre imaxes sen supervisión directa.
+            \end{itemize}
+            
+            \item \textit{Por similitude:} Modelos que aprenden funcións de custo diferenciables que maximizan a coincidencia entre as imaxes de entrada.
+            \item \textit{Aprendizaxe por reforzo:} Formula o rexistro como un problema de toma de decisións, onde un axente aprende políticas óptimas mediante retroalimentación ambiental.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+Cando se traballa con imaxes de forma asimétrica, a imaxe de referencia denomínase imaxe fixa e a imaxe que se quere rexistrar imaxe móbil.
+Segundo o tipo de transformación utilizada esta pode ser clasificada en ríxida, afín ou deformable.
+
+As transformacións podense representar en matrices, onde cada elemento da matriz representa un parámetro da transformación.
 
 Esta matriz denomínase campo de vectores de deformación (\gls{DFV}s), e permite representar deformacións locais na imaxe, facendoa moito mais flexible para representar transformacións complexas e detalladas.
 Os DFVs adoitan ser representados cunha matriz de igual tamaño á imaxe, onde cada elemento representa un vector que indica a dirección e a magnitude da deformación.
+
+Na figura \ref{fig:dfv_visualization} móstranse dúas formas de visualizar un DFV: mediante frechas que indican a dirección e magnitude da deformación, e aplicando a deformación a unha cuadrícula para ver como se distorsiona.
 
 \begin{figure}[ht!]
     \centering
@@ -105,20 +175,14 @@ Os DFVs adoitan ser representados cunha matriz de igual tamaño á imaxe, onde c
     \label{fig:dfv_visualization}
 \end{figure}
 
-Dentro da deformables poden distinguirse entre transformacións difeomórficas e non difeomórficas.
 As transformacións difeomórficas son aquelas que son continuas, invertibles e diferenciables en todo o seu dominio.
-Se non tén esta característica, non se pode garantir que a información da imaxe móbil se manteña intacta tras a transformación.
-Por iso as transformacións difeomórficas son preferidas en moitos casos \cite{han2022diffeomorphicimageregistrationneural}, 
-
-Existen diversos métodos para realizar aliñamento de imaxes, que poden estar automatizados en maior ou menor medida, sendo moitos deles híbridos. \cite{deeplernreview3dreg}
-
+Se non tén esta característica, non se pode garantir que a transformación sexa reversíbel, polo que son preferidas en moitos casos \cite{han2022diffeomorphicimageregistrationneural}, 
 
 \subsection{Estado da arte}
 \label{subsec:Estado da arte}
 
 Pese á gran cantidade de avances que está a ocorren no campo do aprendizaxe profunda, os métodos clásicos de rexistro de imaxes seguen a ser o estado da arte na maioría de casos, 
 principalmente debido á importancia da precisión e a robustez en imaxe médica.
-
 
 \subsubsection{Métodos clásicos}
 \label{subsubsec:Métodos clásicos}
@@ -207,7 +271,7 @@ O rexistro totalmente supervisado fai uso de DVFs de referencia para supervisar 
  
 No lugar dos DVFs de referencia, o rexistro débilmente supervisado pode utilizar outras etiquetas de referencia implícitas.
  Estas etiquetas non se basan en datos explícitos como os DFVs, senón que utilizan información indirecta para guiar o proceso de rexistro, como a semellanza entre as imaxes ou restricións baseadas na forma ou límites anatómicos das estruturas.
- Máis de dous tipos de datos de referencia son frecuentemente utilizados para adestrar modelos de rexistro débilmente supervisados. \cite{bharati2022deeplearningmedicalimage}
+ Máis de dous tipos de datos de referencia son frecuentemente utilizados para adestrar modelos de rexistro débilmente supervisados \cite{bharati2022deeplearningmedicalimage}.
 
 \subparagraph{Métodos Non Supervisados}
 \label{subparagraph:Métodos Non Supervisados}

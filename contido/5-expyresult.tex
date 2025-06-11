@@ -28,7 +28,7 @@ Por exemplo, o sesgo que SIREN ten cara sinais de alta frecuencia fará que o pr
 \section{Experimentos}
 \label{sec:Experimentos}
 
-Inicialmente realizouse a avaliación de FIRE completa, que se pode ver nas figuras \ref{fig:FIRE_relu} e \ref{fig:FIRE_SIREN} desglosadas por categoría.
+A avaliación de FIRE completa, desglosada por categoría, pódese ver nas figuras \ref{fig:FIRE_relu} e \ref{fig:FIRE_SIREN}.
 A menos que especificado de outro xeito, utilizarase un learning rate de 0.0001, batch size de 10000 puntos e 1500 epochs. 
 Estos determináronse a partir dos utilizados orixinalmente por IDIR e ca análises cualitativa dos resultados obtidos en experimentos preliminares.
 
@@ -78,7 +78,7 @@ Xa que a rede non é capaz de rexistrar con éxito a gran parte das imaxes nesta
 \paragraph{Resultados}
 \label{par:Resultados-loss}
 
-Na figura \ref{fig:loss_functions_comparison} presentase a comparación entre as diferentes funcións de perda.
+Presentase na figura \ref{fig:loss_functions_comparison} a comparación entre as diferentes funcións de perda.
 
 % : \ref{tab:mean_distances_resolution}, 
 
@@ -175,7 +175,7 @@ O tamaño das imaxes tamén é unha das principais diferencias entre as imaxes d
 
 % \ref{tab:mlp_mean_distances_fire}, \ref{tab:siren_mean_distances_fire}, \ref{tab:mlp_mean_distances_rfmid}, \ref{tab:siren_mean_distances_rfmid}
 % \ref{tab:mean_distances_resolution}
-Na figura \ref{fig:resoluciónchart} preséntase a comparación entre as diferentes resolucións.
+Preséntase na figura \ref{fig:resoluciónchart} a comparación entre as diferentes resolucións.
 
 \begin{figure}[ht]
     \centering
@@ -251,7 +251,7 @@ Neste apartado só se presentarán os resultados dos experimentos realizados coa
 \label{par:Resultados-regularization}
 
 % De agora en adiante pásase a utilizar soamente a categoría S do dataset FIRE, xa que é a mais sinxela de rexistrar e que tén un maior grado de superposición entre as imaxes, que é 
-Na figura \ref{fig:barplot_hyper_reg_comparison} preséntase a comparación entre os diferentes valores de regularización hiperelástica.
+A comparación entre os diferentes valores de regularización hiperelástica preséntase na figura \ref{fig:barplot_hyper_reg_comparison}.
 
 \begin{figure}[ht]
     \centering
@@ -570,7 +570,7 @@ Na figura \ref{fig:sampling_heatmaps} pódense observar os diferentes tipos de m
 \paragraph{Resultados}
 \label{par:Resultados-sampling}
 
-Na figura \ref{fig:sampling_types_comparisons} preséntanse os resultados das diferentes estratexias de mostraxe sobre o dataset RFMID.
+Os resultados das diferentes estratexias de mostraxe sobre o dataset RFMID preséntanse na figura \ref{fig:sampling_types_comparisons}.
 
 \begin{figure}[ht]
     \centering
@@ -706,7 +706,7 @@ Para isto utilizaremos a estratexia de mostraxe uniforme, que permite asegurar q
 \paragraph{Resultados}
 \label{par:Resultados-phases}
 
-Na figura \ref{fig:nphases} pódense observar os resultados de utilizar diferentes números de fases.
+Os resultados de utilizar diferentes números de fases pódense observar na figura \ref{fig:nphases}.
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{imaxes/lottery/nphases.png}
@@ -725,7 +725,7 @@ Isto pode deberse a que a rede xa é capaz de aprender as transformacións globa
 \subsection{Exemplos de rexistro}
 \label{subsec:Exemplos de rexistro}
 
-Na figura \ref{fig:reg_examples} pódense observar diferentes exemplos de rexistro, tanto exitosos como fallidos.
+Diferentes exemplos de rexistro, tanto exitosos como fallidos, pódense observar na figura \ref{fig:reg_examples}.
 A primeira imaxe corresponde ca imaxe fixa, a segunda corresponde ca imaxe rexistrada, a terceira ca imaxe móbil e a cuarta o campo de deformación aplicado a unha grella cadrada.
  
 Pódense observar os puntos de control, sendo os brancos os da imaxe fixa, os verdes os da imaxe móbil e os azuis os desprazados pola rede.
