@@ -73,6 +73,16 @@ Ata recentemente, gran parte do traballo de rexistro facíase de forma manual po
 e dependía das habilidades do profesional para detectar as características de interese e realizar o aliñamento.
 Isto facía que o proceso fose lento e propenso a erros, ademais de pouco práctico para grandes volumes de imaxes.
 
+Na figura \ref{fig:retin_reg} móstrase un exemplo de rexistro de imaxes de retina, onde se pode observar como as imaxes son aliñadas para que as estruturas anatómicas coincidan.
+
+\ref{fig:retin_reg}
+\begin{figure}[hp!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imaxes/retin-reg.png}
+    \caption{Exemplo de rexistro de imaxes de retina \cite{sivaraman2024retinaregnetzeroshotapproachretinal}}
+    \label{fig:retin_reg}
+\end{figure}
+
 \subsection{Categorías de rexistro}
 \label{subsec:Categorías de rexistro}
 
@@ -176,9 +186,9 @@ Na figura \ref{fig:dfv_visualization} móstranse dúas formas de visualizar un D
 % Pese á gran cantidade de avances que está a ocorren no campo do aprendizaxe profunda, os métodos clásicos de rexistro de imaxes seguen a ser o estado do arte na maioría de casos,
 % principalmente debido á importancia da precisión e a robustez en imaxe médica.
 
-
+O rexistro de imaxes médicas constitúe unha área de investigación fundamental que experimentou importantes avances nas últimas décadas. Neste ámbito, a precisión e a robustez dp rexistro cobran especial relevancia, xa que son empregados para o diagnóstico e seguimento de enfermidades, así como para a planificación de tratamentos cirúrxicos.
 No eido da oftalmoloxía, os métodos que funcionan ben en varios dominios de imaxe médica (cerebro, pulmóns, etc) adoitan requirir de axustes para funcionar en retinas, polo que hai un estado da arte paralelo. 
-
+A evolución dos métodos de rexistro en retinografías reflicte a transición dende enfoques puramente algorítmicos cara metodoloxías híbridas que combinan técnicas clásicas con capacidades de aprendizaxe automático.
 
 \subsubsection{Métodos clásicos}
 \label{subsubsec:Métodos clásicos}
@@ -260,6 +270,19 @@ Estos métodos tenden a requerir dunha gran cantidade de datos para ser adestrad
 Os métodos de aprendizaxe profunda poden ser clasificados en dous tipos según se requiran de \glossary{DFV}s anotados ou non na etapa de entrenamento:
 supervisados (requíren anotacións) e non supervisados (non requíren anotacións) \cite{nie2024medicalimageregistrationapplication}.
 
+Segundo o grado de supervisión utilizado na etapa de entrenamento, os métodos supervisados poden dividirse en supervisados ou débilmente supervisados.
+O rexistro totalmente supervisado fai uso de DVFs de referencia para supervisar o proceso de aprendizaxe, e o termo de perda adoita basearse na discrepancia entre os DVFs de referencia e os DVFs predicidos.
+
+O rexistro débilmente supervisado pode utilizar outras etiquetas de referencia implícitas, non baseadas en datos explícitos como os DFVs, senón que utilizan información indirecta para guiar o proceso de rexistro, como a semellanza entre as imaxes ou restricións baseadas na forma ou límites anatómicos das estruturas.
+Máis de dous tipos de datos de referencia son frecuentemente utilizados para adestrar modelos de rexistro débilmente supervisados \cite{bharati2022deeplearningmedicalimage}.
+
+Os métodos non supervisados teñen a vantaxe de non requirir de datos anotados, o cal é unha gran vantaxe xa que un dos maiores retos para as redes de imaxes médicas é a recolección de datos de calidade para o adestramento \cite{medicalimageanalysis}.
+A creación de conxuntos de DFVs anotados é un proceso laborioso e costoso, que normalmente sólo póde ser executado por especialistas, polo que os métodos de rexistro non supervisados son de gran interese.
+De forma similar aos métodos iterativos, é común empregar unha métrica de similitude entre as imaxes xunto con un termo de regularización para guiar o proceso de optimización evitando caer en transformación non realistas.
+% Xa que a imaxe fixa e a imaxe móbil xa conteñen toda a información necesaria para un rexistro correcto, os métodos non supervisados parecen mais adecuados para a tarefa de rexistro.
+
+\cite{Balakrishnan_2019voxelmorph} é un dos frameworks mais utilizados no rexistro de imaxes non supervisado facendo uso de CNNs.
+
 Estes enfoques son útiles tanto na súa capacidade de aprender a tarefa de rexistro de maneira end-to-end, como para substituír módulos concretos do proceso tradicional.
 Nese sentido, os métodos de aprendizaxe profunda poden ser categorizados según a tarefa do proceso de rexistro que substitúen.
 
@@ -298,59 +321,21 @@ Por exemplo, Czolbe et al \cite{semanticsimilarity} propoñen dúas métricas de
 
 \paragraph{Métodos de regresión directa}
 \label{par:direct_regression}
-Estes métodos representan unha aproximación diferente, onde a rede neuronal aprende a mapear directamente desde un par de imaxes ata os parámetros da transformación, sen necesidade de optimización iterativa nin extracción explícita de características.
+
+Os métodos desta rede neuronal aprende a mapear directamente desde un par de imaxes ata os parámetros da transformación, sen necesidade de optimización iterativa nin extracción explícita de características.
 
 Tamén son denominados métodos de inferencia amortizada debido á capacidade de realizar múltiples inferencias (rexistros) tras un único proceso de entrenamento, en contraposición aos métodos tradicionais que requiren optimización individual para cada par de imaxes.
 Estes enfoques son útiles tanto na súa capacidade de aprender a tarefa de rexistro de principio a final, como pola súa eficiencia computacional na fase de inferencia.
 
+Métodos como UDIR-Net \cite{undefreg} ou DIO \cite{Jena_2025} implementan estas ideas.
 
-
--------
-
-\subparagraph{Métodos Supervisados}
-\label{subparagraph:Métodos Supervisados}
-
-Existen dúas subcategorías según o grado de supervisión utilizado na etapa de entrenamento: totalmente supervisados ou débilmente supervisados.
-O rexistro totalmente supervisado fai uso de DVFs de referencia para supervisar o proceso de aprendizaxe.
-O termo de perda adoita basearse na discrepancia entre os DVFs de referencia e os DVFs predicidos.
-
-No lugar dos DVFs de referencia, o rexistro débilmente supervisado pode utilizar outras etiquetas de referencia implícitas.
-Estas etiquetas non se basan en datos explícitos como os DFVs, senón que utilizan información indirecta para guiar o proceso de rexistro, como a semellanza entre as imaxes ou restricións baseadas na forma ou límites anatómicos das estruturas.
-Máis de dous tipos de datos de referencia son frecuentemente utilizados para adestrar modelos de rexistro débilmente supervisados \cite{bharati2022deeplearningmedicalimage}.
-
-\subparagraph{Métodos Non Supervisados}
-\label{subparagraph:Métodos Non Supervisados}
-
-Un dos maiores retos para entrenar redes efectivas con imaxes médicas é a recolección de datos anotados de calidade para o adestramento \cite{medicalimageanalysis}.
-A creación de conxuntos de DFVs anotados é un proceso laborioso e costoso, que normalmente sólo póde ser executado por especialistas, polo que os métodos de rexistro non supervisados son de gran interese.
-Xa que a imaxe fixa e a imaxe móbil xa conteñen toda a información necesaria para un rexistro correcto, os métodos non supervisados parecen mais adecuados para a tarefa de rexistro.
-De forma similar aos métodos iterativos, é común empregar unha métrica de similitude entre as imaxes xunto con un termo de regularización para guiar o proceso de optimización evitando caer en transformación non realistas.
-
-\cite{Balakrishnan_2019voxelmorph} é un dos frameworks mais utilizados no rexistro de imaxes non supervisado facendo uso de CNNs.
-
-\subparagraph{GANs}
-\label{subparagraph:GANs}
+\paragraph{GANs}
+\label{par:GANs}
 
 As \gls{GAN} (Generative Adversarial Network) son un tipo de rede neuronal que consta de dous modelos que compiten entre si: un xerador e un discriminador. O xerador intenta crear datos falsos que sexan indistinguibles dos datos reais, mentres que o discriminador intenta distinguir entre os datos reais e os datos xerados. Este proceso de competición mellora iterativamente a calidade dos datos xerados e o criterio do discriminador.
 
 No contexto do rexistro de imaxes, as GANs poden ser utilizadas para aprender a transformación entre imaxes de forma non supervisada. O xerador pode ser adestrado para producir transformacións que aliñen a imaxe móbil coa imaxe fixa, mentres que o discriminador avalía a calidade do rexistro.
 Un exemplo de aplicación de GANs no rexistro de imaxes médicas é o traballo de \cite{mahapatra2019ganbasedmedicalimage}, onde se propón un modelo de rexistro de imaxes baseado en GANs que demostrou ser efectivo tanto en retinas como con resonancias magnéticas cardiovasculares.
-
-Posteriormente \cite{gan2} propuxo SymReg-GAN, baseado en GANs para o rexistro de imaxe simétrico, abordando os problemas inherentes ao rexistro asimétrico debido á súa natureza direccional.
-O método proposto impón a simetría asegurando que a mapeo de imaxe A a B e de volta a A sexa consistente, e está deseñado para escenarios multimodais.
-
-
-\ref{fig:retin_reg}
-\begin{figure}[hp!]
-    \centering
-    \includegraphics[width=0.8\textwidth]{imaxes/retin-reg.png}
-    \caption{Exemplo de rexistro de imaxes de retina \cite{sivaraman2024retinaregnetzeroshotapproachretinal}}
-    \label{fig:retin_reg}
-\end{figure}
-
-----------------
-
-
 
 \section{Representación Neuronais Implícitas}
 \label{sec:Representación Neuronais Implícitas}
