@@ -20,18 +20,21 @@ O proxecto inicialmente divídese nas seguintes fases principais:
         \item Estudo do dominio biolóxico: características das imaxes oftalmolóxicas, a súa importancia e aplicacións.
         \item Análise de traballos relacionados con IDIR, representacións implícitas e segmentación de imaxes oftalmolóxicas mediante redes neuronais.
     \end{itemize}
+    Esta fase estimouse en aproximadamente 3 semanas de traballo, dada a necesidade de familiarizarse co contexto e identificar solucións previas relevantes.
 
     \item \textbf{Análise do traballo base:}
     \begin{itemize}
         \item Estudo en profundidade do código orixinal de IDIR.
         \item Replicación dos resultados orixinais para verificar o funcionamento correcto.
     \end{itemize}
+    O esforzo estimado para esta tarefa foi de 2 semanas, considerando a análise do código e a posta en marcha do entorno.
 
     \item \textbf{Adaptación ao novo dominio:}
     \begin{itemize}
         \item Modificación da arquitectura para traballar con imaxes 2D en lugar de 4D.
         \item Implementación das adaptacións necesarias para imaxes oftalmolóxicas.
     \end{itemize}
+    Esta etapa estímase unha duración de 5 semanas, debido á complexidade das modificacións e probas necesarias.
 
     \item \textbf{Avaliación e experimentación:}
     \begin{itemize}
@@ -39,13 +42,24 @@ O proxecto inicialmente divídese nas seguintes fases principais:
         \item Realización de múltiples experimentos para optimizar o rendemento.
         \item Validación da efectividade en imaxes oftalmolóxicas.
     \end{itemize}
+    Estímase un esforzo de 8 semanas, repartidas entre o deseño experimental, execución e análise dos resultados dos distintos experimentos.
 
     \item \textbf{Documentación:}
     \begin{itemize}
         \item Redacción da memoria final do proxecto.
         \item Análise e presentación dos resultados obtidos.
     \end{itemize}
+    Para a documentación reserváronse 4 semanas, incluíndo a redacción, revisión e preparación dos anexos.
 \end{itemize}
+
+Na figura \ref{fig:planificacion_proxecto} móstrase o diagrama de Gantt que resume a planificación do proxecto, indicando as fases principais e a súa duración estimada, así como o diagrama da duración real de cada fase.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[height=1\textwidth, angle=90]{imaxes/gants-1.png}
+    \caption{Diagramas de Gantt da planificación do proxecto e duración real de cada fase}
+    \label{fig:planificacion_proxecto}
+\end{figure}
 
 \section{Recursos utilizados}
 \label{sec:Recursos utilizados}
@@ -68,6 +82,17 @@ Utilizáronse dous servidores diferentes, un montado por min\footnote{\url{https
 A gran parte dos experimentos foron realizado no primeiro, mais para poder executar o proxecto cas imaxes na súa resolución orixinal foi necesario empregar o segundo 
 debido ás limitacións de memoria da GPU. 
 
+\subsection{Conxuntos de datos}
+\label{subsec:Conxuntos de datos}
+Para o desenrolo do proxecto empregáronse dous conxuntos de datos diferentes:
+
+\begin{itemize}
+    \item \textbf{RFMID:} 3200 imaxes de fondo de ollo en cor con resolución 1712x1712.
+    \item \textbf{FIRE:} 134 pares de imaxes de retinas en cor, cun tamaño de 2912×2912 pixels
+\end{itemize}
+
+Estos son descritos en maior detalle na sección \ref{sec:Conxuntos de datos}.
+
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|c|c|}
@@ -85,17 +110,40 @@ GPU & NVIDIA RTX 3090 & NVIDIA RTX A6000  \\ \hline
 \label{subsec:Estimación de custos}
 
 Os custos do hardware son ignorados xa que xa estaba disponible antes da realización do proxecto.
-Os custos dos recursos humanos calcúlanse para un estudante e doús titores, resultando nun coste estimado de $PLACEHOLDER$.
+Os custos dos recursos humanos calcúlanse para un estudante e doús titores, resultando nun coste estimado de 13.640€.
+A tabla \ref{tab:estimacion_custos} mostra a estimación de custos dos recursos humanos desglosados, considerando un estudante a 12€/hora e titores a 35€/hora.
 
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|c|c|c|}
 \hline
 \textbf{Recurso} & \textbf{Coste por hora} &\textbf{Horas estimadas} & \textbf{Coste total} \\ \hline
-Estudante & & & € \\ \hline
-Titor 1 & & & € \\ \hline
-Titor 2 & & & € \\ \hline
+Estudante & 12€ & 880h & 10.560€ \\ \hline
+Titor 1 & 35€ & 44h & 1.540€ \\ \hline
+Titor 2 & 35€ & 44h & 1.540€ \\ \hline
 \end{tabular}
 \caption{Estimación de custos dos recursos humanos}
 \label{tab:estimacion_custos}
 \end{table}
+
+\
+
+\section{Seguimiento de planificación}
+\label{sec:Seguimiento de planificación}
+
+A planificación do proxecto foi revisada periódicamente para según as fases do proxecto, e para identificar desviacións respecto ao plan inicial.
+
+Pese a que nas fases iniciais do proxecto se respectou a planificación, a fase de adaptación ao novo dominio e a fase de avaliación e experimentación sufriron retrasos significativos.
+
+A fase de adaptación ao novo dominio requiriu máis tempo do esperado debido á complexidade das modificacións necesarias para adaptar o modelo a imaxes 2D, así como a necesidade de realizar múltiples probas para garantir a o correcto funcionamento do modelo adaptado.
+A fase de avaliación tamén se viu afectada, xa que requiriu máis tempo do esperado para deseñar unha metodoloxía de avaliación adecuada.
+Finalmente, a fase de experimentación requiriu máis tempo do esperado, en parte debido aos malos resultados obtidos inicialmente, que requiriron unha revisión exhaustiva do código e a implementación de novas probas para asegurar a correcta implementación.
+En total, o proxecto sufriu un retraso de aproximadamente 18 semanas respecto á planificación inicial.
+
+A fase final de análise dos resultados e redacción da memoria tamén se viu afectada, aínda que en menor medida, o que conlevou un retraso adicional de 2 semanas.
+
+\subsection{Estimación de coste real}
+\label{subsec:Estimación de custo real}
+
+A estimación de custo do proxecto foi de 13.640€, como se indicou na sección \ref{subsec:Estimación de custos}. Non obstante debido aos retrasos no desenrolo do proxecto, o custo real aumentou de forma proporcional ao tempo extra empregado. 
+Debido a que o proxecto se estendeu durante 20 semanas máis do previsto, o custo real estimado ascende a 20.640€.

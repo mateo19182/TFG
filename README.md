@@ -24,10 +24,12 @@ Luego, revisaría los  métodos deep learning que substituyen módulos de IBR (s
 
 ### Capítulo 3 - Metodología y planificación
 
-Falta identificar los conjuntos de datos públicos como rescursos
-        Incluiría un estimador de esfuerzo en las tareas y un diagrama de Gantt
-        Falta realizar estimación de costes planificados
-        Haría una sección de seguimiento de la planificación, y estimación de coste real, a modo de conclusión del capítulo.
+<!-- Falta identificar los conjuntos de datos públicos como rescursos -->
+<!-- Incluiría un estimador de esfuerzo en las tareas y  -->
+<!-- un diagrama de Gantt -->
+<!-- Falta realizar estimación de costes planificados -->
+
+Haría una sección de seguimiento de la planificación, y estimación de coste real, a modo de conclusión del capítulo.
 
 ### Capítulo 4 - Trabajo realizado
 
