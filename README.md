@@ -29,7 +29,7 @@ Luego, revisaría los  métodos deep learning que substituyen módulos de IBR (s
 <!-- un diagrama de Gantt -->
 <!-- Falta realizar estimación de costes planificados -->
 
-Haría una sección de seguimiento de la planificación, y estimación de coste real, a modo de conclusión del capítulo.
+<!-- Haría una sección de seguimiento de la planificación, y estimación de coste real, a modo de conclusión del capítulo. -->
 
 ### Capítulo 4 - Trabajo realizado
 
