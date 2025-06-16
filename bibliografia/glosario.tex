@@ -2,16 +2,17 @@
 % Obxectivo: Lista de termos empregados no documento,                          %
 %            xunto cos seus respectivos significados.                          %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \newglossaryentry{DFV}{
   name=DFV,
-  description={Siglas en inglés de \textit{Campo de Vectores de Deformación}.}
+  description={Siglas en inglés de \textit{Deformation Vector Field}.
+  Consiste nunha matriz que contén, para cada punto, un vector que indica a magnitude e dirección do desprazamento a realizar.}
 }
 
-
 \newglossaryentry{INR}{
-  name=DFV,
-  description={Siglas en inglés de \textit{Redes Neuronais Implícitas}.}
+  name=INR,
+  description={Siglas en inglés de \textit{Implicit Neural Representations}.
+  Son representacións de funcións continuas parametrizadas por redes neuronais artificiais que modelan obxectos ou sinais, como imaxes ou formas 3D.
+  Habitualmente mapean coordenadas de entrada directamente a valores de saída relevantes, en lugar de almacenar datos de forma discreta.}
 }
 
 \newglossaryentry{MLP}{
@@ -20,111 +21,103 @@
   Tipo de red neuronal artificial formada por capas completamente conectadas de neuronas, que incluye una capa de entrada, una o más capas ocultas, y una capa de salida.
   }
 }
-
 \newglossaryentry{CNN}{
   name=CNN,
   description={Siglas en inglés de \textit{Convolutional Neural Network}.
-  Tipo de red .
+  Tipo de rede neuronal artificial que utiliza capas convolucionales que aplican filtros para extraer diferentes características, permitindo o recoñecemento de patrones complexos.
   }
 }
 
 \newglossaryentry{GAN}{
-  name=CNN,
+  name=GAN,
   description={Siglas en inglés de \textit{Generative Adversarial Network}.
-  Tipo de red .
+  Tipo de rede neuronal artificial composta por dúas redes que compiten entre si: un xerador, que intenta crear datos falsos realistas, e un discriminador, que tenta distinguir entre datos reais e falsos.
   }
 }
 
 \newglossaryentry{IGRT}{
   name=IGRT,
-  description={Siglas en inglés de \textit{Image-guided radiation therapy}.
+  description={Siglas en inglés de \textit{Image-Guided Radiation Therapy}.
+  Técnica de radioterapia que utiliza imaxes médicas obtidas inmediatamente antes ou durante o tratamento para localizar con precisión o tumor e adaptar a administración da radiación, mellorando a exactitude e minimizando o dano aos tecidos sans circundantes.
   }
 }
-
 
 \newglossaryentry{RIR}{
   name=RIR,
   description={Siglas en inglés de \textit{Retinal Image Registration}.
+  Técnica utilizada para aliñar ou superpoñer imaxes da retina obtidas en diferentes momentos, condicións ou dispositivos, co obxectivo de comparar cambios, monitorizar enfermidades ou mellorar a análise clínica.
   }
 }
 
 
-\newglossaryentry{PSO}{
-  name=PSO,
-  description={Siglas en inglés de \textit{Particle Swarm Optimization}.
-  }
-}
+% \newglossaryentry{PSO}{
+%   name=PSO,
+%   description={Siglas en inglés de \textit{Particle Swarm Optimization}.
+%   Algoritmo de optimización inspirado no comportamento colectivo de bandadas de paxaros ou bancos de peixes. Utiliza un conxunto de partículas (solucións candidatas) que exploran o espazo de busca movéndose segundo a súa experiencia propia e a dos seus veciños, co obxectivo de atopar a mellor solución posible a un problema dado.
+%   }
+% }
 
-\newglossaryentry{REMPE}{
-  name=REMPE,
-  description={Siglas en inglés de \textit{Registration of Retinal Images Through Eye Modelling and Pose Estimation}.
-  }
-}
+% \newglossaryentry{REMPE}{
+%   name=REMPE,
+%   description={Siglas en inglés de \textit{Registration of Retinal Images Through Eye Modelling and Pose Estimation}.
+%   }
+% }
 
 \newglossaryentry{PIIFD}{
   name=PIIFD,
-  description={Siglas en inglés de \textit{Partial Intensity Invariant Feature Descriptor}.
-  }
+  description={Siglas de \textit{Partial Intensity Invariant Feature Descriptor}.
+  É un descriptor de características que xera representación robustas de contornos en imaxes, mantendo certa invariancia frente a cambios parciales de intensidade e transformacións xeométricas.}
 }
 
+
 \newglossaryentry{BBF}{
-  name=PIIFD,
-  description={Siglas en inglés de \textit{Best Bin First}.
-  }
+  name=BBF,
+  description={Siglas en inglés de \textit{Best Bin First}. Algoritmo de busca de veciños en espazos de alta dimensión, empregado na comparación de descritores.}
 }
+
 
 \newglossaryentry{SIFT}{
   name=SIFT,
-  description={Siglas en inglés de \textit{Scale-Invariant Feature Transform}.
-  }
+  description={Siglas en inglés de \textit{Scale-Invariant Feature Transform}. 
+  Algoritmo para detectar e describir puntos de interese en imaxes, robusto a cambios de escala, rotación e iluminación.}
 }
 
 \newglossaryentry{SURF}{
   name=SURF,
-  description={Siglas en inglés de \textit{Speeded-Up Robust Features}.
-  }
+  description={Siglas en inglés de \textit{Speeded-Up Robust Features}. 
+  Algoritmo para a detección e descrición de características locais en imaxes, máis rápido que SIFT, pero pode ser algo menos preciso.}
 }
+% \newglossaryentry{UR-SIFT-PIIFD}{
+%   name=UR-SIFT-PIIFD,
+%   description={Siglas en inglés de \textit{Uniform Robust Scale Invariant Feature Transform e Harris-Partial Intensity Invariant Feature Descriptor}.
+%   }
+% }
 
-\newglossaryentry{UR-SIFT-PIIFD}{
-  name=UR-SIFT-PIIFD,
-  description={Siglas en inglés de \textit{Uniform Robust Scale Invariant Feature Transform e Harris-Partial Intensity Invariant Feature Descriptor}.
-  }
-}
-
-\newglossaryentry{MFSP}{
-  name=MFSP,
-  description={Siglas en inglés de \textit{Mixture Feature and Structural Preservation Feature Points Registration}.
-  }
-}
 
 \newglossaryentry{GMM}{
   name=GMM,
-  description={Siglas en inglés de \textit{Gaussian Mixture Models}.
-  }
-}
-
-\newglossaryentry{TPS}{
-  name=TPS,
-  description={Siglas en inglés de \textit{Thin Plated Spine}.
-  }
+  description={Siglas en inglés de \textit{Gaussian Mixture Models}. 
+  Modelo estatístico que representa a distribución de datos como unha combinación de varias gaussianas. Funciona axustando os parámetros das gaussianas para modelar a estrutura dos datos e identificar subconxuntos ou clusters.}
 }
 
 \newglossaryentry{GDB-ICP}{
   name=GDB-ICP,
   description={Siglas en inglés de \textit{Generalized Dual-Bootstrap Iterative Closest Point}.
-  }
+   Algoritmo de aliñamento iterativo de puntos. Funciona buscando correspondencias entre puntos e refinando a transformación ata conseguir o mellor axuste posible.}
 }
 
 \newglossaryentry{FOV}{
   name=FOV,
   description={Siglas en inglés de \textit{Field Of View}.
-  }
+   Ángulo ou área visible a través dun sensor ou dispositivo óptico.Determina a rexión do espazo que pode captar ou observar un sistema de visión.}
 }
+
 
 \newglossaryentry{NTK}{
   name=NTK,
-  description={Siglas en inglés de \textit{Neural Tangent Kernel}.
-  }
+  description={Siglas en inglés de \textit{Neural Tangent Kernel}. Ferramenta matemática para analizar o comportamento de redes neuronais durante o adestramento.
+   Funciona aproximando a evolución dos parámetros da rede mediante un kernel que describe a súa dinámica de aprendizaxe.
+   }
 }
 
 

@@ -1,8 +1,6 @@
 ## todo
 
-revisar glosario
 revisar biblio, dedup...
-
 
 ## notes
 
@@ -48,7 +46,7 @@ En la sección de vista general, debes describir los experimentos de forma simpl
 Una sección resumen con las principales observaciones derivadas de las discusiones previas. -->
 
 ### Comentarios generales:
-
+<!-- 
 Referencias cruzadas a figuras. En general, las figuras flotantes (y tablas) deben dejarse libres sin forzar a (ni pretender) que se coloquen en una posición concreta. Luego, en el texto, se deben citar siempre, donde sean relevantes. Por ejemplo: "Como se puede ver en la figura \ref{fig:***}" sería correcto, mientras que "Como se puede observar en la siguiente figura: " no sería correcto (ya que asume que la figura tiene que estar ahí. La figura siempre debe estar definida después de su primera cita. Fíjate también que en las citas a figuras, tablas, ecuaciones, etc. debes escribir "la figura \ref", "la tabla \ref", "la ecuación \ref", y no simplemente \ref.
 
-Citas a bibliografía, siempre dentro de la frase, antes del punto.
+Citas a bibliografía, siempre dentro de la frase, antes del punto. -->
