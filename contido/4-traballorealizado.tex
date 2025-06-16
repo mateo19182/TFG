@@ -557,8 +557,8 @@ Para esta última, divídense os epochs en diferentes fases, onde cada fase fai 
 \section{Métodos de Avaliación}
 \label{sec:Métodos de Avaliación}
 
-A evaluación divídese en dous tipos: a avaliación cualitativa, na cal analízanse os resultados de forma visual,
- e a avaliación cuantitativa, na cal se utilizan métricas numéricas para comparar os resultados en base a un criterio obxetivo.
+A avaliación do rendemento do sistema de rexistro constitúe un aspecto fundamental para determinar a eficacia das modificacións implementadas. 
+O proceso de avaliación divídese en dous enfoques complementarios: a avaliación cuantitativa, que emprega métricas numéricas obxectivas, e a avaliación cualitativa, que analiza os resultados de forma visual para detectar artefactos ou deformacións non desexadas que poidan escapar ás métricas numéricas.
 
  Ambas avaliacións son necesarias para obter unha visión completa da calidade do rexistro, xa que a avaliación cuantitativa pode non ser suficiente para detectar problemas visuais que non se reflictan nas métricas.
 
@@ -568,13 +568,26 @@ A evaluación divídese en dous tipos: a avaliación cualitativa, na cal analíz
  Utilizamos como método de evaluación cuantitativa o proposto por FIRE \cite{FIRE}
  xerando un gráfico onde o eixo x representa o valor do límite de erro e o eixo y mostra a porcentaxe de pares de imaxes que foron rexistrados con éxito para cada límite de erro.
  
- O error de rexistro calcúlase ca distancia media entre os puntos correspondentes na imaxe fixa e móbil (cj, rj).
- Cando o erro de rexistro entre un par de imaxes está por debaixo do límite, considérase que o rexistro foi exitoso e viceversa. Isto dá lugar a unha curva monótona e continua que reflicte a relación entre a taxa de éxito e a precisión obxectivo, evitando así a necesidade de establecer un limiar arbitrario. 
- Estes gráficos utilízanse para ilustrar a precisión do rexistro tanto para casos individuais (onde se utilizan o porcentaxe de parellas de puntos rexistrados con éxito)
-  como para o conxunto completo de datos.
- 
+O erro de rexistro calcúlase mediante a distancia euclidiana media entre os puntos correspondentes nas imaxes fixa e móbil:
+
+\begin{figure}[ht!]
+    \centering
+    \[
+    E = \frac{1}{N} \sum_{i=1}^{N} \left\| p_i^{\text{fixo}} - T(p_i^{\text{móbil}}) \right\|
+    \]
+    \caption{Cálculo do erro de rexistro mediante a distancia euclidiana.}
+    \label{fig:erro_registro}
+\end{figure}
+
+onde N é o número de puntos de referencia, p son as coordenadas dos puntos e T é a transformación aplicada.
+
+Cando o erro de rexistro entre un par de imaxes está por debaixo do limiar, considérase que o rexistro foi exitoso e viceversa. Isto dá lugar a unha curva monótona e continua que reflicte a relación entre a taxa de éxito e a precisión obxectivo, evitando así a necesidade de establecer un limiar arbitrario. 
+Estes gráficos utilízanse para ilustrar a precisión do rexistro tanto para casos individuais (onde se utilizan o porcentaxe de parellas de puntos rexistrados con éxito)
+como para o conxunto completo de datos.
 Esta métrica facilita a comparación entre distintos métodos competidores e permite seleccionar o máis axeitado segundo a precisión desexada.
  
+Ademais, en FIRE a avaliación segmentarase nas 3 categorías de imaxes (S, P e A) para analizar o rendemento do rexistro en cada unha delas, xa que cada categoría presenta diferentes desafíos e características.
+
  Mentres que FIRE xa provee os puntos de referencia para a avaliación, RFMID non o fai.
  Polo tanto, para RFMID, utilizamos o mesmo método de avaliación, pero xerándo os puntos manualmente de forma que cubran o interior da máscara da imaxe fixa (separados por 50 píxeles entre si).
  
@@ -585,7 +598,19 @@ Esta métrica facilita a comparación entre distintos métodos competidores e pe
     \label{fig:fire_aval}
 \end{figure}
 
-Nalgúns casos, utilizaremos a distancia media entre os puntos correspondentes como métrica adicional para avaliar a calidade do rexistro, xa que a taxa de éxito pode non ser suficiente para detectar os cambios.
+No caso de RFMiD, dividiremos o conxunto de datos en varias categorías dependendo da dificultade do rexistro, que se calcula mediante a norma de Frobenius dunha matriz $A \in \mathbb{R}^{m \times n}$.
+Esta é unha xeralización da distancia euclidiana aplicada a matrices, onde as imaxes con transformacións mais grandes considéranse mais difíciles.
+
+\begin{figure}[ht]
+    \centering
+    \[
+    \|A\|_F = \sqrt{\sum_{i=1}^{m} \sum_{j=1}^{n} |a_{ij}|^2}
+    \]
+    \caption{Norma de Frobenius dunha matriz $A \in \mathbb{R}^{m \times n}$, onde $a_{ij}$ son os elementos da matriz $A$.}
+    \label{fig:frobenius_norm}
+\end{figure}
+
+Nalgúns casos temén utilizaremos a distancia media entre os puntos correspondentes como métrica complementaria para avaliar a calidade do rexistro, xa que a taxa de éxito pode non ser suficiente para detectar os cambios.
 
 \subsection{Avaliación Cualitativa}
 \label{subsec:Avaliación Cualitativa}
@@ -596,3 +621,13 @@ especialmente en rexistros que teñen deformacións locais que poden non coincid
 
 No caso do dataset FIRE \cite{FIRE}, a avaliación visual é especialmente relevante, xa que tan só se proporcionan 10 puntos de referencia por imaxe, que poden non ser suficientes para avaliar a calidade do rexistro en moitas zonas da imaxe.
 Xa que en RFMID \cite{RFMiD} utilízanse puntos de referencia xerados manualmente que cubren toda a imaxe, a avaliación visual é algo menos relevante, xa que é máis probable que unha deformación local incorrecta sexa detectada por algún punto e se vexa reflexado nas métricas.
+
+Co obxetivo de identificar facilmente os distintos artefactos visuais ou transformación non realista, utilízanse diferentes ferramentas como a composición de imaxes, a visualización dos vectores de desprazamento e a comparación de imaxes antes e despois do rexistro.
+Na figura \ref{fig:visex} pódense observar algúns exemplos de estas.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imaxes/visex.png}
+    \caption{Exemplos de avaliación visual: (a) Composición de imaxes antes e despois do rexistro, (b) Visualización dos vectores de desprazamento, (c) Comparación directa das imaxes rexistradas.}
+    \label{fig:visex}
+\end{figure}

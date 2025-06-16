@@ -84,6 +84,78 @@ así como determinar a súa influenza no rendemento da rede.
 % Nesta sección realizaranse experimentos para determinar uns valores aceptables para os parámetros da rede no contexto da imaxe oftalmolóxica, 
 % así como determinar a súa influenza no rendemento da rede.
 
+\section{Exemplos de rexistro}
+\label{sec:Exemplos de rexistro}
+
+Diferentes exemplos de rexistro, tanto exitosos como fallidos, pódense observar na figura \ref{fig:reg_examples}.
+A primeira imaxe corresponde ca imaxe fixa, a segunda corresponde ca imaxe rexistrada, a terceira ca imaxe móbil e a cuarta o campo de deformación aplicado a unha grella cadrada.
+ 
+Pódense observar os puntos de control, sendo os brancos os da imaxe fixa, os verdes os da imaxe móbil e os azuis os desprazados pola rede.
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imaxes/reg_examples/FIRE_MLP_buena.png}
+        \caption{Rexistro exitoso dunha parella de imaxes do dataset FIRE ca función de activación ReLU}
+        \label{fig:reg_example_FIRE_MLP_buena}
+    \end{subfigure}\hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imaxes/reg_examples/FIRE_MLP_mala.png}
+        \caption{Rexistro fallido dunha parella de imaxes do dataset FIRE ca función de activación ReLU}
+        \label{fig:reg_example_FIRE_MLP_mala}
+    \end{subfigure}
+
+    \vskip\baselineskip
+
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imaxes/reg_examples/FIRE_SIREN_buena.png}
+        \caption{Rexistro exitoso dunha parella de imaxes do dataset FIRE ca función de activación SIREN}
+        \label{fig:reg_example_FIRE_SIREN_buena}
+    \end{subfigure}\hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imaxes/reg_examples/FIRE_SIREN_mala.png}
+        \caption{Rexistro fallido dunha parella de imaxes do dataset FIRE ca función de activación SIREN}
+        \label{fig:reg_example_FIRE_SIREN_mala}
+    \end{subfigure}
+
+    \vskip\baselineskip
+
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imaxes/reg_examples/RFMID_MLP_buena.png}
+        \caption{Rexistro exitoso dunha parella de imaxes do dataset RFMID ca función de activación ReLU}
+        \label{fig:reg_example_RFMID_MLP_buena}
+    \end{subfigure}\hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imaxes/reg_examples/RFMID_MLP_mala.png}
+        \caption{Rexistro fallido dunha parella de imaxes do dataset RFMID ca función de activación ReLU}
+        \label{fig:reg_example_RFMID_MLP_mala}
+    \end{subfigure}
+
+    \vskip\baselineskip
+
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imaxes/reg_examples/RFMID_SIREN_buena.png}
+        \caption{Rexistro exitoso dunha parella de imaxes do dataset RFMID ca función de activación SIREN}
+        \label{fig:reg_example_RFMID_SIREN_buena}
+    \end{subfigure}\hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imaxes/reg_examples/RFMID_SIREN_mala.png}
+        \caption{Rexistro fallido dunha parella de imaxes do dataset RFMID ca función de activación SIREN}
+        \label{fig:reg_example_RFMID_SIREN_mala}
+    \end{subfigure}
+
+    \caption{Exemplos de rexistro: combinacións de dataset (FIRE/RFMID), función de activación (relu/SIREN) e éxito.}
+    \label{fig:reg_examples}
+\end{figure}
+
+
 \section{Función de loss}
 \label{sec:Función de loss}
 
@@ -398,17 +470,10 @@ Isto suxire que a regularización é mais relevante onde a rede ten que aprender
 
 Ao longo dos experimentos realizados, o análisis cualitativo revelou que o batch size é un dos parámetros que máis impacto ten no rendemento da rede.
 
-De agora en adiante dividimos o conxunto de datos de RFMID en varios subconxuntos según a dificultade da transformación, medida mediante a norma de Frobenius.
-A norma de Frobenius dunha matriz $A \in \mathbb{R}^{m \times n}$ defínese como:
-
-\[
-\|A\|_F = \sqrt{\sum_{i=1}^{m} \sum_{j=1}^{n} |a_{ij}|^2}
-\]
-
-onde $a_{ij}$ son os elementos da matriz $A$.
-Esta é unha xeralización da distancia euclidiana aplicada a matrices, onde as imaxes con transformacións mais grandes considéranse mais difíciles.
+De agora en adiante dividimos o conxunto de datos de RFMID en varios subconxuntos según a dificultade da transformación, como detallado na seccion \ref{subsec:Avaliación Cuantitativa}.
 
 Desta forma podemos comparar o rendemento da rede en diferentes subconxuntos de imaxes, e determinar se o rendemento da rede é consistente entre eles.
+
 Nos experimentos co dataset FIRE, decidiuse limitarse á categoría S, xa que é a que maior número de exemplos tén e ten un maior grao de superposición entre as imaxes, o que facilita a tarefa de rexistro.
 Ademais, xa que a rede si que é capaz de rexistrar correctamente as imaxes dos subconxuntos mais sinxelos, utilizaremos a métrica de FIRE para medir o porcentaxe de imaxes rexistradas correctamente.
 
@@ -703,76 +768,6 @@ Os resultados de utilizar diferentes números de fases pódense observar na figu
 A hipótese parece errada, xa que o uso de fases tende a empeorar o rendemento da rede.
 Isto pode deberse a que a rede xa é capaz de aprender as transformacións globais e locais simultaneamente, ou que a hipótese de que un menor batch size axuda a aprender as transformacións globais non é correcta.
 
-\section{Exemplos de rexistro}
-\label{sec:Exemplos de rexistro}
-
-Diferentes exemplos de rexistro, tanto exitosos como fallidos, pódense observar na figura \ref{fig:reg_examples}.
-A primeira imaxe corresponde ca imaxe fixa, a segunda corresponde ca imaxe rexistrada, a terceira ca imaxe móbil e a cuarta o campo de deformación aplicado a unha grella cadrada.
- 
-Pódense observar os puntos de control, sendo os brancos os da imaxe fixa, os verdes os da imaxe móbil e os azuis os desprazados pola rede.
-\begin{figure}[ht]
-    \centering
-    \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{imaxes/reg_examples/FIRE_MLP_buena.png}
-        \caption{Rexistro exitoso dunha parella de imaxes do dataset FIRE ca función de activación ReLU}
-        \label{fig:reg_example_FIRE_MLP_buena}
-    \end{subfigure}\hfill
-    \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{imaxes/reg_examples/FIRE_MLP_mala.png}
-        \caption{Rexistro fallido dunha parella de imaxes do dataset FIRE ca función de activación ReLU}
-        \label{fig:reg_example_FIRE_MLP_mala}
-    \end{subfigure}
-
-    \vskip\baselineskip
-
-    \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{imaxes/reg_examples/FIRE_SIREN_buena.png}
-        \caption{Rexistro exitoso dunha parella de imaxes do dataset FIRE ca función de activación SIREN}
-        \label{fig:reg_example_FIRE_SIREN_buena}
-    \end{subfigure}\hfill
-    \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{imaxes/reg_examples/FIRE_SIREN_mala.png}
-        \caption{Rexistro fallido dunha parella de imaxes do dataset FIRE ca función de activación SIREN}
-        \label{fig:reg_example_FIRE_SIREN_mala}
-    \end{subfigure}
-
-    \vskip\baselineskip
-
-    \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{imaxes/reg_examples/RFMID_MLP_buena.png}
-        \caption{Rexistro exitoso dunha parella de imaxes do dataset RFMID ca función de activación ReLU}
-        \label{fig:reg_example_RFMID_MLP_buena}
-    \end{subfigure}\hfill
-    \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{imaxes/reg_examples/RFMID_MLP_mala.png}
-        \caption{Rexistro fallido dunha parella de imaxes do dataset RFMID ca función de activación ReLU}
-        \label{fig:reg_example_RFMID_MLP_mala}
-    \end{subfigure}
-
-    \vskip\baselineskip
-
-    \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{imaxes/reg_examples/RFMID_SIREN_buena.png}
-        \caption{Rexistro exitoso dunha parella de imaxes do dataset RFMID ca función de activación SIREN}
-        \label{fig:reg_example_RFMID_SIREN_buena}
-    \end{subfigure}\hfill
-    \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{imaxes/reg_examples/RFMID_SIREN_mala.png}
-        \caption{Rexistro fallido dunha parella de imaxes do dataset RFMID ca función de activación SIREN}
-        \label{fig:reg_example_RFMID_SIREN_mala}
-    \end{subfigure}
-
-    \caption{Exemplos de rexistro: combinacións de dataset (FIRE/RFMID), función de activación (relu/SIREN) e éxito.}
-    \label{fig:reg_examples}
-\end{figure}
 
 % \FloatBarrier
 
