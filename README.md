@@ -3,8 +3,6 @@
 revisar glosario
 revisar biblio, dedup...
 
-ejemplos metodos dl regresion directa
-mergear metodos supervisados/no supervisados
 
 ## notes
 
@@ -33,21 +31,21 @@ Luego, revisaría los  métodos deep learning que substituyen módulos de IBR (s
 
 ### Capítulo 4 - Trabajo realizado
 
-Este debe ser el capítulo más extenso de la memoria, junto con el de experimentos. De lo contrario, parecerá que el trabajo realizado son 5 páginas sin rellenar del todo. Hay espacio, así que hay que trabajar mucho más este capítulo. No te habíamos enviado comentarios antes con la esperanza de tener más material con el que trabajar (no podemos estar revisando memorias que están de forma evidente sin terminar, porque implicaría hacer 3 o cuatro iteraciones sobre cosas que, en el fondo, dependen completamente de ti). Lamentablemente este capítulo no ha avanzado nada. Evidentemente no está bien. ¿Refleja este capítulo todo lo que has hecho?
+<!-- Este debe ser el capítulo más extenso de la memoria, junto con el de experimentos. De lo contrario, parecerá que el trabajo realizado son 5 páginas sin rellenar del todo. Hay espacio, así que hay que trabajar mucho más este capítulo. No te habíamos enviado comentarios antes con la esperanza de tener más material con el que trabajar (no podemos estar revisando memorias que están de forma evidente sin terminar, porque implicaría hacer 3 o cuatro iteraciones sobre cosas que, en el fondo, dependen completamente de ti). Lamentablemente este capítulo no ha avanzado nada. Evidentemente no está bien. ¿Refleja este capítulo todo lo que has hecho? -->
 
-Estructura el trabajo realizado en varias partes, haciendo una buena introducción en el capítulo. Luego, haz una sección detallando cada una de las partes: Estudio de IDIR, Adaptación a 2D con retinas, replicación de resultados, diseño de experimentos y metodología de evaluación en retinas (incluyendo esquema general de entrenamiento, conjuntos de datos, y todo tipo de métricas de análisis en detalle). Es importante explicar bien todas las formas de presentar resultados que vas a usar y cómo se interpretan. Por último, secciones destinadas a describir metodologías de mejora desarrolladas por ti mismo (hay varias, como los métodos de muestreo etc.)
+<!-- Estructura el trabajo realizado en varias partes, haciendo una buena introducción en el capítulo. Luego, haz una sección detallando cada una de las partes: Estudio de IDIR, Adaptación a 2D con retinas, replicación de resultados, diseño de experimentos y metodología de evaluación en retinas (incluyendo esquema general de entrenamiento, conjuntos de datos, y todo tipo de métricas de análisis en detalle). Es importante explicar bien todas las formas de presentar resultados que vas a usar y cómo se interpretan. Por último, secciones destinadas a describir metodologías de mejora desarrolladas por ti mismo (hay varias, como los métodos de muestreo etc.) -->
 
 ### Capítulo 5 - Experimentación y resultados
 
-Igual que el capítulo 4, parece que no ha avanzado.
+<!-- Igual que el capítulo 4, parece que no ha avanzado. -->
+<!-- 
+En la sección de vista general, debes describir los experimentos de forma simplificada, como te dijimos, motivando el por qué se hacen. -->
 
-En la sección de vista general, debes describir los experimentos de forma simplificada, como te dijimos, motivando el por qué se hacen.
+<!-- Eleva cada experimento a sección (no subsección colgando de experimentos), y organizalos en susbsecciones de resultados y discusión (no subsubsecciones). En general, lo que hay está escueto. -->
 
-Eleva cada experimento a sección (no subsección colgando de experimentos), y organizalos en susbsecciones de resultados y discusión (no subsubsecciones). En general, lo que hay está escueto.
+<!-- Hace falta una sección final de comparativa, que ponga de relieve las mejores solucione y destaque las aportaciones
 
-Hace falta una sección final de comparativa, que ponga de relieve las mejores solucione y destaque las aportaciones
-
-Una sección resumen con las principales observaciones derivadas de las discusiones previas.
+Una sección resumen con las principales observaciones derivadas de las discusiones previas. -->
 
 ### Comentarios generales:
 

@@ -1,54 +1,26 @@
 \chapter{Traballo Realizado}
 \label{chap:Traballo Realizado}
 
-\lettrine{N}{este} apartado presentarase o traballo realizado, comezando por unha vista xeral do proceso, 
-seguido dunha explicación dos diferentes módulos desenvolvidos e a súa interacción, así como os conxuntos de datos empregados.
-Finalmente, presentaranse os resultados obtidos acompañados dunha análise dos mesmos.
+\lettrine{N}{este} capítulo preséntase o traballo realizado para adaptar o framework IDIR ao rexistro de imaxes de retina en 2D. Comézase cunha vista xeral do proceso e unha descripción detallada do método IDIR orixinal, seguido da explicación das modificacións realizadas para adaptar o sistema ás características específicas das imaxes de fondo de ollo. Posteriormente, descríbense os conxuntos de datos empregados, o deseño experimental desenvolvido e os métodos de avaliación utilizados para validar os resultados.
+
 \section{Vista Xeral}
 \label{sec:VistaXeral}
 
 O proxecto consiste en adaptar o framework de IDIR, ideado para o rexistro de \gls{4DCT} torácicas, para o rexistro de imaxes de fondo de ollo en 2D.
 Para isto foi necesario modificar gran parte do código, así como adaptar o proceso de rexistro e avaliación.
 
-Inicialmente replicáronse os resultados obtidos por Wolterink et al. \cite{wolterink2021implicit} que se mostran na táboa seguinte:
-
-\begin{table}[ht]
-    \centering
-    \caption{Replicación dos resultados de IDIR}
-    \begin{tabular}{c|c}
-        Scan & {IDIR / Replicación} \\
-        1  & 0.76 (0.94) / 0.79 (0.92) \\
-        2  & 0.76 (0.94) / 0.71 (0.89) \\
-        3  & 0.94 (1.02) / 0.95 (1.01) \\
-        4  & 1.32 (1.27) / 1.32 (1.22) \\
-        5  & 1.23 (1.47) / 1.23 (1.46) \\
-        6  & 1.09 (1.03) / 1.15 (1.04) \\
-        7  & 1.12 (1.00) / 1.11 (0.99) \\
-        8  & 1.21 (1.29) / 1.20 (1.28) \\
-        9  & 1.22 (0.95) / 1.16 (0.99) \\
-        10 & 1.01 (1.05) / 1.09 (1.05) \\
-        Promedio & 1.07 / 1.07 (1.08) \\
-    \end{tabular}
-    \label{tab:comparison}
-\end{table}
-
-\FloatBarrier
-
-
 \section{IDIR}
 \label{sec:IDIR}
+
 IDIR (Implicit Deformable Image Registration) é un método de aliñamento de imaxes baseado en redes neuronais. 
 A súa principal diferenza frente a unha rede convolucional tradicional é que, 
-en lugar de predicir a transformación entre imaxes, optimízase unha rede para esta mesma represente esta transformación.
 
-O que \cite{wolterink2021implicit} propón é optimizar directamente o DFV facendo uso
- dunha representación implícita, de forma que a deformación está representada nos propios pesos dunha MLP.
+O que se propón é optimizar directamente o DFV facendo uso dunha representación implícita, de forma que a deformación está representada nos propios pesos dun MLP \cite{wolterink2021implicit}.
 
- \cite{sun2024medicalimageregistrationneural} e \cite{nodeo} propuxeron métodos de rexistro de imaxes similares de forma independente,
- baseados en Neural ODE (ODE-Nets)\cite{neuralode}, unha familia de modelos de aprendizaxe profundo que trata a rede como un sistema continuo en lugar de unha secuencia de capas discretas.
+Outros traballos como NIR \cite{sun2024medicalimageregistrationneural} ou NODEO \cite{nodeo} propoñen métodos de rexistro similares que tamén fan uso de representacións implícitas das deformacións, aplicados a resonancias magnéticas do cerebro.
+%  baseados en Neural ODE (ODE-Nets)\cite{neuralode}, unha familia de modelos de aprendizaxe profundo que trata a rede como un sistema continuo en lugar de unha secuencia de capas discretas.
 
-
-\subsubsection{Arquitectura}
+\subsection{Arquitectura}
 \label{subsubsec:Arquitectura}
 
 Faise uso dun MLP de 3 capas, e determinaron experimentalmente que obtiñan mellor resultado con 256 unidades por capa que 128.
@@ -358,11 +330,9 @@ A regla indica que o learning rate óptimo debe escalarse linearmente co tamaño
 
 Unha forma de explicar isto é, xa que con batches mais grandes temos unha mellor aproximación do gradiente real, é posible utilizar un learning rate maior sen que a rede diverxa. \cite{kexuefm}
 
-
 O batch size nesta rede representa o número de coordenadas amostradas aleatoriamente do espazo de coordenadas dentro da máscara.
 
-
-\subsubsection{Método}
+\subsection{Método}
 \label{subsubsec:Método}
 
 Sendo o obxetivo encontrar unha transformación espacial óptima entre a imaxe móbil e a imaxe fixa,
@@ -397,6 +367,65 @@ e dependendo da función de activación empregada, o NTK varía e a rede pode se
 
 Finalmente, entrenaráse unha nova rede por cada parella de imaxes, sendo esta unha rede bastante pequena en comparación e prescindindo da necesidade de grandes conxuntos de datos para o seu adestramento.
 
+\subsection{Replicación de resultados}
+\label{subsec:Replicación de resultados}
+
+Replicáronse os resultados obtidos por Wolterink et al. \cite{wolterink2021implicit} que se mostran na táboa \ref{tab:comparison}.
+
+\begin{table}[ht]
+    \centering
+    \caption{Replicación dos resultados de IDIR}
+    \begin{tabular}{c|c}
+        Scan & {IDIR / Replicación} \\
+        1  & 0.76 (0.94) / 0.79 (0.92) \\
+        2  & 0.76 (0.94) / 0.71 (0.89) \\
+        3  & 0.94 (1.02) / 0.95 (1.01) \\
+        4  & 1.32 (1.27) / 1.32 (1.22) \\
+        5  & 1.23 (1.47) / 1.23 (1.46) \\
+        6  & 1.09 (1.03) / 1.15 (1.04) \\
+        7  & 1.12 (1.00) / 1.11 (0.99) \\
+        8  & 1.21 (1.29) / 1.20 (1.28) \\
+        9  & 1.22 (0.95) / 1.16 (0.99) \\
+        10 & 1.01 (1.05) / 1.09 (1.05) \\
+        Promedio & 1.07 / 1.07 (1.08) \\
+    \end{tabular}
+    \label{tab:comparison}
+\end{table}
+
+\section{Adaptación a 2D}
+\label{sec:Adaptación a 2D}
+
+Para adaptar o modelo IDIR a 2D, é necesario modificar a arquitectura da rede para que funcione con imaxes bidimensionais.
+A arquitectura orixinal de IDIR ten unha entrada de 3 dimensións (x, y, z) e unha saída de 3 dimensións (dx, dy, dz),
+mentres que a nosa rede ten unha entrada de 2 dimensións (x, y) e unha saída de 2 dimensións (dx, dy).
+
+Modificáronse as capas de entrada e saída da rede para que acepten coordenadas bidimensionais (orixinalmente [3, 256, 256, 256, 3], agora [2, 256, 256, 256, 2]).
+
+Foi necesario modificar as funcións de interpolación, que antes interpolaban valores tridimensionais e agora interpolan valores bidimensionais.
+
+Tamén adaptáronse os termos de regularización para que funcionen con coordenadas bidimensionais, como se detalla na sección \ref{subsubsec:Termos de regularización}.
+
+Finalmente, o proceso de avaliación tivo que implementarse dende 0 para adaptarse ao novo formato de imaxes e ground truth.
+
+\subsection{Proceso de Rexistro}
+\label{subsec:Proceso de Rexistro}
+
+Inicializase a rede e o resto de parámetros relevantes (función de activación, optimizador, métrica de loss, termos de regularización, etc).
+
+A inicialización dos pesos da rede é especialmente relevante no caso da función de activación SIREN, que é sensible a valores iniciais.
+Tamén se xera un tensor de coordenadas inicial que contén todas as coordenadas dentro da máscara da imaxen fixa.
+
+Cando comeza o adestramento por cada epoch repítese o seguinte proceso:
+
+Mostreanse "batch size" puntos no tensor de coordenadas orixinal e estos pásanse pola rede, 
+a cal devolve a transformación que predice para esas coordenadas.
+A continuación, aplicase esta transformación e calculase o loss entre a imaxe móbil transformada e a imaxe fixa.
+O valor de loss axústase según os termos de regularización usados, e finalmente realízase a retropropagación para actualizar os pesos da rede.
+
+O proceso de mostraxe pode ser aleatorio ou utilizando unha estratexia específica.
+
+Cabe destacar que a tarefa de rexistro de pulmóns é diferente da de retinografías. O tamaño das deformacións é moito maior, así como o grado de superposición entre as imaxes.
+Por este motivo, non podemos asumir que os parámetros óptimos para pulmóns sexan tamén os mellores para retinas.
 
 \section{Conxuntos de datos}
 \label{sec:Conxuntos de datos}
@@ -446,13 +475,84 @@ Tamén se divide entre transfomacións de cor e de xeometría.
 
 % \dots preguntar David
 
-
 \subsection{Diferencias entre os datasets}
 \label{subsec:Diferencias entre os datasets}
 
 Unha vantaxe de utilizar dous conxutos de datos diferentes é que cada un deles ten características únicas que permiten avaliar o modelo en diferentes contextos.
 A principal diferencia é que RMiFD é un conxunto de datos sintético, no cal non introducimos diferenzas de cor e sempre teñen unha superposición do 100\%, polo que o único que se avalia é a capacidade do modelo para realizar os rexistros xeométricos.
 Polo contrario, FIRE é un conxunto de datos real, no cal existen cambios na iluminación, contraste, superposición e demais diferencias visuais, polo que se avalía a capacidade do modelo para realizar rexistros en condicións moito máis adversas.
+
+\section{Diseño de Experimentos}
+\label{sec:Diseño de Experimentos}
+
+O deseño de experimentos é un proceso sistemático que busca determinar a influencia de diferentes factores sobre un resultado específico. Neste caso, o obxetivo é avaliar como diferentes parámetros afectan á calidade do rexistro de imaxes.
+
+O custo computacional é un factor moi importante a ter en conta, xa que cada combinación de parámetros require un adestramento completo da rede por cada parella de imaxes, o que implica un alto custo enerxético e de tempo.
+Por exemplo, para probar unha combinación de parámetros sobre FIRE haberá que entrenar unha rede por cada parella de imaxes das 134 do conxunto de datos. 
+A un tempo de adestramento de 3 minutos por parella, o adestramento completo levaría mais de 6 horas por cada combinación de parámetros, cunha pegada de memoria de arredor de 5 GB de VRAM.
+O custo temporal e de memoria dependen de varios factores, sendo os mais relevantes a regularización empregada, a resolución da imaxe, o tamaño do batch size e a función de activación.
+En concreto, SIREN ten un custo computacional moito maior que ReLU, requerindo arredor do doble de tempo e memoria para adestrar a rede.
+
+Debido ao gran número de factores a ter en conta, adoptouse un enfoque de experimentación en fases.
+
+Inicialmente realizáronse experimentos iniciais para identificar os rangos de parámetros máis prometedores utilizando unha submostras representativa de 14 parellas de imaxes de cada categoría do dataset FIRE, co obxectivo: Reducir o espazo de parámetros para as fases posteriores.
+Nesta fase avaliouse a métrica de loss, a resolución da imaxe, a regularización empregada e o tamaño do batch size.
+
+Baseándose nos resultados da primeira fase, realizouse unha experimentación máis exhaustiva para tentar mellorar o rendemento do rexistro, centrándose na estratexia de mostraxe, a inicialización dos pesos da rede e un axuste dinámico do batch size.
+
+\subsection{Metodoloxías Desenrroladas}
+\label{subsec:Metodoloxías Desenrroladas}
+
+Para este traballo tivéronse que desenrrolar varias metodoloxías específicas. 
+
+Algunhas delas inclúen a implementación de diferentes tipos de estratexias mostraxe.
+
+Na estratexia de mostraxe intelixente, calcúlase unha máscara de probabilidade para cada imaxe, que se utiliza para seleccionar os puntos que se pasan á rede.
+Para calcular esta máscara, extráense mediante operadores de Sobel os vasos sanguíneos e mediante umbralización o disco óptico, que son as zonas onde se espera que haxa máis información, e dáselles maiores probabilidades de ser seleccionadas.
+Tamén se implementou unha estratexia de mostraxe ponderada, onde se seleccionan puntos aleatorios, pero con maior probabilidade de que caian nas zonas de interese (vasos sanguíneos e disco óptico).
+
+Posteriormente introduciuse unha estratexia de mostraxe uniforme, onde se seleccionan un número fixo de puntos en cada imaxe, asegurando que están distribuídos uniformemente por toda a imaxe.
+É unha estratexia similar ao mostraxe aleatorio, pero garantindo que se cubre a maior parte posible da imaxe. Isto é relevante en experimentos con batch sizes pequenos onde unha mostraxe aleatoria non ten por que cubrir toda a imaxe de forma uniforme.
+Para implementalo empregouse unha distribución baseada na grella de Fibonacci (Fibonacci lattice), que permite repartir os puntos de maneira uniforme sobre a superficie circular da retina. 
+A posición de cada punto calcúlase en coordenadas polares, asignando a cada punto un radio proporcional á raíz cadrada do seu índice dividido polo número total de puntos, e un ángulo proporcional ao índice multiplicado por $2\pi$ e dividido polo cadrado do número áureo ($\varphi^2$):
+
+\[
+r_i = \sqrt{\frac{i}{N}}, \quad \theta_i = 2\pi \frac{i}{\varphi^2}
+\]
+
+onde $i$ é o índice do punto ($i = 1, \dots, N$), $N$ é o número total de puntos e $\varphi$ é o número áureo. 
+Deste xeito, conséguese unha cobertura uniforme e eficiente da rexión de interese, evitando agrupamentos ou zonas baleiras.
+ dat
+Na figura \ref{fig:sampling_heatmaps} pódense observar os diferentes tipos de mostraxe utilizados.
+
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imaxes/muestraje/random_sampling_heatmap.png}
+        \caption{Mapa de calor de mostraxe aleatorio}
+        \label{fig:random_sampling_heatmap}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imaxes/muestraje/weighted_sampling_heatmap.png}
+        \caption{Mapa de calor de mostraxe con peso}
+        \label{fig:weighted_sampling_heatmap}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imaxes/muestraje/uniform_sampling_heatmap.png}
+        \caption{Heatmap de mostraxe uniforme (100 puntos)}
+        \label{fig:uniform_sampling_heatmap}
+    \end{subfigure}
+    \caption{Mapas de calor de mostraxe}
+    \label{fig:sampling_heatmaps}
+\end{figure}
+
+Outra metodoloxía desenrolada foi a implementación da lotería de inicialización, que consiste en probar diferentes inicializacións dos pesos da rede para determinar cal é mais beneficiosa; e o axuste dinámico do batch size, que consiste en aumentar o tamaño do batch size ao longo do adestramento.
+Para esta última, divídense os epochs en diferentes fases, onde cada fase fai uso dun tamaño de batch size diferente.
 
 \section{Métodos de Avaliación}
 \label{sec:Métodos de Avaliación}
@@ -496,25 +596,3 @@ especialmente en rexistros que teñen deformacións locais que poden non coincid
 
 No caso do dataset FIRE \cite{FIRE}, a avaliación visual é especialmente relevante, xa que tan só se proporcionan 10 puntos de referencia por imaxe, que poden non ser suficientes para avaliar a calidade do rexistro en moitas zonas da imaxe.
 Xa que en RFMID \cite{RFMiD} utilízanse puntos de referencia xerados manualmente que cubren toda a imaxe, a avaliación visual é algo menos relevante, xa que é máis probable que unha deformación local incorrecta sexa detectada por algún punto e se vexa reflexado nas métricas.
-
-\section{Proceso de Rexistro}
-\label{sec:Proceso de Rexistro}
-
-Inicializase a rede, ca arquitectura modificada nas capas de entrada e saída 
-(orixinalmente [3, 256, 256, 256, 3], agora [2, 256, 256, 256, 2]) 
-e o resto de parámetros relevantes (función de activación, optimizador, métrica de loss, termos de regularización, etc).
-
-A inicialización dos pesos da rede é especialmente relevante no caso da función de activación SIREN, que é sensible a valores iniciais.
-Tamén se xera un tensor de coordenadas inicial que contén todas as coordenadas dentro da máscara da imaxen fixa.
-
-Cando comeza o adestramento por cada epoch repítese o seguinte proceso:
-
-Mostreanse "batch size" puntos no tensor de coordenadas orixinal e estos pásanse pola rede, 
-a cal devolve a transformación que predice para esas coordenadas.
-A continuación, aplicase esta transformación e calculase o loss entre a imaxe móbil transformada e a imaxe fixa.
-O valor de loss axústase según os termos de regularización usados, e finalmente realízase a retropropagación para actualizar os pesos da rede.
-
-O proceso de mostraxe pode ser aleatorio ou utilizando unha estratexia específica.
-
-Cabe destacar que a tarefa de rexistro de pulmóns é diferente da de retinografías. O tamaño das deformacións é moito maior, así como o grado de superposición entre as imaxes.
-Por este motivo, non podemos asumir que os parámetros óptimos para pulmóns sexan tamén os mellores para retinas.
