@@ -1,6 +1,5 @@
 ## todo
 
-
 ## notes
 
 ### Capítulo 2 - Contexto

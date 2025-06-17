@@ -6,7 +6,7 @@ En especial valoramos o uso da función de activación SIREN, proposta como alte
 
 A aliñación de retinografías é un problema relevante xa que é un proceso laborioso para os expertos, mais con moita uilidade clínica.
 A etapa inicial da revisión do estado da arte revelou que xa existían varios traballos previos que abordaban este problema, sendo os máis exitosos os baseados en métodos iterativos.
-Actualmente os métodos de aprendizaxe profunda son unha alternativa prometedora que está gañando prominencia no campo. Particularmente, o uso de representacións implícitas para esta tarefa é un enfoque innovador que podería superar os métodos tradicionais. 
+Actualmente os métodos de aprendizaxe profunda son unha alternativa prometedora que está gañando prominencia no campo. Particularmente, o uso de representacións implícitas para esta tarefa é un enfoque innovador que xa foi aplicado en outros campos da imaxe médica con bós resultados.
 
 Para avaliar a efectividade do método proposto, escolléronse dous conxuntos de datos de retinografías: FIRE, que permite a avaliación do método en imaxes reais, e RFMID, sobre o que se efectuaron transformacións artificiais para simular diferentes escenarios de aliñación.
 
@@ -16,7 +16,7 @@ Algunhas das dificultades atopadas durante o desenrrolo do proxecto foron: a fal
 
 Os resultados obtidos amosan que esta arquitectura non é a máis adecuada para a tarefa de rexistro de retinografías.
 
-Si que se obteñen bós resultados no dataset RFMID, que se basea en imaxes con transformacións sintéticas, onde a función de activación ReLU tende a obter mellores resultados ca SIREN, xa que está mellor preparada para representar as transformacións lineais globais que se producen entre estas imaxes.
+Si que se obteñen bós resultados no dataset RFMID, que se basea en imaxes con transformacións lineais sintéticas, onde a función de activación ReLU tende a obter mellores resultados ca SIREN, xa que está mellor preparada para representar as transformacións lineais globais que se producen entre estas imaxes.
 Obsérvase tamén que o tamaño da transformación ten un impacto significativo no rendemento, xa que as imaxes de maior tamaño presentan un maior erro de rexistro.
 
 No dataset FIRE, que contén imaxes reais, os resultados son peores ca no dataset RFMID, especialmente nas parellas de imaxes que presentan grandes deformacións ou baixo nivel de superposición.

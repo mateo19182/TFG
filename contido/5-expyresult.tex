@@ -155,7 +155,6 @@ Pódense observar os puntos de control, sendo os brancos os da imaxe fixa, os ve
     \label{fig:reg_examples}
 \end{figure}
 
-
 \section{Función de loss}
 \label{sec:Función de loss}
 
@@ -462,6 +461,11 @@ Isto suxire que a regularización é mais relevante onde a rede ten que aprender
 % \paragraph{Conclusións}
 % \label{par:Conclusions-learningrate}
 
+\subsection{Conclusións}
+\label{subsec:Conclusions-regularization}
+
+En base aos resultados, conclúese que a regularización é un compoñente indispensable para o rexistro de retinas con redes implícitas. O seu valor óptimo non é universal, senón que depende directamente da complexidade da transformación a aprender. Para deformacións sinxelas e lineais como as de RFMiD, unha regularización mínima é suficiente, pero para os desafíos presentes en FIRE, cunha maior non linearidade, un termo de regularización robusto é crucial para guiar a rede cara a solucións fisicamente plausibles e evitar o sobreaxuste. Confírmase tamén que os modelos SIREN, pola súa maior capacidade para representar detalles de alta frecuencia, son máis sensibles á regularización e requiren valores xeralmente máis altos que os modelos ReLU para previr artefactos. A elección do coeficiente de regularización debe considerarse unha decisión fundamental, adaptada tanto á natureza do problema de rexistro como á arquitectura da rede empregada.
+
 \section{Batch size}
 \label{sec:Batch size}
 
@@ -685,6 +689,11 @@ Igual que en experimentos anteriores, a función de activación ReLU parece dar 
 % \paragraph{Conclusións}
 % \label{par:Conclusions-sampling}
 
+\subsection{Conclusións}
+\label{subsec:Conclusions-sampling}
+Conclúese que, en contra da hipótese inicial, as estratexias de mostraxe implementadas, como a ponderada polo contido da imaxe, non aportan unha mellora significativa no rendemento do rexistro en comparación coa mostraxe aleatoria estándar. Isto suxire que a información relevante para a deformación está o suficientemente ben distribuída como para que unha mostraxe aleatoria sexa capaz de capturar os puntos necesarios para a converxencia, sempre que o batch size sexa adecuado.
+
+
 \section{Inicialización}
 \label{sec:Inicialización}
 
@@ -762,12 +771,19 @@ Os resultados de utilizar diferentes números de fases pódense observar na figu
 
 % \FloatBarrier
 
+\subsection{Discusión}
+\label{subsec:Discusion-phases}
+
+Os resultados presentados na figura \ref{fig:nphases} mostran unha tendencia clara e contraria á hipótese inicial, xa que o rendemento da rede empeora progresivamente a medida que se incrementa o número de fases. A estratexia de comezar cun batch size pequeno para aprender a transformación global antes de refinar os detalles cun batch size maior resulta ser contraproducente.
+
+Unha posible explicación é que a idea de que un lote pequeno favorece a aprendizaxe global é incorrecta neste contexto. Un batch size reducido ofrece unha estimación moi ruidosa e pouco representativa, o que pode levar o adestramento por un camiño inestable e impedir que a rede converxa cara a unha boa solución global na fase inicial. En cambio, un batch size grande e constante, como se validou na sección \ref{sec:Batch size}, proporciona dende o principio información suficiente tanto a nivel global como local, permitindo que a rede aprenda ambas as transformacións simultaneamente de forma máis estable e eficaz.
+
+Polo tanto, a estratexia de dividir o adestramento en fases non só non aporta beneficios, senón que resulta prexudicial ao introducir inestabilidade nas etapas cruciais da aprendizaxe. Este experimento reforza a conclusión de que un batch size grande é fundamental para o éxito do rexistro con esta metodoloxía.
+
 \subsection{Conclusións}
 \label{subsec:Conclusions-phases}
 
-A hipótese parece errada, xa que o uso de fases tende a empeorar o rendemento da rede.
-Isto pode deberse a que a rede xa é capaz de aprender as transformacións globais e locais simultaneamente, ou que a hipótese de que un menor batch size axuda a aprender as transformacións globais non é correcta.
-
+Conclúese que a estratexia de axuste dinámico do batch size é ineficaz e prexudicial para esta tarefa. A inestabilidade introducida nas fases iniciais do adestramento anula calquera posible beneficio teórico de aprender as transformacións por etapas. A rede demostra ser máis robusta e eficaz cando se adestra cun batch size grande e constante dende o principio, confirmando que este enfoque é superior para aprender simultaneamente as características globais e locais da deformación.
 
 % \FloatBarrier
 
@@ -796,7 +812,7 @@ Os resultados mostran unha clara diferenciación entre as funcións de activaci�
 
 \textbf{Función de perda:} As métricas baseadas en características estruturais (NCC, SSIM) son superiores para imaxes reais con variabilidade de iluminación (FIRE), mentres que as métricas baseadas en píxeles (L1, MSE) son máis efectivas para imaxes sen variabilidade (RFMID).
 
-\textbf{Regularización:} A regularización hiperelástica é a mais relevante para evitar deformacións non realistas. O valor óptimo depende da parexa de imaxes concreta a rexistrar. SIREN require valores máis altos (0.5-1.0) que ReLU (0.1-0.5).
+\textbf{Regularización:} A regularización hiperelástica é a mais relevante para evitar deformacións non realistas. O valor óptimo depende da parexa de imaxes concreta a rexistrar. SIREN require valores máis altos que ReLU xa que ten unha maior tendencia ao sobreaxuste.
 
 \textbf{Batch size:} Constitúe un dos parámetros máis críticos. Batch sizes maiores (10000-50000) proporcionan mellores resultados que batch sizes pequenos (1000), aínda que o beneficio decrece para valores moi altos (>50000).
 
@@ -807,9 +823,9 @@ Os resultados mostran unha clara diferenciación entre as funcións de activaci�
 
 \textbf{Complexidade das transformacións:} O factor limitador principal é a complexidade das transformacións. Tanto ReLU como SIREN mostran dificultades ca transformacións de alta complexidade, independentemente da optimización de parámetros.
 
-\textbf{Superposición de imaxes:} A baixa superposición entre imaxes (categoría P de FIRE) fai imposible o rexistro, suxerindo que as redes implícitas requiren un mínimo de información compartida.
+\textbf{Superposición de imaxes:} A baixa superposición entre imaxes (categoría P de FIRE) dificulta enormememtne o rexistro, suxerindo que as redes implícitas requiren un mínimo de información compartida.
 
-\textbf{Estratexias de mostraxe:} Contrariamente ao esperado, as estratexias intelixentes de mostraxe (ponderadas por contido) non mostran beneficios sobre o mostraxe aleatorio, suxerindo que a información relevante está distribuída de forma máis uniforme do esperado.
+\textbf{Estratexias de mostraxe:} Contrario ao esperado, as estratexias intelixentes de mostraxe (ponderadas por contido) non mostran beneficios sobre o mostraxe aleatorio, suxerindo que a información relevante está distribuída de forma máis uniforme do esperado.
 
 \subsection{Conclusións xerais}
 \label{subsec:Conclusións xerais}
