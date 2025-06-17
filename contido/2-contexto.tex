@@ -28,7 +28,7 @@ O ollo encargase de captar a luz e transformala en impulsos eléctricos que se e
  \item Vasos sanguíneos: distribúen os nutrientes e o osíxeno necesarios á retina e eliminan os seus residuos metabólicos.
  \end{itemize}
 
-A figura \ref{fig:imaxes_ojo} mostra estas estruturas en imaxes do ollo humano.
+A figura \ref{fig:imaxes_ojo} mostra estas estruturas localizadas en imaxes.
 
 \begin{figure}[ht!]
     \centering
@@ -59,14 +59,14 @@ O rexistro de imaxes é un proceso que consiste en, sobre dúas ou mais imaxes, 
 % Por exemplo, no caso do stitching de fotografías panorámicas, o rexistro de imaxes permite identificar correspondencias entre puntos característicos en múltiples tomas solapadas
 %  e axustar a súa posición relativa nun marco común. Esta etapa é necesaria para a posterior fusión das imaxes, de modo que as distintas vistas se aliñen con precisión, producindo un resultado final continuo e sen irregularidades visuais.
 
-O rexistro de imaxes ten utilidade en moitos campos diferentes como a imaxe satelital, xeografía, robótica... \cite{goshtasby2017theory} mais o 
-campo da imaxe médica é dos mais interesantes póla súa aplicación práctica e é o que se aborda neste traballo.
+O rexistro de imaxes ten utilidade en moitos campos diferentes como a imaxe satelital, xeografía, robótica... mais o 
+campo da imaxe médica é dos mais interesantes póla súa aplicación práctica e é o que se aborda neste traballo \cite{goshtasby2017theory}.
 Estas imaxes poden variar a nivel temporal, espacial, de dimensión ou de modalidade.
 
 No ámbito da saúde un rexistro adecuado pode empregarse para comparar imaxes dun mesmo paciente tomadas en distintos momentos, en distintas modalidades ou para comparar entre diferentes pacientes.
 Isto permite a revisión do avance dunha enfermidade ao longo do tempo, a fusión de imaxes de distintas modalidades ou a detección de patróns comúns entre distintos individuos.
 A fusión de imaxes permite interpretar moito mellor a información dispoñible nelas, e é de gran axuda para guiar aos médicos na toma de decisións.
-Tamén é útil para correxir os movementos involuntarios do paciente durante a adquisición de imaxes, como no caso da respiración en imaxes de pulmóns, ou para a intervención guiada por imaxe (telecirurxía, (\gls{IGRT})) que non 
+Tamén é útil para correxir os movementos involuntarios do paciente durante a adquisición de imaxes, como no caso da respiración en imaxes de pulmóns, ou para a intervención guiada por imaxe (\gls{IGRT}) que non 
 podería funcionar sen a utilización axeitada de técnicas de rexistro de imaxes \cite{wang2022neuralrenderingstereo3d}. 
 
 Ata recentemente, gran parte do traballo de rexistro facíase de forma manual por expertos con software como BigWarp \cite{bigwarp}, 
@@ -75,7 +75,6 @@ Isto facía que o proceso fose lento e propenso a erros, ademais de pouco práct
 
 Na figura \ref{fig:retin_reg} móstrase un exemplo de rexistro de imaxes de retina, onde se pode observar como as imaxes son aliñadas para que as estruturas anatómicas coincidan.
 
-\ref{fig:retin_reg}
 \begin{figure}[hp!]
     \centering
     \includegraphics[width=0.8\textwidth]{imaxes/retin-reg.png}
@@ -113,7 +112,7 @@ O rexistro de imaxes pode ser clasificado en distintas categorías segundo as s�
         \item \textit{Ríxida:} Só permite traslación e rotación, mantendo as distancias e ángulos.
         \item \textit{Afín:} Ademais de traslación e rotación, permite escalado e cizallamento.
         \item \textit{Deformable (non ríxida):} Permite deformacións locais complexas e non lineais.
-        \item \textit{Difeomórfica:} Unha transformación non ríxida que é continua, invertible e diferenciable en todo o seu dominio. Se non tén esta característica, non se pode garantir que a transformación sexa reversíbel, polo que son preferidas en moitos casos \cite{han2022diffeomorphicimageregistrationneural}.
+        \item \textit{Difeomórfica:} Transformación non ríxida que é continua, invertible e diferenciable en todo o seu dominio. Se non tén esta característica, non se pode garantir que a transformación sexa reversíbel, polo que son preferidas en moitos casos \cite{han2022diffeomorphicimageregistrationneural}.
     \end{itemize}
 
     \item \textbf{Segundo o grao de automatización:} \cite{deeplernreview3dreg}
@@ -186,7 +185,7 @@ Na figura \ref{fig:dfv_visualization} móstranse dúas formas de visualizar un D
 % Pese á gran cantidade de avances que está a ocorren no campo do aprendizaxe profunda, os métodos clásicos de rexistro de imaxes seguen a ser o estado do arte na maioría de casos,
 % principalmente debido á importancia da precisión e a robustez en imaxe médica.
 
-O rexistro de imaxes médicas constitúe unha área de investigación fundamental que experimentou importantes avances nas últimas décadas. Neste ámbito, a precisión e a robustez dp rexistro cobran especial relevancia, xa que son empregados para o diagnóstico e seguimento de enfermidades, así como para a planificación de tratamentos cirúrxicos.
+O rexistro de imaxes médicas constitúe unha área de investigación fundamental que experimentou importantes avances nas últimas décadas. Neste ámbito, a precisión e a robustez do rexistro cobran especial relevancia, xa que son empregados para o diagnóstico e seguimento de enfermidades, así como para a planificación de tratamentos cirúrxicos.
 No eido da oftalmoloxía, os métodos que funcionan ben en varios dominios de imaxe médica (cerebro, pulmóns, etc) adoitan requirir de axustes para funcionar en retinas, polo que hai un estado da arte paralelo. 
 A evolución dos métodos de rexistro en retinografías reflicte a transición dende enfoques puramente algorítmicos cara metodoloxías híbridas que combinan técnicas clásicas con capacidades de aprendizaxe automático.
 
@@ -224,11 +223,11 @@ Tipicamente, estes métodos teñen 3 pasos principais:
 \end{itemize}
 
 Algúns dos métodos tradicionalmente máis utilizados neste campo son \gls{GDB-ICP} \cite{GDB-ICP} e Harris-PIIFD \cite{piifd}. Este último utiliza o algoritmo Harris \cite{Harris1988ACC} para a detección de puntos de interese, descríbenos con \gls{PIIFD}, e emparéllanse usando \gls{BBF} \cite{BBF}.
- Finalmente, refínanse as coincidencias e escóllese a transformación (ríxida, afín ou polinomial) segundo o número de pares de puntos válidos. Sobre esta base propuxéronse varias melloras como \cite{ur-sift} ou \gls{GMM} \cite{GMM}.
+ Finalmente, refínanse as coincidencias e escóllese a transformación (ríxida, afín ou polinomial) segundo o número de pares de puntos válidos. Sobre esta base propuxéronse varias melloras para adaptalo ao rexistro multimodal de retinas como UR-SIFT \cite{ur-sift} ou \gls{GMM} \cite{GMM}.
 
 Unha vantaxe deste enfoque é a capacidade para rexistrar imaxes con grandes variacións locais ou modalidades diferentes, xa que non depende tanto da semellanza global entre as imaxes.
 
-No campo da imaxe de ollo, REMPE \cite{rempe} é un método que estima simultaneamente a pose das cámaras e a forma do ollo. Fai uso de un modelo elipsoidal para o ollo e estima a posición das cámaras con RANSAC, para logo refinala cunha variante de PSO \cite{pso}. 
+Outros métodos relevantes no campo da imaxe de ollo inclúen REMPE \cite{rempe}, que estima simultaneamente a pose das cámaras e a forma do ollo. Fai uso de un modelo elipsoidal para o ollo e estima a posición das cámaras con RANSAC, para logo refinala cunha variante de PSO \cite{pso}. 
 % Versións anteriores deste método utilizaron modelos esféricos e \gls{SURF} no canto de SIFT \cite{H-M16}.
 
 \begin{figure}[hp!]
@@ -255,9 +254,7 @@ No campo da imaxe de ollo, REMPE \cite{rempe} é un método que estima simultane
 \label{fig:rexistro_iterativo}
 \end{figure}
 
-\paragraph{Ferramentas}
-
-Existen múltiples programas que fan uso de estos métodos para facilitar o rexistro de imaxes, como SimpleITK \cite{simpleitk}, Elastix \cite{elastix} ou ANTs \cite{ants}.
+Tamén existen múltiples programas que fan uso de estos métodos en ferramentas para facilitar o rexistro de imaxes, como SimpleITK \cite{simpleitk}, Elastix \cite{elastix} ou ANTs \cite{ants}.
 
 \subsubsection{Métodos de aprendizaxe profunda}
 \label{subsubsec:Métodos de aprendizaxe profunda}
@@ -281,7 +278,7 @@ A creación de conxuntos de DFVs anotados é un proceso laborioso e costoso, que
 De forma similar aos métodos iterativos, é común empregar unha métrica de similitude entre as imaxes xunto con un termo de regularización para guiar o proceso de optimización evitando caer en transformación non realistas.
 % Xa que a imaxe fixa e a imaxe móbil xa conteñen toda a información necesaria para un rexistro correcto, os métodos non supervisados parecen mais adecuados para a tarefa de rexistro.
 
-\cite{Balakrishnan_2019voxelmorph} é un dos frameworks mais utilizados no rexistro de imaxes non supervisado facendo uso de CNNs.
+Voxelmorph \cite{Balakrishnan_2019voxelmorph} é un dos frameworks mais utilizados no rexistro de imaxes deformable, facendo uso dun modelo baseado en \gls{CNN}s e que tamén permite incorporar información auxiliar (como segmentacións) se está dispoñible, mellorando así a precisión do rexistro..
 
 Estes enfoques son útiles tanto na súa capacidade de aprender a tarefa de rexistro de maneira end-to-end, como para substituír módulos concretos do proceso tradicional.
 Nese sentido, os métodos de aprendizaxe profunda poden ser categorizados según a tarefa do proceso de rexistro que substitúen.
@@ -300,7 +297,7 @@ Os métodos de aprendizaxe profunda poden substituír calquera destes pasos que 
 
 \begin{itemize}
 \item \textbf{Métrica de similitude:} Os métodos de aprendizaxe profunda poden aprender métricas de similitude máis robustas que as tradicionais. Estas métricas aprendidas poden ser máis efectivas en imaxes multimodais ou con artefactos.
-Por exemplo, Czolbe et al \cite{semanticsimilarity} propoñen dúas métricas de similitude semánticas que aprende a semellanza entre imaxes comparando as características de alto nivel extraídas. Presentan unha aproximación non supervisada que fai uso de autoencoders e outra semisupervisada que incorpora datos de segmentación.
+Por exemplo, Czolbe et al. \cite{semanticsimilarity} propoñen dúas métricas de similitude semánticas que aprende a semellanza entre imaxes comparando as características de alto nivel extraídas. Presentan unha aproximación non supervisada que fai uso de autoencoders e outra semisupervisada que incorpora datos de segmentación.
 \item \textbf{Optimizador:} Os métodos de aprendizaxe profunda poden substituír o proceso de optimización iterativa tradicional por redes que aprenden a predicir directamente os parámetros de transformación óptimos. Unha aproximación común é empregar estes conxuntos de datos para optimizar unha CNN que, dadas dúas imaxes novas e non vistas, predice o DFV correspondente \cite{defregcnn}. Durante o proceso de entrenamento, a rede pode ter acceso aos DFVs ca deformación correcta, ou pódense obter indirectamente a través da optimización dunha métrica de similitude de imaxes.
 \item \textbf{Modelo de transformación:} Estes métodos aprenden representacións implícitas da transformación a través de redes neuronais, permitindo modelar deformacións mais complexas que os modelos paramétricos tradicionais. Os métodos como IDIR \cite{wolterink2021implicit} encaixan nesta categoría, utilizando campos neuronais implícitos para representar as transformacións de rexistro.
 \end{itemize}
@@ -335,7 +332,7 @@ Métodos como UDIR-Net \cite{undefreg} ou DIO \cite{Jena_2025} implementan estas
 As \gls{GAN} (Generative Adversarial Network) son un tipo de rede neuronal que consta de dous modelos que compiten entre si: un xerador e un discriminador. O xerador intenta crear datos falsos que sexan indistinguibles dos datos reais, mentres que o discriminador intenta distinguir entre os datos reais e os datos xerados. Este proceso de competición mellora iterativamente a calidade dos datos xerados e o criterio do discriminador.
 
 No contexto do rexistro de imaxes, as GANs poden ser utilizadas para aprender a transformación entre imaxes de forma non supervisada. O xerador pode ser adestrado para producir transformacións que aliñen a imaxe móbil coa imaxe fixa, mentres que o discriminador avalía a calidade do rexistro.
-Un exemplo de aplicación de GANs no rexistro de imaxes médicas é o traballo de \cite{mahapatra2019ganbasedmedicalimage}, onde se propón un modelo de rexistro de imaxes baseado en GANs que demostrou ser efectivo tanto en retinas como con resonancias magnéticas cardiovasculares.
+Un exemplo de aplicación de GANs no rexistro de imaxes médicas é o traballo de Mahapatra et al. \cite{mahapatra2019ganbasedmedicalimage}, onde se propón un modelo de rexistro de imaxes baseado en GANs que demostrou ser efectivo tanto en retinas como con resonancias magnéticas cardiovasculares.
 
 \section{Representación Neuronais Implícitas}
 \label{sec:Representación Neuronais Implícitas}
@@ -370,34 +367,29 @@ As representacións sobreaxustadas céntranse en reproducir con precisión unha 
 As INR son utilizadas en todo tipo de campos, dende xeración de imaxes \cite{reddy2022multiimplicitneuralrepresentationfonts}, pasando por
 reconstrucción de obxetos \cite{mildenhall2020nerfrepresentingscenesneural} \cite{mescheder2019occupancynetworkslearning3d} ou modelado de sinais complexas \cite{wu2021iremhighresolutionmagneticresonance}.
 
-As representacións implícitas están a recibir cada vez máis atención da comunidade médica \cite{molaei2023implicitneuralrepresentationmedical}, e son 
-especialmente útiles para as tarefas de imaxe inversa, que requiren a reconstrucción de representacións correctas a partir de datos incompletos ou ruidosos. 
-No caso de \cite{shen2023nerpimplicitneuralrepresentation}, propuxeron unha representación implícita para a reconstrucción de imaxes de resonancia magnética a partir de datos incompletos facendo uso de redes implícitas, 
-e obtiveron resultados comparables a métodos tradicionais.
+As representacións implícitas están a recibir cada vez máis atención da comunidade médica, e son 
+especialmente útiles para as tarefas de imaxe inversa, que requiren a reconstrucción de representacións correctas a partir de datos incompletos ou ruidosos \cite{molaei2023implicitneuralrepresentationmedical}. 
+Métodos como NeRP, propuxeron o uso de representacións implícitas para a reconstrucción de imaxes de resonancia magnética a partir de datos incompletos, 
+e obtiveron resultados comparables a métodos tradicionais \cite{shen2023nerpimplicitneuralrepresentation}.
 
-\cite{mildenhall2020nerfrepresentingscenesneural} propuxeron unha representación implícita para a representación de escenas 3D, 
+NeRF fai uso de representacións implícitas para a sintetizar novos puntos de vista en escenas 3D  \cite{mildenhall2020nerfrepresentingscenesneural}, 
  optimizando unha función volumétrica continua que modela a densidade de volume e a radiancia emitida en cada punto do espazo.
- Utilizando un MLP, cuxa entrada é unha única coordenada continua 5D (localización espacial (x, y, z) e dirección de visión (θ, φ)) 
+ Utilizan un MLP, cuxa entrada é unha única coordenada continua 5D (localización espacial (x, y, z) e dirección de visión (θ, φ)) 
  e cuxa saída é a densidade de volume e a radiancia emitida dependente da vista nesa localización espacial. 
 A única entrada necesaria para optimizar a súa representación é un conxunto de imaxes con poses de cámara coñecidas. 
-Demostrando que as representacións implícitas están capacitadas para modelar escenas 3D complexas con alta fidelidade visual.
+Este traballo demostra que as representacións implícitas están capacitadas para modelar escenas 3D complexas con alta fidelidade visual.
  
-As representacións implícitas teñen bastante potencial no campo de planificación de traxectorias, como demostran \cite{yu2024neuraltrajectorymodelimplicit} e \cite{trajectinr}, 
-que propóñen o uso de INRs para modelar entornos e planificar traxectorias para un ou varios axentes.
+As representacións implícitas tamém teñen bastante potencial no campo de planificación de traxectorias, 
+onde se fai uso de INRs para modelar entornos e planificar traxectorias para un ou varios axentes \cite{yu2024neuraltrajectorymodelimplicit}.
 A principal vantaxe de facelo desta forma frente á forma tradicional (algoritmos computacionalmente intensos, especialmente para multi-axentes) é a velocidade á que encontran solucións (por debaixo do milisegundo en GPUs).
-A maior desventaxe é que non garanten a converxencia a unha solución óptima e sen colisións, mais os autores demostran que a calidade das traxectorias xeradas é comparable ás obtidas é adecuada para a maioría das aplicacións.
+A maior desventaxe é que non garanten a converxencia a unha solución óptima e sen colisións, mais os autores demostran que a calidade das traxectorias xeradas é adecuada para a maioría das aplicacións \cite{trajectinr}.
 
-Mais especificamente, en \cite{teleoperatdrob} utilizan este tipo de representacións para garantir a seguridade do paciente durante a cirurxía teleoperada e optimizar a traxectoria do robot para evitar colisións co paciente, neste caso na boca e gorxa.
+No ámbito médico, utilizanse este tipo de representacións para garantir a seguridade do paciente durante a cirurxía teleoperada e optimizar a traxectoria do robot para evitar colisións co paciente, por exemplo nas boca e gorxa \cite{teleoperatdrob}.
 Con este método, evítase a reconstrución de mallas a partir de imaxes, que é un proceso costoso e imperfecto, e modélase mediante unha INR a partir dos datos médicos dispoñibles.
 Os comandos de movemento da man do operador son tomados como entrada polo modelo, que logo de un proceso de optimización, xera unha secuencia de movementos libre de colisións que será enviada á man robótica.
+Tamén son utilizadas para crear reconstruccións 3D de pulmóns que mitigan as distorsións causadas polo movemento respiratorio \cite{velikova2024implicitneuralrepresentationsbreathingcompensated}.
 
-Outro uso interesante das representacións neuronais implícitas é a compresión de imaxes. COIN \cite{coin} converter os datos en representacións neuronais implícitas, funcións que mapean coordenadas a valores RGB, logrando unha compresión eficiente e unha redución significativa do tempo de codificación en moitas modalidades.
-
-\cite{velikova2024implicitneuralrepresentationsbreathingcompensated} ten outros casos de uso interesantes.
-
-Tamén se empregan en segmentación, compresión e síntesis de imaxes.
-
-No caso do aliñamento de imaxes, buscase optimizar a función que mapea cada localización da imaxe fixa a unha localización da móbil.
+Outro uso interesante das representacións neuronais implícitas é a compresión de imaxes. Algoritmos como COIN \cite{coin} representan os datos de entrada mediante redes neuronais implícitas (funcións que mapean coordenadas a valores RGB), logrando unha compresión eficiente e unha redución significativa do tempo de codificación en moitas modalidades.
 
 \section{Traballo proposto}
 \label{sec:Traballo proposto}

@@ -1,6 +1,5 @@
 ## todo
 
-revisar biblio, dedup...
 
 ## notes
 
