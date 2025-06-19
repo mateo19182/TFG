@@ -187,7 +187,8 @@ Na figura \ref{fig:dfv_visualization} móstranse dúas formas de visualizar un D
 
 O rexistro de imaxes médicas constitúe unha área de investigación fundamental que experimentou importantes avances nas últimas décadas. Neste ámbito, a precisión e a robustez do rexistro cobran especial relevancia, xa que son empregados para o diagnóstico e seguimento de enfermidades, así como para a planificación de tratamentos cirúrxicos.
 No eido da oftalmoloxía, os métodos que funcionan ben en varios dominios de imaxe médica (cerebro, pulmóns, etc) adoitan requirir de axustes para funcionar en retinas, polo que hai un estado da arte paralelo. 
-A evolución dos métodos de rexistro en retinografías reflicte a transición dende enfoques puramente algorítmicos cara metodoloxías híbridas que combinan técnicas clásicas con capacidades de aprendizaxe automático.
+
+A evolución dos métodos de rexistro en retinografías reflicte a transición dende enfoques puramente algorítmicos cara metodoloxías híbridas, onde publicacións recentes como HybridRetina \cite{liu2024progressiveretinalimageregistration}  mostran como para acadar os mellores resultados é beneficioso combinar ambos enfoques, aproveitando a precisión dos métodos clásicos e a adaptabilidade dos métodos de aprendizaxe automático.
 
 \subsubsection{Métodos clásicos}
 \label{subsubsec:Métodos clásicos}
@@ -227,7 +228,7 @@ Algúns dos métodos tradicionalmente máis utilizados neste campo son \gls{GDB-
 
 Unha vantaxe deste enfoque é a capacidade para rexistrar imaxes con grandes variacións locais ou modalidades diferentes, xa que non depende tanto da semellanza global entre as imaxes.
 
-Outros métodos relevantes no campo da imaxe de ollo inclúen REMPE \cite{rempe}, que estima simultaneamente a pose das cámaras e a forma do ollo. Fai uso de un modelo elipsoidal para o ollo e estima a posición das cámaras con RANSAC, para logo refinala cunha variante de PSO \cite{pso}. 
+Outros métodos clásicos relevantes no campo da imaxe de ollo inclúen REMPE \cite{rempe}, que estima simultaneamente a pose das cámaras e a forma do ollo. Fai uso de un modelo elipsoidal para o ollo e estima a posición das cámaras con RANSAC, para logo refinala cunha variante de PSO \cite{pso}. 
 % Versións anteriores deste método utilizaron modelos esféricos e \gls{SURF} no canto de SIFT \cite{H-M16}.
 
 \begin{figure}[hp!]
@@ -278,9 +279,7 @@ A creación de conxuntos de DFVs anotados é un proceso laborioso e costoso, que
 De forma similar aos métodos iterativos, é común empregar unha métrica de similitude entre as imaxes xunto con un termo de regularización para guiar o proceso de optimización evitando caer en transformación non realistas.
 % Xa que a imaxe fixa e a imaxe móbil xa conteñen toda a información necesaria para un rexistro correcto, os métodos non supervisados parecen mais adecuados para a tarefa de rexistro.
 
-Voxelmorph \cite{Balakrishnan_2019voxelmorph} é un dos frameworks mais utilizados no rexistro de imaxes deformable, facendo uso dun modelo baseado en \gls{CNN}s e que tamén permite incorporar información auxiliar (como segmentacións) se está dispoñible, mellorando así a precisión do rexistro..
-
-Estes enfoques son útiles tanto na súa capacidade de aprender a tarefa de rexistro de maneira end-to-end, como para substituír módulos concretos do proceso tradicional.
+Os enfoques de aprendizaxe profundo son útiles tanto na súa capacidade de aprender a tarefa de rexistro de maneira end-to-end, como para substituír módulos concretos do proceso tradicional.
 Nese sentido, os métodos de aprendizaxe profunda poden ser categorizados según a tarefa do proceso de rexistro que substitúen.
 
 \begin{figure}[hp!]
@@ -322,9 +321,9 @@ Por exemplo, Czolbe et al. \cite{semanticsimilarity} propoñen dúas métricas d
 Os métodos desta rede neuronal aprende a mapear directamente desde un par de imaxes ata os parámetros da transformación, sen necesidade de optimización iterativa nin extracción explícita de características.
 
 Tamén son denominados métodos de inferencia amortizada debido á capacidade de realizar múltiples inferencias (rexistros) tras un único proceso de entrenamento, en contraposición aos métodos tradicionais que requiren optimización individual para cada par de imaxes.
-Estes enfoques son útiles tanto na súa capacidade de aprender a tarefa de rexistro de principio a final, como pola súa eficiencia computacional na fase de inferencia.
+Estes enfoques son útiles pola súa eficiencia computacional na fase de inferencia. Voxelmorph \cite{Balakrishnan_2019voxelmorph} é un dos frameworks mais utilizados no rexistro de imaxes deformable, facendo uso de modelos baseado en \gls{CNN}s e que tamén permite incorporar información auxiliar (como segmentacións) se está dispoñible, mellorando así a precisión do rexistro.
 
-Métodos como UDIR-Net \cite{undefreg} ou DIO \cite{Jena_2025} implementan estas ideas.
+Métodos como UDIR-Net \cite{undefreg} ou DIO \cite{Jena_2025} tamén implementan estas ideas.
 
 \paragraph{GANs}
 \label{par:GANs}
