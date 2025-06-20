@@ -2,6 +2,41 @@
 
 ## notes
 
+- do subsec:Rexistro_baseado_en_INRs
+
+<!-- En la sección 2.2.1, eliminaría el item de "metodoloxía" y todo lo que cuelta de él. No dice gran cosa ni aporta nada nuevo que no se vaya a discutir ya en estado del arte. -->
+
+<!-- Por otra parte, en la sección 2.2.1, falta un párrafo al final contextualizando, dentro de todo esa variedad de formas de registro y opciones, dónde se centra o donde encaja el presente trabajo. -->
+
+En general, la colocación de las figuras es bastante deficiente. Mi recomendación es que hagas lo siguiente:
+        Las figuras y flotantes se deben definir justo despues de donde son citadas por primera vez. Puede incluso ser en el medio de un párrafo, simplemente poniendo lineas vacías que empiezan con %
+        Siempre con la opción [tbp]. Es decir, que lo coloque cuanto antes arriba de la página, sino abajo, y solo si no se puede al final del capítulo en página de figuras. Para que esto funcione bien, es importante hacer lo de antes, para que haya suficiente texto entre definiciones de figuras, y que las figuras estén definidas lo antes posible.
+        Compilar varias veces para que se ajuste el documento
+
+<!-- En 2.2.2.1, en la descripción de métodos FBR, tanto FLANN como RANSAC no se ajustan a lo que ahí pones como "descripción". Son más bien matching, y están más relacionados con la estimación de la transofrmación que con la descripción. -->
+<!-- 
+En la sección 2.2.2.2, los primeros párrafos hacen básicamente referencia a métodos de regresión directa, y ese texto se debería encajar en el párrafo correspondiente. Eliminaría los métodos basados en GAN o los encajaría dentro del paradigma que corresponda. GAN es un método para hacer algo, no lo que hacer. -->
+
+<!-- Falta discutir estado del arte en registro de retinas -->
+
+<!-- Falta introducir registro basado en INR en algún punto del contexto -->
+
+<!-- Falta una discusión de donde encaja el trabajo dentro de ese estado del arte -->
+
+En el capítulo 3, la tabla 3.1 está claramente mal colocada. Parece definida como [h] (y no [tbp]) y en la sección de datasets, en lugar de hardware. No está citada en el texto.
+
+El diagrama de gantt no está citado en el texto, y debería corresponder a la sección de planificación (si es que representa una planificación) o a la de seguimiento (si es que representa la ejecución). En cualquier caso, se debe citar para presentarlo y discutirlo.
+
+El coste de 12€/h no está justificado. Con ese dinero no contratas ni a un empleado del hogar. Coste es coste, no lo que cobras neto asumiendo que todas las horas de la jornada son productivas.
+
+En el capítulo 4, la sección 4.1 tiene que mejorar. El objetivo debe ser que el que lea esa sección pueda entender de forma general todo el trabajo que se ha realizado, por lo que debe identificar claramente todo lo que se ha realizado con un resumen intuitivo de cada parte.
+
+La seccion 4.3.1 ventila en una frase procesos completos como el muestreo
+
+La sección 4.5.1 no puede ser única. Debe haber una sección para cada una de las metodologías desarrolladas, dándole entidad y explicandolas correctamente, con todo lujo de detalles.
+
+La sección 5.1, de forma similar a la 4.1 tiene que mejorar. De nuevo, el objetivo debe ser que al leer esa sección entiendas aproximadamente de que van todos los experimentos. Por lo tanto hay que añadir descripción y highlights de cada uno. Los detalles luego.
+
 ### Capítulo 2 - Contexto
 
 <!-- Intentaría mejorar el contexto de registro, cubriendo bien todas sus tipologías -->

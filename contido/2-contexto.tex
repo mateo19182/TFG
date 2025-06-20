@@ -130,44 +130,46 @@ O rexistro de imaxes pode ser clasificado en distintas categorías segundo as s�
 
 \end{itemize}
 
-\begin{itemize}
-    \item \textbf{Metodoloxía}
-    \begin{itemize}
-        \item \textbf{Técnicas clásicas} \cite{zitova2003imageregistrationsurvey}
-        \begin{itemize}
-            \item \textit{Por correlación:} Optimizan funcións de correlación entre as intensidades das imaxes para atopar a mellor aliñación.
-            \item \textit{Por entropía:} Baseados na maximización da información mutua, resultan especialmente útiles en rexistro multimodal.
-            \item \textit{Por contornos:} Empregan características xeométricas, como bordes ou liñas estruturais, para establecer correspondencias espaciais.
-            \item \textit{Por wavelet:} Utilizan descomposicións en diferentes frecuencias e resolucións para capturar información relevante.
-        \end{itemize}
+% \begin{itemize}
+%     \item \textbf{Metodoloxía}
+%     \begin{itemize}
+%         \item \textbf{Técnicas clásicas} \cite{zitova2003imageregistrationsurvey}
+%         \begin{itemize}
+%             \item \textit{Por correlación:} Optimizan funcións de correlación entre as intensidades das imaxes para atopar a mellor aliñación.
+%             \item \textit{Por entropía:} Baseados na maximización da información mutua, resultan especialmente útiles en rexistro multimodal.
+%             \item \textit{Por contornos:} Empregan características xeométricas, como bordes ou liñas estruturais, para establecer correspondencias espaciais.
+%             \item \textit{Por wavelet:} Utilizan descomposicións en diferentes frecuencias e resolucións para capturar información relevante.
+%         \end{itemize}
         
-        \item \textbf{Técnicas baseadas en aprendizaxe} \cite{deeplernreview3dreg, bharati2022deeplearningmedicalimage}
-        \begin{itemize}
-            \item \textit{Iterativo profundo:} Estratexias que aplican redes neurais de forma recursiva para refinar progresivamente a transformación estimada.
+%         \item \textbf{Técnicas baseadas en aprendizaxe} \cite{deeplernreview3dreg, bharati2022deeplearningmedicalimage}
+%         \begin{itemize}
+%             \item \textit{Iterativo profundo:} Estratexias que aplican redes neurais de forma recursiva para refinar progresivamente a transformación estimada.
             
-            \item \textbf{Aprendizaxe supervisada}
-            \begin{itemize}
-                \item \textit{Totalmente supervisado:} Require datos de adestramento con aliñacións precisas (ground truth), que permiten optimizar directamente a tarefa de rexistro.
-                \item \textit{Debilmente supervisado:} Emprega información parcial ou indirecta, como anotacións espaciais limitadas ou métricas proxy.
-                \item \textit{Supervisión dual:} Combina diferentes formas de supervisión, como etiquetas explícitas e funcións de perda auto-supervisadas, para aumentar a xeneralización.
-            \end{itemize}
+%             \item \textbf{Aprendizaxe supervisada}
+%             \begin{itemize}
+%                 \item \textit{Totalmente supervisado:} Require datos de adestramento con aliñacións precisas (ground truth), que permiten optimizar directamente a tarefa de rexistro.
+%                 \item \textit{Debilmente supervisado:} Emprega información parcial ou indirecta, como anotacións espaciais limitadas ou métricas proxy.
+%                 \item \textit{Supervisión dual:} Combina diferentes formas de supervisión, como etiquetas explícitas e funcións de perda auto-supervisadas, para aumentar a xeneralización.
+%             \end{itemize}
             
-            \item \textbf{Aprendizaxe non supervisada}
-            \begin{itemize}
-                \item \textit{Métrica de similitude:} Optimiza criterios de similitude (e.g., NCC, SSIM) sen necesidade de datos anotados, favorecendo adaptación a novos dominios.
-                \item \textit{Baseado en GANs:} Emprega arquitecturas adversarias para aprender transformacións realistas entre imaxes sen supervisión directa.
-            \end{itemize}
+%             \item \textbf{Aprendizaxe non supervisada}
+%             \begin{itemize}
+%                 \item \textit{Métrica de similitude:} Optimiza criterios de similitude (e.g., NCC, SSIM) sen necesidade de datos anotados, favorecendo adaptación a novos dominios.
+%                 \item \textit{Baseado en GANs:} Emprega arquitecturas adversarias para aprender transformacións realistas entre imaxes sen supervisión directa.
+%             \end{itemize}
             
-            \item \textit{Por similitude:} Modelos que aprenden funcións de custo diferenciables que maximizan a coincidencia entre as imaxes de entrada.
-            \item \textit{Aprendizaxe por reforzo:} Formula o rexistro como un problema de toma de decisións, onde un axente aprende políticas óptimas mediante retroalimentación ambiental.
-        \end{itemize}
-    \end{itemize}
-\end{itemize}
+%             \item \textit{Por similitude:} Modelos que aprenden funcións de custo diferenciables que maximizan a coincidencia entre as imaxes de entrada.
+%             \item \textit{Aprendizaxe por reforzo:} Formula o rexistro como un problema de toma de decisións, onde un axente aprende políticas óptimas mediante retroalimentación ambiental.
+%         \end{itemize}
+%     \end{itemize}
+% \end{itemize}
 
 As transformacións lineais globais soen representanse en matrices de transformación, onde cada elemento da matriz representa un parámetro da transformación.
 
 No caso de transformacións mais complexas, utilízanse campos de vectores de deformación (\gls{DFV}s), que permite representar deformacións locais na imaxe, facendoa moito mais flexible para representar transformacións non lineais e detalladas.
 Os DFVs adoitan ser representados cunha matriz de igual tamaño á imaxe, onde cada elemento representa un vector que indica a dirección e a magnitude da deformación.
+
+Este traballo ubícase no rexistro de imaxes par a par, intra-modaliade e con transformacións deformables. É un proceso totalmente automático que produce transfomacións asimétricas.
 
 Na figura \ref{fig:dfv_visualization} móstranse dúas formas de visualizar un DFV: mediante frechas que indican a dirección e magnitude da deformación, e aplicando a deformación a unha cuadrícula para ver como se distorsiona.
 
@@ -219,8 +221,8 @@ Tipicamente, estes métodos teñen 3 pasos principais:
 
 \begin{itemize}
 \item \textbf{Detección de puntos de interese:} Identificación de puntos ou rexións salientables nas imaxes, como bordes, esquinas ou texturas. Para isto poden utilizarse utilízanse algoritmos como SIFT \cite{sift}, SURF \cite{surf}, BRISK \cite{brisk} ou FREAK \cite{freakkeypoint}.
-\item \textbf{Descrición de características:}  os puntos detectados son descritos e comparados entre imaxes usando descritores e algoritmos de emparellamento como FLANN \cite{flann} ou RANSAC \cite{ransac}.
-\item \textbf{Estimación da transformación:} unha vez atopadas as correspondencias, calcúlase a transformación que aliña as imaxes.
+\item \textbf{Descrición de características:}  os puntos detectados son descritos e comparados entre imaxes usando descritores .
+\item \textbf{Estimación da transformación:} unha vez atopadas as correspondencias, calcúlase a transformación que aliña as imaxes con algoritmos de emparellamento como FLANN \cite{flann} ou RANSAC \cite{ransac}.
 \end{itemize}
 
 Algúns dos métodos tradicionalmente máis utilizados neste campo son \gls{GDB-ICP} \cite{GDB-ICP} e Harris-PIIFD \cite{piifd}. Este último utiliza o algoritmo Harris \cite{Harris1988ACC} para a detección de puntos de interese, descríbenos con \gls{PIIFD}, e emparéllanse usando \gls{BBF} \cite{BBF}.
@@ -264,7 +266,6 @@ Ca chegada dos métodos de aprendizaxe profunda á imaxe médica, comezaron a em
 Existe un gran interés polos métodos baseados en aprendizaxe profundo, como se reflexa no crecente número de publicacións no campo. Na figura \ref{fig:method_comp} móstrase a evolución do número de publicacións sobre rexistro de imaxes, diferenciando entre os métodos baseados en aprendizaxe profunda e os métodos tradicionais.
 
 % Estos métodos tenden a ser mais rápidos que os métodos convencionais, a custo de algo de precisión.
-Estos métodos tenden a requerir dunha gran cantidade de datos para ser adestrados, o que pode ser unha desventaxa xa que en moitos casos non se dispoñen de bases de datos anotadas do tamaño necesario.
 Os métodos de aprendizaxe profunda poden ser clasificados en dous tipos según se requiran de \glossary{DFV}s anotados ou non na etapa de entrenamento:
 supervisados (requíren anotacións) e non supervisados (non requíren anotacións) \cite{nie2024medicalimageregistrationapplication}.
 
@@ -318,23 +319,46 @@ Por exemplo, Czolbe et al. \cite{semanticsimilarity} propoñen dúas métricas d
 \paragraph{Métodos de regresión directa}
 \label{par:direct_regression}
 
-Os métodos desta rede neuronal aprende a mapear directamente desde un par de imaxes ata os parámetros da transformación, sen necesidade de optimización iterativa nin extracción explícita de características.
+A aprendizaxe profunda tenden a requerir dunha gran cantidade de datos para ser adestrados, o que pode ser unha desventaxa xa que en moitos casos non se dispoñen de bases de datos anotadas do tamaño necesario.
+
+Os métodos de regresión directa aprenden a mapear directamente desde un par de imaxes ata os parámetros da transformación, sen necesidade de optimización iterativa nin extracción explícita de características.
 
 Tamén son denominados métodos de inferencia amortizada debido á capacidade de realizar múltiples inferencias (rexistros) tras un único proceso de entrenamento, en contraposición aos métodos tradicionais que requiren optimización individual para cada par de imaxes.
 Estes enfoques son útiles pola súa eficiencia computacional na fase de inferencia. Voxelmorph \cite{Balakrishnan_2019voxelmorph} é un dos frameworks mais utilizados no rexistro de imaxes deformable, facendo uso de modelos baseado en \gls{CNN}s e que tamén permite incorporar información auxiliar (como segmentacións) se está dispoñible, mellorando así a precisión do rexistro.
 
 Métodos como UDIR-Net \cite{undefreg} ou DIO \cite{Jena_2025} tamén implementan estas ideas.
 
-\paragraph{GANs}
-\label{par:GANs}
+% \paragraph{GANs}
+% \label{par:GANs}
 
-As \gls{GAN} (Generative Adversarial Network) son un tipo de rede neuronal que consta de dous modelos que compiten entre si: un xerador e un discriminador. O xerador intenta crear datos falsos que sexan indistinguibles dos datos reais, mentres que o discriminador intenta distinguir entre os datos reais e os datos xerados. Este proceso de competición mellora iterativamente a calidade dos datos xerados e o criterio do discriminador.
+% As \gls{GAN} (Generative Adversarial Network) son un tipo de rede neuronal que consta de dous modelos que compiten entre si: un xerador e un discriminador. O xerador intenta crear datos falsos que sexan indistinguibles dos datos reais, mentres que o discriminador intenta distinguir entre os datos reais e os datos xerados. Este proceso de competición mellora iterativamente a calidade dos datos xerados e o criterio do discriminador.
 
-No contexto do rexistro de imaxes, as GANs poden ser utilizadas para aprender a transformación entre imaxes de forma non supervisada. O xerador pode ser adestrado para producir transformacións que aliñen a imaxe móbil coa imaxe fixa, mentres que o discriminador avalía a calidade do rexistro.
-Un exemplo de aplicación de GANs no rexistro de imaxes médicas é o traballo de Mahapatra et al. \cite{mahapatra2019ganbasedmedicalimage}, onde se propón un modelo de rexistro de imaxes baseado en GANs que demostrou ser efectivo tanto en retinas como con resonancias magnéticas cardiovasculares.
+% No contexto do rexistro de imaxes, as GANs poden ser utilizadas para aprender a transformación entre imaxes de forma non supervisada. O xerador pode ser adestrado para producir transformacións que aliñen a imaxe móbil coa imaxe fixa, mentres que o discriminador avalía a calidade do rexistro.
+% Un exemplo de aplicación de GANs no rexistro de imaxes médicas é o traballo de Mahapatra et al. \cite{mahapatra2019ganbasedmedicalimage}, onde se propón un modelo de rexistro de imaxes baseado en GANs que demostrou ser efectivo tanto en retinas como con resonancias magnéticas cardiovasculares.
+
+\subsubsection{Estado da arte no rexistro de retinografías}
+\label{subsubsec:Estado_da_arte_no_rexistro_de_retinografías}
+
+O rexistro de retinografías presenta un conxunto de desafíos únicos que o distinguen doutros dominios da imaxe médica.
+Un dos principais obstáculos son as deformacións non ríxidas. Estas deformacións poden orixínarse pola proxección da superficie 3D curva da retina nunha imaxe 2D ou variacións na forma do ollo de cada paciente. Ademais, é frecuente atopar pares de imaxes con áreas de solapamento mínimas o que dificulta a identificación de correspondencias para o aliñamento. A isto súmanse as variacións de iluminación, contraste e cor entre imaxes capturadas en diferentes situacións, así como os cambios anatómicos inducidos por patoloxías, que alteran as estruturas utilizadas para o rexistro. 
+Finalmente, a escaseza de conxuntos de datos públicos, especialmente para condicións ou poboacións específicas, supón unha barreira importante para o desenvolvemento de modelos de aprendizaxe supervisada.    
+
+A dificultade para obter campos de deformación de referencia (ground truth) para o adestramento impulsou o desenvolvemento de marcos non supervisados. Estes modelos adéstranse optimizando unha función de perda baseada na similitude de imaxe entre a imaxe móbil deformada e a imaxe fixa, xunto cun termo de regularización sobre a suavidade da deformación. 
+
+% A figura \ref{tab:retina_reg_comp} mostra unha análise comparativa revela un claro compromiso entre precisión e velocidade. Métodos clásicos como REMPE poden acadar unha alta precisión, pero son computacionalmente moi custosos (p. ex., 198 segundos por par de imaxes). En contraste, os métodos de aprendizaxe profunda son ordes de magnitude máis rápidos (p. ex., 0.65 segundos por par), aínda que poden sacrificar parte da precisión nos casos máis complexos. A seguinte táboa resume esta comparativa.  
+
+Dentro dos métodos clásicos, os baseados en características (FBR) seguen a ser referentes en canto a precisión. Entre eles destacan VOTUS \cite{Votus}, que é especialmente robusto en imaxes de pouco solapamento e representa as árbores vasculares como grafos para atopar a correspondencia entre eles. REMPE \cite{rempe} é outro método xa mencionado anteriormente nesta categoría.
+
+No campo da aprendizaxe profunda, RetinaRegNet \cite{sivaraman2024retinaregnetzeroshotapproachretinal} é un modelo recente que de tipo "zero-shot" que utiliza características extraídas de modelos de difusión para establecer correspondencias, acadando resultados de vangarda
+
+%  \cite{ConKeD}  \cite{ConKeD2}
+ConKeD (Contrastive Keypoint Descriptors) e a súa evolución, ConKeD++ , céntranse en perfeccionar a creación de descritores de puntos de interese, un dos compoñentes máis críticos dos métodos baseados en características (FBR).
+A principal vantaxe é que obtén resultados comparables aos dos métodos clásicos de vangarda (como REMPE e VOTUS) pero con tempos de execución moito máis rápidos
+
+A maioría destes algoritmos son avaliados e comparados utilizando o conxunto de datos de referencia FIRE \cite{FIRE}, permitindo unha cuantificación obxectiva do rendemento.
 
 \section{Representación Neuronais Implícitas}
-\label{sec:Representación Neuronais Implícitas}
+\label{sec:Representación Neuronais Implícitas} 
 
 A representación de coñecemento é un dos problemas máis importantes na área da computación, e as 
 redes profundas son unha das ferramentas máis útiles, especialmente no campo da visión por computador.
@@ -390,8 +414,15 @@ Tamén son utilizadas para crear reconstruccións 3D de pulmóns que mitigan as 
 
 Outro uso interesante das representacións neuronais implícitas é a compresión de imaxes. Algoritmos como COIN \cite{coin} representan os datos de entrada mediante redes neuronais implícitas (funcións que mapean coordenadas a valores RGB), logrando unha compresión eficiente e unha redución significativa do tempo de codificación en moitas modalidades.
 
+\subsection{Rexistro baseado en Representacións Neuronais Implícitas}
+\label{subsec:Rexistro_baseado_en_INRs}
+
+\dots
+
 \section{Traballo proposto}
 \label{sec:Traballo proposto}
+
+O traballo proposto ubícase dentro do dos métodos de aprendizaxe profunda, e máis concretamente no rexistro de imaxes baseado en intensidade (IBR) utilizando representacións neuronais implícitas (INRs).
 
 Como mostramos neste capítulo, a pesar do potencial das representaciones neuronales implícitas en diversos dominios médicos, a súa aplicación específica ao rexistro de retinografías permanece inexplorada.
 
