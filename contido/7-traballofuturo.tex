@@ -26,7 +26,8 @@ Mentres que os perceptróns multicapa (MLPs) son considerados aproximadores univ
 
 Unha opción sería aumentar o número de capas ou neuronas por capa. Outra sería implementar o use de codificación posicional, que parece ser útil para a tarefa de rexistro \cite{mueller2022instant}.
 
-Outra idea moi intersante é o use de restriccóns de consistencia cíclicas, propostas por Van Harten et al. no contexto de rexistro de imaxes médicas \cite{van_Harten_2024}. Consiste en entrenar dúas redes á vez que estiman as transformacións directas e inversas, facendo que estas se regularicen mutuamente e estabilizando a optimización.
+Outra idea moi intersante é o use de restriccóns de consistencia cíclicas, propostas por Van Harten et al. no contexto de rexistro de imaxes médicas \cite{van_Harten_2024}. Consiste en entrenar dúas redes á vez que estiman as transformacións directas e inversas (unha da fixa á móbil e outra da móbil á fixa), facendo que estas se regularicen mutuamente e estabilizando a optimización.
+Unha vantaxe deste enfoque é que produe unha métrica de certidumbre ao comparar as transformacións estimadas, o cal é moi útil en aplicacións clínicas.
 
 \section{Invertibilidade}
 \label{sec:Invertibilidade}
@@ -42,6 +43,11 @@ Aproximación como a de i-RevNet \cite{jacobsen2018irevnetdeepinvertiblenetworks
 \label{sec:Enfoque híbrido}
 
 Outra liña de traballo futuro é a exploración de enfoques híbridos que combinen o rexistro baseado en redes neuronais con técnicas tradicionais de rexistro.
-Unha posibilidade sería utilizar o rexistro tradicional para proporcionar un rexistro inicial robusto, que despois podería ser refinado por unha rede neuronal.
+Unha posibilidade sería utilizar o rexistro tradicional para proporcionar un rexistro inicial e global robusto, que despois podería ser refinado por unha rede neuronal.
+
+Mais concretamente, consistiría en utilizar un detector de puntos clave robusto como SuperPoint \cite{superpoint} para extraer características das imaxes fixa e móbil, e utilizar un algoritmo de emparellamento de puntos clave como SuperGlue \cite{superglue} para obter unha transformación inicial entre as imaxes.
+Posteriormente entrenaría o modelo INR para refinar esta transformación inicial, o que é un problema de optimización máis sinxelo e que fai uso das vantaxes de ambos os enfoques.
+
+Este é o enfoque utilizado por métodos no estado da arte como HybridRetina \cite{liu2024progressiveretinalimageregistration}. 
 
 Así mesmo, poderíanse explorar con máis profundidade o preprocesado das imaxes, xa que é inexistente no método actual pero podería ser útil para mellorar a calidade das imaxes e facilitar o rexistro.

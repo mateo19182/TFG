@@ -741,13 +741,17 @@ Na figura \ref{fig:lottery} amósanse os resultados de diferentes valores da lot
 \subsection{Discusión}
 \label{subsec:Discusion-initialization}
 
-Obsérvase que a lotería de inicialización si que provoca unha mellora, aínda que non moi significativa, e non se beneficia particularmente de utilizar mais de 5 inicializacións.
-É posible que fose mellor esperar ata unha iteración algo mais avanzado para determinar a inicialización, xa que no epoch 0 non hai ningunha seguridade de que non sexa un mínimo local, pero isto tamén implicaría un maior custo computacional.
+A inicialización estándar de SIREN proposta por Sitzmann et al. \cite{sitzmann2020implicitneuralrepresentationsperiodic} foi deseñado para tareas de reconstrucción de imaxes, e non necesariamente para regresión de campos de deformación.
+Isto pode provocar que o proceso de optimización dedique moito tempo a contrarestar unha mala inicialización. 
 
 \subsection{Conclusións}
 \label{subsec:Conclusions-initialization}
 
+Obsérvase que a lotería de inicialización si que provoca melloras no rendemento da rede, aínda que non moi significativas, e non se beneficia particularmente de utilizar mais de 5 inicializacións.
+É posible que fose mellor esperar ata unha iteración algo mais avanzado para determinar a inicialización, xa que no epoch 0 non hai ningunha seguridade de que non sexa un mínimo local, pero isto tamén implicaría un maior custo computacional.
+
 Unha posible mellora á lotería de inicialización sería utilizar un número maior de epochs antes de determinar a inicialización gañadora, xa que o loss inicial non é necesariamente representativo do rendemento final da rede.
+Da mesma forma, sería interesante comparar diferentes estratexias de inicialización, como a inicialización gaussiana ou a inicialización uniforme, para determinar se algunha delas proporciona unha vantaxe significativa sobre a inicialización estándar de SIREN.
 
 \section{Axuste dinámico do batch size}
 \label{sec:Dynamic batch size}
@@ -830,4 +834,10 @@ Os resultados mostran unha clara diferenciación entre as funcións de activaci�
 \subsection{Conclusións xerais}
 \label{subsec:Conclusións xerais}
 
-Os experimentos demostran que as redes implícitas son aplicables ao rexistro de imaxes de retina, pero con limitacións importantes. O rendemento depende criticamente da complexidade das transformacións e do grado de superposición entre imaxes. Aínda que os resultados son prometedores para casos de complexidade baixa a moderada, o rexistro de imaxes ca transformacións complexas ou baixa superposición segue sendo un desafío que require investigación adicional.
+A fase experimental deste traballo, centrada na adaptación e evaluación dun marco baseado en representación neuronais implícitas para a tarefa de rexistro de imaxes oftalmolóxicas,
+demostra que as redes implícitas son aplicables ao rexistro de imaxes de retina, pero con limitacións importantes.
+ O rendemento depende criticamente da complexidade das transformacións e do grado de superposición entre imaxes. Aínda que os resultados son prometedores para casos de complexidade baixa a moderada, o rexistro de imaxes ca transformacións complexas ou baixa superposición segue sendo un desafío que require investigación adicional.
+
+Se ben o rendemento actual non é óptimo, as comparacións con outras metodoloxías de rexistro do estado da arte deben ter en conta que a maioría delas integran coñecemento específico do dominio frente ao método aquí presentado, que funciona de forma xeral aprendendo a partir dos pixel.
+Isto suxire futuras liñas de investigación que combinen as vantaxes das redes implícitas con coñecementos específicos do dominio, como a anatomía da retina ou as características dos vasos sanguíneos, para mellorar o rendemento en rexistros complexos.
+O análise das limitacións do modelo e exploración de diferentes estratexias proporcionan unha base sólida para futuras investigacións no campo. 

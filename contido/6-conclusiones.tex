@@ -30,4 +30,9 @@ Polo contrario, métodos como REMPE \cite{rempe} que obteñen resultados moito m
 
 Unha observación relevante é a diferencia entre o rendemento entre o conxunto de datos sintético (RFMID) e o conxunto de datos real (FIRE). Esta brecha demostra a dificultade de aplicar modelos adestrados en datos sintéticos a imaxes reais.
 
+Ter unha función de perda que dependa só das intensidades dos píxeles, como a NCC, limita a capacidade do modelo para capturar correspondencias globais e estabilidade de optimización, especialmente en imaxes con grandes deformacións ou variacións de apariencia.
+A inestabilidade de optimización é outro desafío importante, xa que é sensible á inicialización e propensa a mínimos locais deficientes.
+
+Este traballo mostra que os modelos \gls{INR} puramente basados en imaxes carecen dos mecanismos de correspondencia global e estabilidade de optimización necesarias para aproximar grandes deformaciones e variacións de apariencia presentes en moitas das imaxes clínicas de retina.
+
 Todos estes achados responden aos obxectivos propostos no inicio do proxecto, onde adaptamos o framework IDIR para o rexistro de retinografías, exploramos a función de activación SIREN e avaliamos o rendemento do modelo en diferentes condicións.
