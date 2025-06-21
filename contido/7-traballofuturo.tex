@@ -26,8 +26,10 @@ Mentres que os perceptróns multicapa (MLPs) son considerados aproximadores univ
 
 Unha opción sería aumentar o número de capas ou neuronas por capa. Outra sería implementar o use de codificación posicional, que parece ser útil para a tarefa de rexistro \cite{mueller2022instant}.
 
-Outra idea moi intersante é o use de restriccóns de consistencia cíclicas, propostas por Van Harten et al. no contexto de rexistro de imaxes médicas \cite{van_Harten_2024}. Consiste en entrenar dúas redes á vez que estiman as transformacións directas e inversas (unha da fixa á móbil e outra da móbil á fixa), facendo que estas se regularicen mutuamente e estabilizando a optimización.
+Outra idea moi intersante é o use de restriccións de consistencia cíclicas, propostas por Van Harten et al. no contexto de rexistro de imaxes médicas \cite{van_Harten_2024}. Consiste en entrenar dúas redes á vez que estiman as transformacións directas e inversas (unha da fixa á móbil e outra da móbil á fixa), facendo que estas se regularicen mutuamente e estabilizando a optimización.
 Unha vantaxe deste enfoque é que produe unha métrica de certidumbre ao comparar as transformacións estimadas, o cal é moi útil en aplicacións clínicas.
+
+Tamén podía ser interesante explorar o uso de meta-aprendizaxe, onde se aprende unnha inicialización de pesos óptima a partir dun conxunto de datos \cite{learnedinit}, ou condicionar por xeometría, onde se incorpora coñecemento anatómico previo para simplificar a complexidade da deformación \cite{harten2023deformable}.  
 
 \section{Invertibilidade}
 \label{sec:Invertibilidade}

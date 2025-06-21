@@ -53,9 +53,9 @@ O proxecto inicialmente divídese nas seguintes fases principais:
 \end{itemize}
 
 En total, estímase unha duración de 20 semanas para o proxecto, repartidas entre as distintas fases.
-Na figura \ref{fig:planificacion_proxecto} móstrase o diagrama de Gantt que resume a planificación do proxecto, indicando as fases principais e a súa duración estimada, así como o diagrama da duración real de cada fase.
+Na figura \ref{fig:planificacion_proxecto} móstrase o diagrama de Gantt que resume a planificación do proxecto, indicando as fases principais e a súa duración estimada.
 
-\begin{figure}[h]
+\begin{figure}[tbp]
     \centering
     \includegraphics[height=1\textwidth, angle=90]{imaxes/gants-1.png}
     \caption{Diagramas de Gantt da planificación do proxecto e duración real de cada fase}
@@ -81,20 +81,9 @@ O proxecto foi desenrrolado nun ordenador portátil conectado por ssh a un servi
 Utilizáronse dous servidores diferentes, un montado por min\footnote{\url{https://blog.m19182.dev/writings/Building-my-Homelab}} e outro facilitado polo grupo de investigación VARPA (Visión Artificial y Reconocimiento de Patrones).
 
 A gran parte dos experimentos foron realizado no primeiro, mais para poder executar o proxecto cas imaxes na súa resolución orixinal foi necesario empregar o segundo 
-debido ás limitacións de memoria da GPU. 
+debido ás limitacións de memoria da GPU. Na táboa \ref{tab:comparativa_servidores} móstrase unha comparativa entre os servidores utilizados, indicando as principais características de hardware de cada un.
 
-\subsection{Conxuntos de datos}
-\label{subsec:Conxuntos de datos}
-Para o desenrolo do proxecto empregáronse dous conxuntos de datos diferentes:
-
-\begin{itemize}
-    \item \textbf{RFMID:} 3200 imaxes de fondo de ollo en cor con resolución 1712x1712.
-    \item \textbf{FIRE:} 134 pares de imaxes de retinas en cor, cun tamaño de 2912×2912 pixels
-\end{itemize}
-
-Estos son descritos en maior detalle na sección \ref{sec:Conxuntos de datos}.
-
-\begin{table}[h]
+\begin{table}[tbp]
 \centering
 \begin{tabular}{|c|c|c|}
 \hline
@@ -107,19 +96,30 @@ GPU & NVIDIA RTX 3090 & NVIDIA RTX A6000  \\ \hline
 \end{table}
 
 
+\subsection{Conxuntos de datos}
+\label{subsec:Conxuntos de datos}
+Para o desenrolo do proxecto empregáronse dous conxuntos de datos diferentes:
+
+\begin{itemize}
+    \item \textbf{RFMID:} 3200 imaxes de fondo de ollo en cor con resolución 1712x1712.
+    \item \textbf{FIRE:} 134 pares de imaxes de retinas en cor, cun tamaño de 2912×2912 pixels
+\end{itemize}
+
+Estos son descritos en maior detalle na sección \ref{sec:Conxuntos de datos}.
+
 \subsection{Estimación de custos}
 \label{subsec:Estimación de custos}
 
 Os custos do hardware son ignorados xa que xa estaba dispoñible antes da realización do proxecto.
 
-Os custos dos recursos humanos calcúlanse para un estudante e dous titores, resultando nun custo estimado de 13.640€, IVE incluído. A táboa \ref{tab:estimacion_custos} mostra a estimación de custos dos recursos humanos desglosados, considerando un estudante a 12€/hora e titores a 35€/hora.
+Os custos dos recursos humanos calcúlanse para un estudante e dous titores, resultando nun custo estimado de 20.680€, IVE incluído. A táboa \ref{tab:estimacion_custos} mostra a estimación de custos dos recursos humanos desglosados, considerando un estudante a 20€/hora e titores a 35€/hora.
 
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|c|c|c|}
 \hline
 \textbf{Recurso} & \textbf{Custo por hora} & \textbf{Horas estimadas} & \textbf{Custo total} \\ \hline
-Estudante & 12€ & 880h & 10.560€ \\ \hline
+Estudante & 20€ & 880h & 17.600€ \\ \hline
 Titor 1 & 35€ & 44h & 1.540€ \\ \hline
 Titor 2 & 35€ & 44h & 1.540€ \\ \hline
 \end{tabular}
@@ -139,9 +139,11 @@ En total, isto conlevou un retraso de aproximadamente 18 semanas respecto á pla
 
 A fase final de análise de resultados e redacción da memoria tamén se viu afectada, aínda que en menor medida, o que conlevou un retraso adicional de 2 semanas, resultando nunha duración total do proxecto de 40 semanas, fronte ás 20 semanas inicialmente previstas.
 
+Na figura \ref{fig:planificacion_proxecto} móstrase o diagrama de Gantt actualizado, que reflicte a duración real de cada fase do proxecto.
+
 \subsection{Estimación de custo real}
 \label{subsec:Estimación de custo real}
 
-A estimación de custo do proxecto foi de 13.640€, como se indicou na sección \ref{subsec:Estimación de custos}. Non obstante, debido aos retrasos no desenvolvemento do proxecto, o custo real aumentou de forma proporcional ao tempo extra empregado.
+A estimación de custo do proxecto foi de 20.680€, como se indicou na sección \ref{subsec:Estimación de custos}. Non obstante, debido aos retrasos no desenvolvemento do proxecto, o custo real aumentou de forma proporcional ao tempo extra empregado.
 
-Dado que o proxecto se estendeu durante 20 semanas máis do previsto, o custo real estimado ascende a 27.280€ (IVE incluído).
+Dado que o proxecto se estendeu durante 20 semanas máis do previsto (o dobre da planificación inicial), o custo real estimado ascende a 41.360€ (IVE incluído).

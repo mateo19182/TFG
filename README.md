@@ -2,16 +2,14 @@
 
 ## notes
 
-- do subsec:Rexistro_baseado_en_INRs
-
 <!-- En la sección 2.2.1, eliminaría el item de "metodoloxía" y todo lo que cuelta de él. No dice gran cosa ni aporta nada nuevo que no se vaya a discutir ya en estado del arte. -->
 
 <!-- Por otra parte, en la sección 2.2.1, falta un párrafo al final contextualizando, dentro de todo esa variedad de formas de registro y opciones, dónde se centra o donde encaja el presente trabajo. -->
 
-En general, la colocación de las figuras es bastante deficiente. Mi recomendación es que hagas lo siguiente:
+<!-- En general, la colocación de las figuras es bastante deficiente. Mi recomendación es que hagas lo siguiente:
         Las figuras y flotantes se deben definir justo despues de donde son citadas por primera vez. Puede incluso ser en el medio de un párrafo, simplemente poniendo lineas vacías que empiezan con %
         Siempre con la opción [tbp]. Es decir, que lo coloque cuanto antes arriba de la página, sino abajo, y solo si no se puede al final del capítulo en página de figuras. Para que esto funcione bien, es importante hacer lo de antes, para que haya suficiente texto entre definiciones de figuras, y que las figuras estén definidas lo antes posible.
-        Compilar varias veces para que se ajuste el documento
+        Compilar varias veces para que se ajuste el documento -->
 
 <!-- En 2.2.2.1, en la descripción de métodos FBR, tanto FLANN como RANSAC no se ajustan a lo que ahí pones como "descripción". Son más bien matching, y están más relacionados con la estimación de la transofrmación que con la descripción. -->
 <!-- 
@@ -23,11 +21,11 @@ En la sección 2.2.2.2, los primeros párrafos hacen básicamente referencia a m
 
 <!-- Falta una discusión de donde encaja el trabajo dentro de ese estado del arte -->
 
-En el capítulo 3, la tabla 3.1 está claramente mal colocada. Parece definida como [h] (y no [tbp]) y en la sección de datasets, en lugar de hardware. No está citada en el texto.
+<!-- En el capítulo 3, la tabla 3.1 está claramente mal colocada. Parece definida como [h] (y no [tbp]) y en la sección de datasets, en lugar de hardware. No está citada en el texto. -->
 
-El diagrama de gantt no está citado en el texto, y debería corresponder a la sección de planificación (si es que representa una planificación) o a la de seguimiento (si es que representa la ejecución). En cualquier caso, se debe citar para presentarlo y discutirlo.
+<!-- El diagrama de gantt no está citado en el texto, y debería corresponder a la sección de planificación (si es que representa una planificación) o a la de seguimiento (si es que representa la ejecución). En cualquier caso, se debe citar para presentarlo y discutirlo. -->
 
-El coste de 12€/h no está justificado. Con ese dinero no contratas ni a un empleado del hogar. Coste es coste, no lo que cobras neto asumiendo que todas las horas de la jornada son productivas.
+<!-- El coste de 12€/h no está justificado. Con ese dinero no contratas ni a un empleado del hogar. Coste es coste, no lo que cobras neto asumiendo que todas las horas de la jornada son productivas. -->
 
 En el capítulo 4, la sección 4.1 tiene que mejorar. El objetivo debe ser que el que lea esa sección pueda entender de forma general todo el trabajo que se ha realizado, por lo que debe identificar claramente todo lo que se ha realizado con un resumen intuitivo de cada parte.
 

@@ -30,7 +30,7 @@ O ollo encargase de captar a luz e transformala en impulsos eléctricos que se e
 
 A figura \ref{fig:imaxes_ojo} mostra estas estruturas localizadas en imaxes.
 
-\begin{figure}[ht!]
+\begin{figure}[tbp]
     \centering
     \includegraphics[width=0.45\textwidth]{imaxes/ojo1.png}
     \includegraphics[width=0.45\textwidth]{imaxes/ojo2.png}
@@ -75,7 +75,7 @@ Isto facía que o proceso fose lento e propenso a erros, ademais de pouco práct
 
 Na figura \ref{fig:retin_reg} móstrase un exemplo de rexistro de imaxes de retina, onde se pode observar como as imaxes son aliñadas para que as estruturas anatómicas coincidan.
 
-\begin{figure}[hp!]
+\begin{figure}[tbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imaxes/retin-reg.png}
     \caption{Exemplo de rexistro de imaxes de retina \cite{sivaraman2024retinaregnetzeroshotapproachretinal}}
@@ -173,7 +173,7 @@ Este traballo ubícase no rexistro de imaxes par a par, intra-modaliade e con tr
 
 Na figura \ref{fig:dfv_visualization} móstranse dúas formas de visualizar un DFV: mediante frechas que indican a dirección e magnitude da deformación, e aplicando a deformación a unha cuadrícula para ver como se distorsiona.
 
-\begin{figure}[ht!]
+\begin{figure}[tbp]
     \centering
     \includegraphics[width=0.45\textwidth]{imaxes/dfv_arrows.png}
     \includegraphics[width=0.45\textwidth]{imaxes/dfv_grid.png}
@@ -233,7 +233,7 @@ Unha vantaxe deste enfoque é a capacidade para rexistrar imaxes con grandes var
 Outros métodos clásicos relevantes no campo da imaxe de ollo inclúen REMPE \cite{rempe}, que estima simultaneamente a pose das cámaras e a forma do ollo. Fai uso de un modelo elipsoidal para o ollo e estima a posición das cámaras con RANSAC, para logo refinala cunha variante de PSO \cite{pso}. 
 % Versións anteriores deste método utilizaron modelos esféricos e \gls{SURF} no canto de SIFT \cite{H-M16}.
 
-\begin{figure}[hp!]
+\begin{figure}[tbp]
 \centering
 \begin{tikzpicture}[node distance=2cm, scale=0.8, every node/.style={transform shape}]
 % Nodes
@@ -283,7 +283,7 @@ De forma similar aos métodos iterativos, é común empregar unha métrica de si
 Os enfoques de aprendizaxe profundo son útiles tanto na súa capacidade de aprender a tarefa de rexistro de maneira end-to-end, como para substituír módulos concretos do proceso tradicional.
 Nese sentido, os métodos de aprendizaxe profunda poden ser categorizados según a tarefa do proceso de rexistro que substitúen.
 
-\begin{figure}[hp!]
+\begin{figure}[tbp]
 \centering
 \includegraphics[width=0.8\textwidth]{imaxes/methods_comp.png}
 \caption{Comparación de pubicacións ó longo do tempo que relacionadas co rexistro de imaxes. Datos extraídos de Scopus \cite{scopus}, realizando as consultas: "TITLE-ABS-KEY(image AND registration) AND NOT(deep AND learning)" e "TITLE-ABS-KEY(image AND registration) AND (deep AND learning)"}
@@ -417,7 +417,19 @@ Outro uso interesante das representacións neuronais implícitas é a compresió
 \subsection{Rexistro baseado en Representacións Neuronais Implícitas}
 \label{subsec:Rexistro_baseado_en_INRs}
 
-\dots
+O rexistro de imaxes baseado en Representacións Neuronais Implícitas (INR) parametriza a transformación de deformación como unha función continua, xeralmente cun Perceptrón Multicapa (MLP), que mapea coordenadas espaciais a vectores de desprazamento. A diferenza das CNN, a rede non procesa as intensidades da imaxe directamente, senón que se optimiza usando estas para calcular a perda. Unha das vantaxes neste contexto é a capacidade de calcular gradientes analíticos exactos da transformación, permitindo unha regularización mais precisa que con aproximacións dos métodos baseados en grellas.  
+
+As funcións de activación periódicas (SIREN \cite{sitzmann2020implicitneuralrepresentationsperiodic}) permitiron sobrepasar o problema dos sesgos cara transformacións de baixa frecuencia do MLP, e foron utilizadas por IDIR acadando resultados de vangarda \cite{wolterink2021implicit}.  
+
+Os principais inconvenientes son a lentitude na inferencia (require optimización para cada par de imaxes) e a tendencia a xerar pregamentos espaciais (deformacións non realistas). A investigación actual céntrase en modelos híbridos para mitigar estes problemas.
+Algúns dos enfoques máis relevantes inclúen:
+SINR (Spline-enhanced INR) combina INR con B-splines, onde a rede predí os desprazamentos dunha grella de control dispersa. Isto impón suavidade de forma intrínseca e facilita o rexistro multimodal \cite{SINR}.   
+INR ciclo-consistentes, que adestran simultaneamente a transformación directa e a inversa, usando cada rede como regularizador da outra para mellorar a robustez.  
+Meta-aprendizaxe: Aprende unha inicialización de pesos óptima a partir dun gran conxunto de datos para acelerar drasticamente a converxencia na inferencia \cite{learnedinit}.  
+INR condicionadas por xeometría: Incorporan coñecemento anatómico previo para simplificar a complexidade da deformación a aprender \cite{harten2023deformable}.  
+Sun et al. \cite{sun2024medicalimageregistrationneural} propóñen un rexistro de imaxes que usa campos neuronais para modelar a transformación, utilizando tamén codificación posicional (que transforma a coordenadas espaciais en vectores de alta dimensión) o que permite que a rede aprenda con maior facilidade as transformacións de alta frecuencia.
+
+O uso de Representacións Neuronais Implícitas (INR) para o rexistro de imaxes ofrece unha precisión notable ao modelar a deformación como unha función continua e analiticamente diferenciable. Este enfoque, exemplificado polo éxito inicial de IDIR, permite unha regularización máis exacta que os métodos baseados en grellas. Non obstante, a súa aplicación práctica vese obstaculizada pola lentitude da optimización por cada par de imaxes e o risco de producir deformacións non realistas con pregamentos espaciais. O estado da arte actual tende a abordar estes retos mediante a hibridación.
 
 \section{Traballo proposto}
 \label{sec:Traballo proposto}

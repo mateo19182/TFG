@@ -90,7 +90,7 @@ a cal consiste en inicializar a primeira capa de xeito que a función seno recor
 Isto conséguese multiplicando os pesos da primeira capa por un factor de escala ω0, sobre o cal recomendan ω0=30.
 A fórmula para a inicialización dos pesos da primeira capa é a seguinte:
 
-\begin{figure}[ht!]
+\begin{figure}[tbp]
     \centering
     \[
     w_i \sim U\left[ -\frac{1}{n}, \frac{1}{n} \right]
@@ -102,7 +102,7 @@ A fórmula para a inicialización dos pesos da primeira capa é a seguinte:
 onde n é o número de neuronas de entrada (o tamaño da capa anterior).
 
 As seguintes capas inicialízanse da seguinte forma:
-\begin{figure}[ht!]
+\begin{figure}[tbp]
     \centering
     \[
     w_i \sim U\left[ -\frac{\sqrt{\frac{6}{n}}}{w}, \frac{\sqrt{\frac{6}{n}}}{w} \right]
@@ -216,7 +216,7 @@ Algúns exemplos de termos de regularización que se poden empregar son:
     tentando preservar áreas locais e evitar estiramentos ou dobreces extremas.
 
 
-    \begin{figure}[ht!]
+    \begin{figure}[tbp]
         \centering
         \[
         S^{jac}[\Phi] = \int_{\Omega} \left| 1 - \det \left( \nabla \Phi \right) \right| \, dx
@@ -236,7 +236,7 @@ Algúns exemplos de termos de regularización que se poden empregar son:
     e ambas penalizan o crecemento e a contracción por igual.
     αl, αa e αν son hiperparámetros que controlan a importancia de cada término.
 
-    \begin{figure}[ht!]
+    \begin{figure}[tbp]
         \centering
         \[
         S^{hyper}[\Phi] = \int_{\Omega} \left[ \frac{1}{2} \alpha_1 |\nabla u|^2 + \alpha_a \varphi_c (\text{cof} \nabla \Phi) + \alpha_\nu \psi(\det \nabla \Phi) \right] dx,
@@ -253,7 +253,7 @@ Algúns exemplos de termos de regularización que se poden empregar son:
     require que as segundas derivadas do DVF sexan pequenas en todo o dominio, o que evita deformacións bruscas e discontinuas.
     Este termo non pode ser utilizado nunha rede que utilice ReLU como función de activación, xa que a segunda derivada de unha ReLU é sempre igual a 0.
 
-    \begin{figure}[ht!]
+    \begin{figure}[tbp]
         \centering
         \[
         S^{bending}[\Phi] = \frac{1}{8} \int_{-1}^{1} \int_{-1}^{1} \int_{-1}^{1} \left[ \left( \frac{\partial^2 \Phi}{\partial x^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial y^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial z^2} \right)^2 \right.
@@ -271,7 +271,7 @@ Para a implementación neste traballo modificaronse todos estos termos para que 
 
  \begin{itemize}
     \item Jacobian regularizer:
-    \begin{figure}[ht!]
+    \begin{figure}[tbp]
         \centering
         \[
         S^{jac}[\Phi] = \int_{\Omega} \left| 1 - \det \left( \nabla \Phi \right) \right| \, dx \, dy
@@ -280,7 +280,7 @@ Para a implementación neste traballo modificaronse todos estos termos para que 
     \end{figure}
     
     \item Hyperelastic regularizer:
-    \begin{figure}[ht!]
+    \begin{figure}[tbp]
         \centering
         \[
         S^{hyper}[\Phi] = \int_{\Omega} \left[ \frac{1}{2} \alpha_1 |\nabla u|^2 + \alpha_a \varphi_c (\text{cof} \nabla \Phi) \right] dx \, dy,
@@ -292,7 +292,7 @@ Para a implementación neste traballo modificaronse todos estos termos para que 
     \end{figure}
     
     \item Bending energy penalty:
-    \begin{figure}[ht!]
+    \begin{figure}[tbp]
         \centering
         \[
         S^{bending}[\Phi] = \frac{1}{8} \int_{-1}^{1} \int_{-1}^{1} \left[ \left( \frac{\partial^2 \Phi}{\partial x^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial y^2} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial y} \right)^2 \right] dx \, dy
@@ -436,7 +436,7 @@ Por este motivo, non podemos asumir que os parámetros óptimos para pulmóns se
  Está composto por 134 pares de imaxes de retinas, con un tamaño de 2912 × 2912 pixels e un \gls{FOV} de 45◦× 45◦.
  Están clasificadas en 3 categorías según o grado de superposición e a presenza de diferencias anatómicas: \textit{S}, \textit{P} e \textit{A}. \cite{FIRE}
 
- \begin{figure}[ht]
+ \begin{figure}[tbp]
     \centering
     \setlength{\tabcolsep}{8pt} % Adjust column spacing
     \begin{tabular}{|c|c|c|c|}
@@ -457,7 +457,7 @@ Por este motivo, non podemos asumir que os parámetros óptimos para pulmóns se
 
 Inclúe 10 puntos de referencia para cada imaxe, que se utilizan para a avaliación do rexistro, así como unha máscara por cada imaxe que indica a localización dos píxeles con información de cor.
 
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imaxes/fire-ej.png}
     \caption{Exemplo de imaxes do conxunto de datos FIRE \cite{FIRE} cos puntos de control indicados. De esquerda a dereita, categorías \textit{\textsf{S}}, \textit{\textsf{P}}, \textit{\textsf{A}} .}
@@ -525,7 +525,7 @@ Deste xeito, conséguese unha cobertura uniforme e eficiente da rexión de inter
  dat
 Na figura \ref{fig:sampling_heatmaps} pódense observar os diferentes tipos de mostraxe utilizados.
 
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
@@ -570,7 +570,7 @@ O proceso de avaliación divídese en dous enfoques complementarios: a avaliaci�
  
 O erro de rexistro calcúlase mediante a distancia euclidiana media entre os puntos correspondentes nas imaxes fixa e móbil:
 
-\begin{figure}[ht!]
+\begin{figure}[tbp]
     \centering
     \[
     E = \frac{1}{N} \sum_{i=1}^{N} \left\| p_i^{\text{fixo}} - T(p_i^{\text{móbil}}) \right\|
@@ -591,7 +591,7 @@ Ademais, en FIRE a avaliación segmentarase nas 3 categorías de imaxes (S, P e 
  Mentres que FIRE xa provee os puntos de referencia para a avaliación, RFMID non o fai.
  Polo tanto, para RFMID, utilizamos o mesmo método de avaliación, pero xerándo os puntos manualmente de forma que cubran o interior da máscara da imaxe fixa (separados por 50 píxeles entre si).
  
- \begin{figure}[ht]
+ \begin{figure}[tbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imaxes/fire_aval.png}
     \caption{Gráfico de avaliación FIRE, \cite{FIRE}}
@@ -601,7 +601,7 @@ Ademais, en FIRE a avaliación segmentarase nas 3 categorías de imaxes (S, P e 
 No caso de RFMiD, dividiremos o conxunto de datos en varias categorías dependendo da dificultade do rexistro, que se calcula mediante a norma de Frobenius dunha matriz $A \in \mathbb{R}^{m \times n}$.
 Esta é unha xeralización da distancia euclidiana aplicada a matrices, onde as imaxes con transformacións mais grandes considéranse mais difíciles.
 
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \[
     \|A\|_F = \sqrt{\sum_{i=1}^{m} \sum_{j=1}^{n} |a_{ij}|^2}
@@ -625,7 +625,7 @@ Xa que en RFMID \cite{RFMiD} utilízanse puntos de referencia xerados manualment
 Co obxetivo de identificar facilmente os distintos artefactos visuais ou transformación non realista, utilízanse diferentes ferramentas como a composición de imaxes, a visualización dos vectores de desprazamento e a comparación de imaxes antes e despois do rexistro.
 Na figura \ref{fig:visex} pódense observar algúns exemplos de estas.
 
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \includegraphics[width=0.9\textwidth]{imaxes/visex.png}
     \caption{Exemplos de avaliación visual: (a) Composición de imaxes en checkerboard, (b) Composición de imaxes por cor, (c) Visualización dos vectores de desprazamento.}

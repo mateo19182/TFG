@@ -32,7 +32,7 @@ A avaliación de FIRE completa, desglosada por categoría, pódese ver nas figur
 A menos que especificado de outro xeito, utilizarase un learning rate de 0.0001, batch size de 10000 puntos e 1500 epochs. 
 Estos determináronse a partir dos utilizados orixinalmente por IDIR e ca análises cualitativa dos resultados obtidos en experimentos preliminares.
 
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \begin{subfigure}[b]{0.5\textwidth}
         \centering
@@ -91,7 +91,7 @@ Diferentes exemplos de rexistro, tanto exitosos como fallidos, pódense observar
 A primeira imaxe corresponde ca imaxe fixa, a segunda corresponde ca imaxe rexistrada, a terceira ca imaxe móbil e a cuarta o campo de deformación aplicado a unha grella cadrada.
  
 Pódense observar os puntos de control, sendo os brancos os da imaxe fixa, os verdes os da imaxe móbil e os azuis os desprazados pola rede.
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
         \centering
@@ -207,7 +207,7 @@ Presentase na figura \ref{fig:loss_functions_comparison} a comparación entre as
 %     % \hyperlink{tableRefTarget}{Volver ao texto de referencia}
 % \end{table}
 
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \includegraphics[width=1\textwidth]{imaxes/losstype.png}
     \caption{Comparación de diferentes funcións de perda sobre imaxes de FIRE e RFMID}
@@ -263,7 +263,7 @@ O tamaño das imaxes tamén é unha das principais diferencias entre as imaxes d
 % \ref{tab:mean_distances_resolution}
 Preséntase na figura \ref{fig:resoluciónchart} a comparación entre as diferentes resolucións.
 
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \includegraphics[width=1\textwidth]{imaxes/resolutionchart.png}
     \caption{Comparación de diferentes resolucións de perda sobre imaxes de FIRE e RFMID. Menor distancia media é mellor.}
@@ -339,7 +339,7 @@ Neste apartado só se presentarán os resultados dos experimentos realizados coa
 % De agora en adiante pásase a utilizar soamente a categoría S do dataset FIRE, xa que é a mais sinxela de rexistrar e que tén un maior grado de superposición entre as imaxes, que é 
 A comparación entre os diferentes valores de regularización hiperelástica preséntase na figura \ref{fig:barplot_hyper_reg_comparison}.
 
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
@@ -365,7 +365,7 @@ A comparación entre os diferentes valores de regularización hiperelástica pre
 Os resultados amosan que a regularización ten un impacto significativo no rendemento da rede. Tanto a ausencia de regularización como a regularización excesiva resultan en rendemento deficiente.
 Na figura \ref{fig:regularization_examples} pódense observar exemplos de rexistros con ambos problemas.
 
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
         \centering
@@ -413,7 +413,7 @@ Isto suxire que a regularización é mais relevante onde a rede ten que aprender
 
 % \ref{fig:grid_search_lr}, \ref{fig:e_heatmap_MLP_RFMID}
 
-% \begin{figure}[ht]
+% \begin{figure}[tbp]
 %     \centering
 %     \begin{subfigure}[b]{0.45\textwidth}
 %         \includegraphics[width=\textwidth]{imaxes/grid_search_lr_FIRE_SIREN.png}
@@ -440,7 +440,7 @@ Isto suxire que a regularización é mais relevante onde a rede ten que aprender
 %     \label{fig:grid_search_lr}
 % \end{figure}
 
-% \begin{figure}[ht]
+% \begin{figure}[tbp]
 %     \centering
 %     \includegraphics[width=0.8\textwidth]{imaxes/e_heatmap_MLP_RFMID.png}
 %     \caption{Mapa de calor cos resultados de diferentes combinacións de batch size e learning rate con unha mostra de imaxes de RMIFD ca función de activación ReLU}
@@ -486,7 +486,7 @@ Ademais, xa que a rede si que é capaz de rexistrar correctamente as imaxes dos 
 
 Nas figuras \ref{fig:batch_size_comparison_relu_rfmid} e \ref{fig:batch_size_comparison_siren_rfmid} pódense observar os resultados da experimentación co dataset RFMID a distintas dificultades e con distintos tamaños de batch.
 
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \begin{subfigure}[b]{0.5\textwidth}
         \centering
@@ -506,7 +506,7 @@ Nas figuras \ref{fig:batch_size_comparison_relu_rfmid} e \ref{fig:batch_size_com
 
 Con esta nova división do dataset, tamén se realizou a avaliación polo método de avaliación de FIRE, que se pode ver na figuras \ref{fig:FIRERFMID_relu} e \ref{fig:FIRERFMID_SIREN}.
 
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \begin{subfigure}[b]{0.5\textwidth}
         \centering
@@ -528,7 +528,7 @@ Con esta nova división do dataset, tamén se realizou a avaliación polo métod
 Nas figuras \ref{fig:batch_size_comparison_relu} e \ref{fig:batch_size_comparison_siren} mostranse os resultados da experimentación co dataset FIRE.
 
 % \ref{fig:batch_size_comparison_relu_1e-5}, \ref{fig:batch_size_comparison_relu_5e-5}, \ref{fig:batch_size_comparison_relu_1e-4}
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \begin{subfigure}[b]{0.5\textwidth}
         \centering
@@ -548,28 +548,28 @@ Nas figuras \ref{fig:batch_size_comparison_relu} e \ref{fig:batch_size_compariso
 
 
 
-% \begin{figure}[ht] 
+% \begin{figure}[tbp] 
 %     \centering
 %     \includegraphics[width=0.8\textwidth]{imaxes/batchsize/experiment_plot_RFMID_MLP_0.0001.png}
 %     \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes do dataset RFMID ca función de activación ReLU (learning rate = 1e-4)}
 %     \label{fig:batch_size_comparison_relu_1e-4}
 % \end{figure}
 
-% \begin{figure}[ht] 
+% \begin{figure}[tbp] 
 %     \centering
 %     \includegraphics[width=0.8\textwidth]{imaxes/batchsize/experiment_plot_RFMID_SIREN_1e-05.png}
 %     \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes do dataset RFMID ca función de activación SIREN (learning rate = 1e-5)}
 %     \label{fig:batch_size_comparison_siren_1e-5}
 % \end{figure}
 
-% \begin{figure}[ht] 
+% \begin{figure}[tbp] 
 %     \centering
 %     \includegraphics[width=0.8\textwidth]{imaxes/batchsize/experiment_plot_RFMID_SIREN_5e-05.png}
 %     \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes do dataset RFMID ca función de activación SIREN (learning rate = 5e-5)}
 %     \label{fig:batch_size_comparison_siren_5e-5}
 % \end{figure}
 
-% \begin{figure}[ht] 
+% \begin{figure}[tbp] 
 %     \centering
 %     \includegraphics[width=0.8\textwidth]{imaxes/batchsize/experiment_plot_RFMID_SIREN_0.0001.png}
 %     \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes do dataset RFMID ca función de activación SIREN (learning rate = 1e-4)}
@@ -621,7 +621,7 @@ As estratexias de mostraxe comparadas son as seguintes:
 
 Os resultados das diferentes estratexias de mostraxe sobre o dataset RFMID preséntanse na figura \ref{fig:sampling_types_comparisons}.
 
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
@@ -641,7 +641,7 @@ Os resultados das diferentes estratexias de mostraxe sobre o dataset RFMID pres�
 
 
 
-% \begin{figure}[ht]
+% \begin{figure}[tbp]
 %     \centering
 %     \includegraphics[width=0.8\textwidth]{imaxes/muestraje/RFMID_both__comp_sampling.png}
 %     \caption{Comparación das diferentes estratexias de mostraxe sobre imaxes do dataset RFMID}
@@ -652,7 +652,7 @@ Os resultados das diferentes estratexias de mostraxe sobre o dataset RFMID pres�
 % \ref{fig:fire_samplingtype}
 % \ref{fig:sampling_comparison_relu}
 % \ref{fig:sampling_comparison_SIREN}
-% \begin{figure}[ht]
+% \begin{figure}[tbp]
 %     \centering
 %     \includegraphics[width=0.8\textwidth]{imaxes/muestraje/fire_samplingtype.png}
 %     \caption{Comparación das diferentes estratexias de mostraxe sobre imaxes do dataset FIRE}
@@ -660,14 +660,14 @@ Os resultados das diferentes estratexias de mostraxe sobre o dataset RFMID pres�
 % \end{figure}
 
 
-% \begin{figure}[ht]
+% \begin{figure}[tbp]
 %     \centering
 %     \includegraphics[width=0.8\textwidth]{imaxes/muestraje/experiment_plot_RFMID_MLP_RvsU.png}
 %     \caption{Comparación das diferentes estratexias de mostraxe sobre imaxes do dataset RFMID ca función de activación RELU}
 %     \label{fig:sampling_comparison_relu}
 % \end{figure}
 
-% \begin{figure}[ht]
+% \begin{figure}[tbp]
 %     \centering
 %     \includegraphics[width=0.8\textwidth]{imaxes/muestraje/experiment_plot_RFMID_SIREN_RvsU.png}
 %     \caption{Comparación das diferentes estratexias de mostraxe sobre imaxes do dataset RFMID ca función de activación SIREN}
@@ -706,14 +706,14 @@ Para testar esta hipótese implementouse unha lotería de inicialización, onde 
 
 % \ref{fig:lottery_initial_deformations_combinedMLP}, \ref{fig:lottery_initial_deformations_combinedSIREN}
 
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imaxes/lottery/initial_deformations_combinedMLP.png}
     \caption{Exemplos das diferentes inicializacións ca función de activación RELU}
     \label{fig:lottery_initial_deformations_combinedMLP}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imaxes/lottery/initial_deformations_combinedSIREN.png}
     \caption{Exemplos das diferentes inicializacións ca función de activación SIREN}
@@ -729,7 +729,7 @@ Para testar esta hipótese implementouse unha lotería de inicialización, onde 
 Na figura \ref{fig:lottery} amósanse os resultados de diferentes valores da lotería de inicialización.
 
 
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imaxes/lottery/lotery.png}
     \caption{Resultados da lotería de inicialización}
@@ -766,7 +766,7 @@ Para isto utilizaremos a estratexia de mostraxe uniforme, que permite asegurar q
 \label{subsec:Resultados-phases}
 
 Os resultados de utilizar diferentes números de fases pódense observar na figura \ref{fig:nphases}.
-\begin{figure}[ht]
+\begin{figure}[tbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imaxes/lottery/nphases.png}
     \caption{Resultados de usar distinto número de fases}

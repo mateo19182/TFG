@@ -452,6 +452,50 @@
   biburl        = {https://dblp.org/rec/journals/corr/abs-2201-12904.bib},
   bibsource     = {dblp computer science bibliography, https://dblp.org}
 }
+
+@article{SINR,
+title = "SINR: Spline-enhanced implicit neural representation for multi-modal registration",
+abstract = "Deformable image registration has undergone a transformative shift with the advent of deep learning. While convolutional neural networks (CNNs) allow for accelerated registration, they exhibit reduced accuracy compared to iterative pairwise optimization methods and require extensive training cohorts. Based on the advances in representing signals with neural networks, implicit neural representations (INRs) have emerged in the registration community to model dense displacement fields continuously. Using a pairwise registration setup, INRs mitigate the bias learned over a cohort of patients while leveraging advanced methodology and gradient-based optimization. However, the coordinate sampling scheme makes dense transformation parametrization with an INR prone to generating physiologically implausible configurations resulting in spatial folding. In this paper, we introduce SINR - a method to parameterize the continuous deformable transformation represented by an INR using Free Form Deformations (FFD). SINR allows for multi-modal deformable registration while mitigating folding issues found in current INR-based registration methods. SINR outperforms existing state-of-the-art methods on both 3D mono- and multi-modal brain registration on the CamCAN dataset, demonstrating its capabilities for pairwise mono- and multi-modal image registration.",
+keywords = "image registration, implicit neural representations, multi-modal",
+year = "2024",
+language = "English",
+volume = "250",
+pages = "1462--1474",
+journal = "Proceedings of Machine Learning Research",
+issn = "2640-3498",
+publisher = "ML Research Press",
+}
+
+@article{learnedinit,
+  author       = {Matthew Tancik and
+                  Ben Mildenhall and
+                  Terrance Wang and
+                  Divi Schmidt and
+                  Pratul P. Srinivasan and
+                  Jonathan T. Barron and
+                  Ren Ng},
+  title        = {Learned Initializations for Optimizing Coordinate-Based Neural Representations},
+  journal      = {CoRR},
+  volume       = {abs/2012.02189},
+  year         = {2020},
+  url          = {https://arxiv.org/abs/2012.02189},
+  eprinttype    = {arXiv},
+  eprint       = {2012.02189},
+  timestamp    = {Fri, 04 Dec 2020 12:07:23 +0100},
+  biburl       = {https://dblp.org/rec/journals/corr/abs-2012-02189.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{
+harten2023deformable,
+title={Deformable Image Registration with Geometry-informed Implicit Neural Representations},
+author={Louis van Harten and Rudolf Leonardus Mirjam Van Herten and Jaap Stoker and Ivana Isgum},
+booktitle={Medical Imaging with Deep Learning},
+year={2023},
+url={https://openreview.net/forum?id=Pj9vtDIzSCE}
+}
+
+
 @article{TPS,
   author        = {Bookstein, F.L.},
   journal       = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
