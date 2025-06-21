@@ -6,8 +6,10 @@
 \section{Vista Xeral}
 \label{sec:VistaXeral}
 
-O proxecto consiste en adaptar o framework de IDIR, ideado para o rexistro de \gls{4DCT} torácicas, para o rexistro de imaxes de fondo de ollo en 2D.
-Para isto foi necesario modificar gran parte do código, así como adaptar o proceso de rexistro e avaliación.
+O traballo realizado centrouse na adaptación do framework IDIR, orixinalmente deseñado para 4D-CT torácicas, ao problema específico do rexistro de imaxes de fondo de ollo en 2D. Esta tarefa requiriu modificar a arquitectura da rede neuronal para operar en dúas dimensións, reformular os termos de regularización e adaptar os procesos de adestramento e avaliación para o novo dominio.
+Para optimizar o modelo, deseñouse un proceso de experimentación sistemático e desenvolvéronse metodoloxías de adestramento específicas. Entre elas destacan a creación de estratexias de mostraxe que priorizan rexións de interese anatómico e técnicas como o axuste dinámico de hiperparámetros para refinar a converxencia do modelo.
+
+Finalmente, para validar os resultados, construíuse un marco de avaliación que foi aplicado sobre o datasets FIRE (que contén parellas de imaxes reais con diferentes graos de superposición e variacións anatómicas) e RFMiD (transformacións lineais xeneradas), o que permite xulgar distintas características da rede. A avaliación combinou métricas cuantitativas obxectivas e a análise cualitativa visual para garantir a calidade e o realismo das deformacións obtidas.
 
 \section{IDIR}
 \label{sec:IDIR}
@@ -410,22 +412,26 @@ Finalmente, o proceso de avaliación tivo que implementarse dende 0 para adaptar
 \subsection{Proceso de Rexistro}
 \label{subsec:Proceso de Rexistro}
 
-Inicializase a rede e o resto de parámetros relevantes (función de activación, optimizador, métrica de loss, termos de regularización, etc).
+O rexistro de cada par de imaxes (fixa e móbil) trátase como un problema de optimización independente. Para cada par, adéstrase unha nova rede neuronal dende cero cuxo único obxectivo é aprender a deformación específica que aliña esas dúas imaxes.
 
-A inicialización dos pesos da rede é especialmente relevante no caso da función de activación SIREN, que é sensible a valores iniciais.
-Tamén se xera un tensor de coordenadas inicial que contén todas as coordenadas dentro da máscara da imaxen fixa.
+Primeiramente, crease unha instancia do MLP coa arquitectura 2D e defínense os hiperparámetros como a función de activación, a métrica de perda e termos de regularización que se aplicarán. A inicialización dos pesos da rede é un paso de especial relevancia. 
 
-Cando comeza o adestramento por cada epoch repítese o seguinte proceso:
+Unha vez inicializada a rede, xérase un tensor de coordenadas que contén a localización (x, y) de todos os píxeles que se atopan dentro da máscara da imaxe fixa. Este tensor representa o espazo de coordenadas completo sobre o que a rede aprenderá a deformación.
 
-Mostreanse "batch size" puntos no tensor de coordenadas orixinal e estos pásanse pola rede, 
-a cal devolve a transformación que predice para esas coordenadas.
-A continuación, aplicase esta transformación e calculase o loss entre a imaxe móbil transformada e a imaxe fixa.
-O valor de loss axústase según os termos de regularización usados, e finalmente realízase a retropropagación para actualizar os pesos da rede.
+A continuación, comeza o bucle de adestramento, que se repite durante un número predefinido de épocas (epochs). En cada iteración dentro dunha época, realízase o seguinte proceso:
+\begin{itemize}
+    \item \textbf{Mostraxe de Coordenadas:} En lugar de procesar a imaxe enteira en cada paso, selecciónase un subconxunto de puntos do tensor de coordenadas igual ao tamaño de batch. A estratexia de mostraxe é un compoñente crítico que foi obxecto de experimentación neste traballo.
 
-O proceso de mostraxe pode ser aleatorio ou utilizando unha estratexia específica.
+    \item \textbf{Predición e Aplicación da Transformación:} As coordenadas (x, y) mostreadas introdúcense na rede. O MLP actúa como unha función de deformación implícita, devolvendo para cada coordenada de entrada un vector de desprazamento (dx, dy). 
 
-Cabe destacar que a tarefa de rexistro de pulmóns é diferente da de retinografías. O tamaño das deformacións é moito maior, así como o grado de superposición entre as imaxes.
-Por este motivo, non podemos asumir que os parámetros óptimos para pulmóns sexan tamén os mellores para retinas.
+    \item \textbf{Cálculo da Perda (Loss):} Para cuantificar o ben que a deformación aliña as imaxes, compáranse os valores de intensidade nos nos puntos seleccionados. Para cada coordenada orixinal $(x,y)$ na imaxe fixa, obtense o valor de intensidade correspondente na imaxe móbil na coordenada transformada $(x + dx, y + dy)$. Como esta última adoita ser unha posición non enteira, utilízase interpolación para estimar o seu valor de intensidade. A métrica de perda (NCC, SSIM, etc.) calcula a discrepancia entre o conxunto de intensidades da imaxe fixa e o das intensidades obtidas da imaxe móbil transformada.
+
+    \item \textbf{Retropropagación e Actualización:} Ao valor da perda de similitude súmanselle os termos de penalización calculados a partir dos regularizadores. O valor de perda total resultante utilízase para calcular os gradientes respecto aos pesos da rede mediante retropropagación. Finalmente, o optimizador (Adam) utiliza estes gradientes para actualizar os pesos do MLP, axustándoos lixeiramente na dirección que minimiza a perda.
+\end{itemize}
+
+Este ciclo repítese ata completar todas as épocas. Ao final do adestramento, os pesos optimizados da rede encapsulan a función de deformación continua e específica para ese par de imaxes.
+
+É crucial subliñar que a tarefa de rexistro de retinografías difire substancialmente da de pulmóns. Por este motivo, non é posible asumir que os hiperparámetros óptimos do traballo orixinal sexan válidos para este novo dominio, o que xustifica a extensa experimentación realizada.
 
 \section{Conxuntos de datos}
 \label{sec:Conxuntos de datos}
@@ -500,29 +506,28 @@ Nesta fase avaliouse a métrica de loss, a resolución da imaxe, a regularizaci�
 
 Baseándose nos resultados da primeira fase, realizouse unha experimentación máis exhaustiva para tentar mellorar o rendemento do rexistro, centrándose na estratexia de mostraxe, a inicialización dos pesos da rede e un axuste dinámico do batch size.
 
-\subsection{Metodoloxías Desenrroladas}
-\label{subsec:Metodoloxías Desenrroladas}
+\subsection{Metodoloxías Desenroladas}
+\label{subsec:Metodoloxías Desenroladas}
 
-Para este traballo tivéronse que desenrrolar varias metodoloxías específicas. 
+Para este traballo tivéronse que desenrolar varias metodoloxías específicas co obxetivo de mellorar o rendemento do rexistro de imaxes de retina. Estas metodoloxías inclúen:
 
-Algunhas delas inclúen a implementación de diferentes tipos de estratexias mostraxe.
+\subsubsection{Estratexias de Mostraxe}
+\label{subsubsec:estratexias_mostraxe}
 
-Na estratexia de mostraxe intelixente, calcúlase unha máscara de probabilidade para cada imaxe, que se utiliza para seleccionar os puntos que se pasan á rede.
-Para calcular esta máscara, extráense mediante operadores de Sobel os vasos sanguíneos e mediante umbralización o disco óptico, que son as zonas onde se espera que haxa máis información, e dáselles maiores probabilidades de ser seleccionadas.
-Tamén se implementou unha estratexia de mostraxe ponderada, onde se seleccionan puntos aleatorios, pero con maior probabilidade de que caian nas zonas de interese (vasos sanguíneos e disco óptico).
+\paragraph{Mostraxe Intelixente}
+Na estratexia de mostraxe intelixente, calcúlase unha máscara de probabilidade para cada imaxe, que se utiliza para seleccionar os puntos que se pasan á rede. Para calcular esta máscara, extráense mediante operadores de Sobel os vasos sanguíneos e mediante umbralización o disco óptico. Estas son as zonas onde se espera que haxa máis información, e, polo tanto, dáselles maiores probabilidades de ser seleccionadas.
 
-Posteriormente introduciuse unha estratexia de mostraxe uniforme, onde se seleccionan un número fixo de puntos en cada imaxe, asegurando que están distribuídos uniformemente por toda a imaxe.
-É unha estratexia similar ao mostraxe aleatorio, pero garantindo que se cubre a maior parte posible da imaxe. Isto é relevante en experimentos con batch sizes pequenos onde unha mostraxe aleatoria non ten por que cubrir toda a imaxe de forma uniforme.
-Para implementalo empregouse unha distribución baseada na grella de Fibonacci (Fibonacci lattice), que permite repartir os puntos de maneira uniforme sobre a superficie circular da retina. 
-A posición de cada punto calcúlase en coordenadas polares, asignando a cada punto un radio proporcional á raíz cadrada do seu índice dividido polo número total de puntos, e un ángulo proporcional ao índice multiplicado por $2\pi$ e dividido polo cadrado do número áureo ($\varphi^2$):
+\paragraph{Mostraxe Ponderada}
+Implementouse tamén unha estratexia de mostraxe ponderada, onde se seleccionan puntos aleatorios, pero con maior probabilidade de que caian nas zonas de interese (vasos sanguíneos e disco óptico), funcionando como un punto intermedio entre a mostraxe aleatoria e a mostraxe intelixente. 
+
+\paragraph{Mostraxe Uniforme}
+Introduciuse unha estratexia de mostraxe uniforme, onde se selecciona un número fixo de puntos en cada imaxe, asegurando que están distribuídos uniformemente por toda a imaxe. É unha estratexia similar á mostraxe aleatoria, pero garantindo que se cobre a maior parte posible da imaxe. Isto é relevante en experimentos con tamaños de lote pequenos, onde unha mostraxe aleatoria non ten por que cubrir todas as zonas da imaxe. Para implementalo, empregouse unha distribución baseada na grella de Fibonacci (Fibonacci lattice), que permite repartir os puntos de maneira uniforme sobre a superficie circular da retina. A posición de cada punto calcúlase en coordenadas polares, asignando a cada punto un raio proporcional á raíz cadrada do seu índice dividido polo número total de puntos, e un ángulo proporcional ao índice multiplicado por $2\pi$ e dividido polo cadrado do número áureo ($\varphi^2$):
 
 \[
 r_i = \sqrt{\frac{i}{N}}, \quad \theta_i = 2\pi \frac{i}{\varphi^2}
 \]
+onde $i$ é o índice do punto ($i = 1, \dots, N$), $N$ é o número total de puntos e $\varphi$ é o número áureo. Deste xeito, conséguese unha cobertura uniforme e eficiente da rexión de interese, evitando agrupamentos ou zonas baleiras.
 
-onde $i$ é o índice do punto ($i = 1, \dots, N$), $N$ é o número total de puntos e $\varphi$ é o número áureo. 
-Deste xeito, conséguese unha cobertura uniforme e eficiente da rexión de interese, evitando agrupamentos ou zonas baleiras.
- dat
 Na figura \ref{fig:sampling_heatmaps} pódense observar os diferentes tipos de mostraxe utilizados.
 
 \begin{figure}[tbp]
@@ -530,29 +535,36 @@ Na figura \ref{fig:sampling_heatmaps} pódense observar os diferentes tipos de m
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{imaxes/muestraje/random_sampling_heatmap.png}
-        \caption{Mapa de calor de mostraxe aleatorio}
+        \caption{Mapa de calor de mostraxe aleatoria}
         \label{fig:random_sampling_heatmap}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{imaxes/muestraje/weighted_sampling_heatmap.png}
-        \caption{Mapa de calor de mostraxe con peso}
+        \caption{Mapa de calor de mostraxe ponderada}
         \label{fig:weighted_sampling_heatmap}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{imaxes/muestraje/uniform_sampling_heatmap.png}
-        \caption{Heatmap de mostraxe uniforme (100 puntos)}
+        \caption{Mapa de calor de mostraxe uniforme (100 puntos)}
         \label{fig:uniform_sampling_heatmap}
     \end{subfigure}
-    \caption{Mapas de calor de mostraxe}
+    \caption{Mapas de calor que ilustran as diferentes estratexias de mostraxe implementadas.}
     \label{fig:sampling_heatmaps}
 \end{figure}
 
-Outra metodoloxía desenrolada foi a implementación da lotería de inicialización, que consiste en probar diferentes inicializacións dos pesos da rede para determinar cal é mais beneficiosa; e o axuste dinámico do batch size, que consiste en aumentar o tamaño do batch size ao longo do adestramento.
-Para esta última, divídense os epochs en diferentes fases, onde cada fase fai uso dun tamaño de batch size diferente.
+\subsubsection{Lotería de Inicialización}
+\label{subsubsec:loteria_inicializacion}
+Outra metodoloxía desenrolada foi a implementación da lotería de inicialización. Esta técnica consiste en probar diferentes inicializacións aleatorias dos pesos da rede para determinar cal delas resulta máis beneficiosa para a converxencia e o rendemento final do modelo, e selecionar a mellor inicialización para completar o adestramento
+
+\subsubsection{Axuste Dinámico do Tamaño do Lote}
+\label{subsubsec:axuste_dinamico_batch_size}
+Implementouse o axuste dinámico do tamaño do lote, que consiste en aumentar o `batch size` ao longo do adestramento. Para levar a cabo esta estratexia, divídense as épocas (epochs) en diferentes fases, onde cada fase fai uso dun tamaño de lote diferente, comezando normalmente con tamaños máis pequenos e aumentándoos progresivamente.
+
+
 
 \section{Métodos de Avaliación}
 \label{sec:Métodos de Avaliación}

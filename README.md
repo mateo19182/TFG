@@ -27,13 +27,13 @@ En la sección 2.2.2.2, los primeros párrafos hacen básicamente referencia a m
 
 <!-- El coste de 12€/h no está justificado. Con ese dinero no contratas ni a un empleado del hogar. Coste es coste, no lo que cobras neto asumiendo que todas las horas de la jornada son productivas. -->
 
-En el capítulo 4, la sección 4.1 tiene que mejorar. El objetivo debe ser que el que lea esa sección pueda entender de forma general todo el trabajo que se ha realizado, por lo que debe identificar claramente todo lo que se ha realizado con un resumen intuitivo de cada parte.
+<!-- En el capítulo 4, la sección 4.1 tiene que mejorar. El objetivo debe ser que el que lea esa sección pueda entender de forma general todo el trabajo que se ha realizado, por lo que debe identificar claramente todo lo que se ha realizado con un resumen intuitivo de cada parte. -->
 
-La seccion 4.3.1 ventila en una frase procesos completos como el muestreo
+<!-- La seccion 4.3.1 ventila en una frase procesos completos como el muestreo -->
 
-La sección 4.5.1 no puede ser única. Debe haber una sección para cada una de las metodologías desarrolladas, dándole entidad y explicandolas correctamente, con todo lujo de detalles.
+<!-- La sección 4.5.1 no puede ser única. Debe haber una sección para cada una de las metodologías desarrolladas, dándole entidad y explicandolas correctamente, con todo lujo de detalles. -->
 
-La sección 5.1, de forma similar a la 4.1 tiene que mejorar. De nuevo, el objetivo debe ser que al leer esa sección entiendas aproximadamente de que van todos los experimentos. Por lo tanto hay que añadir descripción y highlights de cada uno. Los detalles luego.
+<!-- La sección 5.1, de forma similar a la 4.1 tiene que mejorar. De nuevo, el objetivo debe ser que al leer esa sección entiendas aproximadamente de que van todos los experimentos. Por lo tanto hay que añadir descripción y highlights de cada uno. Los detalles luego. -->
 
 ### Capítulo 2 - Contexto
 

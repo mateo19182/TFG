@@ -7,31 +7,30 @@ seguido dos propios experimentos realizados, para finalmente analizar os resulta
 \section{Vista Xeral}
 \label{sec:Vista Xeral}
 
-O obxetivo do traballo é determinar se as redes implícitas son aptas para a tarefa de rexistro de retinas.
-A comparación principal céntrase na función de activación empregada (SIREN ou ReLU), sobre os datases FIRE e RFMID.
+O obxectivo do traballo é determinar se as redes implícitas son aptas para a tarefa de rexistro de retinas. A comparación principal céntrase na función de activación empregada (SIREN ou ReLU), sobre os datases FIRE e RFMID.
 
-Experimentaráse sobre as seguintes variables:
+A avaliación inicial sobre o dataset FIRE, como se pode ver nas figuras \ref{fig:FIRE_relu} e \ref{fig:FIRE_SIREN}, amosou un rendemento limitado. A categoría P resultou imposible de rexistrar, probablemente debido ao baixo grao de superposición entre as imaxes (<75\%), mentres que as categorías S e A apenas acadaron taxas de éxito do 20\%.
+
+Co obxectivo de mellorar este rendemento e comprender os factores clave que inflúen no rexistro, deseñouse unha serie de experimentos sistemáticos. Esta sección ofrece unha panorámica de cada un destes experimentos, adiantando a súa motivación e os seus achados principais, que serán detallados no resto do capítulo.
 
 \begin{itemize}
-    \item Función de perda
-    \item Resolución da imaxe
-    \item Regularización
-    \item Batch size
-    \item Estratexias de mostraxe
-    \item Inicialización
-    \item Axuste dinámico do batch size
+\item \textbf{Función de perda:} A motivación era atopar a métrica de similitude máis robusta para as imaxes de retina, que presentan gran variabilidade en contraste e iluminación. O principal achado foi que a elección óptima depende da natureza das imaxes: para imaxes reais con variabilidade (FIRE), as funcións baseadas en características estruturais como NCC ofreceron os mellores resultados; para imaxes sintéticas sen dita variabilidade (RFMID), as funcións baseadas en píxeles como L1 foron superiores.
+
+\item \textbf{Resolución da imaxe:} Investigouse se a alta resolución das imaxes de retina (ata 2160x2160) aportaba un beneficio significativo fronte ao custo computacional. A conclusión foi que, aínda que resolucións moi baixas eran insuficientes, non se observou unha mellora notable por enriba de 1000x1000 píxeles, establecendo este valor como un bo equilibrio entre detalle e eficiencia.
+
+\item \textbf{Regularización:} Este experimento foi crucial para evitar as deformacións non realistas, un risco particular nos modelos SIREN debido ao seu sesgo cara ás altas frecuencias. Confirmouse que certo grao de regularización é indispensable, mais a cantidade óptima de regularización non é universal, senón que depende da complexidade da transformación.
+
+\item \textbf{Batch size:} A análise cualitativa suxería que este era un parámetro de gran impacto. Os experimentos confirmaron que o tamaño do lote é un dos factores máis críticos para o éxito do rexistro. Un batch size grande (e.g., 10000 ou máis) é fundamental para obter bos resultados.
+
+\item \textbf{Estratexias de mostraxe:} A hipótese inicial era que priorizar rexións con máis información (vasos sanguíneos, disco óptico) mediante estratexias de mostraxe "intelixentes" melloraría o rendemento. Os resultados demostraron que ningunha das estratexias propostas (uniforme, ponderada) ofreceu unha vantaxe significativa sobre a mostraxe aleatoria tradicional.
+
+\item \textbf{Inicialización:} Dada a natureza non convexa do problema de optimización, explorouse se unha selección coidadosa dos pesos iniciais podería mellorar a converxencia. Implementouse unha "lotería de inicialización" que escolle a mellor de varias execucións iniciais. Observouse unha mellora marxinal pero consistente, indicando que a inicialización ten un certo impacto, aínda que non é un factor transformador.
+
+\item \textbf{Axuste dinámico do batch size:} Probouse a estratexia de comezar cun batch size pequeno para aprender a transformación global e logo aumentalo para refinar detalles locais. O resultado foi concluínte e contrario á hipótese: esta estratexia resultou ser prexudicial, empeorando o rendemento. Un batch size grande e constante dende o inicio demostrou ser máis eficaz.
+
 \end{itemize}
 
-Debido ás diferencias entre as funcións de activación, é posible que cada unha require unha configuración diferente para obter os mellores resultados.
-Por exemplo, o sesgo que SIREN ten cara sinais de alta frecuencia fará que o proceso de regularización sexa mais relevante para evitar o sobreaxuste.
-
-% \section{Experimentos}
-% \label{sec:Experimentos}
-
-A avaliación de FIRE completa, desglosada por categoría, pódese ver nas figuras \ref{fig:FIRE_relu} e \ref{fig:FIRE_SIREN}.
-A menos que especificado de outro xeito, utilizarase un learning rate de 0.0001, batch size de 10000 puntos e 1500 epochs. 
-Estos determináronse a partir dos utilizados orixinalmente por IDIR e ca análises cualitativa dos resultados obtidos en experimentos preliminares.
-
+A menos que se especifique o contrario, para os experimentos utilizarase un learning rate de 0.0001, batch size de 10000 puntos e 1500 epochs. Estes valores determináronse a partir dos utilizados orixinalmente por IDIR e da análise cualitativa dos resultados obtidos en experimentos preliminares. O conxunto destes experimentos permite construír unha comprensión detallada das fortalezas e debilidades das redes implícitas nesta tarefa.
 \begin{figure}[tbp]
     \centering
     \begin{subfigure}[b]{0.5\textwidth}
@@ -49,11 +48,6 @@ Estos determináronse a partir dos utilizados orixinalmente por IDIR e ca análi
     \caption{Métricas dataset FIRE}
     \label{fig:FIRE_scores}
 \end{figure}
-
-Obsérvase que a categoría P resulta imposible de rexistrar, teorízase que debido ao baixo grado de superposición entre as imaxes (<75\%) que impide que a rede aprenda a transformación adecuada.
-Nas categorías S e A os resultados son algo mellores, con taxas de éxito de arredor do 20\%. 
-
-Co obxetivo de mellorar o rendemento da rede nesta tarefa, realizáronse experimentos adicionais para determinar os parámetros mais relevantes e optimizalos.
 
 \subsection{Descripción dos experimentos}
 \label{subsec:Descripción dos experimentos}
