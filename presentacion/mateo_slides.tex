@@ -63,81 +63,84 @@
 
 % --- SECCIÓN 1: INTRODUCIÓN E MOTIVACIÓN --- %
 \section{Introdución e Motivación}
-
 \begin{frame}
     \frametitle{O Problema Clínico: Aliñamento de Imaxes de Retina}
-    
-    \begin{columns}
-        \begin{column}{0.6\textwidth}
-            \begin{block}{Necesidade Clínica}
-                \begin{itemize}
-                    \item O aliñamento de imaxes de retina é fundamental para:
-                    \begin{itemize}
-                        \item Rastrear a progresión de enfermidades (glaucoma, retinopatía diabética).[1]
-                        \item Fusionar información de distintas fontes (e.g., retinografía e OCT).[1]
-                        \item Comparar imaxes dun mesmo paciente ao longo do tempo.
-                    \end{itemize}
-                    \item O ollo ofrece unha xanela única para a observación \textit{in-vivo} de tecido neuronal e vasos sanguíneos, clave para o diagnóstico precoz.[1]
-                \end{itemize}
-            \end{block}
-            
-            \begin{alertblock}{O Reto}
-                O aliñamento manual é un proceso:
-                \begin{itemize}
-                    \item \textbf{Tedioso e lento}: consume tempo valioso dos especialistas.[1]
-                    \item \textbf{Subxectivo e propenso a erros}: depende da habilidade do experto.[1]
-                    \item \textbf{Non escalable}: inviable para grandes volumes de datos.
-                \end{itemize}
-                \vspace{0.2cm}
-                \rightarrow \textbf{A automatización é de gran interese clínico.}
-            \end{alertblock}
-        \end{column}
-        
-        \begin{column}{0.4\textwidth}
+
+    \begin{block}{Necesidade Clínica}
+        \begin{itemize}
+            \item O aliñamento de imaxes de retina é fundamental para:
+            \begin{itemize}
+                \item Rastrear a progresión de enfermidades como o glaucoma ou a retinopatía diabética.
+                \item Fusionar información de distintas fontes, como retinografía e OCT.
+            \end{itemize}
+            \item O ollo permite a observación directa de tecido neuronal e vasos sanguíneos, clave para o diagnóstico precoz.
+        \end{itemize}
+    \end{block}
+
+    % \vspace{0.1cm}
+
+    \begin{center}
+        \begin{minipage}{0.35\textwidth}
             \centering
-            \includegraphics[width=\textwidth]{../imaxes/retin-reg.png}
-            \small Exemplo de rexistro: Imaxe Fixa, Imaxe Móbil e resultado superposto.
-        \end{column}
-    \end{columns}
-    
+            \includegraphics[width=0.95\textwidth]{../imaxes/ojo1.png}
+        \end{minipage}
+        \hspace{0.05\textwidth}
+        \begin{minipage}{0.35\textwidth}
+            \centering
+            \includegraphics[width=0.95\textwidth]{../imaxes/ojo2.png}
+        \end{minipage}
+    \end{center}
+    % \small{Imaxes do ollo humano, extraídas de \cite{visionyojo}. Á esquerda, vista lateral do ollo anotada. Á dereita, retinografía do ollo anotada.}
+
     % NOTAS PARA O PRESENTADOR:
-    % - Comeza explicando a imaxe da dereita. "O noso obxectivo é tomar unha imaxe 'móbil' e deformala para que se aliñe perfectamente cunha imaxe 'fixa', como vemos no resultado superposto".
-    % - A continuación, expón a necesidade clínica. "Por que é isto importante? Porque permite aos médicos comparar imaxes tomadas en diferentes momentos para ver como avanza unha enfermidade, por exemplo, o glaucoma ou a retinopatía diabética".
-    % - Subliña a importancia do ollo como ferramenta de diagnóstico: "O fondo do ollo é un dos poucos lugares onde podemos ver directamente os vasos sanguíneos e o tecido neuronal, o que nos dá pistas sobre enfermidades sistémicas".
-    % - Finalmente, presenta o problema que o teu traballo resolve: "O problema é que facer isto a man é lento, difícil e subxectivo. A nosa meta é automatizar este proceso para facelo máis rápido, obxectivo e escalable, liberando o tempo dos especialistas para tarefas de maior valor clínico".
+    % - Explica a imaxe da dereita: "O obxectivo é deformar unha imaxe móbil para aliñala cunha fixa, como se ve no resultado superposto".
+    % - Expón a necesidade clínica: "Isto permite comparar imaxes tomadas en diferentes momentos para ver a evolución dunha enfermidade".
+    % - Subliña a importancia do ollo como ferramenta de diagnóstico.
 \end{frame}
 
+\begin{frame}
+    \frametitle{O Reto do Aliñamento Manual}
+
+    \begin{alertblock}{O Reto}
+        O aliñamento manual é un proceso:
+        \begin{itemize}
+            \item \textbf{Tedioso e lento}: consume tempo dos especialistas.
+            \item \textbf{Subxectivo e propenso a erros}: depende do experto.
+            \item \textbf{Non escalable}: inviable para grandes volumes de datos.
+        \end{itemize}
+        \vspace{0.2cm}
+        \rightarrow \textbf{A automatización é de gran interese clínico.}
+    \end{alertblock}
+
+    \begin{center}
+        \includegraphics[width=0.75\textwidth]{../imaxes/retin-reg.png}
+        
+        \small Imaxe fixa, móbil, deformada e resultado superposto.
+    \end{center}
+
+    % NOTAS PARA O PRESENTADOR:
+    % - Presenta o problema a resolver: "Facer isto a man é lento, difícil e subxectivo. A meta é automatizar o proceso para facelo máis rápido, obxectivo e escalable".
+\end{frame}
 \begin{frame}
     \frametitle{Obxectivos do Traballo}
     
     O obxectivo principal é \textbf{explorar a viabilidade das Representacións Neuronais Implícitas (INRs) para o aliñamento de imaxes oftalmolóxicas}.
     
-    \vspace{0.5cm}
+    \vspace{0.4cm}
     
-    Para iso, definíronse tres obxectivos específicos:
-    
+    Obxectivos específicos:
     \begin{enumerate}
-        \item \textbf{Adaptar o framework IDIR}: Modificar a arquitectura de IDIR [1, 2, 3], orixinalmente deseñada para imaxes 3D de tórax, para a súa aplicación en imaxes 2D de retina.
-        
-        \vspace{0.4cm}
-        
-        \item \textbf{Avaliar o rendemento}: Comparar sistematicamente o método proposto sobre dous conxuntos de datos con características diferentes:
+        \item \textbf{Adaptar o framework IDIR}: Modificar a arquitectura orixinal, pensada para imaxes 4D-CT de pulmóns, para rexistro en 2D de retina.
+        \item \textbf{Avaliar o rendemento}: Comparar o método en dous conxuntos de datos:
         \begin{itemize}
-            \item \textbf{FIRE}: Imaxes clínicas reais, con variabilidade e desafíos do mundo real.[1]
-            \item \textbf{RFMID}: Imaxes sintéticas con transformacións xeométricas coñecidas para illar e medir a capacidade de rexistro do modelo.[1]
+            \item \textbf{FIRE}: Imaxes clínicas reais, con variabilidade do mundo real.
+            \item \textbf{RFMID}: Imaxes sintéticas con transformacións coñecidas.
         \end{itemize}
-        
-        \vspace{0.4cm}
-        
-        \item \textbf{Analizar a función de activación SIREN}: Investigar se a función de activación sinusoidal (SIREN) [1, 4, 5] ofrece vantaxes sobre a estándar (ReLU) para capturar as deformacións complexas e detalladas típicas das imaxes de retina.
+        \item \textbf{Analizar a os resultados}: En particular se a activación SIREN ofrece vantaxes para capturar deformacións.
     \end{enumerate}
     
     % NOTAS PARA O PRESENTADOR:
-    % - Presenta os obxectivos de forma clara e estruturada. Isto demostra que o traballo ten un plan de investigación sólido.
-    % - Obxectivo 1: "O noso punto de partida é un método recente e prometedor chamado IDIR, pero que foi deseñado para imaxes 3D. O noso primeiro obxectivo foi un traballo de enxeñaría: adaptalo ao noso problema de imaxes 2D de retina."
-    % - Obxectivo 2: "Unha vez adaptado, tiñamos que probalo rigorosamente. Para iso, usamos dous datasets. RFMID, que é sintético, permítenos medir a precisión xeométrica do modelo en condicións ideais. FIRE, con imaxes reais, pon a proba a súa robustez ante os desafíos clínicos." Isto mostra un bo deseño experimental.
-    % - Obxectivo 3: "Finalmente, o obxectivo máis científico. Queriamos investigar unha hipótese clave: se unha arquitectura específica, chamada SIREN, que ten propiedades teóricas interesantes, podería superar as limitacións das redes estándar para esta tarefa tan detallada."
-    % - Conclúe: "En resumo: adaptamos, probamos e investigamos unha hipótese central."
+    % - Resume: adaptamos un método, probámolo en dous escenarios e analizamos se SIREN mellora os resultados fronte a ReLU.
 \end{frame}
 
 
