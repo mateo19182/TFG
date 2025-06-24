@@ -143,55 +143,61 @@
     % - Resume: adaptamos un método, probámolo en dous escenarios e analizamos se SIREN mellora os resultados fronte a ReLU.
 \end{frame}
 
-
 % ------------------- SECCIÓN 2:  Contexto e Estado da Arte ---------------------- %
 \section{Contexto e Estado da Arte}
 
 \begin{frame}
-    \frametitle{Rexistro Deformable e Representacións Neuronais Implícitas (INRs)}
+    \frametitle{Rexistro Deformable: Campo de Vectores de Deformación}
     
-    \begin{columns}
-        \begin{column}{0.55\textwidth}
-            \begin{block}{Rexistro Deformable}
-                O obxectivo é atopar unha transformación non ríxida, $\Phi$, que mapea cada coordenada $x$ da imaxe móbil á súa localización correspondente na imaxe fixa.[1]
-                \begin{itemize}
-                    \item Esta transformación modélase como un \textbf{Campo de Vectores de Deformación} (DFV), que indica o desprazamento de cada punto.
-                    \item \textbf{Enfoque tradicional}: Representar o DFV nunha grella discreta de píxeles. Isto ten limitacións de resolución e memoria.[1]
-                \end{itemize}
-            \end{block}
-            
-            \begin{alertblock}{A Nosa Proposta: Representacións Neuronais Implícitas (INRs)}
-                En lugar dunha grella, representamos a transformación $\Phi$ como unha \textbf{función continua}, parametrizada polos pesos dunha rede neuronal (MLP).[1, 3, 6]
-                \begin{itemize}
-                    \item \textbf{Entrada}: Coordenada $(x, y)$.
-                    \item \textbf{Saída}: Vector de desprazamento $(dx, dy)$.
-                    \item \textbf{Vantaxes clave}:
-                    \begin{itemize}
-                        \item \textbf{Independencia da resolución}: A función é continua, non depende do tamaño da imaxe.[7, 8]
-                        \item \textbf{Gradientes analíticos}: Permite calcular derivadas exactas da deformación, crucial para unha regularización precisa.[1, 3, 6]
-                    \end{itemize}
-                \end{itemize}
-            \end{alertblock}
-        \end{column}
-        
-        \begin{column}{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{../imaxes/dfv_arrows.png}
-            \includegraphics[width=\textwidth]{../imaxes/dfv_grid.png}  
-            \small{Visualización do campo de vectores de deformación (DFV). Á esquerda, representación mediante frechas. Á dereita, esta deformación aplicada a unha cuadrícula.}
-            \label{fig:dfv_visualization} 
-        \end{column}
+    \begin{block}{Rexistro Deformable}
+        O obxectivo é atopar unha transformación non ríxida que mapea cada coordenada $x$ da imaxe móbil á súa localización correspondente na imaxe fixa.
+        \begin{itemize}
+            \item Esta transformación modélase como un \textbf{Campo de Vectores de Deformación} (DFV), que indica o desprazamento de cada punto.
+            \item \textbf{Enfoque tradicional}: Representar o DFV nunha grella discreta de píxeles. Isto ten limitacións de resolución e memoria.
+        \end{itemize}
+    \end{block}
 
-    \end{columns}
-    
+    % \vspace{0.3cm}
+
+    \begin{minipage}{0.35\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{../imaxes/dfv_arrows.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.35\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{../imaxes/dfv_grid.png}
+    \end{minipage}
+
+    % \vspace{0.1cm}
+    \begin{center}
+        \small{Visualización do campo de vectores de deformación (DFV). Á esquerda, representación mediante frechas. Á dereita, esta deformación aplicada a unha cuadrícula.}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Representacións Neuronais Implícitas (INRs)}
+    \begin{block}{A Nosa Proposta: Representacións Neuronais Implícitas (INRs)}
+        En lugar dunha grella, representamos a transformación $\Phi$ como unha \textbf{función continua}, parametrizada polos pesos dunha rede neuronal (MLP).[1, 3, 6]
+        \begin{itemize}
+            \item \textbf{Entrada}: Coordenada $(x, y)$.
+            \item \textbf{Saída}: Vector de desprazamento $(dx, dy)$.
+            \item \textbf{Vantaxes clave}:
+            \begin{itemize}
+                \item \textbf{Independencia da resolución}: A función é continua, non depende do tamaño da imaxe.[7, 8]
+                \item \textbf{Gradientes analíticos}: Permite calcular derivadas exactas da deformación, crucial para unha regularización precisa.[1, 3, 6]
+            \end{itemize}
+        \end{itemize}
+    \end{block}
+\end{frame}
+  
     % NOTAS PARA O PRESENTADOR:
     % - Empeza coa imaxe: "Para aliñar as imaxes, necesitamos calcular un campo de vectores de deformación, ou DFV. Como se ve á dereita, este campo nos di como torcer e estirar unha grella para que coincida coa outra imaxe."
     % - Explica o enfoque tradicional: "A forma clásica de facer isto é almacenar estes vectores nunha grella de píxeles. Pero isto consume moita memoria e a precisión está limitada pola resolución da grella."
     % - Introduce o cambio de paradigma coas INRs: "O noso enfoque é diferente e máis moderno. En lugar dunha grella, usamos unha pequena rede neuronal para que *aprenda a función* matemática da deformación. Esta rede toma como entrada unha coordenada (x,y) e devolve o desprazamento (dx,dy) para ese punto."
     % - Destaca as dúas vantaxes fundamentais: "Isto ten dúas vantaxes enormes. Primeiro, como é unha función continua, é independente da resolución da imaxe. Segundo, e máis importante, podemos calcular as súas derivadas de forma exacta e analítica. Isto é un salto cualitativo sobre as aproximacións numéricas dos métodos baseados en grellas e, como veremos, permítenos usar 'regras' ou regularizacións moito máis sofisticadas."
-\end{frame}
 
-\begin{frame}
+    \begin{frame}
     \frametitle{A Vantaxe de SIREN: Superando o "Sesgo Espectral"}
     
     \begin{block}{O Problema das Redes Estándar (con ReLU)}
@@ -536,10 +542,8 @@
 \begin{frame}
     \centering
     \Huge
-    Grazas pola vosa atención.
+    Grazas pola atención.
     \vspace{1cm}
-    \Large
-    Preguntas?
 \end{frame}
 
 % --- DIAPOSITIVA DE BACKUP PARA PREGUNTAS ---
