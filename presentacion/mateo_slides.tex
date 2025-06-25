@@ -462,216 +462,508 @@ $$
 
 
 % ------------------- SECCIÓN 4: EXPERIMENTOS E RESULTADOS ---------------------- %
-\section{Experimentos e Resultados}
+% \section{Experimentos e Resultados}
 
 \begin{frame}
-    \frametitle{Contorno Experimental: Datasets e Métricas}
-    
+    \frametitle{Datasets Utilizados}
+
     \begin{columns}
         \begin{column}{0.5\textwidth}
-            \begin{block}{Datasets de Avaliación}
+            \begin{block}{FIRE}
                 \begin{itemize}
-                    \item \textbf{FIRE} [1]:
-                    \begin{itemize}
-                        \item 134 pares de imaxes \textbf{clínicas reais}.
-                        \item Inclúe variacións de iluminación, contraste, e patoloxías.
-                        \item Baixa superposición nalgunhas imaxes.
-                        \item \textbf{Proba de robustez no mundo real}.
-                    \end{itemize}
-                    \vspace{0.3cm}
-                    \item \textbf{RFMID (Sintético)} [1]:
-                    \begin{itemize}
-                        \item Xeramos pares de imaxes aplicando transformacións xeométricas \textbf{coñecidas e controladas}.
-                        \item Sen variacións de aparencia.
-                        \item \textbf{Proba da capacidade xeométrica fundamental do modelo}.
-                    \end{itemize}
+                    \item 134 pares de imaxes \textbf{clínicas reais}.
+                    \item Diferentes graos de variacións en iluminación, patoloxías e superposición.
                 \end{itemize}
             \end{block}
         \end{column}
-        
         \begin{column}{0.5\textwidth}
-            \centering
-            \includegraphics[width=0.8\textwidth]{../imaxes/fire-ej.png}
-            \small{figure}{Exemplos do dataset FIRE. De esquerda a dereita: categorías S, P, A. Adaptado de.[1]}
+            \begin{block}{RFMID}
+                \begin{itemize}
+                    \item Xeramos pares de imaxes aplicando transformacións xeométricas \textbf{coñecidas e controladas}.
+                    \item Sen variacións de aparencia.
+                \end{itemize}
+            \end{block}
         \end{column}
     \end{columns}
-    
-    \begin{alertblock}{Métrica de Avaliación Principal}
-        Usamos o protocolo estándar de FIRE: unha gráfica que mostra a \textbf{porcentaxe de rexistros exitosos} para un limiar de erro crecente. \textbf{Máis alto e á esquerda é mellor}.[1]
-    \end{alertblock}
-    
+
+    \vspace{0.1cm}
+
+    \begin{center}
+        \begin{minipage}{0.35\textwidth}
+            \centering
+            \includegraphics[width=0.95\textwidth]{../imaxes/fire-ej.png}\\
+            \small FIRE
+        \end{minipage}
+        \hspace{0.1\textwidth}
+        \begin{minipage}{0.4\textwidth}
+            \centering
+            \includegraphics[width=0.95\textwidth]{../imaxes/rfmid_ej.png}\\
+            \small RFMID
+        \end{minipage}
+        
+        % \vspace{0.2cm}
+        % \small{Exemplos do dataset FIRE e RFMID.}
+    \end{center}
     % NOTAS PARA O PRESENTADOR:
     % - Explica a estratexia dos dous datasets. "Para avaliar o noso método de forma completa, utilizamos dous conxuntos de datos moi diferentes."
     % - Describe RFMID: "Primeiro, un dataset sintético que creamos a partir de RFMID. Aquí, nós aplicamos as deformacións, polo que coñecemos a solución exacta. Isto permítenos illar e medir a capacidade pura do modelo para aprender unha transformación xeométrica, sen outras complicacións."
     % - Describe FIRE: "Despois, probamos o modelo no 'mundo real' co dataset FIRE. Estas son imaxes clínicas reais, con todos os seus problemas: diferente iluminación, baixo contraste, enfermidades e, o máis difícil, áreas que non se solapan. Este dataset pon a proba a robustez do noso método."
     % - A lóxica é clara: "Se un modelo funciona en RFMID pero non en FIRE, sabemos que o problema non é a súa capacidade xeométrica, senón a súa fraxilidade ante as variacións de aparencia. Esta estratexia permítenos diagnosticar mellor o comportamento do modelo."
+\end{frame}
+
+\begin{frame}
+    \frametitle{Métrica de Avaliación}
+    \begin{alertblock}{Protocolo de Avaliación}
+        Usamos o protocolo estándar de FIRE: unha gráfica que mostra a \textbf{porcentaxe de rexistros exitosos} para un limiar de erro crecente. \textbf{Máis alto e á esquerda é mellor}.
+    \end{alertblock}
+
+    \includegraphics[width=0.95\textwidth]{../imaxes/fire_aval.png}
+
+
+
+    % NOTAS PARA O PRESENTADOR:
     % - Explica a métrica de forma sinxela: "Para comparar resultados, usamos a métrica estándar de FIRE. É unha gráfica onde o ideal é estar o máis arriba e á esquerda posible. Isto significa que conseguimos moitos rexistros correctos con moi pouco erro."
 \end{frame}
 
-\begin{frame}
-    \frametitle{Resultados Cuantitativos: ReLU vs. SIREN}
-    
-    \begin{block}{Achado Principal: O rendemento depende da complexidade do problema}
-        Non hai un gañador absoluto. A arquitectura óptima depende da natureza da transformación a aprender.
-    \end{block}
-    
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            \centering
-            \begin{tabular}{lcc}
-                \toprule
-                \textbf{Método} & \textbf{Dataset} & \textbf{Dist. Media (px) $\downarrow$} \\
-                \midrule
-                MLP-ReLU & RFMID (Sinxelo) & \textbf{Moi Baixo} \\
-                MLP-SIREN & RFMID (Sinxelo) & Lixeiramente Maior \\
-                \midrule
-                MLP-ReLU & FIRE (Complexo) & Alto \\
-                \rowcolor{ficblue!20}
-                \textbf{MLP-SIREN} & \textbf{FIRE (Complexo)} & \textbf{Lixeiramente Mellor} \\
-                \bottomrule
-            \end{tabular}
-            \small{table}{Resumo simplificado dos resultados. Datos de.[1]}
-            
-            \vspace{0.5cm}
-            \textbf{Outros achados clave}:
-            \begin{itemize}
-                \item O \textbf{tamaño do lote (\textit{batch size})} é un dos parámetros máis críticos. Lotes grandes ($>10000$) son esenciais.[1]
-                \item O rexistro falla cando a \textbf{superposición} entre imaxes é baixa ($<75\%$, categoría P de FIRE).[1]
-            \end{itemize}
-        \end{column}
-        
-        \begin{column}{0.5\textwidth}
-            \centering
-        \includegraphics[width=\textwidth]{../imaxes/batchsize/fire_registration_scores_bs_relu_S.png}
-                \includegraphics[width=\textwidth]{../imaxes/batchsize/fire_registration_scores_bs_siren_S.png}    
-        \small{figure}{Comparativa de rendemento en FIRE (Cat. S). Adaptado de.[1]}
-        \end{column}
-    \end{columns}
-    
-    % NOTAS PARA O PRESENTADOR:
-    % - Este é o slide de resultados máis importante. Sexa claro e directo.
-    % - Comeza coa táboa: "Os nosos experimentos revelaron un resultado interesante e cheo de matices. Non hai unha arquitectura que sexa sempre mellor."
-    % - Explica a primeira parte (RFMID): "No noso dataset sintético, con transformacións sinxelas e globais, a rede con ReLU funciona mellor. A súa natureza máis simple é unha vantaxe para problemas simples."
-    % - Explica a segunda parte (FIRE): "Pero, cando pasamos ao dataset real FIRE, con deformacións locais e complexas, SIREN toma a dianteira, aínda que por unha marxe pequena. A súa capacidade para modelar detalles finos, como prediciamos, dálle unha vantaxe."
-    % - Mostra a gráfica: "Esta gráfica do dataset FIRE confirma visualmente que SIREN (en laranxa) consegue un rendemento lixeiramente superior a ReLU (en azul)."
-    % - Menciona os outros factores críticos: "Ademais da arquitectura, descubrimos que dous factores son absolutamente clave: usar un tamaño de lote moi grande para darlle á rede suficiente información en cada paso, e que o método ten dificultades cando as imaxes se solapan pouco."
-    % - Conclusión da diapositiva: "A lección principal é que a elección da arquitectura debe coincidir coa complexidade do problema. Non hai unha solución única."
-\end{frame}
 
 \begin{frame}
-    \frametitle{Análise Cualitativa: Éxitos e Fracasos}
+    \frametitle{Análise Cualitativa}
     
-    \begin{block}{Unha imaxe vale máis que mil números}
+    \begin{block}{Análise Visual}
         A avaliación visual é crucial para entender \textit{como} e \textit{por que} o método funciona ou falla.
     \end{block}
-    
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
+
             \centering
             \textbf{Rexistro Exitoso (RFMiD, ReLU)}
-        \includegraphics[width=\textwidth]{../imaxes/reg_examples/RFMID_MLP_buena.png}
-            \vspace{0.2cm}
-            A superposición en modo \textit{checkerboard} mostra unha continuidade perfecta dos vasos sanguíneos. A grella de deformación é suave.
-        \end{column}
-        
-        \begin{column}{0.5\textwidth}
-            \centering
-            \textbf{Rexistro Fallido (RFMiD, ReLU)}
-        \includegraphics[width=\textwidth]{../imaxes/reg_examples/RFMID_MLP_mala.png}
-            \vspace{0.2cm}
-            Os vasos están rotos na superposición. A grella de deformación mostra \textbf{pregamentos} non físicos, un síntoma de sobreaxuste local.
-        \end{column}
-    \end{columns}
+            \includegraphics[width=\textwidth]{../imaxes/reg_examples/RFMID_MLP_buena.png}
+            \small{A grella de deformación é suave e os puntos de control (azul) axústanse correctamente.}
+
+    
     % NOTAS PARA O PRESENTADOR:
-    % - "Os números son importantes, pero as imaxes permítennos ver o que realmente está a pasar."
-    % - Mostra o exemplo de éxito: "Á esquerda temos un rexistro exitoso. Se nos fixamos na imaxe de 'checkerboard', vemos como os vasos sanguíneos flúen sen interrupcións entre os cadrados. Isto indica un aliñamento moi preciso. A grella de deformación de abaixo é suave e fisicamente plausible."
-    % - Mostra o exemplo de fracaso: "Á dereita, un caso de fracaso. Os vasos están claramente desalineados e 'rotos' no checkerboard. O máis interesante é a grella de deformación. Vemos como se prega sobre si mesma, creando unha transformación que é imposible no mundo físico. Isto é un sinal claro de que a rede, nun intento de aliñar as imaxes, atopou unha solución matematicamente válida pero incorrecta."
-    % - Conclúe a análise: "Esta análise visual é fundamental. Non só confirma os nosos resultados cuantitativos, senón que nos axuda a diagnosticar os modos de fallo do modelo, o que nos dá pistas sobre como melloralo no futuro."
+    % - "Pero os números non o son todo. Vexamos que pasa realmente."
+    % - "Á esquerda, un caso de éxito. A grella de abaixo é suave, coma se estirásemos unha goma. Os puntos de control azuis (os que move a rede) caen sobre os brancos (os obxectivo)."
+    % - "Á dereita, un fracaso. A rede, intentando aliñar, 'rompe' a imaxe. A grella está pregada sobre si mesma, algo fisicamente imposible. Isto é o que a regularización intenta evitar."
 \end{frame}
 
-% ------------------- SECCIÓN 5: CONCLUSIÓNS E TRABALLO FUTURO ---------------------- %
+
+% \begin{frame}
+%     \frametitle{Resultados Cuantitativos: ReLU vs. SIREN}
+    
+%     \begin{block}{Achado Principal: O rendemento depende da complexidade do problema}
+%         Non hai un gañador absoluto. A arquitectura óptima depende da natureza da transformación a aprender.
+%     \end{block}
+    
+%     \begin{columns}
+%         \begin{column}{0.5\textwidth}
+%             \centering
+%             \begin{tabular}{lcc}
+%                 \toprule
+%                 \textbf{Método} & \textbf{Dataset} & \textbf{Dist. Media (px) $\downarrow$} \\
+%                 \midrule
+%                 MLP-ReLU & RFMID (Sinxelo) & \textbf{Moi Baixo} \\
+%                 MLP-SIREN & RFMID (Sinxelo) & Lixeiramente Maior \\
+%                 \midrule
+%                 MLP-ReLU & FIRE (Complexo) & Alto \\
+%                 \rowcolor{ficblue!20}
+%                 \textbf{MLP-SIREN} & \textbf{FIRE (Complexo)} & \textbf{Lixeiramente Mellor} \\
+%                 \bottomrule
+%             \end{tabular}
+%             \small{table}{Resumo simplificado dos resultados. Datos de.[1]}
+            
+%             \vspace{0.5cm}
+%             \textbf{Outros achados clave}:
+%             \begin{itemize}
+%                 \item O \textbf{tamaño do lote (\textit{batch size})} é un dos parámetros máis críticos. Lotes grandes ($>10000$) son esenciais.[1]
+%                 \item O rexistro falla cando a \textbf{superposición} entre imaxes é baixa ($<75\%$, categoría P de FIRE).[1]
+%             \end{itemize}
+%         \end{column}
+        
+%         \begin{column}{0.5\textwidth}
+%             \centering
+%         \includegraphics[width=\textwidth]{../imaxes/batchsize/fire_registration_scores_bs_relu_S.png}
+%                 \includegraphics[width=\textwidth]{../imaxes/batchsize/fire_registration_scores_bs_siren_S.png}    
+%         \small{figure}{Comparativa de rendemento en FIRE (Cat. S). Adaptado de.[1]}
+%         \end{column}
+%     \end{columns}
+    
+%     % NOTAS PARA O PRESENTADOR:
+%     % - Este é o slide de resultados máis importante. Sexa claro e directo.
+%     % - Comeza coa táboa: "Os nosos experimentos revelaron un resultado interesante e cheo de matices. Non hai unha arquitectura que sexa sempre mellor."
+%     % - Explica a primeira parte (RFMID): "No noso dataset sintético, con transformacións sinxelas e globais, a rede con ReLU funciona mellor. A súa natureza máis simple é unha vantaxe para problemas simples."
+%     % - Explica a segunda parte (FIRE): "Pero, cando pasamos ao dataset real FIRE, con deformacións locais e complexas, SIREN toma a dianteira, aínda que por unha marxe pequena. A súa capacidade para modelar detalles finos, como prediciamos, dálle unha vantaxe."
+%     % - Mostra a gráfica: "Esta gráfica do dataset FIRE confirma visualmente que SIREN (en laranxa) consegue un rendemento lixeiramente superior a ReLU (en azul)."
+%     % - Menciona os outros factores críticos: "Ademais da arquitectura, descubrimos que dous factores son absolutamente clave: usar un tamaño de lote moi grande para darlle á rede suficiente información en cada paso, e que o método ten dificultades cando as imaxes se solapan pouco."
+%     % - Conclusión da diapositiva: "A lección principal é que a elección da arquitectura debe coincidir coa complexidade do problema. Non hai unha solución única."
+% \end{frame}
+
+% \begin{frame}
+%     \frametitle{Análise Cualitativa: Éxitos e Fracasos}
+    
+%     \begin{block}{Unha imaxe vale máis que mil números}
+%         A avaliación visual é crucial para entender \textit{como} e \textit{por que} o método funciona ou falla.
+%     \end{block}
+    
+%     \begin{columns}
+%         \begin{column}{0.5\textwidth}
+%             \centering
+%             \textbf{Rexistro Exitoso (RFMiD, ReLU)}
+%         \includegraphics[width=\textwidth]{../imaxes/reg_examples/RFMID_MLP_buena.png}
+%         \end{column}
+        
+%         \begin{column}{0.5\textwidth}
+%             \centering
+%             \textbf{Rexistro Fallido (RFMiD, ReLU)}
+%         \includegraphics[width=\textwidth]{../imaxes/reg_examples/RFMID_MLP_mala.png}
+%         \end{column}
+%     \end{columns}
+%     % NOTAS PARA O PRESENTADOR:
+%     % - "Os números son importantes, pero as imaxes permítennos ver o que realmente está a pasar."
+%     % - Mostra o exemplo de éxito: "Á esquerda temos un rexistro exitoso. Se nos fixamos na imaxe de 'checkerboard', vemos como os vasos sanguíneos flúen sen interrupcións entre os cadrados. Isto indica un aliñamento moi preciso. A grella de deformación de abaixo é suave e fisicamente plausible."
+%     % - Mostra o exemplo de fracaso: "Á dereita, un caso de fracaso. Os vasos están claramente desalineados e 'rotos' no checkerboard. O máis interesante é a grella de deformación. Vemos como se prega sobre si mesma, creando unha transformación que é imposible no mundo físico. Isto é un sinal claro de que a rede, nun intento de aliñar as imaxes, atopou unha solución matematicamente válida pero incorrecta."
+%     % - Conclúe a análise: "Esta análise visual é fundamental. Non só confirma os nosos resultados cuantitativos, senón que nos axuda a diagnosticar os modos de fallo do modelo, o que nos dá pistas sobre como melloralo no futuro."
+% \end{frame}
+
+
+% ------------------- SECCIÓN 4: EXPERIMENTOS E RESULTADOS ---------------------- %
+\section{Experimentos e Resultados}
+
+% \begin{frame}
+%     \frametitle{Visión Xeral dos Experimentos}
+    
+%     \begin{block}{Obxectivo Experimental}
+%         Avaliar sistematicamente os factores que inflúen no rendemento do rexistro con representacións implícitas (IDIR) para imaxes de retina.
+%     \end{block}
+    
+%     \begin{itemize}
+%         \item \textbf{Comparación principal}: Función de activación \textbf{ReLU} vs. \textbf{SIREN}.
+%         \item \textbf{Parámetros investigados}:
+%         \begin{itemize}
+%             \item Función de perda (similitude).
+%             \item Resolución da imaxe.
+%             \item Peso da regularización.
+%             \item Tamaño do lote (\textit{batch size}).
+%         \end{itemize}
+%         \item \textbf{Estratexias exploradas}:
+%         \begin{itemize}
+%             \item Mostraxe de puntos (aleatoria, ponderada, etc.).
+%             \item Inicialización dos pesos da rede.
+%             \item Axuste dinámico do tamaño do lote.
+%         \end{itemize}
+%     \end{itemize}
+    
+%     % NOTAS PARA O PRESENTADOR:
+%     % - "Para entender como funciona o noso método, fixemos unha serie de experimentos."
+%     % - "O principal era comparar ReLU con SIREN, pero tamén analizamos como afectan a función de perda, a resolución, a regularización e o tamaño do lote."
+%     % - "Ademais, probamos algunhas estratexias máis avanzadas como a mostraxe intelixente e diferentes formas de inicializar a rede."
+% \end{frame}
+
+\begin{frame}
+    \frametitle{Experimentos: Función de Perda}
+    
+    \begin{block}{Motivación}
+        Atopar a métrica de similitude máis robusta para as imaxes de retina.
+    \end{block}
+    
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{../imaxes/losstype.png}
+    \end{center}
+    
+    % NOTAS PARA O PRESENTADOR:
+    % - "Comezamos por elixir a mellor forma de medir se dúas imaxes se parecen."
+    % - "O gráfico mostra as diferentes métricas probadas."
+\end{frame}
+
+\begin{frame}
+    \frametitle{Experimento: Función de Perda}
+    \begin{alertblock}{Conclusión}
+        A métrica ideal depende da natureza dos datos:
+        \begin{itemize}
+            \item \textbf{FIRE}: Métricas estruturais como \textbf{NCC} funcionan mellor.
+            \item \textbf{RFMID}: Métricas baseadas en píxeles como \textbf{L1} ou MSE son superiores.
+        \end{itemize}
+    \end{alertblock}   
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{../imaxes/losstype.png}
+    \end{center}
+    
+    % NOTAS PARA O PRESENTADOR:
+    % - "O gráfico mostra claramente que para imaxes reais (FIRE), as métricas que entenden a estrutura, como NCC, son moito mellores (barra azul máis baixa)."
+    % - "Pero para imaxes sintéticas sen cambios de iluminación (RFMID), unha simple resta de píxeles como L1 é suficiente."
+    % - "Isto dinos que para aplicacións reais, NCC é a opción correcta."
+\end{frame}
+
+\begin{frame}
+    \frametitle{Experimento: Resolución da Imaxe}
+
+    \begin{block}{Motivación}
+        Determinar se usar imaxes de alta resolución (ata 2160x2160px) mellora o resultado ou só aumenta o custo computacional.
+    \end{block}
+
+    \centering
+    \includegraphics[width=0.9\textwidth]{../imaxes/resolutionchart.png}
+    \begin{alertblock}{Conclusión}
+        Non se observa unha mellora significativa por enriba de \textbf{1250x1250 píxeles}. Este tamaño ofrece un bo equilibrio.
+    \end{alertblock}
+    % NOTAS PARA O PRESENTADOR:
+    % - "A continuación, preguntámonos: necesitamos toda a resolución da imaxe?"
+    % - "Como vemos na gráfica, aínda que hai unha pequena mellora ao aumentar a resolución, esta é marxinal despois dos 1000 píxeles."
+\end{frame}
+
+% \begin{frame}
+%     \frametitle{Experimento: Resolución da Imaxe}
+
+
+
+%     \centering
+%     \includegraphics[width=0.9\textwidth]{../imaxes/resolutionchart.png}
+
+
+%     % NOTAS PARA O PRESENTADOR:
+%     % - "Por tanto, para o resto de experimentos, fixamos a resolución en 1000x1000 para ser eficientes sen perder precisión."
+% \end{frame}
+
+\begin{frame}
+    \frametitle{Experimento: Regularización}
+    
+    % \begin{block}{Motivación}
+    %     Evitar deformacións non realistas (pregamentos, distorsións extremas), especialmente nos modelos SIREN que tenden a solucións de alta frecuencia.
+    % \end{block}
+    
+    \begin{columns}[T]
+        \begin{column}{0.35\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{../imaxes/reg_examples/barplot_hyper_reg_comparison_MLP_vs_SIREN_FIRE.png}
+            \small{Regularización hiperelástica en FIRE}
+        \end{column}
+        \begin{column}{0.35\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{../imaxes/reg_examples/barplot_hyper_reg_comparison_MLP_vs_SIREN_RFMID.png}
+            \small{Regularización hiperelástica en RFMID}
+        \end{column}
+    \end{columns}
+    
+    \vspace{0.2cm}
+    
+    \begin{alertblock}{Conclusión Principal}
+        A regularización é \textbf{indispensable} para SIREN. A cantidade óptima depende transformación concreta: deformacións máis complexas (FIRE) benefícianse de maior regularización.
+    \end{alertblock}
+    
+    % NOTAS PARA O PRESENTADOR:
+    % - "A regularización é como poñerlle regras físicas á rede."
+    % - "Á esquerda, vemos o que pasa sen regras: a rede crea unha deformación imposible, con pregamentos. Á dereita, con demasiadas regras, a deformación é demasiado ríxida e non aliña ben."
+    % - "A lección é que necesitamos un equilibrio. E ese equilibrio cambia: problemas máis difíciles necesitan regras máis estritas."
+\end{frame}
+
+\begin{frame}
+    \frametitle{Experimento: Tamaño do Lote}
+    
+    % \begin{block}{Motivación}
+    %     A análise cualitativa inicial suxeriu que este é un dos parámetros máis críticos para o éxito do adestramento.
+    % \end{block}
+    
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{../imaxes/batchsize/fire_registration_scores_bs_relu_S.png}
+                        \small{ReLU (FIRE - Cat. S)}
+
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{../imaxes/batchsize/fire_registration_scores_bs_siren_S.png}
+                   \small{SIREN (FIRE - Cat. S)}
+        \end{column}
+    \end{columns}
+    
+    \begin{alertblock}{Conclusión}
+        Un tamaño de lote >10,000 é fundamental para obter bos resultados. Tamaños moi superiores non ofrecen beneficios significativos.
+    \end{alertblock}
+    
+    % NOTAS PARA O PRESENTADOR:
+    % - "Este é un dos achados máis importantes do noso traballo."
+    % - "Estas gráficas mostran o rendemento no dataset real. A liña laranxa, cun batch size de 10.000, está moi por riba das outras."
+    % - "Isto significa que a rede necesita ver moitos puntos da imaxe en cada paso para entender ben a deformación. Usar lotes pequenos simplemente non funciona."
+\end{frame}
+% Slide 1: Estratexias de Mostraxe - Visualización e Hipótese
+\begin{frame}
+    \frametitle{Estratexia Desenvolvida: Mostraxe Intelixente (I)}
+
+    \begin{block}{Hipótese}
+        Priorizar rexións con máis información estrutural (vasos sanguíneos, disco óptico) mediante estratexias de mostraxe "intelixentes" podería mellorar o resultado final do rexistro fronte á mostraxe puramente aleatoria.
+    \end{block}
+
+    \vspace{0cm}
+
+    \begin{columns}[T]
+        \begin{column}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{../imaxes/muestraje/random_sampling_heatmap.png}
+            \small{Aleatoria}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{../imaxes/muestraje/weighted_sampling_heatmap.png}
+            \small{Ponderada}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+            \centering            
+            \includegraphics[width=\textwidth]{../imaxes/muestraje/uniform_sampling_heatmap.png}
+            \small{Uniforme}
+        \end{column}
+    \end{columns}
+    % \vspace{0.2cm}
+    \centering
+    % \small{Mapas de calor das diferentes estratexias de mostraxe implementadas.}
+\end{frame}
+% Slide 2: Estratexias de Mostraxe - Resultados e Conclusión
+\begin{frame}
+    \frametitle{Estratexia Desenvolvida: Mostraxe Intelixente (II)}
+
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+            \centering
+            \textbf{ReLU (RFMID)}
+            \includegraphics[width=\textwidth]{../imaxes/muestraje/experiment_plot_RFMID_st_relu.png}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \centering
+            \textbf{SIREN (RFMID)}
+            \includegraphics[width=\textwidth]{../imaxes/muestraje/experiment_plot_RFMID_st_SIREN.png}
+        \end{column}
+    \end{columns}
+
+    \begin{alertblock}{Resultado e Conclusións}
+        En contra da hipótese, ningunha das estratexias de mostraxe implementadas ofrece unha vantaxe significativa. Isto indica que a información relevante está suficientemente dispersa, sendo a mostraxe aleatoria axeitada sempre que o tamaño do lote sexa grande dabondo.
+    \end{alertblock}
+
+    % NOTAS PARA O PRESENTADOR:
+    % - "A primeira estratexia que probei foi unha mostraxe intelixente. A idea era sinxela: en lugar de coller puntos ao chou, centrarse nas zonas con máis detalle, como os vasos."
+    % - "Sorprendentemente, como se ve nas gráficas, onde as liñas están practicamente superpostas, isto non tivo ningún impacto relevante."
+    % - "A conclusión é que mentres o lote sexa grande, a mostraxe aleatoria xa captura suficiente información."
+\end{frame}
+
+\begin{frame}
+    \frametitle{Estratexia Desenvolvida: Lotería de Inicialización}
+    
+    \begin{block}{Hipótese}
+        Explorar varias inicializacións de pesos aleatorias e escoller a máis prometedora (baseándose na perda inicial) podería evitar mínimos locais deficientes e mellorar o rendemento final.
+    \end{block}
+    
+    \centering
+    \includegraphics[width=0.7\textwidth]{../imaxes/lottery/lotery.png}
+    
+    \begin{alertblock}{Resultado e Conclusión}
+        Obsérvase unha mellora marxinal no rendemento. A inicialización ten certo impacto, mais o seu custo computacional adicional pode non xustificar a pequena ganancia.
+    \end{alertblock}
+
+    % NOTAS PARA O PRESENTADOR:
+    % - "Sabemos que o punto de partida pode influír moito neste tipo de redes. Así que implementei unha 'lotería': probar varias inicializacións e quedar coa mellor."
+    % - "O gráfico mostra que esta estratexia funciona; usar 5 boletos de lotería é mellor que usar só 1. Con todo, a mellora é pequena e usar máis de 5 case non aporta nada."
+    % - "Isto confirma que axuda, pero non é unha solución máxica aos problemas fundamentais do rexistro."
+\end{frame}
+
+\begin{frame}
+    \frametitle{Estratexia Desenvolvida: Axuste Dinámico do Lote}
+    
+    \begin{block}{Hipótese}
+        A rede podería beneficiarse dun adestramento por fases: comezar cun \textit{batch size} pequeno para aprender a transformación global e despois aumentalo progresivamente para refinar os detalles locais da deformación.
+    \end{block}
+    
+    \centering
+    \includegraphics[width=0.7\textwidth]{../imaxes/lottery/nphases.png}
+    
+    \begin{alertblock}{Resultado e Conclusión}
+        O resultado foi concluínte e contrario á hipótese: esta estratexia resultou ser \textbf{prexudicial}, empeorando o rendemento a medida que se incrementaba o número de fases. Un \textit{batch size} grande e constante dende o inicio demostrou ser máis estable e eficaz.
+    \end{alertblock}
+
+    % NOTAS PARA O PRESENTADOR:
+    % - "A última idea parecía moi lóxica: ensinar á rede primeiro o 'bosquexo' xeral con poucos puntos, e logo os 'detalles' con moitos puntos."
+    % - "O resultado foi totalmente inesperado: foi contraproducente. Como mostra a gráfica, cantas máis fases usabamos, peor era o resultado."
+    % - "A explicación probable é que os lotes pequenos iniciais son demasiado 'ruidosos' e levan á rede por un mal camiño dende o principio, do cal non pode recuperarse. Isto reforza a nosa conclusión anterior: un lote grande dende o inicio é fundamental."
+\end{frame}
+
+% ------------------- SECCIÓN 5: CONCLUSIÓNS E TRABALLO FUTURO (VERSIÓN MELLORADA) ---------------------- %
 \section{Conclusións e Traballo Futuro}
 
 \begin{frame}
-    \frametitle{Conclusións Principais}
+    \frametitle{Conclusións}
+
+    \begin{block}{Resumo}
+        O framework IDIR funciona para rexistro de retinografías, pero a súa dependencia só da intensidade dos píxeles limita a robustez clínica.
+    \end{block}
+
+    \begin{itemize}
+        \item \textbf{ReLU}: boa en transformacións globais e lineais (\textit{RFMID}).
+        \item \textbf{SIREN}: eficaz en deformacións locais (\textit{FIRE}), pero require regularización mais coidadosa.
+        \item \textbf{Limitación clave}: Falta de correspondencia global; o método é fráxil ante grandes desprazamentos, variacións de aparencia e baixa superposición.
+    \end{itemize}
+
+    % NOTAS PARA O PRESENTADOR:
+    % - O método adapta o framework, pero non resolve a correspondencia global.
+    % - ReLU e SIREN teñen vantaxes distintas.
+    % - Os INRs puros non teñen estabilidade nin visión global abonda para rexistro clínico.
+    \end{frame}
+
+% --- DIAPOSITIVA DE TRABALLO FUTURO 1: PROPOSTA PRINCIPAL ---
+\begin{frame}
+    \frametitle{Traballo Futuro (I)}
     
-    \begin{enumerate}
-        \item \textbf{Adaptación viable pero con limitacións}: Demostrouse que é posible adaptar o framework IDIR para o rexistro de imaxes de retina 2D. Non obstante, o seu rendemento é moi sensible á complexidade da transformación e á calidade das imaxes.[1]
-        
-        \vspace{0.4cm}
-        
-        \item \textbf{Non hai unha arquitectura universalmente superior}: A elección da función de activación é un compromiso.
-        \begin{itemize}
-            \item \textbf{ReLU} é máis eficaz para transformacións sinxelas e globais (como no noso dataset sintético RFMID).
-            \item \textbf{SIREN} ten unha lixeira vantaxe en deformacións complexas e locais (dataset real FIRE), pero é máis propenso a converxer a malos mínimos locais se non se regulariza coidadosamente.[1]
-        \end{itemize}
-        
-        \vspace{0.4cm}
-        
-        \item \textbf{Principais desafíos identificados}: O rendemento do modelo degrádase significativamente ante dous escenarios comúns na práctica clínica:
-        \begin{itemize}
-            \item \textbf{Grandes desprazamentos} entre as imaxes.
-            \item \textbf{Baixa superposición} de área ($<75\%$).[1]
-        \end{itemize}
-        
-        \vspace{0.4cm}
-        
-        \item \textbf{O método é puramente baseado en intensidade}: A optimización depende unicamente da similitude dos píxeles. Isto fai que sexa vulnerable cando a topografía da función de perda é pouco convexa, dificultando a converxencia.[1]
-    \end{enumerate}
+    \begin{block}{Diagnóstico do Problema}
+        As nosas conclusións indican que os modelos INR son bos para o \textbf{refinamento local} de deformacións, pero fráxiles para atopar a \textbf{correspondencia global} inicial.
+    \end{block}
+    
+    \begin{alertblock}{Solución Proposta: Enfoque Híbrido}
+        Sistema de dous pasos que combina o mellor dos métodos baseados en características e os baseados en aprendizaxe.
+    \end{alertblock}
+    
+    \begin{itemize}
+        \item \textbf{Paso 1: Aliñamento global} cun método baseado en puntos clave.
+        \item \textbf{Paso 2: Refinamento local} usando o noso modelo INR para axustar detalles finos.
+    \end{itemize}
     
     % NOTAS PARA O PRESENTADOR:
-    % - Resume as conclusións de forma clara e concisa. Cada punto debe ser unha mensaxe clara que o tribunal poida anotar.
-    % - 1. "En primeiro lugar, demostramos que a adaptación do método é viable, pero non é unha solución máxica. O seu éxito depende moito do difícil que sexa o par de imaxes."
-    % - 2. "En segundo lugar, e quizais o achado máis importante, non hai unha 'mellor' arquitectura. ReLU funciona ben para problemas sinxelos, mentres que SIREN é lixeiramente mellor para os complexos, confirmando que a arquitectura debe ser elixida en función do problema."
-    % - 3. "En terceiro lugar, identificamos claramente os seus puntos débiles: o método sofre cando as imaxes están moi separadas ou cando apenas se solapan. Este é o principal obstáculo para a súa aplicación clínica directa."
-    % - 4. "Finalmente, o método baséase só na intensidade dos píxeles, o que o fai susceptible de quedar atrapado en solucións subóptimas. Carece dun mecanismo de correspondencia global máis robusto."
-    % - Esta forma de presentar as conclusións é honesta, reflicte unha comprensión profunda tanto dos éxitos como dos fracasos, e prepara o terreo para o traballo futuro.
+    % - "Baseado no noso diagnóstico, a liña de traballo futuro máis prometedora non é mellorar incrementalmente o noso método, senón cambiar o enfoque."
+    % - "Propomos un sistema híbrido de dous pasos. No primeiro paso, abordamos a nosa maior debilidade: a correspondencia global. Usamos ferramentas de última xeración como SuperPoint e SuperGlue para atopar un aliñamento inicial robusto, sen importar o desprazamento."
+    % - "Unha vez que as imaxes están 'preto', entra en xogo o noso método INR no segundo paso. Agora, o problema é moito máis fácil. O INR non ten que buscar a imaxe, só ten que refinar os detalles, que é onde realmente brilla."
+    % - "Este enfoque non só resolve o problema que atopamos, senón que segue a liña dos métodos máis exitosos publicados actualmente no campo."
+\end{frame}
+
+% --- DIAPOSITIVA DE TRABALLO FUTURO 2: OUTRAS LIÑAS DE INTERESE ---
+\begin{frame}
+    \frametitle{Traballo Futuro (II): Mellora da INR}
+
+    \begin{block}{Melloras na arquitectura e regularización}
+        \begin{itemize}
+            \item \textbf{Consistencia Cíclica:} Adestrar dúas redes (directa e inversa) que se regularicen mutuamente.
+            \begin{itemize}
+                \item \textit{Vantaxe clave:} Xera unha métrica de certeza da transformación, útil en aplicacións clínicas.
+            \end{itemize}
+            \item \textbf{Garantir a Invertibilidade:} Empregar arquitecturas baseadas en campos de velocidade ou redes invertibles para obter transformacións máis robustas e realistas.
+        \end{itemize}
+    \end{block}
+
+
 \end{frame}
 
 \begin{frame}
-    \frametitle{Liñas de Traballo Futuro: Cara a un Enfoque Híbrido}
-    
-    \begin{block}{Diagnóstico do Problema}
-        A nosa análise revela que o método INR é bo para o \textbf{refinamento local} de deformacións complexas, pero malo para atopar a \textbf{correspondencia global} cando os desprazamentos son grandes.[1]
+    \frametitle{Traballo Futuro (III): Coñecemento Adicional}
+
+    \begin{block}{Incorporación de coñecemento adicional}
+        \begin{itemize}
+            \item \textbf{Meta-aprendizaxe:} Aprender unha inicialización de pesos óptima a partir dun conxunto de datos para acelerar e estabilizar a converxencia en novas imaxes.
+            \item \textbf{Condicionamento por xeometría:} Incorporar coñecemento anatómico previo (ex: segmentación de vasos) para restrinxir o espazo de posibles deformacións.
+        \end{itemize}
     \end{block}
-    
-    \begin{alertblock}{Proposta de Solución: Un Enfoque Híbrido}
-        Propomos un sistema de dous pasos que combina o mellor de dous mundos, inspirado en traballos de vangarda como HybridRetina [1, 11, 12]:
-    \end{alertblock}
-    
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            \centering
-            \textbf{Paso 1: Rexistro Global Robusto}
-            \begin{itemize}
-                \item Usar un método baseado en características para obter un aliñamento inicial groso.
-                \item \textbf{Tecnoloxía}:
-                \begin{itemize}
-                    \item \textbf{SuperPoint} para detectar puntos de interese robustos.[13, 14]
-                    \item \textbf{SuperGlue} para atopar correspondencias fiables entre eses puntos, mesmo con grandes cambios.[15, 16]
-                \end{itemize}
-                \item \textbf{Resultado}: Unha transformación global (afín ou homografía) que achega as imaxes.
-            \end{itemize}
-        \end{column}
-        
-        \begin{column}{0.5\textwidth}
-            \centering
-            \textbf{Paso 2: Refinamento Local con INR}
-            \begin{itemize}
-                \item Usar o noso modelo \textbf{IDIR-SIREN} sobre as imaxes xa pre-aliñadas.
-                \item O problema de optimización agora é moito máis sinxelo, xa que só ten que aprender as pequenas deformacións non lineais residuais.
-                \item \textbf{Resultado}: Unha deformación final de alta precisión que aliña as estruturas finas.
-            \end{itemize}
-        \end{column}
-    \end{columns}
-    
+    \begin{block}{Melloras no preprocesado}
+        \begin{itemize}
+            \item Explorar técnicas de preprocesado de imaxes para mellorar a calidade dos datos de entrada e facilitar o rexistro.
+        \end{itemize}
+    \end{block}
     % NOTAS PARA O PRESENTADOR:
-    % - Esta é a diapositiva máis importante para demostrar visión e madurez investigadora.
-    % - Comeza co diagnóstico: "A partir das nosas conclusións, diagnosticamos o problema principal: o noso método é un bo 'refinador', pero un mal 'buscador' a gran escala."
-    % - Presenta a solución: "Por iso, a nosa principal proposta de traballo futuro é un enfoque híbrido, que combina as fortalezas de diferentes familias de algoritmos."
-    % - Explica o Paso 1: "No primeiro paso, usaríamos un método moderno baseado en características, como SuperPoint e SuperGlue. Estes algoritmos son excepcionalmente bos para atopar correspondencias entre puntos clave aínda que as imaxes estean moi rotadas ou desprazadas. Isto daríanos un aliñamento global inicial."
-    % - Explica o Paso 2: "Unha vez que as imaxes están 'preto', no segundo paso entraría en xogo o noso método INR con SIREN. Como xa non ten que preocuparse pola deformación grande, pode concentrarse no que fai mellor: modelar con altísima precisión as pequenas deformacións non lineais dos vasos sanguíneos."
-    % - Conclúe con forza: "Este enfoque híbrido aborda directamente a principal limitación que atopamos. Ao combinar un método robusto para o global cun método preciso para o local, cremos que podemos construír un sistema que supere as limitacións de cada un por separado e que alcance un rendemento de vangarda."
+    % - "Ademais da nosa proposta principal, a investigación revelou outras vías interesantes que merecen ser exploradas."
+    % - "Poderíamos mellorar o propio motor da rede. Por exemplo, coa consistencia cíclica, adestrar dúas redes á vez para que se 'vixíen' mutuamente, o que estabiliza o adestramento e nos dá unha métrica de confianza."
+    % - "Tamén poderíamos incorporar coñecemento externo. O meta-aprendizaxe podería darnos un 'punto de partida' moito mellor para a optimización, e o condicionamento por xeometría usaría mapas anatómicos para guiar a rede."
+    % - "Isto demostra que, aínda que o noso proxecto se pecha, abre múltiples e novas portas para futuras investigacións."
 \end{frame}
 
 
@@ -681,6 +973,8 @@ $$
     \Huge
     Grazas pola atención.
     \vspace{1cm}
+    % \large
+    % Preguntas?
 \end{frame}
 
 % --- DIAPOSITIVA DE BACKUP PARA PREGUNTAS ---
