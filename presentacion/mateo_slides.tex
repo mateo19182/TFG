@@ -648,7 +648,7 @@ $$
 %             \vspace{0.5cm}
 %             \textbf{Outros achados clave}:
 %             \begin{itemize}
-%                 \item O \textbf{tamaño do lote (\textit{batch size})} é un dos parámetros máis críticos. Lotes grandes ($>10000$) son esenciais.[1]
+%                 \item O \textbf{tamaño do lote (\textit{tamaño de lote})} é un dos parámetros máis críticos. Lotes grandes ($>10000$) son esenciais.[1]
 %                 \item O rexistro falla cando a \textbf{superposición} entre imaxes é baixa ($<75\%$, categoría P de FIRE).[1]
 %             \end{itemize}
 %         \end{column}
@@ -716,7 +716,7 @@ $$
 %             \item Función de perda (similitude).
 %             \item Resolución da imaxe.
 %             \item Peso da regularización.
-%             \item Tamaño do lote (\textit{batch size}).
+%             \item Tamaño do lote (\textit{tamaño de lote}).
 %         \end{itemize}
 %         \item \textbf{Estratexias exploradas}:
 %         \begin{itemize}
@@ -856,7 +856,7 @@ $$
     
     % NOTAS PARA O PRESENTADOR:
     % - "Este é un dos achados máis importantes do noso traballo."
-    % - "Estas gráficas mostran o rendemento no dataset real. A liña laranxa, cun batch size de 10.000, está moi por riba das outras."
+    % - "Estas gráficas mostran o rendemento no dataset real. A liña laranxa, cun tamaño de lote de 10.000, está moi por riba das outras."
     % - "Isto significa que a rede necesita ver moitos puntos da imaxe en cada paso para entender ben a deformación. Usar lotes pequenos simplemente non funciona."
 \end{frame}
 % Slide 1: Estratexias de Mostraxe - Visualización e Hipótese
@@ -953,7 +953,7 @@ $$
     \frametitle{Estratexia Desenvolvida: Axuste Dinámico do Lote (I)}
     
     \begin{block}{Hipótese}
-        A rede podería beneficiarse dun adestramento por fases: comezar cun \textit{batch size} pequeno para aprender a transformación global e despois aumentalo progresivamente para refinar os detalles locais da deformación.
+        A rede podería beneficiarse dun adestramento por fases: comezar cun \textit{tamaño de lote} pequeno para aprender a transformación global e despois aumentalo progresivamente para refinar os detalles locais da deformación.
     \end{block}
         \vspace{0.5cm}
 
@@ -967,7 +967,7 @@ $$
 \begin{frame}
     \frametitle{Estratexia Desenvolvida: Axuste Dinámico do Lote (II)}
         \begin{alertblock}{Resultado e Conclusión}
-        O resultado foi concluínte e contrario á hipótese: esta estratexia resultou ser \textbf{prexudicial}, empeorando o rendemento a medida que se incrementaba o número de fases. Un \textit{batch size} grande e constante dende o inicio demostrou ser máis estable e eficaz.
+        O resultado foi concluínte e contrario á hipótese: esta estratexia resultou ser \textbf{prexudicial}, empeorando o rendemento a medida que se incrementaba o número de fases. Un \textit{tamaño de lote} grande e constante dende o inicio demostrou ser máis estable e eficaz.
     \end{alertblock}
     \vspace{0.5cm}
     \centering

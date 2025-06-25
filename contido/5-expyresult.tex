@@ -16,21 +16,21 @@ Co obxectivo de mellorar este rendemento e comprender os factores clave que infl
 \begin{itemize}
 \item \textbf{Función de perda:} A motivación era atopar a métrica de similitude máis robusta para as imaxes de retina, que presentan gran variabilidade en contraste e iluminación. O principal achado foi que a elección óptima depende da natureza das imaxes: para imaxes reais con variabilidade (FIRE), as funcións baseadas en características estruturais como NCC ofreceron os mellores resultados; para imaxes sintéticas sen dita variabilidade (RFMID), as funcións baseadas en píxeles como L1 foron superiores.
 
-\item \textbf{Resolución da imaxe:} Investigouse se a alta resolución das imaxes de retina (ata 2160x2160) aportaba un beneficio significativo fronte ao custo computacional. A conclusión foi que, aínda que resolucións moi baixas eran insuficientes, non se observou unha mellora notable por enriba de 1000x1000 píxeles, establecendo este valor como un bo equilibrio entre detalle e eficiencia.
+\item \textbf{Resolución da imaxe:} Investigouse se a alta resolución das imaxes de retina (ata 2160x2160) aportaba un beneficio significativo fronte ao custo computacional. A conclusión foi que, aínda que resolucións moi baixas eran insuficientes, non se observou unha mellora notable por enriba de 1250x1250 píxeles, establecendo este valor como un bo equilibrio entre detalle e eficiencia.
 
 \item \textbf{Regularización:} Este experimento foi crucial para evitar as deformacións non realistas, un risco particular nos modelos SIREN debido ao seu sesgo cara ás altas frecuencias. Confirmouse que certo grao de regularización é indispensable, mais a cantidade óptima de regularización non é universal, senón que depende da complexidade da transformación.
 
-\item \textbf{Batch size:} A análise cualitativa suxería que este era un parámetro de gran impacto. Os experimentos confirmaron que o tamaño do lote é un dos factores máis críticos para o éxito do rexistro. Un batch size grande (e.g., 10000 ou máis) é fundamental para obter bos resultados.
+\item \textbf{Tamaño de lote:} A análise cualitativa suxería que este era un parámetro de gran impacto. Os experimentos confirmaron que o é un dos factores máis críticos para o éxito do rexistro. Un tamaño de lote grande (e.g., 10000 ou máis) é fundamental para obter bos resultados.
 
 \item \textbf{Estratexias de mostraxe:} A hipótese inicial era que priorizar rexións con máis información (vasos sanguíneos, disco óptico) mediante estratexias de mostraxe "intelixentes" melloraría o rendemento. Os resultados demostraron que ningunha das estratexias propostas (uniforme, ponderada) ofreceu unha vantaxe significativa sobre a mostraxe aleatoria tradicional.
 
 \item \textbf{Inicialización:} Dada a natureza non convexa do problema de optimización, explorouse se unha selección coidadosa dos pesos iniciais podería mellorar a converxencia. Implementouse unha "lotería de inicialización" que escolle a mellor de varias execucións iniciais. Observouse unha mellora marxinal pero consistente, indicando que a inicialización ten un certo impacto, aínda que non é un factor transformador.
 
-\item \textbf{Axuste dinámico do batch size:} Probouse a estratexia de comezar cun batch size pequeno para aprender a transformación global e logo aumentalo para refinar detalles locais. O resultado foi concluínte e contrario á hipótese: esta estratexia resultou ser prexudicial, empeorando o rendemento. Un batch size grande e constante dende o inicio demostrou ser máis eficaz.
+\item \textbf{Axuste dinámico do tamaño de lote:} Probouse a estratexia de comezar cun tamaño de lote pequeno para aprender a transformación global e logo aumentalo para refinar detalles locais. O resultado foi concluínte e contrario á hipótese: esta estratexia resultou ser prexudicial, empeorando o rendemento. Un tamaño de lote grande e constante dende o inicio demostrou ser máis eficaz.
 
 \end{itemize}
 
-A menos que se especifique o contrario, para os experimentos utilizarase un learning rate de 0.0001, batch size de 10000 puntos e 1500 epochs. Estes valores determináronse a partir dos utilizados orixinalmente por IDIR e da análise cualitativa dos resultados obtidos en experimentos preliminares. O conxunto destes experimentos permite construír unha comprensión detallada das fortalezas e debilidades das redes implícitas nesta tarefa.
+A menos que se especifique o contrario, para os experimentos utilizarase un learning rate de 0.0001, tamaño de lote de 10000 puntos e 1500 épocas. Estes valores determináronse a partir dos utilizados orixinalmente por IDIR e da análise cualitativa dos resultados obtidos en experimentos preliminares. O conxunto destes experimentos permite construír unha comprensión detallada das fortalezas e debilidades das redes implícitas nesta tarefa.
 \begin{figure}[tbp]
     \centering
     \begin{subfigure}[b]{0.5\textwidth}
@@ -61,14 +61,14 @@ así como determinar a súa influenza no rendemento da rede.
     \item \textbf{Función de perda:} Debido ás características únicas das imaxes de retina, con variabilidade en iluminación e contraste, é crucial determinar que función de perda é máis robusta para esta tarefa. Comparáronse funcións baseadas en píxeles (MSE, L1) con funcións baseadas en características estruturais (NCC, SSIM) para determinar cal captura mellor as correspondencias entre imaxes retinianas.
     \item \textbf{Resolución da imaxe:} As imaxes de retina poden ter resolucións de ata 2160×2160 píxeles, significativamente maiores que as imaxes de pulmón utilizadas orixinalmente por IDIR (512×512). É necesario determinar se unha maior resolución mellora o rendemento ou se introduce ruído que perxudica o rexistro.
     \item \textbf{Regularización:} SIREN ten un sesgo inherente cara sinais de alta frecuencia, o que pode provocar sobreaxuste. Avalíase o impacto de diferentes termos de regularización (jacobiana, hiperelástica, enerxía de flexión) para determinar os valores óptimos que eviten deformacións non realistas.
-    \item \textbf{Batch size:} A densidade de puntos mostrados á rede pode ser crucial para o éxito do rexistro. Batch sizes maiores proporcionan máis información por iteración, pero a un maior custo computacional. Investígase o equilibrio óptimo entre eficiencia e rendemento.
+    \item \textbf{Tamaño de lote:} A densidade de puntos mostrados á rede pode ser crucial para o éxito do rexistro. Batch sizes maiores proporcionan máis información por iteración, pero a un maior custo computacional. Investígase o equilibrio óptimo entre eficiencia e rendemento.
 \end{itemize}
 
 \textbf{Estratexias de mostraxe:} As imaxes de retina teñen zonas con diferentes cantidades de información estrutural (vasos sanguíneos, disco óptico vs. fondo uniforme). Compáranse estratexias de mostraxe aleatorio, uniforme e ponderado por contido para determinar se priorizar certas rexións mellora o rexistro.
 
-\textbf{Inicialización:} A natureza non convexa da función de perda pode facer que diferentes inicializacións converxan a mínimos locais distintos. Implementouse unha lotería de inicialización para seleccionar a inicialización máis prometedora baseándose no loss inicial.
+\textbf{Inicialización:} A natureza non convexa da función de perda pode facer que diferentes inicializacións converxan a mínimos locais distintos. Implementouse unha lotería de inicialización para seleccionar a inicialización máis prometedora baseándose na perda inicial.
 
-\textbf{Axuste dinámico do batch size:} Teorízase que a rede podería beneficiarse de aprender primeiro transformacións globais con batch sizes pequenos e despois refinar con batch sizes maiores para capturar detalles locais.
+\textbf{Axuste dinámico do tamaño de lote:} Teorízase que a rede podería beneficiarse de aprender primeiro transformacións globais con batch sizes pequenos e despois refinar con batch sizes maiores para capturar detalles locais.
 
 % \section{Experimentos iniciais}
 % \label{sec:Experimentos iniciais}
@@ -149,20 +149,20 @@ Pódense observar os puntos de control, sendo os brancos os da imaxe fixa, os ve
     \label{fig:reg_examples}
 \end{figure}
 
-\section{Función de loss}
-\label{sec:Función de loss}
+\section{Función de perda}
+\label{sec:Función de perda}
 
 \subsection{Planteamento}
-\label{subsec:Planteamento-loss}
+\label{subsec:Planteamento-perda}
 
 % A función de loss é un dos aspectos máis importantes á hora de entrenar unha rede neuronal.
-As funcións de perda valoradas para este traballo xa forón explicadas na sección \ref{subsubsec:Termos de loss}.
+As funcións de perda valoradas para este traballo xa forón explicadas na sección \ref{subsubsec:Termos de Perda}.
 
 Para determinar cal é a función de perda mais adecuada para a tarefa de rexistro de retinas, realizáronse experimentos comparando o rendemento de cada unha sobre unha mostra de imaxes dos datases de FIRE e RFMID.
 Xa que a rede non é capaz de rexistrar con éxito a gran parte das imaxes nestas condicións, tomaráse a distancia media de todos os puntos como métrica de comparación.
 
 \subsection{Resultados}
-\label{subsec:Resultados-loss}
+\label{subsec:Resultados-perda}
 
 Presentase na figura \ref{fig:loss_functions_comparison} a comparación entre as diferentes funcións de perda.
 
@@ -243,7 +243,7 @@ Para determinar cal é a resolución mais adecuada, realizáronse experimentos c
 Debido a que a rede non é capaz de rexistrar con éxito a gran parte das imaxes, tomaráse a distancia media de todos os puntos como métrica de comparación.
 
 A resolución da imaxe inflúe de forma directa no resto de parámetros da rede.
-Por exemplo, un batch size de 1000 puntos nunha imaxe de 256x256 é unha densidade de puntos moito maior que nunha imaxe de 1024x1024.
+Por exemplo, un tamaño de lote de 1000 puntos nunha imaxe de 256x256 é unha densidade de puntos moito maior que nunha imaxe de 1024x1024.
 
 Ademais, a resolución da imaxe tamén inflúe na capacidade da rede para aprender as transformacións, xa que a información que recibe é mais detallada. 
 Isto pode ser beneficioso se estos detalles conteñen información relevante para a tarefa de rexistro, pero tamén podería ser perxudicial se conteñen unha gran parte de ruido.
@@ -302,7 +302,7 @@ Baseándonos nos resultados obtidos, podemos concluír que:
 
 % 3. O comportamento respecto á resolución é consistente para ambos tipos de modelos (Relu e SIREN) e para ambos datasets (FIRE e RFMID), o que suxire que estas conclusións son xeneralizables.
 
-Para os experimentos subseguintes, adoptarase unha resolución estándar de 1000x1000 píxeles, que demostrou proporcionar un bo balance entre rendemento e eficiencia computacional.
+Para os experimentos subseguintes, adoptarase unha resolución estándar de 1250x1250 píxeles, que demostrou proporcionar un bo balance entre rendemento e eficiencia computacional.
 
 \section{Regularización}
 \label{sec:Regularización}
@@ -312,7 +312,7 @@ Para os experimentos subseguintes, adoptarase unha resolución estándar de 1000
 
 Para determinar cal é a cantidade de regularización óptima, realizáronse experimentos comparando o rendemento de cada unha sobre unha mostra de imaxes dos datases de FIRE e RFMID cas diferentes funcións de activación e diferentes grados de regularización.
 
-O proceso de regularización axuda a rede a evitar o sobreaxuste, modificando o termo de loss para penalizar as transformacións pouco realistas.
+O proceso de regularización axuda a rede a evitar o sobreaxuste, modificando o termo de perda para penalizar as transformacións pouco realistas.
 As técnicas de regularización valoradas, que xa forón explicadas en detalle na sección \ref{subsubsec:Termos de regularización}
 % , son as seguintes:
 
@@ -437,7 +437,7 @@ Isto suxire que a regularización é mais relevante onde a rede ten que aprender
 % \begin{figure}[tbp]
 %     \centering
 %     \includegraphics[width=0.8\textwidth]{imaxes/e_heatmap_MLP_RFMID.png}
-%     \caption{Mapa de calor cos resultados de diferentes combinacións de batch size e learning rate con unha mostra de imaxes de RMIFD ca función de activación ReLU}
+%     \caption{Mapa de calor cos resultados de diferentes combinacións de tamaño de lote e learning rate con unha mostra de imaxes de RMIFD ca función de activación ReLU}
 %     \label{fig:e_heatmap_MLP_RFMID}
 % \end{figure}
 
@@ -448,7 +448,7 @@ Isto suxire que a regularización é mais relevante onde a rede ten que aprender
 
 % Valores de learning rate moi altos (0.001 and 0.005) son contraproducentes, xa que a rede diverxe rapidamente.
 
-% A dependencia entre o learning rate e o batch size confirmase. Xeralmente un learning rate baixo (1.0e-05, 1.0e-06) parece requerir de batch sizes maiores e viceversa, o cal é consistente co que se esperaba.
+% A dependencia entre o learning rate e o tamaño de lote confirmase. Xeralmente un learning rate baixo (1.0e-05, 1.0e-06) parece requerir de batch sizes maiores e viceversa, o cal é consistente co que se esperaba.
 
 % Tamén observase que batch sizes maiores tenden a dar mellores resultados.
 
@@ -460,13 +460,13 @@ Isto suxire que a regularización é mais relevante onde a rede ten que aprender
 
 En base aos resultados, conclúese que a regularización é un compoñente indispensable para o rexistro de retinas con redes implícitas. O seu valor óptimo non é universal, senón que depende directamente da complexidade da transformación a aprender. Para deformacións sinxelas e lineais como as de RFMiD, unha regularización mínima é suficiente, pero para os desafíos presentes en FIRE, cunha maior non linearidade, un termo de regularización robusto é crucial para guiar a rede cara a solucións fisicamente plausibles e evitar o sobreaxuste. Confírmase tamén que os modelos SIREN, pola súa maior capacidade para representar detalles de alta frecuencia, son máis sensibles á regularización e requiren valores xeralmente máis altos que os modelos ReLU para previr artefactos. A elección do coeficiente de regularización debe considerarse unha decisión fundamental, adaptada tanto á natureza do problema de rexistro como á arquitectura da rede empregada.
 
-\section{Batch size}
-\label{sec:Batch size}
+\section{Tamaño de lote}
+\label{sec:Tamaño de lote}
 
 \subsection{Planteamento}
 \label{subsec:Planteamento-batchsize}
 
-Ao longo dos experimentos realizados, o análisis cualitativo revelou que o batch size é un dos parámetros que máis impacto ten no rendemento da rede.
+Ao longo dos experimentos realizados, o análisis cualitativo revelou que o tamaño de lote é un dos parámetros que máis impacto ten no rendemento da rede.
 
 De agora en adiante dividimos o conxunto de datos de RFMID en varios subconxuntos según a dificultade da transformación, como detallado na seccion \ref{subsec:Avaliación Cuantitativa}.
 
@@ -577,7 +577,7 @@ Nas figuras \ref{fig:batch_size_comparison_relu} e \ref{fig:batch_size_compariso
 
 Obsérvase que as redes ca función de activación ReLU tenden a ter un rendemento moito mellor que as ca función de activación SIREN. Isto pode explicarse xa que as deformacións artificiais que se aplican nas imaxes do dataset RFMID son lineais, e a función de activación ReLU é adecuada para este tipo de transformacións.
 
-Tamén parece que o batch size é relevante, especialmente o cambio entre 1000 e 10000, mentres que batch sizes maiores (50000, 100000) non parecen ter tanto impacto, aínda que si un maior custo computacional. 
+Tamén parece que o tamaño de lote é relevante, especialmente o cambio entre 1000 e 10000, mentres que batch sizes maiores (50000, 100000) non parecen ter tanto impacto, aínda que si un maior custo computacional. 
 
 Mentres que a rede é capaz de rexistrar correctamente consistentemente as imaxes do subconxunto mais sinxelos (0-150, 150-300), o rendemento decae notablemente para transformacións mais complexas (300+). 
 Isto é mais notable cando se utiliza a función de activación SIREN, que ten dificultades incluso con transformacións de complexidade media, mentres que con ReLU decae de forma lineal.
@@ -586,7 +586,7 @@ Isto é mais notable cando se utiliza a función de activación SIREN, que ten d
 \label{subsec:Conclusions-batchsize}
 
 O principal factor limitador do rendemento da rede é o tamaño e complexidade das transformacións que tenta aprender.
-Un batch size maior parece axudar, pero non é suficiente para rexistrar correctamente as imaxes con transformacións mais difíciles.
+Un tamaño de lote maior parece axudar, pero non é suficiente para rexistrar correctamente as imaxes con transformacións mais difíciles.
 
 \section{Estratexias de mostraxe}
 \label{sec:Estratexias de mostraxe}
@@ -600,7 +600,7 @@ Ademais, as retinografías teñen desprazamentos moito maiores e menor superposi
 \subsection{Plantexamento}
 \label{subsec:Plantexamento-sampling}
 
-Plantexáronse novas estratexias de mostraxe, explicadas en detalle no apartado \ref{subsec:Metodoloxías Desenrrolada}, cas cales preténdese mellorar o rendemento da rede ao proporcionarlle mais información relevante para a tarefa de rexistro.
+Plantexáronse novas estratexias de mostraxe, explicadas en detalle no apartado \ref{subsec:Metodoloxías Des}, cas cales preténdese mellorar o rendemento da rede ao proporcionarlle mais información relevante para a tarefa de rexistro.
 As estratexias de mostraxe comparadas son as seguintes:
 \begin{itemize}
     \item Mostraxe aleatoria: Selección aleatoria de puntos da imaxe.
@@ -685,7 +685,7 @@ Igual que en experimentos anteriores, a función de activación ReLU parece dar 
 
 \subsection{Conclusións}
 \label{subsec:Conclusions-sampling}
-Conclúese que, en contra da hipótese inicial, as estratexias de mostraxe implementadas, como a ponderada polo contido da imaxe, non aportan unha mellora significativa no rendemento do rexistro en comparación coa mostraxe aleatoria estándar. Isto suxire que a información relevante para a deformación está o suficientemente ben distribuída como para que unha mostraxe aleatoria sexa capaz de capturar os puntos necesarios para a converxencia, sempre que o batch size sexa adecuado.
+Conclúese que, en contra da hipótese inicial, as estratexias de mostraxe implementadas, como a ponderada polo contido da imaxe, non aportan unha mellora significativa no rendemento do rexistro en comparación coa mostraxe aleatoria estándar. Isto suxire que a información relevante para a deformación está o suficientemente ben distribuída como para que unha mostraxe aleatoria sexa capaz de capturar os puntos necesarios para a converxencia, sempre que o tamaño de lote sexa adecuado.
 
 
 \section{Inicialización}
@@ -696,7 +696,7 @@ Conclúese que, en contra da hipótese inicial, as estratexias de mostraxe imple
 
 É posible que a inicialización da rede sexa un factor clave, e que certos desprazamentos iniciais provoque que que a rede sexa incapaz de aprender a transformación correcta, ou que lle custe moito mais aprenderla.
 
-Para testar esta hipótese implementouse unha lotería de inicialización, onde se utiliza o loss no epoch 0 para determinar a inicialización da rede máis beneficiosa sobre a que seguir entrenando.
+Para testar esta hipótese implementouse unha lotería de inicialización, onde se utiliza a perda na época 0 para determinar a inicialización da rede máis beneficiosa sobre a que seguir entrenando.
 
 % \ref{fig:lottery_initial_deformations_combinedMLP}, \ref{fig:lottery_initial_deformations_combinedSIREN}
 
@@ -742,19 +742,19 @@ Isto pode provocar que o proceso de optimización dedique moito tempo a contrare
 \label{subsec:Conclusions-initialization}
 
 Obsérvase que a lotería de inicialización si que provoca melloras no rendemento da rede, aínda que non moi significativas, e non se beneficia particularmente de utilizar mais de 5 inicializacións.
-É posible que fose mellor esperar ata unha iteración algo mais avanzado para determinar a inicialización, xa que no epoch 0 non hai ningunha seguridade de que non sexa un mínimo local, pero isto tamén implicaría un maior custo computacional.
+É posible que fose mellor esperar ata unha iteración algo mais avanzado para determinar a inicialización, xa que na época 0 non hai ningunha seguridade de que non sexa un mínimo local, pero isto tamén implicaría un maior custo computacional.
 
-Unha posible mellora á lotería de inicialización sería utilizar un número maior de epochs antes de determinar a inicialización gañadora, xa que o loss inicial non é necesariamente representativo do rendemento final da rede.
+Unha posible mellora á lotería de inicialización sería utilizar un número maior de épocas antes de determinar a inicialización gañadora, xa que a perda inicial non é necesariamente representativo do rendemento final da rede.
 Da mesma forma, sería interesante comparar diferentes estratexias de inicialización, como a inicialización gaussiana ou a inicialización uniforme, para determinar se algunha delas proporciona unha vantaxe significativa sobre a inicialización estándar de SIREN.
 
-\section{Axuste dinámico do batch size}
-\label{sec:Dynamic batch size}
+\section{Axuste dinámico do tamaño de lote}
+\label{sec:Dynamic tamaño de lote}
 
 \subsection{Planteamento}
 \label{subsec:Planteamento-phases}
 
-Teorízase que a rede pode beneficiarse de dividir o proceso de rexistro en diferentes fases, onde inicialmente utilízase un batch size reducido para aprender a transformación global, e posteriormente aumentase o batch size para aprender as transformacións locais.
-Para isto utilizaremos a estratexia de mostraxe uniforme, que permite asegurar que se cubre toda a imaxe de ca mesma densidade, o que é mais importante con batch sizes pequenos. O learning rate modifícase de forma proporcional para manter a relación entre este e o batch size.
+Teorízase que a rede pode beneficiarse de dividir o proceso de rexistro en diferentes fases, onde inicialmente utilízase un tamaño de lote reducido para aprender a transformación global, e posteriormente aumentase o tamaño de lote para aprender as transformacións locais.
+Para isto utilizaremos a estratexia de mostraxe uniforme, que permite asegurar que se cubre toda a imaxe de ca mesma densidade, o que é mais importante con batch sizes pequenos. O learning rate modifícase de forma proporcional para manter a relación entre este e o tamaño de lote.
 
 \subsection{Resultados}
 \label{subsec:Resultados-phases}
@@ -772,16 +772,16 @@ Os resultados de utilizar diferentes números de fases pódense observar na figu
 \subsection{Discusión}
 \label{subsec:Discusion-phases}
 
-Os resultados presentados na figura \ref{fig:nphases} mostran unha tendencia clara e contraria á hipótese inicial, xa que o rendemento da rede empeora progresivamente a medida que se incrementa o número de fases. A estratexia de comezar cun batch size pequeno para aprender a transformación global antes de refinar os detalles cun batch size maior resulta ser contraproducente.
+Os resultados presentados na figura \ref{fig:nphases} mostran unha tendencia clara e contraria á hipótese inicial, xa que o rendemento da rede empeora progresivamente a medida que se incrementa o número de fases. A estratexia de comezar cun tamaño de lote pequeno para aprender a transformación global antes de refinar os detalles cun tamaño de lote maior resulta ser contraproducente.
 
-Unha posible explicación é que a idea de que un lote pequeno favorece a aprendizaxe global é incorrecta neste contexto. Un batch size reducido ofrece unha estimación moi ruidosa e pouco representativa, o que pode levar o adestramento por un camiño inestable e impedir que a rede converxa cara a unha boa solución global na fase inicial. En cambio, un batch size grande e constante, como se validou na sección \ref{sec:Batch size}, proporciona dende o principio información suficiente tanto a nivel global como local, permitindo que a rede aprenda ambas as transformacións simultaneamente de forma máis estable e eficaz.
+Unha posible explicación é que a idea de que un lote pequeno favorece a aprendizaxe global é incorrecta neste contexto. Un tamaño de lote reducido ofrece unha estimación moi ruidosa e pouco representativa, o que pode levar o adestramento por un camiño inestable e impedir que a rede converxa cara a unha boa solución global na fase inicial. En cambio, un tamaño de lote grande e constante, como se validou na sección \ref{sec:Tamaño de lote}, proporciona dende o principio información suficiente tanto a nivel global como local, permitindo que a rede aprenda ambas as transformacións simultaneamente de forma máis estable e eficaz.
 
-Polo tanto, a estratexia de dividir o adestramento en fases non só non aporta beneficios, senón que resulta prexudicial ao introducir inestabilidade nas etapas cruciais da aprendizaxe. Este experimento reforza a conclusión de que un batch size grande é fundamental para o éxito do rexistro con esta metodoloxía.
+Polo tanto, a estratexia de dividir o adestramento en fases non só non aporta beneficios, senón que resulta prexudicial ao introducir inestabilidade nas etapas cruciais da aprendizaxe. Este experimento reforza a conclusión de que un tamaño de lote grande é fundamental para o éxito do rexistro con esta metodoloxía.
 
 \subsection{Conclusións}
 \label{subsec:Conclusions-phases}
 
-Conclúese que a estratexia de axuste dinámico do batch size é ineficaz e prexudicial para esta tarefa. A inestabilidade introducida nas fases iniciais do adestramento anula calquera posible beneficio teórico de aprender as transformacións por etapas. A rede demostra ser máis robusta e eficaz cando se adestra cun batch size grande e constante dende o principio, confirmando que este enfoque é superior para aprender simultaneamente as características globais e locais da deformación.
+Conclúese que a estratexia de axuste dinámico do tamaño de lote é ineficaz e prexudicial para esta tarefa. A inestabilidade introducida nas fases iniciais do adestramento anula calquera posible beneficio teórico de aprender as transformacións por etapas. A rede demostra ser máis robusta e eficaz cando se adestra cun tamaño de lote grande e constante dende o principio, confirmando que este enfoque é superior para aprender simultaneamente as características globais e locais da deformación.
 
 % \FloatBarrier
 
@@ -812,7 +812,7 @@ Os resultados mostran unha clara diferenciación entre as funcións de activaci�
 
 \textbf{Regularización:} A regularización hiperelástica é a mais relevante para evitar deformacións non realistas. O valor óptimo depende da parexa de imaxes concreta a rexistrar. SIREN require valores máis altos que ReLU xa que ten unha maior tendencia ao sobreaxuste.
 
-\textbf{Batch size:} Constitúe un dos parámetros máis críticos. Batch sizes maiores (10000-50000) proporcionan mellores resultados que batch sizes pequenos (1000), aínda que o beneficio decrece para valores moi altos (>50000).
+\textbf{Tamaño de lote:} Constitúe un dos parámetros máis críticos. Batch sizes maiores (10000-50000) proporcionan mellores resultados que batch sizes pequenos (1000), aínda que o beneficio decrece para valores moi altos (>50000).
 
 \textbf{Resolución:} Non se observan beneficios significativos por encima de 1000×1000 píxeles, suxerindo que a información relevante para o rexistro xa está capturada en resolucións moderadas.
 

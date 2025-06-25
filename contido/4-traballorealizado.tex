@@ -26,7 +26,7 @@ Outros traballos como NIR \cite{sun2024medicalimageregistrationneural} ou NODEO 
 \label{subsubsec:Arquitectura}
 
 Faise uso dun MLP de 3 capas, e determinaron experimentalmente que obtiñan mellor resultado con 256 unidades por capa que 128.
-Por cada epoch de entrenamento (2500 en total), 10000 puntos son muestreados aleatoriamente do espazo de coordenadas dentro da máscara.
+Por cada época de entrenamento (2500 en total), 10000 puntos son muestreados aleatoriamente do espazo de coordenadas dentro da máscara.
 O término de perda é a 'normalized cross-correlation' entre os valores dos píxeles muestreados na imaxe fixa e os correspondentes da imaxe móbil.
 Utilizan Adam de optimizador, cun learning rate de 0.0001.
 
@@ -120,8 +120,8 @@ En \cite{sireninit} implementan unha versión simplificada de SIREN para facilit
 e propoñen melloras proceso de inicialización. Unha delas e utilizar a distribución Kaiming (He) en lugar da uniforme.
 Tamén propoñen un método para escoller un valor de w apropiado según o problema a resolver.
 
-\subsubsection{Termos de loss}
-\label{subsubsec:Termos de loss}
+\subsubsection{Termos de Perda}
+\label{subsubsec:Termos de Perda}
 
 O termo de perda é a función que se optimiza durante o adestramento, e é o que guía a rede cara a unha solución óptima.
 Esta cuantifica a discrepancia entre a saída da rede e o resultado desexado.
@@ -296,28 +296,28 @@ Engadindo a regularización hiperelástica (sen termo de volume), é necesario c
 Finalmente, ca penalización de enerxía de flexión, necesitanse derivadas segundas, o que implica 7 pasadas por época en total.
 No traballo orixinal de IDIR, chegaban a usar 13 pasadas debido a que traballan en 3D.
 
-Se os termos de regularización teñen demasiada influencia sobre o termo de loss, a rede fará transformacións moi pequenas para evitar ser penalizada, o que resultará nunha transformación insuficiente.
+Se os termos de regularización teñen demasiada influencia sobre o termo de perda, a rede fará transformacións moi pequenas para evitar ser penalizada, o que resultará nunha transformación insuficiente.
 Por outro lado, se os termos son demasiado pequenos, a rede fará transformacións moi grandes, o que resulta nunha transformación irrealista e sobreaxustada. Isto é especialmente evidente no caso da función de activación SIREN, que tende a sobreaxustarse facilmente debido ao seu sesgo cara sinais de alta frecuencia.
 A cantidade óptima de regularización depende da parexa concreta de imaxes a alinear, polo que intentaremos determinar cal é a mellor para unha mostra de imaxes.
 
 Ademais, pese a que os diferentes termos de regularización valoran diferentes aspectos, cabe ter en conta que tamén superposición nalgunhas das propiedades que valoran.
 Por exemplo, o regularizador hiperelástico pode considerarse un termo mais xeral que inclúe indirectamente penalizaciones do Jacobiano (ambos penalizan as "dobreces") e de suavidade das transfomacións (como fai o bending pero en menor grado).
 
-\subsubsection{Learning rate e batch size}
-\label{subsubsec:Learning rate e batch size}
+\subsubsection{Learning rate e tamaño de lote}
+\label{subsubsec:Learning rate e tamaño de lote}
 
 O learning rate é un parámetro do optimizador (Adam neste caso) que regula o tamaño dos axustes efectuados aos parámetros do modelo durante cada iteración de actualización. 
 Determina a magnitude do cambio aplicado para minimizar a función de perda, afectando tanto a velocidade de converxencia como a estabilidade do proceso de aprendizaxe.
 Un learning rate demasiado alto pode provocar que a rede diverxa, mentres que un learning rate demasiado baixo pode resultar en converxencia lenta ou quedar atrapado en mínimos locais.
 
-Debido á natureza da rede, o batch size utilzado ten unha relación directa co learning rate, polo que tentaremos determinar a relación óptima entre ambos.
+Debido á natureza da rede, o tamaño de lote utilzado ten unha relación directa co learning rate, polo que tentaremos determinar a relación óptima entre ambos.
 
-Unha das heurísiticas mais comúns para relacionar o learning rate e o batch size é a regla de escalado linear \cite{goyal2018accuratelargeminibatchsgd}. 
-A regla indica que o learning rate óptimo debe escalarse linearmente co tamaño do batch size. 
+Unha das heurísiticas mais comúns para relacionar o learning rate e o tamaño de lote é a regla de escalado linear \cite{goyal2018accuratelargeminibatchsgd}. 
+A regla indica que o learning rate óptimo debe escalarse linearmente cantidade de mostras por lote. 
 
 Unha forma de explicar isto é, xa que con batches mais grandes temos unha mellor aproximación do gradiente real, é posible utilizar un learning rate maior sen que a rede diverxa. \cite{kexuefm}
 
-O batch size nesta rede representa o número de coordenadas amostradas aleatoriamente do espazo de coordenadas dentro da máscara.
+O tamaño de lote nesta rede representa o número de coordenadas amostradas aleatoriamente do espazo de coordenadas dentro da máscara.
 
 \subsection{Método}
 \label{subsubsec:Método}
@@ -392,7 +392,7 @@ Foi necesario modificar as funcións de interpolación, que antes interpolaban v
 
 Tamén adaptáronse os termos de regularización para que funcionen con coordenadas bidimensionais, como se detalla na sección \ref{subsubsec:Termos de regularización}.
 
-Finalmente, o proceso de avaliación tivo que implementarse dende 0 para adaptarse ao novo formato de imaxes e ground truth.
+Finalmente, o proceso de avaliación tivo que implementarse dende 0 para adaptarse ao novo formato de imaxes e datos de referencia.
 
 \subsection{Proceso de Rexistro}
 \label{subsec:Proceso de Rexistro}
@@ -403,7 +403,7 @@ Primeiramente, crease unha instancia do MLP coa arquitectura 2D e defínense os 
 
 Unha vez inicializada a rede, xérase un tensor de coordenadas que contén a localización (x, y) de todos os píxeles que se atopan dentro da máscara da imaxe fixa. Este tensor representa o espazo de coordenadas completo sobre o que a rede aprenderá a deformación.
 
-A continuación, comeza o bucle de adestramento, que se repite durante un número predefinido de épocas (epochs). En cada iteración dentro dunha época, realízase o seguinte proceso:
+A continuación, comeza o bucle de adestramento, que se repite durante un número predefinido de épocas. En cada iteración dentro dunha época, realízase o seguinte proceso:
 \begin{itemize}
     \item \textbf{Mostraxe de Coordenadas:} En lugar de procesar a imaxe enteira en cada paso, selecciónase un subconxunto de puntos do tensor de coordenadas igual ao tamaño de batch. A estratexia de mostraxe é un compoñente crítico que foi obxecto de experimentación neste traballo.
 
@@ -488,15 +488,15 @@ O deseño de experimentos é un proceso sistemático que busca determinar a infl
 O custo computacional é un factor moi importante a ter en conta, xa que cada combinación de parámetros require un adestramento completo da rede por cada parella de imaxes, o que implica un alto custo enerxético e de tempo.
 Por exemplo, para probar unha combinación de parámetros sobre FIRE haberá que entrenar unha rede por cada parella de imaxes das 134 do conxunto de datos. 
 A un tempo de adestramento de 3 minutos por parella, o adestramento completo levaría mais de 6 horas por cada combinación de parámetros, cunha pegada de memoria de arredor de 5 GB de VRAM.
-O custo temporal e de memoria dependen de varios factores, sendo os mais relevantes a regularización empregada, a resolución da imaxe, o tamaño do batch size e a función de activación.
+O custo temporal e de memoria dependen de varios factores, sendo os mais relevantes a regularización empregada, a resolución da imaxe, o tamaño do tamaño de lote e a función de activación.
 En concreto, SIREN ten un custo computacional moito maior que ReLU, requerindo arredor do doble de tempo e memoria para adestrar a rede.
 
 Debido ao gran número de factores a ter en conta, adoptouse un enfoque de experimentación en fases.
 
 Inicialmente realizáronse experimentos iniciais para identificar os rangos de parámetros máis prometedores utilizando unha submostras representativa de 14 parellas de imaxes de cada categoría do dataset FIRE, co obxectivo: Reducir o espazo de parámetros para as fases posteriores.
-Nesta fase avaliouse a métrica de loss, a resolución da imaxe, a regularización empregada e o tamaño do batch size.
+Nesta fase avaliouse a métrica de perda, a resolución da imaxe, a regularización empregada e o tamaño do tamaño de lote.
 
-Baseándose nos resultados da primeira fase, realizouse unha experimentación máis exhaustiva para tentar mellorar o rendemento do rexistro, centrándose na estratexia de mostraxe, a inicialización dos pesos da rede e un axuste dinámico do batch size.
+Baseándose nos resultados da primeira fase, realizouse unha experimentación máis exhaustiva para tentar mellorar o rendemento do rexistro, centrándose na estratexia de mostraxe, a inicialización dos pesos da rede e un axuste dinámico do tamaño de lote.
 
 \subsection{Metodoloxías Desenvoltas}
 \label{subsec:Metodoloxías Desenvoltas}
@@ -554,7 +554,7 @@ Outra metodoloxía deseñada foi a implementación da lotería de inicializació
 
 \subsubsection{Axuste Dinámico do Tamaño do Lote}
 \label{subsubsec:axuste_dinamico_batch_size}
-Implementouse o axuste dinámico do tamaño do lote, que consiste en aumentar o `batch size` ao longo do adestramento. Para levar a cabo esta estratexia, divídense as épocas (epochs) en diferentes fases, onde cada fase fai uso dun tamaño de lote diferente, comezando normalmente con tamaños máis pequenos e aumentándoos progresivamente.
+Implementouse o axuste dinámico do tamaño do lote, que consiste en aumentar a cantidade de mostras tomadas póla rede ao longo do adestramento. Para levar a cabo esta estratexia, divídense as épocas en diferentes fases, onde cada fase fai uso dun tamaño de lote diferente, comezando normalmente con tamaños máis pequenos e aumentándoos progresivamente.
 
 
 

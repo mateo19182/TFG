@@ -343,7 +343,7 @@ O rexistro de retinografías presenta un conxunto de desafíos únicos que o dis
 Un dos principais obstáculos son as deformacións non ríxidas. Estas deformacións poden orixínarse pola proxección da superficie 3D curva da retina nunha imaxe 2D ou variacións na forma do ollo de cada paciente. Ademais, é frecuente atopar pares de imaxes con áreas de solapamento mínimas o que dificulta a identificación de correspondencias para o aliñamento. A isto súmanse as variacións de iluminación, contraste e cor entre imaxes capturadas en diferentes situacións, así como os cambios anatómicos inducidos por patoloxías, que alteran as estruturas utilizadas para o rexistro. 
 Finalmente, a escaseza de conxuntos de datos públicos, especialmente para condicións ou poboacións específicas, supón unha barreira importante para o desenvolvemento de modelos de aprendizaxe supervisada.    
 
-A dificultade para obter campos de deformación de referencia (ground truth) para o adestramento impulsou o desenvolvemento de marcos non supervisados. Estes modelos adéstranse optimizando unha función de perda baseada na similitude de imaxe entre a imaxe móbil deformada e a imaxe fixa, xunto cun termo de regularización sobre a suavidade da deformación. 
+A dificultade para obter campos de deformación de referencia para o adestramento impulsou o desenvolvemento de marcos non supervisados. Estes modelos adéstranse optimizando unha función de perda baseada na similitude de imaxe entre a imaxe móbil deformada e a imaxe fixa, xunto cun termo de regularización sobre a suavidade da deformación. 
 
 % A figura \ref{tab:retina_reg_comp} mostra unha análise comparativa revela un claro compromiso entre precisión e velocidade. Métodos clásicos como REMPE poden acadar unha alta precisión, pero son computacionalmente moi custosos (p. ex., 198 segundos por par de imaxes). En contraste, os métodos de aprendizaxe profunda son ordes de magnitude máis rápidos (p. ex., 0.65 segundos por par), aínda que poden sacrificar parte da precisión nos casos máis complexos. A seguinte táboa resume esta comparativa.  
 
@@ -436,7 +436,7 @@ O uso de Representacións Neuronais Implícitas (INR) para o rexistro de imaxes 
 
 O traballo proposto ubícase dentro do dos métodos de aprendizaxe profunda, e máis concretamente no rexistro de imaxes baseado en intensidade (IBR) utilizando representacións neuronais implícitas (INRs).
 
-Como mostramos neste capítulo, a pesar do potencial das representaciones neuronales implícitas en diversos dominios médicos, a súa aplicación específica ao rexistro de retinografías permanece inexplorada.
+Como mostramos neste capítulo, a pesar do potencial das representacións neuronales implícitas en diversos dominios médicos, a súa aplicación específica ao rexistro de retinografías permanece inexplorada.
 
 Este falta de investigación é especialmente relevante dadas as potenciais vantaxes que ofrecen as INRs, como a capacidade de modelar deformacións complexas e a súa independencia da resolución.
 
