@@ -5,9 +5,13 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{pifont}
 \usepackage{tikz}
-\usepackage{amssymb} % Para \downarrow
+\usetikzlibrary{positioning}
+\usepackage{amssymb} 
+\usepackage{sansmath} 
+\sansmath
 
 % --- TEMA E CORES ---
 \usetheme{varpa}
@@ -148,44 +152,34 @@
 
 \begin{frame}
     \frametitle{Rexistro Deformable: Campo de Vectores de Deformación}
-    
-    \begin{block}{Rexistro Deformable}
-        O obxectivo é atopar unha transformación non ríxida que mapea cada coordenada $x$ da imaxe móbil á súa localización correspondente na imaxe fixa.
-        \begin{itemize}
-            \item Esta transformación modélase como un \textbf{Campo de Vectores de Deformación} (DFV), que indica o desprazamento de cada punto.
-            \item \textbf{Enfoque tradicional}: Representar o DFV nunha grella discreta de píxeles. Isto ten limitacións de resolución e memoria.
-        \end{itemize}
-    \end{block}
+        
+        \begin{block}{Rexistro Deformable}
+            Atopar unha transformación non ríxida que mapea cada coordenada $x$ da imaxe móbil á súa localización correspondente na imaxe fixa.
+            \begin{itemize}
+                \item Modélase como un \textbf{Campo de Vectores de Deformación} (DFV), que indica o desprazamento de cada punto.
+                \item Tradicionalmente represéntase o DFV nunha grella discreta de píxeles. Isto ten limitacións de resolución e memoria.
+            \end{itemize}
+        \end{block}
 
-    % \vspace{0.3cm}
-
-    \begin{minipage}{0.35\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{../imaxes/dfv_arrows.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.35\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{../imaxes/dfv_grid.png}
-    \end{minipage}
-
-    % \vspace{0.1cm}
-    \begin{center}
-        \small{Visualización do campo de vectores de deformación (DFV). Á esquerda, representación mediante frechas. Á dereita, esta deformación aplicada a unha cuadrícula.}
-    \end{center}
-\end{frame}
+        \begin{minipage}{\textwidth}
+            \centering
+            \includegraphics[width=0.22\linewidth]{../imaxes/dfv_arrows.png}
+            \hspace{2cm}
+            \includegraphics[width=0.22\linewidth]{../imaxes/dfv_grid.png}
+        \end{minipage}
+    \end{frame}
 
 \begin{frame}
     \frametitle{Representacións Neuronais Implícitas (INRs)}
-    \begin{block}{A Nosa Proposta: Representacións Neuronais Implícitas (INRs)}
-        En lugar dunha grella, representamos a transformación $\Phi$ como unha \textbf{función continua}, parametrizada polos pesos dunha rede neuronal (MLP).[1, 3, 6]
+    \begin{block}{Representacións Neuronais Implícitas (INRs)}
+        En lugar dunha grella, representamos a transformación como unha \textbf{función continua}, parametrizada polos pesos dunha rede neuronal (MLP).
         \begin{itemize}
             \item \textbf{Entrada}: Coordenada $(x, y)$.
             \item \textbf{Saída}: Vector de desprazamento $(dx, dy)$.
             \item \textbf{Vantaxes clave}:
             \begin{itemize}
-                \item \textbf{Independencia da resolución}: A función é continua, non depende do tamaño da imaxe.[7, 8]
-                \item \textbf{Gradientes analíticos}: Permite calcular derivadas exactas da deformación, crucial para unha regularización precisa.[1, 3, 6]
+                \item \textbf{Independencia da resolución}: A función é continua, non depende do tamaño da imaxe.
+                \item \textbf{Gradientes analíticos}: Permite calcular derivadas exactas da deformación, crucial para unha regularización precisa.
             \end{itemize}
         \end{itemize}
     \end{block}
@@ -198,69 +192,91 @@
     % - Destaca as dúas vantaxes fundamentais: "Isto ten dúas vantaxes enormes. Primeiro, como é unha función continua, é independente da resolución da imaxe. Segundo, e máis importante, podemos calcular as súas derivadas de forma exacta e analítica. Isto é un salto cualitativo sobre as aproximacións numéricas dos métodos baseados en grellas e, como veremos, permítenos usar 'regras' ou regularizacións moito máis sofisticadas."
 
     \begin{frame}
-    \frametitle{A Vantaxe de SIREN: Superando o "Sesgo Espectral"}
-    
-    \begin{block}{O Problema das Redes Estándar (con ReLU)}
-        As redes neuronais con funcións de activación comúns como ReLU teñen un \textbf{sesgo espectral}: son moi boas aprendendo funcións suaves e de baixa frecuencia, pero teñen dificultades para representar detalles finos e cambios bruscos (alta frecuencia).[1, 3, 9]
-        
-        \vspace{0.3cm}
-        \textit{"Para o rexistro de retinas, os detalles de alta frecuencia (os vasos sanguíneos) son precisamente a información máis importante que necesitamos aliñar."}
-    \end{block}
-    
-    \begin{alertblock}{A Solución: SIREN (Sinusoidal Representation Networks)}
-        SIREN utiliza unha función de activación periódica, o seno, para superar este problema.[1, 4, 5, 10]
-        
-        \vspace{0.3cm}
-        \centering
-        $\Phi_{SIREN}(x) = \sin(\omega_0 \cdot (Wx + b))$
-        \vspace{0.3cm}
-        
-        \begin{itemize}
-            \item \textbf{Ideal para sinais complexos}: Está deseñada especificamente para modelar sinais con detalles finos e as súas derivadas.
-            \item \textbf{Infinitamente diferenciable}: A diferenza de ReLU (só diferenciable unha vez), a función seno pode derivarse cantas veces sexa necesario. Isto permite o uso de regularizadores de orde superior, como a "Bending Energy".[1, 6]
-        \end{itemize}
-    \end{alertblock}
-    
-    % NOTAS PARA O PRESENTADOR:
-    % - Comeza expoñendo o problema fundamental das redes estándar: "Unha pregunta clave é: por que non usar unha rede neuronal normal con ReLU, que é o estándar? A resposta está nun problema teórico coñecido como 'sesgo espectral'."
-    % - Explica o sesgo espectral de forma sinxela: "Basicamente, as redes con ReLU son boas aprendendo cousas 'borrosas' ou de baixa frecuencia, pero moi malas para aprender detalles nítidos ou de alta frecuencia."
-    % - Conecta isto directamente co teu problema: "No noso caso, os vasos sanguíneos son precisamente eses detalles nítidos e de alta frecuencia. Unha rede con ReLU terá dificultades para representalos e aliñalos correctamente."
-    % - Presenta SIREN como a solución específica para este problema: "Por iso, neste traballo exploramos SIREN. En lugar de ReLU, usa a función seno como activación. Esta arquitectura está deseñada especificamente para ser excelente na representación de sinais complexos e os seus detalles."
-    % - Menciona a vantaxe adicional clave: "Ademais, como efecto secundario beneficioso, SIREN é infinitamente diferenciable. Isto significa que podemos calcular non só a primeira derivada da deformación, senón tamén a segunda, terceira, etc. Isto ábrenos a porta a técnicas de regularización moito máis potentes, como veremos a continuación."
-    % - Este argumento mostra un coñecemento profundo dos fundamentos teóricos e xustifica as decisións de deseño.
-\end{frame}
+        \frametitle{O Problema do Sesgo Espectral}
+
+        \begin{block}{Limitación das Redes con ReLU}
+            As funcións de activación lineais coma ReLU presentan un \textbf{sesgo espectral} cara funcións de baixa frecuencia (tranformacións globais e ríxidas), e teñen dificultades para representar detalles finos e cambios locais.
+            
+            \vspace{0.3cm}
+            No contexto do rexistro de retinas, isto é problemático porque os detalles de alta frecuencia son críticos para un aliñamento preciso.
+        \end{block}
+
+        % NOTAS PARA O PRESENTADOR:
+        % - Expón o problema fundamental das redes estándar: "Por que non usar unha rede normal con ReLU? O problema é o chamado 'sesgo espectral'."
+        % - Explica: "ReLU aprende ben cousas borrosas, pero mal detalles nítidos. No noso caso, iso é un problema."
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{SIREN (Sinusoidal Representation Networks)}
+
+        \begin{alertblock}{A Solución: }
+            SIREN utiliza a función seno como activación para superar o sesgo espectral e modelar detalles finos.
+            
+            \centering
+            \[
+            f(x) = \sin(ax + b), \quad \text{con} \quad a, b \in \mathbb{R}
+            \]
+            
+            \begin{itemize}
+                \item \textbf{Ideal para sinais complexos}: Permite representar detalles de alta frecuencia e as súas derivadas.
+                \item \textbf{Infinitamente diferenciable}: A diferenza de ReLU, a función seno pode derivarse cantas veces sexa necesario, permitindo regularizacións de orde superior como a "Bending Energy".
+            \end{itemize}
+        \end{alertblock}
+
+        % NOTAS PARA O PRESENTADOR:
+        % - Presenta SIREN como solución: "SIREN usa activación seno, ideal para detalles finos."
+        % - Destaca a diferenciabilidade: "Isto permite regularizacións máis potentes, como veremos a continuación."
+    \end{frame}
 
 
 % ------------------- SECCIÓN 3:  Metodoloxía ---------------------- %
 \section{Metodoloxía Proposta}
 
+% Slide 1: Framework IDIR Adaptado - Esquema do Proceso
 \begin{frame}
-    \frametitle{Framework IDIR Adaptado e Proceso de Rexistro}
+    \frametitle{Framework IDIR: Esquema do Proceso}
     
-    \begin{block}{Proceso de Optimización por Par de Imaxes}
-        A nosa metodoloxía non require un gran conxunto de datos de adestramento. En cambio, para cada par de imaxes (Fixa $F$, Móbil $M$), adestramos unha nova rede MLP dende cero.[1, 2]
+    \begin{block}{Optimización por Par de Imaxes}
+        A metodoloxía de IDIR adestra unha nova rede para cada par de imaxes (Fixa $F$ e Móbil $M$).
     \end{block}
     
     \centering
     \begin{tikzpicture}
         \node[draw, rectangle, rounded corners, fill=blue!10, text width=3cm, align=center] (in) at (0,3) {Imaxe Fixa (F) \\ Imaxe Móbil (M)};
         \node[draw, rectangle, rounded corners, fill=blue!10, text width=3cm, align=center] (coords) at (4,3) {Mostraxe de Coordenadas de F};
-        \node[draw, rectangle, rounded corners, fill=red!10, text width=3cm, align=center] (mlp) at (8,3) {MLP ($\Phi$) \\ (SIREN / ReLU)};
+        \node[draw, rectangle, rounded corners, fill=red!10, text width=3cm, align=center] (mlp) at (8,3) {MLP ($\Phi$)};
         
         \node[draw, rectangle, rounded corners, fill=green!10, text width=3cm, align=center] (warp) at (4,0) {Imaxe Móbil Deformada ($M \circ \Phi$)};
-        \node[draw, rectangle, rounded corners, fill=green!10, text width=3cm, align=center] (loss) at (8,0) {Cálculo da Perda \\ $L_{total} = L_{datos} + \alpha L_{reg}$};
+        \node[draw, rectangle, rounded corners, fill=green!10, text width=3cm, align=center] (loss) at (8,0) {Cálculo da Perda};
         
         \draw[->, thick] (in) -- (coords);
         \draw[->, thick] (coords) -- (mlp);
-        \draw[->, thick] (mlp) -- node[right, midway, text width=2cm] {Predí desprazamentos} (loss);
+        \draw[->, thick] (mlp) -- (loss);
         \draw[->, thick] (in) -- (warp);
         \draw[->, thick] (warp) -- (loss);
-        \draw[->, thick, red] (loss) to[bend right=45] node[below, midway] {Actualiza Pesos} (mlp);
+        % Add labels on both sides of the arrow from mlp to loss
+        \path (mlp) -- (loss) coordinate[pos=0.5] (midpoint);
+        \node[left=0cm of midpoint] {\shortstack{Predí\\desprazamentos}};
+        \node[right=0.4cm of midpoint, text=red] {\shortstack{Actualiza\\Pesos}};
+
+        % Feedback arrow
+        \draw[->, thick, red] (loss) to[bend right=45] (mlp);
     \end{tikzpicture}
+    % NOTAS PARA O PRESENTADOR:
+    % - Explica o diagrama de fluxo paso a paso.
+    % - Fai fincapé no punto clave: "É importante destacar que este é un proceso de 'optimización por instancia'. Adestramos unha rede nova e pequena para cada par de imaxes. Isto diferéncianos da maioría de métodos de deep learning que requiren miles de exemplos para adestrar un único modelo xigante. O noso enfoque é máis lento na inferencia, pero non necesita grandes bases de datos anotadas, que son moi caras e difíciles de conseguir no ámbito médico".[1, 3]
+\end{frame}
+
+% Slide 2: Framework IDIR Adaptado - Función de Perda
+\begin{frame}
+    \frametitle{Framework IDIR: Función de Perda}
     
     \begin{block}{Función de Perda}
-        A rede optimízase para minimizar unha perda combinada [1]:
-        $$ \min_{\Phi} \mathcal{L}_{total} = \mathcal{L}_{datos}(M \circ \Phi, F) + \alpha \cdot \mathcal{L}_{reg}(\Phi) $$
+        A rede optimízase para minimizar unha perda combinada:
+        \vspace{0.4cm}
+        \centering
+        $\hat{\Phi} = \operatorname*{Arg\,min}_{\Phi} L_{data}(M \circ \Phi, F) + \alpha L_{reg}(\Phi)$
+        \vspace{0.4cm}
         \begin{itemize}
             \item $\mathcal{L}_{datos}$: Mide a similitude entre a imaxe fixa e a móbil deformada (e.g., NCC).
             \item $\mathcal{L}_{reg}$: Penaliza as deformacións non realistas para garantir a suavidade.
@@ -268,59 +284,180 @@
     \end{block}
     
     % NOTAS PARA O PRESENTADOR:
-    % - Explica o diagrama de fluxo paso a paso. "O proceso para cada par de imaxes é o seguinte:"
-    % - 1. "Tomamos a imaxe fixa e a móbil."
-    % - 2. "Seleccionamos un conxunto de coordenadas da imaxe fixa."
-    % - 3. "Estas coordenadas pásanse á nosa rede MLP, que representa a deformación $\Phi$."
-    % - 4. "A rede predí os desprazamentos, que usamos para 'warpear' ou deformar a imaxe móbil."
-    % - 5. "Calculamos a perda. Esta perda ten dúas partes: unha que mide o parecidas que son as imaxes (L_datos), e outra que mide o 'realista' que é a deformación (L_reg)."
-    % - 6. "Finalmente, usamos esta perda para actualizar os pesos da rede e repetimos o proceso ata que a rede converxe."
-    % - Fai fincapé no punto clave: "É importante destacar que este é un proceso de 'optimización por instancia'. Adestramos unha rede nova e pequena para cada par de imaxes. Isto diferéncianos da maioría de métodos de deep learning que requiren miles de exemplos para adestrar un único modelo xigante. O noso enfoque é máis lento na inferencia, pero non necesita grandes bases de datos anotadas, que son moi caras e difíciles de conseguir no ámbito médico".[1, 3]
+    % - Explica as dúas partes da función de perda: "A perda ten dúas partes: unha que mide o parecidas que son as imaxes (L_datos), e outra que mide o 'realista' que é a deformación (L_reg)."
+    % - Resume o proceso: "Calculamos esta perda e usamos para actualizar os pesos da rede, repetindo ata converxer."
 \end{frame}
 
+% Slide 1: Por que é necesaria a regularización?
 \begin{frame}
-    \frametitle{O Rol Crítico da Regularización}
+    \frametitle{Framework IDIR: Regularización}
     
-    \begin{block}{Por que é necesaria a regularización?}
-        O rexistro de imaxes é un \textbf{problema mal posto} (\textit{ill-posed problem}).[1, 3, 6] Existen moitas deformacións que poden facer que as imaxes se parezan, pero a maioría non son fisicamente realistas (e.g., pregamentos, roturas).
+    \begin{block}{Problema:}
+        O rexistro de imaxes é un \textit{"ill-posed problem"}: existen moitas deformacións que poden facer que as imaxes se parezan, pero a maioría non son solucións correctas (non fisicamente realistas).
         \vspace{0.2cm}
         
         \textbf{A regularización engade coñecemento previo físico} para restrinxir o espazo de solucións posibles.
     \end{block}
     
     \begin{columns}
-        \begin{column}{0.5\textwidth}
+        \begin{column}{0.6\textwidth}
             \centering
-                \includegraphics[width=\textwidth]{../imaxes/reg_examples/no_reg_example.png}
-                \includegraphics[width=\textwidth]{../imaxes/reg_examples/too_much_reg_example.png}
-    
-        \small{figure}{Esquerda: sen regularización (pregamentos). Dereita: exceso de regularización (rixidez). Adaptado de.[1]}
+            \includegraphics[width=\textwidth]{../imaxes/reg_examples/no_reg_example.png}
+            \small{Sen regularización: pregamentos non físicos.}
         \end{column}
-
-
-        
-        \begin{column}{0.5\textwidth}
-            \textbf{Regularizadores Utilizados}:
-            \begin{itemize}
-                \item \textbf{Hiperelástico}: Modela o comportamento elástico dos tecidos. Penaliza estiramentos e compresións non realistas para preservar a área local.[1, 6]
-                
-                \vspace{0.3cm}
-                
-                \item \textbf{Enerxía de Flexión (\textit{Bending Energy})}: Asegura a suavidade da deformación penalizando as segundas derivadas. Evita "esquinas" ou cambios bruscos na deformación.[1, 6]
-                
-                \vspace{0.2cm}
-                \begin{alertblock}{}
-                    Este termo só é computable de forma eficiente e precisa grazas a que \textbf{SIREN é infinitamente diferenciable}.
-                \end{alertblock}
-            \end{itemize}
+        \begin{column}{0.6\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{../imaxes/reg_examples/too_much_reg_example.png}
+            \small{Exceso de regularización: deformación demasiado ríxida.}
         \end{column}
     \end{columns}
     
     % NOTAS PARA O PRESENTADOR:
-    % - Comeza explicando o concepto de "problema mal posto". "Se só lle pedimos á rede que as imaxes se parezan, podería facer trampas. Por exemplo, podería simplemente encoller toda a imaxe móbil nun só píxel para minimizar o erro. Isto é matematicamente válido pero físicamente absurdo. Isto é o que significa que o problema está 'mal posto'."
-    % - Usa a imaxe para ilustrar os extremos. "Aquí vemos o que pasa. Á esquerda, sen regras, a rede crea unha deformación caótica con pregamentos. Á dereita, con demasiadas regras, a deformación é tan ríxida que non aliña nada. Necesitamos un equilibrio."
-    % - Introduce os regularizadores como as "regras físicas". "A regularización introduce estas regras. O regularizador hiperelástico dille á rede que o tecido non se pode estirar ou comprimir infinitamente. O de enerxía de flexión dille que a deformación debe ser suave, sen cambios bruscos."
-    % - Remata coa conexión clave con SIREN: "E aquí vemos de novo a vantaxe da nosa arquitectura. O regularizador de enerxía de flexión, que é moi potente para garantir a suavidade, require calcular segundas derivadas. Isto é trivial con SIREN, pero practicamente imposible con ReLU. Polo tanto, a nosa elección de arquitectura permítenos incorporar mellores modelos físicos ao noso rexistro."
+    % - Explica que sen regularización, a rede pode atopar solucións matematicamente válidas pero absurdas fisicamente.
+    % - Mostra visualmente os dous extremos: caos sen regularización e rixidez excesiva con demasiada regularización.
+\end{frame}
+
+% Slide 2: Regularizadores utilizados
+% \begin{frame}
+%     \frametitle{Framework IDIR: Regularizadores utilizados}
+%         \begin{itemize}
+%         \item \textbf{Hiperelástico}: Modela o comportamento elástico dos tecidos. Penaliza estiramentos e compresións non realistas para preservar a área local.
+%         \vspace{0.2cm}
+%         \item \textbf{Enerxía de Flexión (\textit{Bending Energy})}: Asegura a suavidade da deformación penalizando as segundas derivadas. Evita "esquinas" ou cambios bruscos na deformación.
+%         \vspace{0.2cm}
+%         \item \textbf{Xacobiano (\textit{Jacobian})}: Controla a distorsión local da área. Garante que a deformación non colapse áreas locais, mantendo a continuidade.
+%     \end{itemize}
+    
+
+    
+%     % NOTAS PARA O PRESENTADOR:
+%     % - Introduce os regularizadores como regras físicas que guían a rede.
+%     % - Destaca que a arquitectura SIREN permite usar regularizacións baseadas en derivadas de orde superior, mellorando o control físico da deformación.
+% \end{frame}
+
+\begin{frame}
+\frametitle{Framework IDIR: Regularizador Xacobiano}
+
+\begin{itemize}
+    \item Controla a distorsión local da área e prevé pregamentos (\textit{folding}) non realistas na deformación, evitando compresións ou estiramentos extremos.
+    \vspace{0.3cm}
+    \item \textbf{Mecanismo}: Penaliza as desviacións do determinante da matriz Xacobiana ($\det \nabla \Phi$) respecto do valor 1.
+    \begin{itemize}
+        \item Un determinante próximo a 1 preserva a área local.
+        \item Un determinante negativo ou cero indica un pregamento da malla, o que invalida a transformación.
+    \end{itemize}
+\end{itemize}
+
+\vfill % Empurra o contido seguinte cara abaixo
+
+\centering
+% \textbf{Formulación 2D}
+% \vspace{0.2cm}
+$$
+S^{\text{jac}}[\Phi] = \int_{\Omega} \left| 1 - \det(\nabla \Phi) \right| \, dx \, dy
+$$
+
+% NOTAS PARA O PRESENTADOR:
+% - Explicar que o determinante do Xacobiano mide como cambia a área localmente.
+% - Imaxinar unha pequena cuadrícula na imaxe orixinal; este regularizador tenta que esa cuadrícula non se colapse nin se estire de forma desmedida.
+
+\end{frame}
+
+
+
+
+\begin{frame}
+\frametitle{Framework IDIR: Regularizador Hiperelástico}
+
+\begin{itemize}
+    \item \textbf{Mecanismo}: Combina termos que penalizan a variación da lonxitude dos vectores de desprazamento e as distorsións de área.
+     \begin{itemize}
+        \item O termo $|\nabla u|^2$ controla o estiramento.
+        \item O termo co cofactor ($\text{cof}$) controla a deformación da área.
+     \end{itemize}
+    \vspace{0.3cm}
+    \item É un regularizador máis xeral que engloba propiedades do Xacobiano e impón unha certa suavidade.
+\end{itemize}
+
+\vfill % Empurra o contido seguinte cara abaixo
+
+\centering
+% \textbf{Formulación 2D}
+% \vspace{0.2cm}
+$$
+S^{\text{hyper}}[\Phi] = \int_{\Omega} \left[ \frac{1}{2} \alpha_l |\nabla u|^2 + \alpha_a \varphi_c (\text{cof} \nabla \Phi) \right] dx \, dy
+$$
+\vspace{0.2cm}
+\small
+con
+$$
+\varphi_c(C) = \sum_{i=1}^2 \max \left\{ \sum_{j=1}^2 C_{ji}^2 - 1, 0 \right\}^2
+$$
+
+% NOTAS PARA O PRESENTADOR:
+% - Describir este regularizador como unha "lei física" que lle impoñemos á rede.
+% - Mencionar que os hiperparámetros α permiten axustar a "rixidez" do material simulado.
+
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Framework IDIR: Regularizador de Enerxía de Flexión}
+
+\begin{itemize}
+    \item Evita cambios bruscos na curvatura do campo de desprazamento, o que se traduce en transformacións visualmente mais suaves e continuas.
+    \vspace{0.3cm}
+    \item Penaliza a magnitude das segundas derivadas parciais do campo de deformación ($\Phi$) en todo o dominio.
+    \vspace{0.3cm}
+\end{itemize}
+
+% \begin{alertblock}{Vantaxe SIREN}
+%     O cálculo eficiente e analítico deste regularizador só é posible porque as redes \textbf{SIREN son infinitamente diferenciables}. Arquitecturas baseadas en ReLU non poden usar este termo, xa que a súa segunda derivada é cero en case todos os puntos.
+% \end{alertblock}
+
+
+\vfill % Empurra o contido seguinte cara abaixo
+
+\centering
+% \textbf{Formulación 2D}
+% \vspace{0.2cm}
+$$
+S^{\text{bending}}[\Phi] = \frac{1}{8} \int_{\Omega} \left[ \left( \frac{\partial^2 \Phi}{\partial x^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial y^2} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial y} \right)^2 \right] dx \, dy
+$$
+
+% NOTAS PARA O PRESENTADOR:
+% - Este é o punto máis importante que xustifica o uso de SIREN.
+% - Resaltar que esta capacidade de calcular derivadas de orde superior de forma analítica é o que permite un control físico tan preciso da deformación.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Consideracións sobre a Regularización}
+
+\begin{itemize}
+    \item \textbf{Balance da regularización}: É crucial atopar un equilibrio no peso dos termos de regularización.
+
+    \vspace{0.4cm}
+    \item \textbf{Custo computacional}: A regularización incrementa significativamente o tempo de cómputo, xa que require calcular gradientes adicionais por época.
+    % \begin{itemize}
+    %     \item Sen regularización: 1 pasada de retropropagación.
+    %     \item Con Xacobiano: 3 pasadas.
+    %     \item Con Hiperelástico: 4 pasadas.
+    %     \item Con Enerxía de Flexión: 7 pasadas.
+    % \end{itemize}
+\end{itemize}
+
+\vfill
+
+\begin{alertblock}{Vantaxe SIREN}
+    O cálculo de regularizadores de orde superior (como a Enerxía de Flexión) de forma eficiente e analítica só é posible porque as redes \textbf{SIREN son infinitamente diferenciables}. Arquitecturas baseadas en ReLU non poden usar este termo, xa que a súa segunda derivada é cero en case todos os puntos.
+\end{alertblock}
+
+% NOTAS PARA O PRESENTADOR:
+% - Usar esta diapositiva para resumir as implicacións prácticas de usar regularización.
+% - Concluír enfatizando que SIREN non só permite, senón que fai computacionalmente factible, o uso de modelos físicos avanzados para guiar o rexistro de imaxes.
+
 \end{frame}
 
 

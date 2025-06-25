@@ -271,37 +271,22 @@ Algúns exemplos de termos de regularización que se poden empregar son:
 Para a implementación neste traballo modificaronse todos estos termos para que funcionaran con transfomacións de dúas dimensións en lugar de tres,
  sustituíndo o gradiente de 3 dimensión no Jacobiano por un de dúas, eliminando as derivadas parciais en z en bending energy e o termo de volume no termo hiperelástico.
 
- \begin{itemize}
-    \item Jacobian regularizer:
-    \begin{figure}[tbp]
-        \centering
-        \[
-        S^{jac}[\Phi] = \int_{\Omega} \left| 1 - \det \left( \nabla \Phi \right) \right| \, dx \, dy
-        \]
-        \caption{Regulizador Jacobiano en 2D}
-    \end{figure}
-    
-    \item Hyperelastic regularizer:
-    \begin{figure}[tbp]
-        \centering
-        \[
-        S^{hyper}[\Phi] = \int_{\Omega} \left[ \frac{1}{2} \alpha_1 |\nabla u|^2 + \alpha_a \varphi_c (\text{cof} \nabla \Phi) \right] dx \, dy,
-        \]
-        \[
-        \varphi_c(C) = \sum_{i=1}^2 \max \left\{ \sum_{j=1}^2 C_{ji}^2 - 1, 0 \right\}^2
-        \]
-        \caption{Regulizador Hiperelástico en 2D}
-    \end{figure}
-    
-    \item Bending energy penalty:
-    \begin{figure}[tbp]
-        \centering
-        \[
-        S^{bending}[\Phi] = \frac{1}{8} \int_{-1}^{1} \int_{-1}^{1} \left[ \left( \frac{\partial^2 \Phi}{\partial x^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial y^2} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial y} \right)^2 \right] dx \, dy
-        \]
-        \caption{Regulizador Bending Energy en 2D}
-    \end{figure}
-    
+\begin{itemize}
+    \item Jacobian regularizer:\\
+    \[
+    S^{jac}[\Phi] = \int_{\Omega} \left| 1 - \det \left( \nabla \Phi \right) \right| \, dx \, dy
+    \]
+    \item Hyperelastic regularizer:\\
+    \[
+    S^{hyper}[\Phi] = \int_{\Omega} \left[ \frac{1}{2} \alpha_1 |\nabla u|^2 + \alpha_a \varphi_c (\text{cof} \nabla \Phi) \right] dx \, dy,
+    \]
+    \[
+    \varphi_c(C) = \sum_{i=1}^2 \max \left\{ \sum_{j=1}^2 C_{ji}^2 - 1, 0 \right\}^2
+    \]
+    \item Bending energy penalty:\\
+    \[
+    S^{bending}[\Phi] = \frac{1}{8} \int_{-1}^{1} \int_{-1}^{1} \left[ \left( \frac{\partial^2 \Phi}{\partial x^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial y^2} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial y} \right)^2 \right] dx \, dy
+    \]
 \end{itemize}
 
 A regularización tamén ten un impacto significativo no tempo de computación, xa que require múltiples pasadas de retropropagación por época para calcular os distintos termos de penalización.
