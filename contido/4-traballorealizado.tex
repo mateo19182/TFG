@@ -1,7 +1,7 @@
 \chapter{Traballo Realizado}
 \label{chap:Traballo Realizado}
 
-\lettrine{N}{este} capítulo preséntase o traballo realizado para adaptar o framework IDIR ao rexistro de imaxes de retina en 2D. Comézase cunha vista xeral do proceso e unha descripción detallada do método IDIR orixinal, seguido da explicación das modificacións realizadas para adaptar o sistema ás características específicas das imaxes de fondo de ollo. Posteriormente, descríbense os conxuntos de datos empregados, o deseño experimental desenvolvido e os métodos de avaliación utilizados para validar os resultados.
+\lettrine{N}{este} capítulo preséntase o traballo realizado para adaptar o framework IDIR ao rexistro de imaxes de retina en 2D. Comézase cunha vista xeral do proceso e unha descrición detallada do método IDIR orixinal, seguido da explicación das modificacións realizadas para adaptar o sistema ás características específicas das imaxes de fondo de ollo. Posteriormente, descríbense os conxuntos de datos empregados, o deseño experimental desenvolvido e os métodos de avaliación utilizados para validar os resultados.
 
 \section{Vista Xeral}
 \label{sec:VistaXeral}
@@ -26,8 +26,8 @@ Outros traballos como NIR \cite{sun2024medicalimageregistrationneural} ou NODEO 
 \label{subsubsec:Arquitectura}
 
 Faise uso dun MLP de 3 capas, e determinaron experimentalmente que obtiñan mellor resultado con 256 unidades por capa que 128.
-Por cada época de entrenamento (2500 en total), 10000 puntos son muestreados aleatoriamente do espazo de coordenadas dentro da máscara.
-O término de perda é a 'normalized cross-correlation' entre os valores dos píxeles muestreados na imaxe fixa e os correspondentes da imaxe móbil.
+Por cada época de adestramento (2500 en total), 10000 puntos son muestreados aleatoriamente do espazo de coordenadas dentro da máscara.
+O termo de perda é a 'normalized cross-correlation' entre os valores dos píxeles muestreados na imaxe fixa e os correspondentes da imaxe móbil.
 Utilizan Adam de optimizador, cun learning rate de 0.0001.
 
 \subsubsection{Función de activación}
@@ -67,7 +67,7 @@ larger frequencies appear in the networks for weights with larger magnitudes.
 Outros traballos como \cite{mildenhall2020nerfrepresentingscenesneural} non utiliza unha función de activación periódica, mais para a representación adecuada de zonas de alta frecuencia 
 utilizaron codificación posicional, que xa as incorpora de forma implícita na rede con bós resultados. 
 
-Outra das vantaxes que ten SIREN é que é unha función suave ou infinitamente diferenciable, é dicir, que admite derivadas de calquer orde.
+Outra das vantaxes que ten SIREN é que é unha función suave ou infinitamente diferenciable, é dicir, que admite derivadas de calquera orde.
 Outros exemplos de funcións de activación infinitamente diferenciables son:
 
 Sigmoide:  
@@ -98,7 +98,7 @@ A fórmula para a inicialización dos pesos da primeira capa é a seguinte:
     w_i \sim U\left[ -\frac{1}{n}, \frac{1}{n} \right]
     \]
 
-\caption{Inicialización primera capa}
+\caption{Inicialización primeira capa}
 \end{figure}
 
 onde n é o número de neuronas de entrada (o tamaño da capa anterior).
@@ -114,7 +114,7 @@ As seguintes capas inicialízanse da seguinte forma:
 
 Desta forma asegurase que a entrada a cada activación sinusoidal está distribuída normalmente cunha desviación estándar de 1,
  o que debería mellorar a estabilidade e converxencia durante o adestramento da rede.
-Unha consecuencia desto é que, xa que os propios pesos da rede representan a deformación, inicialmente a rede comeza cunha deformacion moi similar en todos os casos, que o entrenamento deberá corrixir.
+Unha consecuencia desto é que, xa que os propios pesos da rede representan a deformación, inicialmente a rede comeza cunha deformacion moi similar en todos os casos, que o adestramento deberá corrixir.
 
 En \cite{sireninit} implementan unha versión simplificada de SIREN para facilitar o estudo destas, 
 e propoñen melloras proceso de inicialización. Unha delas e utilizar a distribución Kaiming (He) en lugar da uniforme.
@@ -186,14 +186,14 @@ Os principais termos de perda valorados para este traballo son:
 \end{itemize}
 
 Debido á natureza das imaxes de retina, onde poden existir diferencias de iluminación e contraste entre as imaxes fixa e móbil, 
-parece mais apropiado empregar métricas baseadas na similitude como NCC ou SSIM.
+parece máis apropiado empregar métricas baseadas na similitude como NCC ou SSIM.
 
 NCC utilizouse a implementación de  https://github.com/BDdeVos/TorchIR/blob/main/torchir/metrics.py.
 
 \subsubsection{Termos de regularización}
 \label{subsubsec:Termos de regularización}
 
-Debido a que o rexistro de imáxenes deformables é un problema mal planteado (ill-posed problem**), 
+Debido a que o rexistro de imáxenes deformables é un problema mal formulado (ill-posed problem), 
 é común utilizar algún tipo de regularización sobre o DVF para evitar deformacións pouco realistas.
  Os métodos de rexistro baseados en redes neuronaies convolucionais (CNN) representan os DVFs
  como mostras en una cuadrícula de vóxeles, e polo tanto, solo se poden aproximar gradientes espaciais
@@ -211,10 +211,10 @@ Desta forma, podemos calcular calquera número de termos de regularización e in
 Algúns exemplos de termos de regularización que se poden empregar son:
 \begin{itemize}
     \item Jacobian regularizer: 
-    O determinante Jacobiano da transformación (det ∇Φ) nunha localización x é un indicador de estiramento ou compresión local.
-    Un determinante Jacobiano negativo ou moi cercano a 0 indica que están a ocurrir dobreces e a transformación non será invertible.
+    O determinante Xacobiano da transformación (det ∇Φ) nunha localización x é un indicador de estiramento ou compresión local.
+    Un determinante Xacobiano negativo ou moi cercano a 0 indica que están a ocurrir dobreces e a transformación non será invertible.
     A matriz jacobiana é a matriz que contén todas as derivadas parciais da función de transformación (calculado mediante gradientes).
-    O termo de regularización do Jacobiano penaliza os valores do determinante Jacobiano que se desvían de 1, 
+    O termo de regularización do Xacobiano penaliza os valores do determinante Xacobiano que se desvían de 1, 
     tentando preservar áreas locais e evitar estiramentos ou dobreces extremas.
 
 
@@ -223,7 +223,7 @@ Algúns exemplos de termos de regularización que se poden empregar son:
         \[
         S^{jac}[\Phi] = \int_{\Omega} \left| 1 - \det \left( \nabla \Phi \right) \right| \, dx
         \]
-        \caption{Regulizador Jacobiano}
+        \caption{Regulizador Xacobiano}
     \end{figure}
 
     Ω representa o dominio ou rexión do espazo sobre o cal está definida a transformación Φ.
@@ -232,11 +232,11 @@ Algúns exemplos de termos de regularización que se poden empregar son:
     Tamén se póden engadir restricións ao DVF con este termo proposto por \cite{HyperelasticRegularization}.
     Consiste en tres termos, un termo de lonxitude, un termo de área e un termo de volumen co obxetivo de controlar variacións nestes aspectos.
     O termo de lonxitude penaliza a variación da lonxitude dos vectores do DVF, sendo u a medida desplazamiento dun punto no espacio.
-    A matriz de cofactores da matriz do Jacobiano da transformación controla o área, 
+    A matriz de cofactores da matriz do Xacobiano da transformación controla o área, 
     A función de máximo asegura que só as expansións que sobrepasen certo límite sexan penalizadas
     O determinante da matriz do Jacobiana controla o volume, 
     e ambas penalizan o crecemento e a contracción por igual.
-    αl, αa e αν son hiperparámetros que controlan a importancia de cada término.
+    αl, αa e αν son hiperparámetros que controlan a importancia de cada termo.
 
     \begin{figure}[tbp]
         \centering
@@ -269,7 +269,7 @@ Algúns exemplos de termos de regularización que se poden empregar son:
 \end{itemize}
 
 Para a implementación neste traballo modificaronse todos estos termos para que funcionaran con transfomacións de dúas dimensións en lugar de tres,
- sustituíndo o gradiente de 3 dimensión no Jacobiano por un de dúas, eliminando as derivadas parciais en z en bending energy e o termo de volume no termo hiperelástico.
+ sustituíndo o gradiente de 3 dimensión no Xacobiano por un de dúas, eliminando as derivadas parciais en z en bending energy e o termo de volume no termo hiperelástico.
 
 \begin{itemize}
     \item Jacobian regularizer:\\
@@ -291,7 +291,7 @@ Para a implementación neste traballo modificaronse todos estos termos para que 
 
 A regularización tamén ten un impacto significativo no tempo de computación, xa que require múltiples pasadas de retropropagación por época para calcular os distintos termos de penalización.
 Sen regularización só se fai 1 pasada para calcular o gradiente do termo de similitude da imaxe.
-Ca regularización do Jacobiano, ademais do termo de similitude, calcúlanse dúas derivadas (unha por dimensión) para obter o Jacobiano, resultando en 3 pasadas por época.
+Ca regularización do Xacobiano, ademais do termo de similitude, calcúlanse dúas derivadas (unha por dimensión) para obter o Xacobiano, resultando en 3 pasadas por época.
 Engadindo a regularización hiperelástica (sen termo de volume), é necesario calcular unha derivada adicional para o cofactor da matriz Jacobiana, facendo un total de 4 pasadas por época.
 Finalmente, ca penalización de enerxía de flexión, necesitanse derivadas segundas, o que implica 7 pasadas por época en total.
 No traballo orixinal de IDIR, chegaban a usar 13 pasadas debido a que traballan en 3D.
@@ -301,7 +301,7 @@ Por outro lado, se os termos son demasiado pequenos, a rede fará transformació
 A cantidade óptima de regularización depende da parexa concreta de imaxes a alinear, polo que intentaremos determinar cal é a mellor para unha mostra de imaxes.
 
 Ademais, pese a que os diferentes termos de regularización valoran diferentes aspectos, cabe ter en conta que tamén superposición nalgunhas das propiedades que valoran.
-Por exemplo, o regularizador hiperelástico pode considerarse un termo mais xeral que inclúe indirectamente penalizaciones do Jacobiano (ambos penalizan as "dobreces") e de suavidade das transfomacións (como fai o bending pero en menor grado).
+Por exemplo, o regularizador hiperelástico pode considerarse un termo máis xeral que inclúe indirectamente penalizaciones do Xacobiano (ambos penalizan as "dobreces") e de suavidade das transfomacións (como fai o bending pero en menor grado).
 
 \subsubsection{Learning rate e tamaño de lote}
 \label{subsubsec:Learning rate e tamaño de lote}
@@ -310,12 +310,12 @@ O learning rate é un parámetro do optimizador (Adam neste caso) que regula o t
 Determina a magnitude do cambio aplicado para minimizar a función de perda, afectando tanto a velocidade de converxencia como a estabilidade do proceso de aprendizaxe.
 Un learning rate demasiado alto pode provocar que a rede diverxa, mentres que un learning rate demasiado baixo pode resultar en converxencia lenta ou quedar atrapado en mínimos locais.
 
-Debido á natureza da rede, o tamaño de lote utilzado ten unha relación directa co learning rate, polo que tentaremos determinar a relación óptima entre ambos.
+Debido á natureza da rede, o tamaño de lote utilizado ten unha relación directa co learning rate, polo que tentaremos determinar a relación óptima entre ambos.
 
-Unha das heurísiticas mais comúns para relacionar o learning rate e o tamaño de lote é a regla de escalado linear \cite{goyal2018accuratelargeminibatchsgd}. 
+Unha das heurísiticas máis comúns para relacionar o learning rate e o tamaño de lote é a regla de escalado linear \cite{goyal2018accuratelargeminibatchsgd}. 
 A regla indica que o learning rate óptimo debe escalarse linearmente cantidade de mostras por lote. 
 
-Unha forma de explicar isto é, xa que con batches mais grandes temos unha mellor aproximación do gradiente real, é posible utilizar un learning rate maior sen que a rede diverxa. \cite{kexuefm}
+Unha forma de explicar isto é, xa que con tamaños de lote máis grandes temos unha mellor aproximación do gradiente real, é posible utilizar un learning rate maior sen que a rede diverxa. \cite{kexuefm}
 
 O tamaño de lote nesta rede representa o número de coordenadas amostradas aleatoriamente do espazo de coordenadas dentro da máscara.
 
@@ -340,7 +340,7 @@ facendo uso dunha métrica de similitude como función de perda.
 
 Parametrizar a función de deformación como unha \glossary{INR} dentro dun \glossary{MLP} ten varias vantaxes para o rexistro de imaxes.
 En primeiro lugar, a representación da transformación é continua e polo tanto independente da resolución da imaxe, 
-grazas a iso o mesmo modelo poder ser empregado para imaxes de calquer tamaño, ao contrario dunha CNN tradicional 
+grazas a iso o mesmo modelo pode ser empregado para imaxes de calquera tamaño, ao contrario dunha CNN tradicional 
 que ten que ser adaptada para cada resolución.
 
 Segundo, facelo desta forma permite aproveitar as capacidades de librerías como PyTorch para calcular os gradientes da transformación respecto das coordenadas.
@@ -405,7 +405,7 @@ Unha vez inicializada a rede, xérase un tensor de coordenadas que contén a loc
 
 A continuación, comeza o bucle de adestramento, que se repite durante un número predefinido de épocas. En cada iteración dentro dunha época, realízase o seguinte proceso:
 \begin{itemize}
-    \item \textbf{Mostraxe de Coordenadas:} En lugar de procesar a imaxe enteira en cada paso, selecciónase un subconxunto de puntos do tensor de coordenadas igual ao tamaño de batch. A estratexia de mostraxe é un compoñente crítico que foi obxecto de experimentación neste traballo.
+    \item \textbf{Mostraxe de Coordenadas:} En lugar de procesar a imaxe enteira en cada paso, selecciónase un subconxunto de puntos do tensor de coordenadas igual ao tamaño de lote. A estratexia de mostraxe é un compoñente crítico que foi obxecto de experimentación neste traballo.
 
     \item \textbf{Predición e Aplicación da Transformación:} As coordenadas (x, y) mostreadas introdúcense na rede. O MLP actúa como unha función de deformación implícita, devolvendo para cada coordenada de entrada un vector de desprazamento (dx, dy). 
 
@@ -424,7 +424,7 @@ Este ciclo repítese ata completar todas as épocas. Ao final do adestramento, o
 \subsection{FIRE}
 \label{subsec:FIRE}
 
- Está composto por 134 pares de imaxes de retinas, con un tamaño de 2912 × 2912 pixels e un \gls{FOV} de 45◦× 45◦.
+ Está composto por 134 pares de imaxes de retinas, con un tamaño de 2912 × 2912 píxeles e un \gls{FOV} de 45◦× 45◦.
  Están clasificadas en 3 categorías según o grado de superposición e a presenza de diferencias anatómicas: \textit{S}, \textit{P} e \textit{A}. \cite{FIRE}
 
  \begin{figure}[tbp]
@@ -476,9 +476,9 @@ Na figura \ref{fig:rfmid_ej} móstranse un exemplo dunha parella de imaxes do co
 \subsection{Diferencias entre os datasets}
 \label{subsec:Diferencias entre os datasets}
 
-Unha vantaxe de utilizar dous conxutos de datos diferentes é que cada un deles ten características únicas que permiten avaliar o modelo en diferentes contextos.
+Unha vantaxe de utilizar dous conxuntos de datos diferentes é que cada un deles ten características únicas que permiten avaliar o modelo en diferentes contextos.
 A principal diferencia é que RMiFD é un conxunto de datos sintético, no cal non introducimos diferenzas de cor e sempre teñen unha superposición do 100\%, polo que o único que se avalia é a capacidade do modelo para realizar os rexistros xeométricos.
-Polo contrario, FIRE é un conxunto de datos real, no cal existen cambios na iluminación, contraste, superposición e demais diferencias visuais, polo que se avalía a capacidade do modelo para realizar rexistros en condicións moito máis adversas.
+Pola contra, FIRE é un conxunto de datos real, no cal existen cambios na iluminación, contraste, superposición e demais diferencias visuais, polo que se avalía a capacidade do modelo para realizar rexistros en condicións moito máis adversas.
 
 \section{Diseño de Experimentos}
 \label{sec:Diseño de Experimentos}
@@ -487,8 +487,8 @@ O deseño de experimentos é un proceso sistemático que busca determinar a infl
 
 O custo computacional é un factor moi importante a ter en conta, xa que cada combinación de parámetros require un adestramento completo da rede por cada parella de imaxes, o que implica un alto custo enerxético e de tempo.
 Por exemplo, para probar unha combinación de parámetros sobre FIRE haberá que entrenar unha rede por cada parella de imaxes das 134 do conxunto de datos. 
-A un tempo de adestramento de 3 minutos por parella, o adestramento completo levaría mais de 6 horas por cada combinación de parámetros, cunha pegada de memoria de arredor de 5 GB de VRAM.
-O custo temporal e de memoria dependen de varios factores, sendo os mais relevantes a regularización empregada, a resolución da imaxe, o tamaño do tamaño de lote e a función de activación.
+A un tempo de adestramento de 3 minutos por parella, o adestramento completo levaría máis de 6 horas por cada combinación de parámetros, cunha pegada de memoria de arredor de 5 GB de VRAM.
+O custo temporal e de memoria dependen de varios factores, sendo os máis relevantes a regularización empregada, a resolución da imaxe, o tamaño do tamaño de lote e a función de activación.
 En concreto, SIREN ten un custo computacional moito maior que ReLU, requerindo arredor do doble de tempo e memoria para adestrar a rede.
 
 Debido ao gran número de factores a ter en conta, adoptouse un enfoque de experimentación en fases.
@@ -513,7 +513,7 @@ Na estratexia de mostraxe intelixente, calcúlase unha máscara de probabilidade
 Implementouse tamén unha estratexia de mostraxe ponderada, onde se seleccionan puntos aleatorios, pero con maior probabilidade de que caian nas zonas de interese (vasos sanguíneos e disco óptico), funcionando como un punto intermedio entre a mostraxe aleatoria e a mostraxe intelixente. 
 
 \paragraph{Mostraxe Uniforme}
-Introduciuse unha estratexia de mostraxe uniforme, onde se selecciona un número fixo de puntos en cada imaxe, asegurando que están distribuídos uniformemente por toda a imaxe. É unha estratexia similar á mostraxe aleatoria, pero garantindo que se cobre a maior parte posible da imaxe. Isto é relevante en experimentos con tamaños de lote pequenos, onde unha mostraxe aleatoria non ten por que cubrir todas as zonas da imaxe. Para implementalo, empregouse unha distribución baseada na grella de Fibonacci (Fibonacci lattice), que permite repartir os puntos de maneira uniforme sobre a superficie circular da retina. A posición de cada punto calcúlase en coordenadas polares, asignando a cada punto un raio proporcional á raíz cadrada do seu índice dividido polo número total de puntos, e un ángulo proporcional ao índice multiplicado por $2\pi$ e dividido polo cadrado do número áureo ($\varphi^2$):
+Introduciuse unha estratexia de mostraxe uniforme, onde se selecciona un número fixo de puntos en cada imaxe, asegurando que están distribuídos uniformemente por toda a imaxe. É unha estratexia similar á mostraxe aleatoria, pero garantindo que se cubre a maior parte posible da imaxe. Isto é relevante en experimentos con tamaños de lote pequenos, onde unha mostraxe aleatoria non ten por que cubrir todas as zonas da imaxe. Para implementalo, empregouse unha distribución baseada na grella de Fibonacci (Fibonacci lattice), que permite repartir os puntos de maneira uniforme sobre a superficie circular da retina. A posición de cada punto calcúlase en coordenadas polares, asignando a cada punto un raio proporcional á raíz cadrada do seu índice dividido polo número total de puntos, e un ángulo proporcional ao índice multiplicado por $2\pi$ e dividido polo cadrado do número áureo ($\varphi^2$):
 
 \[
 r_i = \sqrt{\frac{i}{N}}, \quad \theta_i = 2\pi \frac{i}{\varphi^2}
@@ -603,7 +603,7 @@ Ademais, en FIRE a avaliación segmentarase nas 3 categorías de imaxes (S, P e 
 \end{figure}
 
 No caso de RFMiD, dividiremos o conxunto de datos en varias categorías dependendo da dificultade do rexistro, que se calcula mediante a norma de Frobenius dunha matriz $A \in \mathbb{R}^{m \times n}$.
-Esta é unha xeralización da distancia euclidiana aplicada a matrices, onde as imaxes con transformacións mais grandes considéranse mais difíciles.
+Esta é unha xeralización da distancia euclidiana aplicada a matrices, onde as imaxes con transformacións máis grandes considéranse máis difíciles.
 
 \begin{figure}[tbp]
     \centering
@@ -619,7 +619,7 @@ Nalgúns casos temén utilizaremos a distancia media entre os puntos corresponde
 \subsection{Avaliación Cualitativa}
 \label{subsec:Avaliación Cualitativa}
 
-No caso deste traballo, a avaliación cualitativa cobra gran importancia, xa que na cuantitativa so se está a comparar sobre un número reducido de puntos en cada parexa de imaxes.
+No caso deste traballo, a avaliación cualitativa cobra gran importancia, xa que na cuantitativa só se está a comparar sobre un número reducido de puntos en cada parexa de imaxes.
 A avaliación visual permite detectar problemas que non se reflictan nas métricas cuantitativas, como artefactos visuais ou deformacións non desexadas, 
 especialmente en rexistros que teñen deformacións locais que poden non coincidir con ningún punto.
 
@@ -627,7 +627,7 @@ No caso do dataset FIRE \cite{FIRE}, a avaliación visual é especialmente relev
 Xa que en RFMID \cite{RFMiD} utilízanse puntos de referencia xerados manualmente que cubren toda a imaxe, a avaliación visual é algo menos relevante, xa que é máis probable que unha deformación local incorrecta sexa detectada por algún punto e se vexa reflexado nas métricas.
 
 Co obxetivo de identificar facilmente os distintos artefactos visuais ou transformación non realista, utilízanse diferentes ferramentas como a composición de imaxes, a visualización dos vectores de desprazamento e a comparación de imaxes antes e despois do rexistro.
-Na figura \ref{fig:visex} pódense observar algúns exemplos de estas.
+Na figura \ref{fig:visex} pódense observar algúns exemplos destas.
 
 \begin{figure}[tbp]
     \centering

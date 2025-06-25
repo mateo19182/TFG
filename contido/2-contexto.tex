@@ -1,12 +1,12 @@
 \chapter{Contexto}
 \label{chap:contexto}
 
-\lettrine{N}{este} apartado introdúcense o contexto relevante a este traballo que provee os conceptos básicos necesarios para a súa comprensión.
+\lettrine{N}{este} apartado introdúcese o contexto relevante a este traballo que provee os conceptos básicos necesarios para a súa comprensión.
 Para elo descríbese o campo da oftalmoloxía e a imaxe médica, así como o estado da arte en aliñamento de imaxes.
 \section{Oftalmoloxía}
 \label{sec:Oftalmoloxía}
 A oftalmoloxía é a especialidade médica encargada do estudo e tratamento das enfermidades dos ollos, incluíndo o globo ocular, a súa musculatura, o sistema lagrimal e as pálpebras.
-O ollo humano é un dos órganos dos que mais dependemos e maior cantidade de información sensorial aporta, así como un dos mais complexos do noso corpo \cite{kanski2011clinical}.
+O ollo humano é un dos órganos dos que máis dependemos e maior cantidade de información sensorial aporta, así como un dos máis complexos do noso corpo \cite{kanski2011clinical}.
 
 A importancia da oftalmoloxía radica non só no tratamento das enfermidades oculares, senón tamén na súa capacidade para proporcionar información valiosa sobre o estado de saúde xeral do paciente. 
 A observación directa dos vasos sanguíneos e do tecido neuronal 'in vivo' permite aos oftalmólogos detectar signos precoces de diversas enfermidades sistémicas.
@@ -44,7 +44,7 @@ Existen diversas modalidades de imaxe médica que permiten observar o ollo, cada
 Entre elas inclúense a fotografía de fondo de ollo, a tomografía de coherencia óptica (OCT) e a angiografía con fluoresceína \cite{ilginis2014ophthalmic}.
 
 Este traballo céntrase na fotografía de fondo de ollo entre outras razóns polo seu uso común na práctica clínica.
-Isto é débese en gran parte á súa accesibilidade, requerindo equipo maís barato e menor entrenamento comparada cas outras modalidades. 
+Isto é débese en gran parte á súa accesibilidade, requerindo equipo maís barato e menor adestramento comparada cas outras modalidades. 
 Ademais, é unha técnica non invasiva e rápida de realizar, o que a fai preferible na maioría dos casos \cite{retinimaging}.
 
 Para realizala faise uso dunha cámara especial denominada retinógrafo, e xeralmente require da previa dilatación da pupila do paciente.
@@ -53,14 +53,14 @@ Un especialista pode analizar a retinografía para detectar signos de enfermidad
 
 \section{Rexistro de imaxes}
 \label{sec:Rexistro de imaxes}
-O rexistro de imaxes é un proceso que consiste en, sobre dúas ou mais imaxes, determinar a correspondencia espacial entre elas
+O rexistro de imaxes é un proceso que consiste en, sobre dúas ou máis imaxes, determinar a correspondencia espacial entre elas
  e alinealas nun sistema de coordenadas común, co obxetivo de que as características de interese se atopen na mesma posición.
 
 % Por exemplo, no caso do stitching de fotografías panorámicas, o rexistro de imaxes permite identificar correspondencias entre puntos característicos en múltiples tomas solapadas
 %  e axustar a súa posición relativa nun marco común. Esta etapa é necesaria para a posterior fusión das imaxes, de modo que as distintas vistas se aliñen con precisión, producindo un resultado final continuo e sen irregularidades visuais.
 
 O rexistro de imaxes ten utilidade en moitos campos diferentes como a imaxe satelital, xeografía, robótica... mais o 
-campo da imaxe médica é dos mais interesantes póla súa aplicación práctica e é o que se aborda neste traballo \cite{goshtasby2017theory}.
+campo da imaxe médica é dos máis interesantes póla súa aplicación práctica e é o que se aborda neste traballo \cite{goshtasby2017theory}.
 Estas imaxes poden variar a nivel temporal, espacial, de dimensión ou de modalidade.
 
 No ámbito da saúde un rexistro adecuado pode empregarse para comparar imaxes dun mesmo paciente tomadas en distintos momentos, en distintas modalidades ou para comparar entre diferentes pacientes.
@@ -112,7 +112,7 @@ O rexistro de imaxes pode ser clasificado en distintas categorías segundo as s�
         \item \textit{Ríxida:} Só permite traslación e rotación, mantendo as distancias e ángulos.
         \item \textit{Afín:} Ademais de traslación e rotación, permite escalado e cizallamento.
         \item \textit{Deformable (non ríxida):} Permite deformacións locais complexas e non lineais.
-        \item \textit{Difeomórfica:} Transformación non ríxida que é continua, invertible e diferenciable en todo o seu dominio. Se non tén esta característica, non se pode garantir que a transformación sexa reversíbel, polo que son preferidas en moitos casos \cite{han2022diffeomorphicimageregistrationneural}.
+        \item \textit{Difeomórfica:} Transformación non ríxida que é continua, invertible e diferenciable en todo o seu dominio. Se non ten esta característica, non se pode garantir que a transformación sexa reversíbel, polo que son preferidas en moitos casos \cite{han2022diffeomorphicimageregistrationneural}.
     \end{itemize}
 
     \item \textbf{Segundo o grao de automatización:} \cite{deeplernreview3dreg}
@@ -166,7 +166,7 @@ O rexistro de imaxes pode ser clasificado en distintas categorías segundo as s�
 
 As transformacións lineais globais soen representanse en matrices de transformación, onde cada elemento da matriz representa un parámetro da transformación.
 
-No caso de transformacións mais complexas, utilízanse campos de vectores de deformación (\gls{DFV}s), que permite representar deformacións locais na imaxe, facendoa moito mais flexible para representar transformacións non lineais e detalladas.
+No caso de transformacións máis complexas, utilízanse campos de vectores de deformación (\gls{DFV}s), que permite representar deformacións locais na imaxe, facendoa moito máis flexible para representar transformacións non lineais e detalladas.
 Os DFVs adoitan ser representados cunha matriz de igual tamaño á imaxe, onde cada elemento representa un vector que indica a dirección e a magnitude da deformación.
 
 Este traballo ubícase no rexistro de imaxes par a par, intra-modaliade e con transformacións deformables. É un proceso totalmente automático que produce transfomacións asimétricas.
@@ -266,10 +266,10 @@ Ca chegada dos métodos de aprendizaxe profunda á imaxe médica, comezaron a em
 Existe un gran interés polos métodos baseados en aprendizaxe profundo, como se reflexa no crecente número de publicacións no campo. Na figura \ref{fig:method_comp} móstrase a evolución do número de publicacións sobre rexistro de imaxes, diferenciando entre os métodos baseados en aprendizaxe profunda e os métodos tradicionais.
 
 % Estos métodos tenden a ser mais rápidos que os métodos convencionais, a custo de algo de precisión.
-Os métodos de aprendizaxe profunda poden ser clasificados en dous tipos según se requiran de \glossary{DFV}s anotados ou non na etapa de entrenamento:
+Os métodos de aprendizaxe profunda poden ser clasificados en dous tipos según se requiran de \glossary{DFV}s anotados ou non na etapa de adestramento:
 supervisados (requíren anotacións) e non supervisados (non requíren anotacións) \cite{nie2024medicalimageregistrationapplication}.
 
-Segundo o grado de supervisión utilizado na etapa de entrenamento, os métodos supervisados poden dividirse en supervisados ou débilmente supervisados.
+Segundo o grado de supervisión utilizado na etapa de adestramento, os métodos supervisados poden dividirse en supervisados ou débilmente supervisados.
 O rexistro totalmente supervisado fai uso de DVFs de referencia para supervisar o proceso de aprendizaxe, e o termo de perda adoita basearse na discrepancia entre os DVFs de referencia e os DVFs predicidos.
 
 O rexistro débilmente supervisado pode utilizar outras etiquetas de referencia implícitas, non baseadas en datos explícitos como os DFVs, senón que utilizan información indirecta para guiar o proceso de rexistro, como a semellanza entre as imaxes ou restricións baseadas na forma ou límites anatómicos das estruturas.
@@ -298,11 +298,11 @@ Os métodos de aprendizaxe profunda poden substituír calquera destes pasos que 
 \begin{itemize}
 \item \textbf{Métrica de similitude:} Os métodos de aprendizaxe profunda poden aprender métricas de similitude máis robustas que as tradicionais. Estas métricas aprendidas poden ser máis efectivas en imaxes multimodais ou con artefactos.
 Por exemplo, Czolbe et al. \cite{semanticsimilarity} propoñen dúas métricas de similitude semánticas que aprende a semellanza entre imaxes comparando as características de alto nivel extraídas. Presentan unha aproximación non supervisada que fai uso de autoencoders e outra semisupervisada que incorpora datos de segmentación.
-\item \textbf{Optimizador:} Os métodos de aprendizaxe profunda poden substituír o proceso de optimización iterativa tradicional por redes que aprenden a predicir directamente os parámetros de transformación óptimos. Unha aproximación común é empregar estes conxuntos de datos para optimizar unha CNN que, dadas dúas imaxes novas e non vistas, predice o DFV correspondente \cite{defregcnn}. Durante o proceso de entrenamento, a rede pode ter acceso aos DFVs ca deformación correcta, ou pódense obter indirectamente a través da optimización dunha métrica de similitude de imaxes.
-\item \textbf{Modelo de transformación:} Estes métodos aprenden representacións implícitas da transformación a través de redes neuronais, permitindo modelar deformacións mais complexas que os modelos paramétricos tradicionais. Os métodos como IDIR \cite{wolterink2021implicit} encaixan nesta categoría, utilizando campos neuronais implícitos para representar as transformacións de rexistro.
+\item \textbf{Optimizador:} Os métodos de aprendizaxe profunda poden substituír o proceso de optimización iterativa tradicional por redes que aprenden a predicir directamente os parámetros de transformación óptimos. Unha aproximación común é empregar estes conxuntos de datos para optimizar unha CNN que, dadas dúas imaxes novas e non vistas, predí o DFV correspondente \cite{defregcnn}. Durante o proceso de adestramento, a rede pode ter acceso aos DFVs ca deformación correcta, ou pódense obter indirectamente a través da optimización dunha métrica de similitude de imaxes.
+\item \textbf{Modelo de transformación:} Estes métodos aprenden representacións implícitas da transformación a través de redes neuronais, permitindo modelar deformacións máis complexas que os modelos paramétricos tradicionais. Os métodos como IDIR \cite{wolterink2021implicit} encaixan nesta categoría, utilizando campos neuronais implícitos para representar as transformacións de rexistro.
 \end{itemize}
 
-% Existen diferentes extensións a esta aproximación, como o uso de múltiples etapas ou o uso de redes adversarias durante o entrenamento.
+% Existen diferentes extensións a esta aproximación, como o uso de múltiples etapas ou o uso de redes adversarias durante o adestramento.
 
 % Tamén se propuxeron métodos híbridos que combinan a optimización iterativa ca aprendizaxe profunda,
 % entrenando unha CNN nova por cada parella de imaxes. Desta forma conséguese evitar a necesidade de grandes conxuntos de datos para o adestramento.
@@ -311,9 +311,9 @@ Por exemplo, Czolbe et al. \cite{semanticsimilarity} propoñen dúas métricas d
 \label{par:FBR_substitution}
 
 \begin{itemize}
-\item \textbf{Detectores de características:} As redes neuronais poden aprender a detectar puntos de interese mais robustos e repetibles que os detectores clásicos como \glossary{SIFT}. SuperPoint \cite{superpoint} introduce un detector de características baseado en redes neuronais que aprende a detectar puntos de interese e a describilos simultaneamente.
-\item \textbf{Descriptores de características:} Os descriptores aprendidos mediante redes neuronais poden capturar información mais discriminativa, mellorando a precisión do emparellamento posterior. Estes métodos aprenden representacións que son invariantes a transformacións específicas do dominio.
-\item \textbf{Emparellamento:} As redes neuronais poden aprender a realizar o emparellamento de características de forma mais robusta, especialmente en presenza de cambios de iluminación ou perspectiva. SuperGlue \cite{superglue} é un exemplo de modelo que aprende a emparellar puntos de interese detectados utilizando unha arquitectura baseada en atención para capturar as relacións entre os puntos.
+\item \textbf{Detectores de características:} As redes neuronais poden aprender a detectar puntos de interese máis robustos e repetibles que os detectores clásicos como \glossary{SIFT}. SuperPoint \cite{superpoint} introduce un detector de características baseado en redes neuronais que aprende a detectar puntos de interese e a describilos simultaneamente.
+\item \textbf{Descriptores de características:} Os descriptores aprendidos mediante redes neuronais poden capturar información máis discriminativa, mellorando a precisión do emparellamento posterior. Estes métodos aprenden representacións que son invariantes a transformacións específicas do dominio.
+\item \textbf{Emparellamento:} As redes neuronais poden aprender a realizar o emparellamento de características de forma robusta, especialmente en presenza de cambios de iluminación ou perspectiva. SuperGlue \cite{superglue} é un exemplo de modelo que aprende a emparellar puntos de interese detectados utilizando unha arquitectura baseada en atención para capturar as relacións entre os puntos.
 \end{itemize}
 
 \paragraph{Métodos de regresión directa}
@@ -323,8 +323,8 @@ A aprendizaxe profunda tenden a requerir dunha gran cantidade de datos para ser 
 
 Os métodos de regresión directa aprenden a mapear directamente desde un par de imaxes ata os parámetros da transformación, sen necesidade de optimización iterativa nin extracción explícita de características.
 
-Tamén son denominados métodos de inferencia amortizada debido á capacidade de realizar múltiples inferencias (rexistros) tras un único proceso de entrenamento, en contraposición aos métodos tradicionais que requiren optimización individual para cada par de imaxes.
-Estes enfoques son útiles pola súa eficiencia computacional na fase de inferencia. Voxelmorph \cite{Balakrishnan_2019voxelmorph} é un dos frameworks mais utilizados no rexistro de imaxes deformable, facendo uso de modelos baseado en \gls{CNN}s e que tamén permite incorporar información auxiliar (como segmentacións) se está dispoñible, mellorando así a precisión do rexistro.
+Tamén son denominados métodos de inferencia amortizada debido á capacidade de realizar múltiples inferencias (rexistros) tras un único proceso de adestramento, en contraposición aos métodos tradicionais que requiren optimización individual para cada par de imaxes.
+Estes enfoques son útiles pola súa eficiencia computacional na fase de inferencia. Voxelmorph \cite{Balakrishnan_2019voxelmorph} é un dos frameworks máis utilizados no rexistro de imaxes deformable, facendo uso de modelos baseado en \gls{CNN}s e que tamén permite incorporar información auxiliar (como segmentacións) se está dispoñible, mellorando así a precisión do rexistro.
 
 Métodos como UDIR-Net \cite{undefreg} ou DIO \cite{Jena_2025} tamén implementan estas ideas.
 
@@ -372,13 +372,13 @@ Representar o sinal como una función continua permite solucionar os problemas a
 
 As INR son moito mais eficientes debido á compresión da información que realizan de forma implícita. Ao mesmo tempo, permite un nivel de detalle non limitado pola resolución da imaxe, senón pola capacidade da rede. 
  Ademais, as representacións continuas son diferenciables, o que permite o cálculo de gradientes e derivadas de forma analítica en lugar de ter que aproximalos por diferencias finitas.
- Isto tamén implica que as representacións implícitas son independentes da resolución, o que permite a reconstrucción en calquer escala espacial.
+ Isto tamén implica que as representacións implícitas son independentes da resolución, o que permite a reconstrucción en calquera escala espacial.
  
 Tipicamente emprégase un MLP como architectura para representar a función implícita. Non obstante, o uso da función de activación ReLU tende a non obter os mellores resultados, debido a que son incapaces de representar deformacións locais sen afectar o sea comportamento global \cite{rahaman2019spectralbiasneuralnetworks},
 polo que moita investigación diríxese a atopar alternativas que melloren a representación do sinal. \cite{essakine2024standimplicitneuralrepresentations}
 
-Unha destas alternativas é SIREN \cite{sitzmann2020implicitneuralrepresentationsperiodic}, sobre a que profundizaremos mais adiante.
-Outras propostas inclúen \cite{ramasinghe2022periodicityunifyingframeworkactivations} propón as funcións de activación gaussianas como alternativa a SIREN, e argumenta que poden obter mellores representacións e mais robustas.
+Unha destas alternativas é SIREN \cite{sitzmann2020implicitneuralrepresentationsperiodic}, sobre a que profundizaremos máis adiante.
+Outras propostas inclúen \cite{ramasinghe2022periodicityunifyingframeworkactivations} propón as funcións de activación gaussianas como alternativa a SIREN, e argumenta que poden obter mellores representacións e máis robustas.
 \cite{saragadam2023wirewaveletimplicitneural} achega unha nova función de activación baseada en wavelets, que parece ser especialmente útil para a representación de imaxes.
 
 As representacións implícitas poden ser clasificadas en dúas categorías: xeneralizables e sobreaxustadas \cite{yu2024neuraltrajectorymodelimplicit}. 
@@ -417,7 +417,7 @@ Outro uso interesante das representacións neuronais implícitas é a compresió
 \subsection{Rexistro baseado en Representacións Neuronais Implícitas}
 \label{subsec:Rexistro_baseado_en_INRs}
 
-O rexistro de imaxes baseado en Representacións Neuronais Implícitas (INR) parametriza a transformación de deformación como unha función continua, xeralmente cun Perceptrón Multicapa (MLP), que mapea coordenadas espaciais a vectores de desprazamento. A diferenza das CNN, a rede non procesa as intensidades da imaxe directamente, senón que se optimiza usando estas para calcular a perda. Unha das vantaxes neste contexto é a capacidade de calcular gradientes analíticos exactos da transformación, permitindo unha regularización mais precisa que con aproximacións dos métodos baseados en grellas.  
+O rexistro de imaxes baseado en Representacións Neuronais Implícitas (INR) parametriza a transformación de deformación como unha función continua, xeralmente cun Perceptrón Multicapa (MLP), que mapea coordenadas espaciais a vectores de desprazamento. A diferenza das CNN, a rede non procesa as intensidades da imaxe directamente, senón que se optimiza usando estas para calcular a perda. Unha das vantaxes neste contexto é a capacidade de calcular gradientes analíticos exactos da transformación, permitindo unha regularización máis precisa que con aproximacións dos métodos baseados en grellas.  
 
 As funcións de activación periódicas (SIREN \cite{sitzmann2020implicitneuralrepresentationsperiodic}) permitiron sobrepasar o problema dos sesgos cara transformacións de baixa frecuencia do MLP, e foron utilizadas por IDIR acadando resultados de vangarda \cite{wolterink2021implicit}.  
 
@@ -442,4 +442,4 @@ Este falta de investigación é especialmente relevante dadas as potenciais vant
 
 Baseándose no framework introducido por \cite{wolterink2021implicit}, propónse modificalo para adaptalo á tarefa de rexistro de retinografías. O obxetivo é conseguir rexistros consistentemente precisos, especialmente no dataset de FIRE que contén imaxes reais de retina.
 
-Esta adaptación representa unha contribución novel ao estado da arte no rexistro de retinografías, explorando por primera vez o potencial das representaciones neuronales implícitas neste dominio específico.
+Esta adaptación representa unha contribución novel ao estado da arte no rexistro de retinografías, explorando por primeira vez o potencial das representaciones neuronales implícitas neste dominio específico.

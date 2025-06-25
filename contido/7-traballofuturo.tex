@@ -12,7 +12,7 @@
 
 % Encodear os inputs da rede é unha técnica que xa se emprega en moitas ocasións (one-hot encodings, transformers...)
 % Eles utilizan 'sparse parametric encodings' utilizando unha tabla de hashes de múltiples resolucións, que tamén tén parámetros entrenables e fai parte do traballo de aprendizaxe da rede.
-% Isto permítelles un entrenamento e inferencia moito mais rápido que outros métodos, sen ter que sacrificar en rendemento.
+% Isto permítelles un adestramento e inferencia moito mais rápido que outros métodos, sen ter que sacrificar en rendemento.
 
 % \cite{li2024neuralgraphicsprimitivesdeformable} aplicao estas ideas á tarefa de rexistro, con moi bós resultados.
 % Notablemente, resuelven o 'sliding boundary problem', que se refiere ás complicación de modelar o movemento relativo entre diferentes estructuras. 
@@ -24,9 +24,9 @@
 Unha liña relevante de traballo futuro é a exploración de arquitecturas alternativas. 
 Mentres que os perceptróns multicapa (MLPs) son considerados aproximadores universais \cite{HORNIK1989359} (son capaces de aproximar calquera función continua dada unha cantidade suficiente de neuronas), é posible que a arquitectura utilizada de 3 capas con 256 neuronas por capa non sexa o suficientemente grande para capturar as complexidades das transformacións entre as retinografías.
 
-Unha opción sería aumentar o número de capas ou neuronas por capa. Outra sería implementar o use de codificación posicional, que parece ser útil para a tarefa de rexistro \cite{mueller2022instant}.
+Unha opción sería aumentar o número de capas ou neuronas por capa. Outra sería implementar o uso de codificación posicional, que parece ser útil para a tarefa de rexistro \cite{mueller2022instant}.
 
-Outra idea moi intersante é o use de restriccións de consistencia cíclicas, propostas por Van Harten et al. no contexto de rexistro de imaxes médicas \cite{van_Harten_2024}. Consiste en entrenar dúas redes á vez que estiman as transformacións directas e inversas (unha da fixa á móbil e outra da móbil á fixa), facendo que estas se regularicen mutuamente e estabilizando a optimización.
+Outra idea moi intersante é o uso de restriccións de consistencia cíclicas, propostas por Van Harten et al. no contexto de rexistro de imaxes médicas \cite{van_Harten_2024}. Consiste en entrenar dúas redes á vez que estiman as transformacións directas e inversas (unha da fixa á móbil e outra da móbil á fixa), facendo que estas se regularicen mutuamente e estabilizando a optimización.
 Unha vantaxe deste enfoque é que produe unha métrica de certidumbre ao comparar as transformacións estimadas, o cal é moi útil en aplicacións clínicas.
 
 Tamén podía ser interesante explorar o uso de meta-aprendizaxe, onde se aprende unnha inicialización de pesos óptima a partir dun conxunto de datos \cite{learnedinit}, ou condicionar por xeometría, onde se incorpora coñecemento anatómico previo para simplificar a complexidade da deformación \cite{harten2023deformable}.  
@@ -37,7 +37,7 @@ Tamén podía ser interesante explorar o uso de meta-aprendizaxe, onde se aprend
 Unha direción interesante para o traballo futuro é a exploración de métodos que garantan a invertibilidade das transformacións aprendidas pola rede.
 A rede IDIR actual non garante a invertibilidade das transformacións aprendidas, o que significa que non é posíbel aplicar a transformación inversa de maneira fiable.
 
-Grazas aos termos de regularización utilizados durante o adestramento son poucos os casos nos que o determinante jacobiano é negativo (o que indicaría que a transformación non é invertible).
+Grazas aos termos de regularización utilizados durante o adestramento son poucos os casos nos que o determinante Xacobiano é negativo (o que indicaría que a transformación non é invertible).
 
 Aproximación como a de i-RevNet \cite{jacobsen2018irevnetdeepinvertiblenetworks} ou aqueles baseados en campos vectoriais de velocidade \cite{sun2024medicalimageregistrationneural} permiten garantir a invertibilidade das transformacións aprendidas, o que podería mellorar a precisión e a robustez do rexistro e funcionaría como un mecanismo de regulación implícita.
 
@@ -47,8 +47,8 @@ Aproximación como a de i-RevNet \cite{jacobsen2018irevnetdeepinvertiblenetworks
 Outra liña de traballo futuro é a exploración de enfoques híbridos que combinen o rexistro baseado en redes neuronais con técnicas tradicionais de rexistro.
 Unha posibilidade sería utilizar o rexistro tradicional para proporcionar un rexistro inicial e global robusto, que despois podería ser refinado por unha rede neuronal.
 
-Mais concretamente, consistiría en utilizar un detector de puntos clave robusto como SuperPoint \cite{superpoint} para extraer características das imaxes fixa e móbil, e utilizar un algoritmo de emparellamento de puntos clave como SuperGlue \cite{superglue} para obter unha transformación inicial entre as imaxes.
-Posteriormente entrenaría o modelo INR para refinar esta transformación inicial, o que é un problema de optimización máis sinxelo e que fai uso das vantaxes de ambos os enfoques.
+Máis concretamente, consistiría en utilizar un detector de puntos clave robusto como SuperPoint \cite{superpoint} para extraer características das imaxes fixa e móbil, e utilizar un algoritmo de emparellamento de puntos clave como SuperGlue \cite{superglue} para obter unha transformación inicial entre as imaxes.
+Posteriormente adestraría o modelo INR para refinar esta transformación inicial, o que é un problema de optimización máis sinxelo e que fai uso das vantaxes de ambos os enfoques.
 
 Este é o enfoque utilizado por métodos no estado da arte como HybridRetina \cite{liu2024progressiveretinalimageregistration}. 
 

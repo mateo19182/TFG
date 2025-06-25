@@ -20,7 +20,7 @@ Co obxectivo de mellorar este rendemento e comprender os factores clave que infl
 
 \item \textbf{Regularización:} Este experimento foi crucial para evitar as deformacións non realistas, un risco particular nos modelos SIREN debido ao seu sesgo cara ás altas frecuencias. Confirmouse que certo grao de regularización é indispensable, mais a cantidade óptima de regularización non é universal, senón que depende da complexidade da transformación.
 
-\item \textbf{Tamaño de lote:} A análise cualitativa suxería que este era un parámetro de gran impacto. Os experimentos confirmaron que o é un dos factores máis críticos para o éxito do rexistro. Un tamaño de lote grande (e.g., 10000 ou máis) é fundamental para obter bos resultados.
+\item \textbf{Tamaño de lote:} A análise cualitativa suxería que este era un parámetro de gran impacto. Os experimentos confirmaron que o é un dos factores máis críticos para o éxito do rexistro. Un tamaño de lote grande (e.g., 10000 ou máis) é fundamental para obter bós resultados.
 
 \item \textbf{Estratexias de mostraxe:} A hipótese inicial era que priorizar rexións con máis información (vasos sanguíneos, disco óptico) mediante estratexias de mostraxe "intelixentes" melloraría o rendemento. Os resultados demostraron que ningunha das estratexias propostas (uniforme, ponderada) ofreceu unha vantaxe significativa sobre a mostraxe aleatoria tradicional.
 
@@ -49,8 +49,8 @@ A menos que se especifique o contrario, para os experimentos utilizarase un lear
     \label{fig:FIRE_scores}
 \end{figure}
 
-\subsection{Descripción dos experimentos}
-\label{subsec:Descripción dos experimentos}
+\subsection{Descrición dos experimentos}
+\label{subsec:Descrición dos experimentos}
 
 % Os experimentos realizados divídense en varias categorías, cada unha coa súa motivación específica:
 
@@ -61,14 +61,14 @@ así como determinar a súa influenza no rendemento da rede.
     \item \textbf{Función de perda:} Debido ás características únicas das imaxes de retina, con variabilidade en iluminación e contraste, é crucial determinar que función de perda é máis robusta para esta tarefa. Comparáronse funcións baseadas en píxeles (MSE, L1) con funcións baseadas en características estruturais (NCC, SSIM) para determinar cal captura mellor as correspondencias entre imaxes retinianas.
     \item \textbf{Resolución da imaxe:} As imaxes de retina poden ter resolucións de ata 2160×2160 píxeles, significativamente maiores que as imaxes de pulmón utilizadas orixinalmente por IDIR (512×512). É necesario determinar se unha maior resolución mellora o rendemento ou se introduce ruído que perxudica o rexistro.
     \item \textbf{Regularización:} SIREN ten un sesgo inherente cara sinais de alta frecuencia, o que pode provocar sobreaxuste. Avalíase o impacto de diferentes termos de regularización (jacobiana, hiperelástica, enerxía de flexión) para determinar os valores óptimos que eviten deformacións non realistas.
-    \item \textbf{Tamaño de lote:} A densidade de puntos mostrados á rede pode ser crucial para o éxito do rexistro. Batch sizes maiores proporcionan máis información por iteración, pero a un maior custo computacional. Investígase o equilibrio óptimo entre eficiencia e rendemento.
+    \item \textbf{Tamaño de lote:} A densidade de puntos mostrados á rede pode ser crucial para o éxito do rexistro. Tamaños de lote maiores proporcionan máis información por iteración, pero a un maior custo computacional. Investígase o equilibrio óptimo entre eficiencia e rendemento.
 \end{itemize}
 
 \textbf{Estratexias de mostraxe:} As imaxes de retina teñen zonas con diferentes cantidades de información estrutural (vasos sanguíneos, disco óptico vs. fondo uniforme). Compáranse estratexias de mostraxe aleatorio, uniforme e ponderado por contido para determinar se priorizar certas rexións mellora o rexistro.
 
 \textbf{Inicialización:} A natureza non convexa da función de perda pode facer que diferentes inicializacións converxan a mínimos locais distintos. Implementouse unha lotería de inicialización para seleccionar a inicialización máis prometedora baseándose na perda inicial.
 
-\textbf{Axuste dinámico do tamaño de lote:} Teorízase que a rede podería beneficiarse de aprender primeiro transformacións globais con batch sizes pequenos e despois refinar con batch sizes maiores para capturar detalles locais.
+\textbf{Axuste dinámico do tamaño de lote:} Teorízase que a rede podería beneficiarse de aprender primeiro transformacións globais con tamaños de lote pequenos e despois refinar con maiores cantidades de puntos mostrados para capturar detalles locais.
 
 % \section{Experimentos iniciais}
 % \label{sec:Experimentos iniciais}
@@ -158,7 +158,7 @@ Pódense observar os puntos de control, sendo os brancos os da imaxe fixa, os ve
 % A función de loss é un dos aspectos máis importantes á hora de entrenar unha rede neuronal.
 As funcións de perda valoradas para este traballo xa forón explicadas na sección \ref{subsubsec:Termos de Perda}.
 
-Para determinar cal é a función de perda mais adecuada para a tarefa de rexistro de retinas, realizáronse experimentos comparando o rendemento de cada unha sobre unha mostra de imaxes dos datases de FIRE e RFMID.
+Para determinar cal é a función de perda máis adecuada para a tarefa de rexistro de retinas, realizáronse experimentos comparando o rendemento de cada unha sobre unha mostra de imaxes dos datases de FIRE e RFMID.
 Xa que a rede non é capaz de rexistrar con éxito a gran parte das imaxes nestas condicións, tomaráse a distancia media de todos os puntos como métrica de comparación.
 
 \subsection{Resultados}
@@ -216,7 +216,7 @@ Isto pode deberse a que as imaxes reais de retina teñen unha maior variabilidad
 No caso de RFMID, ao ser imaxes sintéticas, a variabilidade na iluminación e contraste é nula, o que explica os mellores resultados das métricas que non teñen en conta a estructura da imaxe.
 Da mesma forma, a función de activación Relu tende a producir funcións predominantemente lineares, o que se adapta mellor ás transformacións realizadas no dataset RFMID.
 
-SSIM é menos robusta ao ruído e sensible o tamaño das seccións utilizadas, así como computacionalmente mais costosa. Ademais, ten outro custo engadido xa que non é posible calcular SSIM tan só comparando os puntos mostrados xa que utiliza xanelas deslizantes para evaluar luminancia, contraste e estrutura. 
+SSIM é menos robusta ao ruído e sensible o tamaño das seccións utilizadas, así como computacionalmente costosa. Ademais, ten outro custo engadido xa que non é posible calcular SSIM tan só comparando os puntos mostrados xa que utiliza xanelas deslizantes para evaluar luminancia, contraste e estrutura. 
 Para utilizala é necesario reconstruir a imaxen en cada iteracion o que ten un alto custo computacional.
 No caso de non reconstruir a imaxe e utilizar os puntos mostrados directamente, esta métrica funciona igualmente mais con resultados lixeiramente peores, xa que perde toda a súa capacidade de capturar variacións locais de luminancia, contraste e estrutura, o que se tradúce nunha función de perda global sen consideraciós locais.
 
@@ -239,13 +239,13 @@ En base aos resultados obtidos, pódense extraer as seguintes conclusións:
 \subsection{Planteamento}
 \label{subsec:Planteamento-resolution}
 
-Para determinar cal é a resolución mais adecuada, realizáronse experimentos comparando o rendemento de cada unha sobre unha mostra de imaxes dos datases de FIRE e RFMID.
+Para determinar cal é a resolución máis adecuada, realizáronse experimentos comparando o rendemento de cada unha sobre unha mostra de imaxes dos datases de FIRE e RFMID.
 Debido a que a rede non é capaz de rexistrar con éxito a gran parte das imaxes, tomaráse a distancia media de todos os puntos como métrica de comparación.
 
 A resolución da imaxe inflúe de forma directa no resto de parámetros da rede.
 Por exemplo, un tamaño de lote de 1000 puntos nunha imaxe de 256x256 é unha densidade de puntos moito maior que nunha imaxe de 1024x1024.
 
-Ademais, a resolución da imaxe tamén inflúe na capacidade da rede para aprender as transformacións, xa que a información que recibe é mais detallada. 
+Ademais, a resolución da imaxe tamén inflúe na capacidade da rede para aprender as transformacións, xa que a información que recibe é máis detallada. 
 Isto pode ser beneficioso se estos detalles conteñen información relevante para a tarefa de rexistro, pero tamén podería ser perxudicial se conteñen unha gran parte de ruido.
 
 O tamaño das imaxes tamén é unha das principais diferencias entre as imaxes de retina e as de pulmóns utilizadas orixinalmente por IDIR, tendo estas últimas de 512x512 mentres que as imaxes dos ollos contan con resolucións de ata 2160x2160.
@@ -317,15 +317,15 @@ As técnicas de regularización valoradas, que xa forón explicadas en detalle n
 % , son as seguintes:
 
 % \begin{itemize}
-%     \item Regularizador do Jacobiano: penaliza as desviaciones do determinante da matriz Jacobiana respecto a 1, limitando expansións ou compresións locais excesivas.
+%     \item Regularizador do Xacobiano: penaliza as desviaciones do determinante da matriz Jacobiana respecto a 1, limitando expansións ou compresións locais excesivas.
 %     \item Regularizador hiperelástico: engade termos basados na enerxía de deformación, controlando a extensión e a expansión de superficie e garantindo transformacions suaves y difeomórficas.
 %     \item Penalización da enerxía de flexión: mide a magnitude das segundas derivadas do campo de deformación, promovendo que a superficie resultante sea o mais realista posible e reducindo oscilacións de alta frecuencia.
 % \end{itemize}
 
 Os valores utilizados para cada tipo de regularización axustaronse a partir dos utilizados orixinalmente por IDIR e comparado o impacto de cada un deles sobre a función de perda, xa que a escala de cada un deles é diferente.
 
-No anexo \ref{sec:Anexo regularization} detállase unha búsqueda mais completa para explorar as relacións entre os diferentes tipos de regularización.
-Neste apartado só se presentarán os resultados dos experimentos realizados coa regularización hiperelástica, que se considera a mais relevante para nesta tarefa.
+No anexo \ref{sec:Anexo regularization} detállase unha búsqueda máis completa para explorar as relacións entre os diferentes tipos de regularización.
+Neste apartado só se presentarán os resultados dos experimentos realizados coa regularización hiperelástica, que se considera a máis relevante para nesta tarefa.
 
 \subsection{Resultados}
 \label{subsec:Resultados-regularization}
@@ -379,8 +379,8 @@ Na figura \ref{fig:regularization_examples} pódense observar exemplos de rexist
 
 Nos resultados obsérvase que Relu segue a dar mellores resultados que SIREN no dataset RFMID, mentres que no dataset FIRE ambos parecen ter un rendemento similar.
 
-A regularización óptima depende do tipo de rexistro que se está a realizar. Os rexistros de transformacións lineais (RFMID) beneficianse de pouca ou ningunha regularización, mentres que os rexistros de transformacións non lineais (FIRE) e con pouca superposición beneficianse de regularizacións mais elevadas.
-Isto suxire que a regularización é mais relevante onde a rede ten que aprender transformacións mais complexas, xa que evita que caia en mínimos locais non desexados.
+A regularización óptima depende do tipo de rexistro que se está a realizar. Os rexistros de transformacións lineais (RFMID) beneficianse de pouca ou ningunha regularización, mentres que os rexistros de transformacións non lineais (FIRE) e con pouca superposición beneficianse de regularizacións máis elevadas.
+Isto suxire que a regularización é máis relevante onde a rede ten que aprender transformacións máis complexas, xa que evita que caia en mínimos locais non desexados.
 
 % \FloatBarrier
 
@@ -472,13 +472,13 @@ De agora en adiante dividimos o conxunto de datos de RFMID en varios subconxunto
 
 Desta forma podemos comparar o rendemento da rede en diferentes subconxuntos de imaxes, e determinar se o rendemento da rede é consistente entre eles.
 
-Nos experimentos co dataset FIRE, decidiuse limitarse á categoría S, xa que é a que maior número de exemplos tén e ten un maior grao de superposición entre as imaxes, o que facilita a tarefa de rexistro.
-Ademais, xa que a rede si que é capaz de rexistrar correctamente as imaxes dos subconxuntos mais sinxelos, utilizaremos a métrica de FIRE para medir o porcentaxe de imaxes rexistradas correctamente.
+Nos experimentos co dataset FIRE, decidiuse limitarse á categoría S, xa que é a que maior número de exemplos ten e ten un maior grao de superposición entre as imaxes, o que facilita a tarefa de rexistro.
+Ademais, xa que a rede si que é capaz de rexistrar correctamente as imaxes dos subconxuntos máis sinxelos, utilizaremos a métrica de FIRE para medir o porcentaxe de imaxes rexistradas correctamente.
 
 \subsection{Resultados}
 \label{subsec:Resultados-batchsize}
 
-Nas figuras \ref{fig:batch_size_comparison_relu_rfmid} e \ref{fig:batch_size_comparison_siren_rfmid} pódense observar os resultados da experimentación co dataset RFMID a distintas dificultades e con distintos tamaños de batch.
+Nas figuras \ref{fig:batch_size_comparison_relu_rfmid} e \ref{fig:batch_size_comparison_siren_rfmid} pódense observar os resultados da experimentación co dataset RFMID a distintas dificultades e con distintos tamaños de lote.
 
 \begin{figure}[tbp]
     \centering
@@ -494,7 +494,7 @@ Nas figuras \ref{fig:batch_size_comparison_relu_rfmid} e \ref{fig:batch_size_com
         \caption{Función de activación SIREN}
         \label{fig:batch_size_comparison_siren_rfmid}
     \end{subfigure}
-    \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes do dataset RFMID, mostrando a porcentaxe de rexistros exitoso para cada limiar de error.}
+    \caption{Comparación do rendemento da rede con diferentes tamaños de lote sobre imaxes do dataset RFMID, mostrando a porcentaxe de rexistros exitoso para cada limiar de error.}
     \label{fig:batch_size_comparisons_rfmid}
 \end{figure}
 
@@ -514,7 +514,7 @@ Con esta nova división do dataset, tamén se realizou a avaliación polo métod
         \caption{Métrica FIRE ca función de activación SIREN}
         \label{fig:FIRERFMID_SIREN}
     \end{subfigure}
-    \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes do dataset FIRE}
+    \caption{Comparación do rendemento da rede con diferentes tamaños de lote sobre imaxes do dataset FIRE}
     \label{fig:FIRERFMID_scores}
 \end{figure}
 
@@ -536,7 +536,7 @@ Nas figuras \ref{fig:batch_size_comparison_relu} e \ref{fig:batch_size_compariso
         \caption{Función de activación SIREN}
         \label{fig:batch_size_comparison_siren}
     \end{subfigure}
-    \caption{Comparación do rendemento da rede con diferentes batch sizes sobre imaxes da categoría S do dataset FIRE}
+    \caption{Comparación do rendemento da rede con diferentes tamaños de lote sobre imaxes da categoría S do dataset FIRE}
     \label{fig:batch_size_comparisons_fire}
 \end{figure}
 
@@ -577,34 +577,34 @@ Nas figuras \ref{fig:batch_size_comparison_relu} e \ref{fig:batch_size_compariso
 
 Obsérvase que as redes ca función de activación ReLU tenden a ter un rendemento moito mellor que as ca función de activación SIREN. Isto pode explicarse xa que as deformacións artificiais que se aplican nas imaxes do dataset RFMID son lineais, e a función de activación ReLU é adecuada para este tipo de transformacións.
 
-Tamén parece que o tamaño de lote é relevante, especialmente o cambio entre 1000 e 10000, mentres que batch sizes maiores (50000, 100000) non parecen ter tanto impacto, aínda que si un maior custo computacional. 
+Tamén parece que o tamaño de lote é relevante, especialmente o cambio entre 1000 e 10000, mentres que valores maiores (50000, 100000) non parecen ter tanto impacto, aínda que si un maior custo computacional. 
 
-Mentres que a rede é capaz de rexistrar correctamente consistentemente as imaxes do subconxunto mais sinxelos (0-150, 150-300), o rendemento decae notablemente para transformacións mais complexas (300+). 
-Isto é mais notable cando se utiliza a función de activación SIREN, que ten dificultades incluso con transformacións de complexidade media, mentres que con ReLU decae de forma lineal.
+Mentres que a rede é capaz de rexistrar correctamente consistentemente as imaxes do subconxunto máis sinxelos (0-150, 150-300), o rendemento decae notablemente para transformacións máis complexas (300+). 
+Isto é máis notable cando se utiliza a función de activación SIREN, que ten dificultades incluso con transformacións de complexidade media, mentres que con ReLU decae de forma lineal.
 
 \subsection{Conclusións}
 \label{subsec:Conclusions-batchsize}
 
 O principal factor limitador do rendemento da rede é o tamaño e complexidade das transformacións que tenta aprender.
-Un tamaño de lote maior parece axudar, pero non é suficiente para rexistrar correctamente as imaxes con transformacións mais difíciles.
+Un tamaño de lote maior parece axudar, pero non é suficiente para rexistrar correctamente as imaxes con transformacións máis difíciles.
 
 \section{Estratexias de mostraxe}
 \label{sec:Estratexias de mostraxe}
 
 Orixinalmente IDIR utiliza unha estratexia de mostraxe aleatoria para seleccionar os puntos que se pasan á rede en cada iteración.
 Mentres que esta estratexia parece suficiente para o rexistro de pulmóns, no caso das imaxes de retina isto non ten porque ser así.
-Isto débese a que as imaxes de retina conteñen seccións con moita mais información que outras, frente os CTs de pulmóns onde o sinal é mais uniforme.
-Por exemplo, as seccións que conteñen vasos sanguíneos ou o disco óptico probablemente teñan mais información relevante para a tarefa de rexistro, frente outras seccións como o fondo da retina.
-Ademais, as retinografías teñen desprazamentos moito maiores e menor superposición entre cada parella, polo que a rede ten que aprender transformacións mais complexas.
+Isto débese a que as imaxes de retina conteñen seccións con moita máis información que outras, frente os CTs de pulmóns onde o sinal é máis uniforme.
+Por exemplo, as seccións que conteñen vasos sanguíneos ou o disco óptico probablemente teñan maior cantidade de información relevante para a tarefa de rexistro, frente outras seccións como o fondo da retina.
+Ademais, as retinografías teñen desprazamentos moito maiores e menor superposición entre cada parella, polo que a rede ten que aprender transformacións máis complexas.
 
 \subsection{Plantexamento}
 \label{subsec:Plantexamento-sampling}
 
-Plantexáronse novas estratexias de mostraxe, explicadas en detalle no apartado \ref{subsec:Metodoloxías Des}, cas cales preténdese mellorar o rendemento da rede ao proporcionarlle mais información relevante para a tarefa de rexistro.
+Plantexáronse novas estratexias de mostraxe, explicadas en detalle no apartado \ref{subsec:Metodoloxías Desenvoltas}, cas cales preténdese mellorar o rendemento da rede ao proporcionarlle máis información relevante para a tarefa de rexistro.
 As estratexias de mostraxe comparadas son as seguintes:
 \begin{itemize}
     \item Mostraxe aleatoria: Selección aleatoria de puntos da imaxe.
-    \item Mostraxe uniforme: Selección de puntos uniformemente espazados na imaxe. Especialmente relevante cando se usan batch sizes pequenos, xa que permite garantir que se amosan puntos de toda a imaxe.
+    \item Mostraxe uniforme: Selección de puntos uniformemente espazados na imaxe. Especialmente relevante cando se usan tamaños de lote pequenos, xa que permite garantir que se amosan puntos de toda a imaxe.
     \item Mostraxe intelixente: Selección de puntos baseándose na información do gradiente da imaxe, priorizando as áreas con maior variación.
     \item Mostraxe ponderada: Punto intermedio entre a mostraxe aleatoria e a intelixente, onde se seleccionan puntos aleatoriamente pero con maior probabilidade nas áreas de maior interese.
 \end{itemize}
@@ -694,9 +694,9 @@ Conclúese que, en contra da hipótese inicial, as estratexias de mostraxe imple
 \subsection{Planteamento}
 \label{subsec:Planteamento-initialization}
 
-É posible que a inicialización da rede sexa un factor clave, e que certos desprazamentos iniciais provoque que que a rede sexa incapaz de aprender a transformación correcta, ou que lle custe moito mais aprenderla.
+É posible que a inicialización da rede sexa un factor clave, e que certos desprazamentos iniciais provoque que que a rede sexa incapaz de aprender a transformación correcta, ou que lle custe moito máis aprenderla.
 
-Para testar esta hipótese implementouse unha lotería de inicialización, onde se utiliza a perda na época 0 para determinar a inicialización da rede máis beneficiosa sobre a que seguir entrenando.
+Para validar esta hipótese implementouse unha lotería de inicialización, onde se utiliza a perda na época 0 para determinar a inicialización da rede máis beneficiosa sobre a que seguir entrenando.
 
 % \ref{fig:lottery_initial_deformations_combinedMLP}, \ref{fig:lottery_initial_deformations_combinedSIREN}
 
@@ -741,8 +741,8 @@ Isto pode provocar que o proceso de optimización dedique moito tempo a contrare
 \subsection{Conclusións}
 \label{subsec:Conclusions-initialization}
 
-Obsérvase que a lotería de inicialización si que provoca melloras no rendemento da rede, aínda que non moi significativas, e non se beneficia particularmente de utilizar mais de 5 inicializacións.
-É posible que fose mellor esperar ata unha iteración algo mais avanzado para determinar a inicialización, xa que na época 0 non hai ningunha seguridade de que non sexa un mínimo local, pero isto tamén implicaría un maior custo computacional.
+Obsérvase que a lotería de inicialización si que provoca melloras no rendemento da rede, aínda que non moi significativas, e non se beneficia particularmente de utilizar máis de 5 inicializacións.
+É posible que fose mellor esperar ata unha iteración algo máis avanzado para determinar a inicialización, xa que na época 0 non hai ningunha seguridade de que non sexa un mínimo local, pero isto tamén implicaría un maior custo computacional.
 
 Unha posible mellora á lotería de inicialización sería utilizar un número maior de épocas antes de determinar a inicialización gañadora, xa que a perda inicial non é necesariamente representativo do rendemento final da rede.
 Da mesma forma, sería interesante comparar diferentes estratexias de inicialización, como a inicialización gaussiana ou a inicialización uniforme, para determinar se algunha delas proporciona unha vantaxe significativa sobre a inicialización estándar de SIREN.
@@ -754,7 +754,7 @@ Da mesma forma, sería interesante comparar diferentes estratexias de inicializa
 \label{subsec:Planteamento-phases}
 
 Teorízase que a rede pode beneficiarse de dividir o proceso de rexistro en diferentes fases, onde inicialmente utilízase un tamaño de lote reducido para aprender a transformación global, e posteriormente aumentase o tamaño de lote para aprender as transformacións locais.
-Para isto utilizaremos a estratexia de mostraxe uniforme, que permite asegurar que se cubre toda a imaxe de ca mesma densidade, o que é mais importante con batch sizes pequenos. O learning rate modifícase de forma proporcional para manter a relación entre este e o tamaño de lote.
+Para isto utilizaremos a estratexia de mostraxe uniforme, que permite asegurar que se cubre toda a imaxe de ca mesma densidade, o que é máis importante con tamaños de lote pequenos. O learning rate modifícase de forma proporcional para manter a relación entre este e o tamaño de lote.
 
 \subsection{Resultados}
 \label{subsec:Resultados-phases}
@@ -793,7 +793,7 @@ Tras a realización dos experimentos descritos anteriormente, pódense extraer a
 \subsection{Rendemento por dataset}
 \label{subsec:Rendemento por dataset}
 
-\textbf{Dataset FIRE:} O rendemento no dataset FIRE, que contén imaxes reais de retina, é significativamente mais baixo que no dataset RFMID. A categoría P resulta imposible de rexistrar debido ao baixo grado de superposición (<75\%). As categorías S e A mostran taxas de éxito ao redor do 20\%, sendo a categoría S lixeiramente superior.
+\textbf{Dataset FIRE:} O rendemento no dataset FIRE, que contén imaxes reais de retina, é significativamente máis baixo que no dataset RFMID. A categoría P resulta imposible de rexistrar debido ao baixo grado de superposición (<75\%). As categorías S e A mostran taxas de éxito ao redor do 20\%, sendo a categoría S lixeiramente superior.
 
 \textbf{Dataset RFMID:} O rendemento no dataset RFMID é considerablemente mellor, especialmente para transformacións de baixa complexidade (norma de Frobenius 0-150), onde se alcanza un éxito do case 100\%. O rendemento decae progresivamente ca complexidade da transformación. 
 \subsection{Comparación de funcións de activación}
@@ -810,9 +810,9 @@ Os resultados mostran unha clara diferenciación entre as funcións de activaci�
 
 \textbf{Función de perda:} As métricas baseadas en características estruturais (NCC, SSIM) son superiores para imaxes reais con variabilidade de iluminación (FIRE), mentres que as métricas baseadas en píxeles (L1, MSE) son máis efectivas para imaxes sen variabilidade (RFMID).
 
-\textbf{Regularización:} A regularización hiperelástica é a mais relevante para evitar deformacións non realistas. O valor óptimo depende da parexa de imaxes concreta a rexistrar. SIREN require valores máis altos que ReLU xa que ten unha maior tendencia ao sobreaxuste.
+\textbf{Regularización:} A regularización hiperelástica é a máis relevante para evitar deformacións non realistas. O valor óptimo depende da parexa de imaxes concreta a rexistrar. SIREN require valores máis altos que ReLU xa que ten unha maior tendencia ao sobreaxuste.
 
-\textbf{Tamaño de lote:} Constitúe un dos parámetros máis críticos. Batch sizes maiores (10000-50000) proporcionan mellores resultados que batch sizes pequenos (1000), aínda que o beneficio decrece para valores moi altos (>50000).
+\textbf{Tamaño de lote:} Constitúe un dos parámetros máis críticos. Valores maiores (10000-50000) proporcionan mellores resultados que tamaños pequenos (1000), aínda que o beneficio decrece para valores moi altos (>50000).
 
 \textbf{Resolución:} Non se observan beneficios significativos por encima de 1000×1000 píxeles, suxerindo que a información relevante para o rexistro xa está capturada en resolucións moderadas.
 
@@ -821,7 +821,7 @@ Os resultados mostran unha clara diferenciación entre as funcións de activaci�
 
 \textbf{Complexidade das transformacións:} O factor limitador principal é a complexidade das transformacións. Tanto ReLU como SIREN mostran dificultades ca transformacións de alta complexidade, independentemente da optimización de parámetros.
 
-\textbf{Superposición de imaxes:} A baixa superposición entre imaxes (categoría P de FIRE) dificulta enormememtne o rexistro, suxerindo que as redes implícitas requiren un mínimo de información compartida.
+\textbf{Superposición de imaxes:} A baixa superposición entre imaxes (categoría P de FIRE) dificulta enormemente o rexistro, suxerindo que as redes implícitas requiren un mínimo de información compartida.
 
 \textbf{Estratexias de mostraxe:} Contrario ao esperado, as estratexias intelixentes de mostraxe (ponderadas por contido) non mostran beneficios sobre o mostraxe aleatorio, suxerindo que a información relevante está distribuída de forma máis uniforme do esperado.
 
