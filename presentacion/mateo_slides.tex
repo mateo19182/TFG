@@ -219,7 +219,7 @@
             
             \begin{itemize}
                 \item \textbf{Ideal para sinais complexos}: Permite representar detalles de alta frecuencia e as súas derivadas.
-                \item \textbf{Infinitamente diferenciable}: A diferenza de ReLU, a función seno pode derivarse cantas veces sexa necesario, permitindo regularizacións de orde superior como a "Bending Energy".
+                \item \textbf{Infinitamente diferenciable}: A diferenza de ReLU, a función seno pode derivarse cantas veces sexa necesario, permitindo regularizacións de orde superior.
             \end{itemize}
         \end{alertblock}
 
@@ -228,6 +228,81 @@
         % - Destaca a diferenciabilidade: "Isto permite regularizacións máis potentes, como veremos a continuación."
     \end{frame}
 
+
+\begin{frame}
+\frametitle{Estado da Arte: Métodos Clásicos}
+\begin{block}{Rexistro baseado en características (FBR)}
+Identifican, describen e emparellan características salientables entre imaxes.
+\begin{itemize}
+% \item Detectan, describen e emparellan puntos característicos entre imaxes.
+\item Robustos ante variacións locais e cambios de modalidade.
+% \item \textbf{Exemplos en Retina}: \textbf{VOTUS}, que representa árbores vasculares como grafos, e \textbf{REMPE}, que modela a forma 3D do ollo.
+\end{itemize}
+\end{block}
+
+\begin{block}{Rexistro baseado en intensidade (IBR)}
+    Comparan directamente os valores de intensidade dos píxeles mediante unha métrica de similitude e optimizan iterativamente a transformación.
+    \begin{itemize}
+        \item  Non requiren a extracción de características explícitas.
+        \item  Mais sensibles a ruido e variacións de iluminación ou estrutura.
+    \end{itemize}
+\end{block}
+
+
+
+% NOTAS PARA O PRESENTADOR:
+% - "Tradicionalmente, o rexistro facíase de dúas formas."
+% - "A primeira, baseada en características, é como buscar puntos de referencia comúns, como cruces de vasos sanguíneos. Métodos como VOTUS ou REMPE son moi precisos pero computacionalmente custosos."
+% - "A segunda, baseada en intensidade, compara directamente os valores dos píxeles, buscando a transformación que fai as imaxes o máis parecidas posible. O noso método inscríbese nesta segunda familia."
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Estado da Arte: Métodos de Aprendizaxe Profunda}
+
+\begin{block}{Dúas Estratexias Principais}
+    As redes neuronais abordan o rexistro de dúas formas:
+    \begin{itemize}
+        \item \textbf{Aprendizaxe Extremo a Extremo (\textit{End-to-End})}: Predí directamente a deformación a partir dun par de imaxes.
+        % \begin{itemize}
+        %     \item Adestramento \textbf{non supervisado}, optimizando a similitude das imaxes. Moi rápido na inferencia.
+        % \end{itemize}
+        \item \textbf{Mellora de Métodos Clásicos}: Empréganse redes para substituír compoñentes das metodoloxías clásicas.
+        % \begin{itemize}
+        %     \item \textbf{SuperPoint} aprende a detectar puntos de interese e \textbf{SuperGlue} a emparellalos.
+        % \end{itemize}
+    \end{itemize}
+\end{block}
+    
+\begin{alertblock}{O noso enfoque: Modelo de Transformación}
+    O noso método, IDIR, aprende unha representación implícita da transformación parametrizada nos pesos da rede neuronal para cada par de imaxes.
+\end{alertblock}
+
+% NOTAS PARA O PRESENTADOR:
+% - "Hoxe en día, o deep learning domina o rexistro de dúas maneiras: ou redes xigantes que aprenden toda a tarefa de golpe, ou redes máis pequenas que melloran os métodos clásicos."
+% - "O noso enfoque é distinto. Adestramos unha rede pequena e nova para cada par de imaxes, para que aprenda a función matemática exacta da deformación necesaria."
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Estado da Arte en Retinografías}
+\begin{block}{Desafíos}
+    Rexistro difícil por deformacións non ríxidas, baixo solapamento e variacións de iluminación e anatomía.
+\end{block}
+\begin{alertblock}{Solucións Actuais e Contribución}
+    \begin{itemize}
+        \item \textbf{Tendencia Actual: Métodos Híbridos}: Combinan deep learning e algoritmos clásicos para lograr precisión e velocidade.
+        \item \textbf{A Nosa Contribución}: Primeira aplicación de Representacións Neuronais Implícitas (INRs) ao rexistro de retinografías, adaptando o framework IDIR a este dominio.
+    \end{itemize}
+\end{alertblock}
+
+% NOTAS PARA O PRESENTADOR:
+% - "O rexistro de retinas é un problema particularmente difícil."
+% - "Os métodos máis punteiros hoxe en día son híbridos, combinando o mellor de varios mundos. Son rápidos e precisos."
+% - "Aquí é onde o noso traballo destaca: estamos a abrir un novo camiño. Somos os primeiros en investigar se as Representacións Neuronais Implícitas son unha solución viable para este problema."
+
+\end{frame}
 
 % ------------------- SECCIÓN 3:  Metodoloxía ---------------------- %
 \section{Metodoloxía Proposta}
@@ -843,41 +918,64 @@ $$
 \end{frame}
 
 \begin{frame}
-    \frametitle{Estratexia Desenvolvida: Lotería de Inicialización}
+    \frametitle{Estratexia Desenvolvida: Lotería de Inicialización (I)}
     
     \begin{block}{Hipótese}
         Explorar varias inicializacións de pesos aleatorias e escoller a máis prometedora (baseándose na perda inicial) podería evitar mínimos locais deficientes e mellorar o rendemento final.
     \end{block}
-    
+    \vspace{0.5cm}
+
     \centering
     \includegraphics[width=0.7\textwidth]{../imaxes/lottery/lotery.png}
     
+    % NOTAS PARA O PRESENTADOR:
+    % - "Sabemos que o punto de partida pode influír moito neste tipo de redes. Así que implementei unha 'lotería': probar varias inicializacións e quedar coa mellor."
+\end{frame}
+
+\begin{frame}
+    \frametitle{Estratexia Desenvolvida: Lotería de Inicialización (II)}
     \begin{alertblock}{Resultado e Conclusión}
         Obsérvase unha mellora marxinal no rendemento. A inicialización ten certo impacto, mais o seu custo computacional adicional pode non xustificar a pequena ganancia.
     \end{alertblock}
+    \vspace{0.5cm}
+
+    \centering
+    \includegraphics[width=0.7\textwidth]{../imaxes/lottery/lotery.png}
+    
+
 
     % NOTAS PARA O PRESENTADOR:
-    % - "Sabemos que o punto de partida pode influír moito neste tipo de redes. Así que implementei unha 'lotería': probar varias inicializacións e quedar coa mellor."
     % - "O gráfico mostra que esta estratexia funciona; usar 5 boletos de lotería é mellor que usar só 1. Con todo, a mellora é pequena e usar máis de 5 case non aporta nada."
     % - "Isto confirma que axuda, pero non é unha solución máxica aos problemas fundamentais do rexistro."
 \end{frame}
 
 \begin{frame}
-    \frametitle{Estratexia Desenvolvida: Axuste Dinámico do Lote}
+    \frametitle{Estratexia Desenvolvida: Axuste Dinámico do Lote (I)}
     
     \begin{block}{Hipótese}
         A rede podería beneficiarse dun adestramento por fases: comezar cun \textit{batch size} pequeno para aprender a transformación global e despois aumentalo progresivamente para refinar os detalles locais da deformación.
     \end{block}
-    
+        \vspace{0.5cm}
+
     \centering
     \includegraphics[width=0.7\textwidth]{../imaxes/lottery/nphases.png}
     
-    \begin{alertblock}{Resultado e Conclusión}
-        O resultado foi concluínte e contrario á hipótese: esta estratexia resultou ser \textbf{prexudicial}, empeorando o rendemento a medida que se incrementaba o número de fases. Un \textit{batch size} grande e constante dende o inicio demostrou ser máis estable e eficaz.
-    \end{alertblock}
-
     % NOTAS PARA O PRESENTADOR:
     % - "A última idea parecía moi lóxica: ensinar á rede primeiro o 'bosquexo' xeral con poucos puntos, e logo os 'detalles' con moitos puntos."
+\end{frame}
+
+\begin{frame}
+    \frametitle{Estratexia Desenvolvida: Axuste Dinámico do Lote (II)}
+        \begin{alertblock}{Resultado e Conclusión}
+        O resultado foi concluínte e contrario á hipótese: esta estratexia resultou ser \textbf{prexudicial}, empeorando o rendemento a medida que se incrementaba o número de fases. Un \textit{batch size} grande e constante dende o inicio demostrou ser máis estable e eficaz.
+    \end{alertblock}
+    \vspace{0.5cm}
+    \centering
+    \includegraphics[width=0.7\textwidth]{../imaxes/lottery/nphases.png}
+    
+
+
+    % NOTAS PARA O PRESENTADOR:
     % - "O resultado foi totalmente inesperado: foi contraproducente. Como mostra a gráfica, cantas máis fases usabamos, peor era o resultado."
     % - "A explicación probable é que os lotes pequenos iniciais son demasiado 'ruidosos' e levan á rede por un mal camiño dende o principio, do cal non pode recuperarse. Isto reforza a nosa conclusión anterior: un lote grande dende o inicio é fundamental."
 \end{frame}
