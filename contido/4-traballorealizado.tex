@@ -42,7 +42,7 @@ x & \text{si } x > 0 \\
 \end{cases}
 \]
 
-Non obstante, para redes de representación implícita como ca que estamos traballando, esta ten unha serie de desventaxas.
+Non obstante, para redes de representación implícita como coa que estamos traballando, esta ten unha serie de desventaxas.
 
 As ReLUs teñen un sesgo cara a sinais de baixa frecuencia \cite{rahaman2019spectralbiasneuralnetworks}, 
  o que significa que o modelo pode ter dificultades para representar pequenas deformacións locais no rexistro de imaxes.
@@ -196,7 +196,7 @@ NCC utilizouse a implementación de  https://github.com/BDdeVos/TorchIR/blob/mai
 Debido a que o rexistro de imáxenes deformables é un problema mal formulado (ill-posed problem), 
 é común utilizar algún tipo de regularización sobre o DVF para evitar deformacións pouco realistas.
  Os métodos de rexistro baseados en redes neuronaies convolucionais (CNN) representan os DVFs
- como mostras en una cuadrícula de vóxeles, e polo tanto, solo se poden aproximar gradientes espaciais
+ como mostras en una cuadrícula de vóxeles, e polo tanto, tan só se poden aproximar gradientes espaciais
  mediante esquemas de diferencias finitas (aproximar derivadas mediante cálculo numérico de diferencias entre valores adyacentes en la cuadrícula).
  Este é un proceso computacionalmente moi costoso e ineficiente, ademais implica errores de discretización e perdas de precisión.
 
@@ -291,7 +291,7 @@ Para a implementación neste traballo modificaronse todos estos termos para que 
 
 A regularización tamén ten un impacto significativo no tempo de computación, xa que require múltiples pasadas de retropropagación por época para calcular os distintos termos de penalización.
 Sen regularización só se fai 1 pasada para calcular o gradiente do termo de similitude da imaxe.
-Ca regularización do Xacobiano, ademais do termo de similitude, calcúlanse dúas derivadas (unha por dimensión) para obter o Xacobiano, resultando en 3 pasadas por época.
+Coa regularización do Xacobiano, ademais do termo de similitude, calcúlanse dúas derivadas (unha por dimensión) para obter o Xacobiano, resultando en 3 pasadas por época.
 Engadindo a regularización hiperelástica (sen termo de volume), é necesario calcular unha derivada adicional para o cofactor da matriz Jacobiana, facendo un total de 4 pasadas por época.
 Finalmente, ca penalización de enerxía de flexión, necesitanse derivadas segundas, o que implica 7 pasadas por época en total.
 No traballo orixinal de IDIR, chegaban a usar 13 pasadas debido a que traballan en 3D.
