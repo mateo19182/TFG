@@ -7,7 +7,8 @@ Final degree thesis on retinal image registration using Implicit Neural Represen
 This repository contains the **written thesis and presentation materials** for the work on adapting the IDIR framework for 2D retinal image alignment.
 
 ## Contents
-
+- [memoria.pdf](https://github.com/mateo19182/TFG/blob/main/memoria.pdf)
+- [presentacion.pdf](https://github.com/mateo19182/TFG/blob/main/slides.pdf)
 - `contido/` - Thesis chapters in LaTeX
 - `presentacion/` - Defense presentation slides in LaTeX
 
