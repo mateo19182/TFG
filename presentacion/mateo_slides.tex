@@ -23,7 +23,7 @@
 % --- DATOS DA PRESENTACIÓN ---
 \title{Aliñamento de imaxes oftalmolóxicas usando representacións neuronais implícitas}
 \author[Mateo Amado Ares]{Mateo Amado Ares \\ \vspace{0.5cm} \small{Dirección: José Rouco Maseda e Jorge Novo Buján}}
-\date{Xuño de 2025} 
+\date{Xullo 2025} 
 
 
 %------------------- INICIO DO DOCUMENTO ----------------------------
@@ -258,50 +258,26 @@ Identifican, describen e emparellan características salientables entre imaxes.
 \end{frame}
 
 \begin{frame}
-\frametitle{Estado da Arte: Métodos de Aprendizaxe Profunda}
+\frametitle{Estado da Arte: Deep Learning e Retinografías}
 
-\begin{block}{Dúas Estratexias Principais}
-    As redes neuronais abordan o rexistro de dúas formas:
+\begin{block}{Estratexias actuais en rexistro con redes neuronais}
     \begin{itemize}
-        \item \textbf{Aprendizaxe Extremo a Extremo (\textit{End-to-End})}: Predí directamente a deformación a partir dun par de imaxes.
-        % \begin{itemize}
-        %     \item Adestramento \textbf{non supervisado}, optimizando a similitude das imaxes. Moi rápido na inferencia.
-        % \end{itemize}
-        \item \textbf{Mellora de Métodos Clásicos}: Empréganse redes para substituír compoñentes das metodoloxías clásicas.
-        % \begin{itemize}
-        %     \item \textbf{SuperPoint} aprende a detectar puntos de interese e \textbf{SuperGlue} a emparellalos.
-        % \end{itemize}
+        \item \textbf{End-to-End}: Redes que predín directamente a deformación a partir dun par de imaxes.
+        \item \textbf{Mellora de métodos clásicos}: Redes que substitúen compoñentes dos métodos tradicionais.
+        % \item \textbf{Tendencia actual}: Métodos híbridos que combinan deep learning e algoritmos clásicos para precisión e velocidade.
     \end{itemize}
 \end{block}
-    
-\begin{alertblock}{O noso enfoque: Modelo de Transformación}
-    O noso método, IDIR, aprende unha representación implícita da transformación parametrizada nos pesos da rede neuronal para cada par de imaxes.
+
+\vspace{0.2cm}
+
+\begin{alertblock}{Contribución}
+    % Rexistro de retinografías é difícil por deformacións non ríxidas, baixo solapamento e variacións de anatomía.\\
+    Primeira aplicación de Representacións Neuronais Implícitas (INRs) ao rexistro de retinografías, adaptando o framework IDIR a este dominio.
 \end{alertblock}
 
 % NOTAS PARA O PRESENTADOR:
-% - "Hoxe en día, o deep learning domina o rexistro de dúas maneiras: ou redes xigantes que aprenden toda a tarefa de golpe, ou redes máis pequenas que melloran os métodos clásicos."
-% - "O noso enfoque é distinto. Adestramos unha rede pequena e nova para cada par de imaxes, para que aprenda a función matemática exacta da deformación necesaria."
-
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Estado da Arte en Retinografías}
-\begin{block}{Desafíos}
-    Rexistro difícil por deformacións non ríxidas, baixo solapamento e variacións de iluminación e anatomía.
-\end{block}
-\begin{alertblock}{Solucións Actuais e Contribución}
-    \begin{itemize}
-        \item \textbf{Tendencia Actual: Métodos Híbridos}: Combinan deep learning e algoritmos clásicos para lograr precisión e velocidade.
-        \item \textbf{A Nosa Contribución}: Primeira aplicación de Representacións Neuronais Implícitas (INRs) ao rexistro de retinografías, adaptando o framework IDIR a este dominio.
-    \end{itemize}
-\end{alertblock}
-
-% NOTAS PARA O PRESENTADOR:
-% - "O rexistro de retinas é un problema particularmente difícil."
-% - "Os métodos máis punteiros hoxe en día son híbridos, combinando o mellor de varios mundos. Son rápidos e precisos."
-% - "Aquí é onde o noso traballo destaca: estamos a abrir un novo camiño. Somos os primeiros en investigar se as Representacións Neuronais Implícitas son unha solución viable para este problema."
-
+% - Resume as estratexias actuais e destaca a novidade do enfoque INR.
+% - O rexistro de retina require solucións robustas; o noso método explora unha vía ata agora non estudada
 \end{frame}
 
 % ------------------- SECCIÓN 3:  Metodoloxía ---------------------- %
@@ -410,102 +386,126 @@ Identifican, describen e emparellan características salientables entre imaxes.
 %     % - Destaca que a arquitectura SIREN permite usar regularizacións baseadas en derivadas de orde superior, mellorando o control físico da deformación.
 % \end{frame}
 
+% \begin{frame}
+% \frametitle{Framework IDIR: Regularizador Xacobiano}
+
+% \begin{itemize}
+%     \item Controla a distorsión local da área e prevé pregamentos (\textit{folding}) non realistas na deformación, evitando compresións ou estiramentos extremos.
+%     \vspace{0.3cm}
+%     \item \textbf{Mecanismo}: Penaliza as desviacións do determinante da matriz Xacobiana ($\det \nabla \Phi$) respecto do valor 1.
+%     \begin{itemize}
+%         \item Un determinante próximo a 1 preserva a área local.
+%         \item Un determinante negativo ou cero indica un pregamento da malla, o que invalida a transformación.
+%     \end{itemize}
+% \end{itemize}
+
+% \vfill % Empurra o contido seguinte cara abaixo
+
+% \centering
+% % \textbf{Formulación 2D}
+% % \vspace{0.2cm}
+% $$
+% S^{\text{jac}}[\Phi] = \int_{\Omega} \left| 1 - \det(\nabla \Phi) \right| \, dx \, dy
+% $$
+
+% % NOTAS PARA O PRESENTADOR:
+% % - Explicar que o determinante do Xacobiano mide como cambia a área localmente.
+% % - Imaxinar unha pequena cuadrícula na imaxe orixinal; este regularizador tenta que esa cuadrícula non se colapse nin se estire de forma desmedida.
+
+% \end{frame}
+
+
+
+
+% \begin{frame}
+% \frametitle{Framework IDIR: Regularizador Hiperelástico}
+
+% \begin{itemize}
+%     \item \textbf{Mecanismo}: Combina termos que penalizan a variación da lonxitude dos vectores de desprazamento e as distorsións de área.
+%      \begin{itemize}
+%         \item O termo $|\nabla u|^2$ controla o estiramento.
+%         \item O termo co cofactor ($\text{cof}$) controla a deformación da área.
+%      \end{itemize}
+%     \vspace{0.3cm}
+%     \item É un regularizador máis xeral que engloba propiedades do Xacobiano e impón unha certa suavidade.
+% \end{itemize}
+
+% \vfill % Empurra o contido seguinte cara abaixo
+
+% \centering
+% % \textbf{Formulación 2D}
+% % \vspace{0.2cm}
+% $$
+% S^{\text{hyper}}[\Phi] = \int_{\Omega} \left[ \frac{1}{2} \alpha_l |\nabla u|^2 + \alpha_a \varphi_c (\text{cof} \nabla \Phi) \right] dx \, dy
+% $$
+% \vspace{0.2cm}
+% \small
+% con
+% $$
+% \varphi_c(C) = \sum_{i=1}^2 \max \left\{ \sum_{j=1}^2 C_{ji}^2 - 1, 0 \right\}^2
+% $$
+
+% % NOTAS PARA O PRESENTADOR:
+% % - Describir este regularizador como unha "lei física" que lle impoñemos á rede.
+% % - Mencionar que os hiperparámetros α permiten axustar a "rixidez" do material simulado.
+
+% \end{frame}
+
+
+
+% \begin{frame}
+% \frametitle{Framework IDIR: Regularizador de Enerxía de Flexión}
+
+% \begin{itemize}
+%     \item Evita cambios bruscos na curvatura do campo de desprazamento, o que se traduce en transformacións visualmente máis suaves e continuas.
+%     \vspace{0.3cm}
+%     \item Penaliza a magnitude das segundas derivadas parciais do campo de deformación ($\Phi$) en todo o dominio.
+%     \vspace{0.3cm}
+% \end{itemize}
+
+% % \begin{alertblock}{Vantaxe SIREN}
+% %     O cálculo eficiente e analítico deste regularizador só é posible porque as redes \textbf{SIREN son infinitamente diferenciables}. Arquitecturas baseadas en ReLU non poden usar este termo, xa que a súa segunda derivada é cero en case todos os puntos.
+% % \end{alertblock}
+
+
+% \vfill % Empurra o contido seguinte cara abaixo
+
+% \centering
+% % \textbf{Formulación 2D}
+% % \vspace{0.2cm}
+% $$
+% S^{\text{bending}}[\Phi] = \frac{1}{8} \int_{\Omega} \left[ \left( \frac{\partial^2 \Phi}{\partial x^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial y^2} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial y} \right)^2 \right] dx \, dy
+% $$
+
+% % NOTAS PARA O PRESENTADOR:
+% % - Este é o punto máis importante que xustifica o uso de SIREN.
+% % - Resaltar que esta capacidade de calcular derivadas de orde superior de forma analítica é o que permite un control físico tan preciso da deformación.
+
+% \end{frame}
 \begin{frame}
-\frametitle{Framework IDIR: Regularizador Xacobiano}
+\frametitle{Framework IDIR: Regularizadores Utilizados}
 
 \begin{itemize}
-    \item Controla a distorsión local da área e prevé pregamentos (\textit{folding}) non realistas na deformación, evitando compresións ou estiramentos extremos.
-    \vspace{0.3cm}
-    \item \textbf{Mecanismo}: Penaliza as desviacións do determinante da matriz Xacobiana ($\det \nabla \Phi$) respecto do valor 1.
-    \begin{itemize}
-        \item Un determinante próximo a 1 preserva a área local.
-        \item Un determinante negativo ou cero indica un pregamento da malla, o que invalida a transformación.
-    \end{itemize}
+    \item \textbf{Xacobiano:} Controla a distorsión local da área, evitando pregamentos e compresións extremas. Penaliza desviacións do determinante do Xacobiano respecto a 1.
+    \item \textbf{Hiperelástico:} Penaliza estiramentos e distorsións de área, combinando termos de gradiente e cofactor. Permite axustar a "rixidez" da deformación.
+    \item \textbf{Enerxía de Flexión:} Penaliza cambios bruscos na curvatura, asegurando suavidade e continuidade na deformación (usa segundas derivadas).
 \end{itemize}
 
-\vfill % Empurra o contido seguinte cara abaixo
-
-\centering
-% \textbf{Formulación 2D}
-% \vspace{0.2cm}
-$$
-S^{\text{jac}}[\Phi] = \int_{\Omega} \left| 1 - \det(\nabla \Phi) \right| \, dx \, dy
-$$
-
-% NOTAS PARA O PRESENTADOR:
-% - Explicar que o determinante do Xacobiano mide como cambia a área localmente.
-% - Imaxinar unha pequena cuadrícula na imaxe orixinal; este regularizador tenta que esa cuadrícula non se colapse nin se estire de forma desmedida.
-
-\end{frame}
-
-
-
-
-\begin{frame}
-\frametitle{Framework IDIR: Regularizador Hiperelástico}
-
-\begin{itemize}
-    \item \textbf{Mecanismo}: Combina termos que penalizan a variación da lonxitude dos vectores de desprazamento e as distorsións de área.
-     \begin{itemize}
-        \item O termo $|\nabla u|^2$ controla o estiramento.
-        \item O termo co cofactor ($\text{cof}$) controla a deformación da área.
-     \end{itemize}
-    \vspace{0.3cm}
-    \item É un regularizador máis xeral que engloba propiedades do Xacobiano e impón unha certa suavidade.
-\end{itemize}
-
-\vfill % Empurra o contido seguinte cara abaixo
-
-\centering
-% \textbf{Formulación 2D}
-% \vspace{0.2cm}
-$$
-S^{\text{hyper}}[\Phi] = \int_{\Omega} \left[ \frac{1}{2} \alpha_l |\nabla u|^2 + \alpha_a \varphi_c (\text{cof} \nabla \Phi) \right] dx \, dy
-$$
 \vspace{0.2cm}
-\small
-con
-$$
-\varphi_c(C) = \sum_{i=1}^2 \max \left\{ \sum_{j=1}^2 C_{ji}^2 - 1, 0 \right\}^2
-$$
-
-% NOTAS PARA O PRESENTADOR:
-% - Describir este regularizador como unha "lei física" que lle impoñemos á rede.
-% - Mencionar que os hiperparámetros α permiten axustar a "rixidez" do material simulado.
-
-\end{frame}
-
-
-
-\begin{frame}
-\frametitle{Framework IDIR: Regularizador de Enerxía de Flexión}
-
-\begin{itemize}
-    \item Evita cambios bruscos na curvatura do campo de desprazamento, o que se traduce en transformacións visualmente máis suaves e continuas.
-    \vspace{0.3cm}
-    \item Penaliza a magnitude das segundas derivadas parciais do campo de deformación ($\Phi$) en todo o dominio.
-    \vspace{0.3cm}
-\end{itemize}
-
-% \begin{alertblock}{Vantaxe SIREN}
-%     O cálculo eficiente e analítico deste regularizador só é posible porque as redes \textbf{SIREN son infinitamente diferenciables}. Arquitecturas baseadas en ReLU non poden usar este termo, xa que a súa segunda derivada é cero en case todos os puntos.
-% \end{alertblock}
-
-
-\vfill % Empurra o contido seguinte cara abaixo
-
 \centering
-% \textbf{Formulación 2D}
-% \vspace{0.2cm}
-$$
-S^{\text{bending}}[\Phi] = \frac{1}{8} \int_{\Omega} \left[ \left( \frac{\partial^2 \Phi}{\partial x^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial y^2} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial y} \right)^2 \right] dx \, dy
-$$
+\small
+% \begin{align*}
+% S^{\text{jac}}[\Phi] &= \int_{\Omega} \left| 1 - \det(\nabla \Phi) \right| \, dx\,dy \\
+% S^{\text{hyper}}[\Phi] &= \int_{\Omega} \left[ \frac{1}{2} \alpha_l |\nabla u|^2 + \alpha_a \varphi_c (\text{cof} \nabla \Phi) \right] dx\,dy \\
+% S^{\text{bending}}[\Phi] &= \frac{1}{8} \int_{\Omega} \left[ \left( \frac{\partial^2 \Phi}{\partial x^2} \right)^2 + \left( \frac{\partial^2 \Phi}{\partial y^2} \right)^2 + 2 \left( \frac{\partial^2 \Phi}{\partial x \partial y} \right)^2 \right] dx\,dy
+% \end{align*}
 
-% NOTAS PARA O PRESENTADOR:
-% - Este é o punto máis importante que xustifica o uso de SIREN.
-% - Resaltar que esta capacidade de calcular derivadas de orde superior de forma analítica é o que permite un control físico tan preciso da deformación.
-
+\vspace{0.2cm}
+% \footnotesize
+% SIREN permite calcular derivadas de orde superior de forma eficiente, facendo posible esta regularización avanzada.
 \end{frame}
+
+
 
 \begin{frame}
 \frametitle{Consideracións sobre a Regularización}
@@ -526,7 +526,7 @@ $$
 \vfill
 
 \begin{alertblock}{Vantaxe SIREN}
-    O cálculo de regularizadores de orde superior (como a Enerxía de Flexión) de forma eficiente e analítica só é posible porque as redes \textbf{SIREN son infinitamente diferenciables}. Arquitecturas baseadas en ReLU non poden usar este termo, xa que a súa segunda derivada é cero en case todos os puntos.
+    O cálculo de regularizadores de orde superior de forma eficiente e analítica só é posible porque as redes \textbf{SIREN son infinitamente diferenciables}. Arquitecturas baseadas en ReLU non poden usar este termo, xa que a súa segunda derivada é cero en case todos os puntos.
 \end{alertblock}
 
 % NOTAS PARA O PRESENTADOR:
