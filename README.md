@@ -8,7 +8,7 @@ This repository contains the **written thesis and presentation materials** for t
 
 ## Contents
 
-Translations from original (galician) to spanish and english was done using llms (with [latex-translate](https://github.com/mateo19182/latex-translate)) so there might be errors.
+Translations from original (galician) to spanish and english was done using llms (with [mateo19182/latex-translate](https://github.com/mateo19182/latex-translate)) so there might be errors.
 - [memoria.pdf](https://github.com/mateo19182/TFG/blob/main/memoria.pdf) in galician.
 - [memoria_tfg_english](https://github.com/mateo19182/TFG/blob/main/memoria_tfg_english.pdf) 
 - [memoria_tfg_español](https://github.com/mateo19182/TFG/blob/main/memoria_tfg_español.pdf) 
