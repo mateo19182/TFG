@@ -1,0 +1,42 @@
+\chapter{Trabajo futuro}
+\label{chap:Traballo futuro}
+
+\lettrine{E}{xisten} varias líneas de trabajo futuro que se pueden seguir para mejorar el sistema actual.
+Los resultados obtenidos en este trabajo, aunque demuestran la viabilidad de adaptar el framework IDIR para el alineamiento de imágenes oftalmológicas 2D, también revelan limitaciones a la hora de alcanzar la precisión y robustez deseables.
+Las siguientes líneas de trabajo futuro se consideran prometedoras para superar estos desafíos y avanzar en el campo:
+
+\section{Arquitecturas alternativas}
+\label{sec:Arquitecturas alternativas}
+
+Una línea relevante de trabajo futuro es la exploración de arquitecturas alternativas.
+Mientras que los perceptrones multicapa (MLPs) son considerados aproximadores universales \cite{HORNIK1989359} (son capaces de aproximar cualquier función continua dada una cantidad suficiente de neuronas), es posible que la arquitectura utilizada de 3 capas con 256 neuronas por capa no sea lo suficientemente grande para capturar las complejidades de las transformaciones entre las retinografías.
+
+Una opción sería aumentar el número de capas o neuronas por capa. Otra sería implementar el uso de codificación posicional, que parece ser útil para la tarea de registro \cite{mueller2022instant}.
+
+Otra idea muy interesante es el uso de restricciones de consistencia cíclicas, propuestas por Van Harten et al. en el contexto de registro de imágenes médicas \cite{van_Harten_2024}. Consiste en entrenar dos redes a la vez que estiman las transformaciones directas e inversas (una de la fija a la móvil y otra de la móvil a la fija), haciendo que estas se regularicen mutuamente y estabilizando la optimización.
+Una ventaja de este enfoque es que produce una métrica de certidumbre al comparar las transformaciones estimadas, lo cual es muy útil en aplicaciones clínicas.
+
+También podría ser interesante explorar el uso de meta-aprendizaje, donde se aprende una inicialización de pesos óptima a partir de un conjunto de datos \cite{learnedinit}, o condicionar por geometría, donde se incorpora conocimiento anatómico previo para simplificar la complejidad de la deformación \cite{harten2023deformable}.
+
+\section{Invertibilidad}
+\label{sec:Invertibilidade}
+
+Una dirección interesante para el trabajo futuro es la exploración de métodos que garanticen la invertibilidad de las transformaciones aprendidas por la red.
+La red IDIR actual no garantiza la invertibilidad de las transformaciones aprendidas, lo que significa que no es posible aplicar la transformación inversa de manera fiable.
+
+Gracias a los términos de regularización utilizados durante el entrenamiento son pocos los casos en los que el determinante Jacobiano es negativo (lo que indicaría que la transformación no es invertible).
+
+Aproximaciones como la de i-RevNet \cite{jacobsen2018irevnetdeepinvertiblenetworks} o aquellos basados en campos vectoriales de velocidad \cite{sun2024medicalimageregistrationneural} permiten garantizar la invertibilidad de las transformaciones aprendidas, lo que podría mejorar la precisión y la robustez del registro y funcionaría como un mecanismo de regulación implícita.
+
+\section{Enfoque híbrido}
+\label{sec:Enfoque híbrido}
+
+Otra línea de trabajo futuro es la exploración de enfoques híbridos que combinen el registro basado en redes neuronales con técnicas tradicionales de registro.
+Una posibilidad sería utilizar el registro tradicional para proporcionar un registro inicial y global robusto, que después podría ser refinado por una red neuronal.
+
+Más concretamente, consistiría en utilizar un detector de puntos clave robusto como SuperPoint \cite{superpoint} para extraer características de las imágenes fija y móvil, y utilizar un algoritmo de emparejamiento de puntos clave como SuperGlue \cite{superglue} para obtener una transformación inicial entre las imágenes.
+Posteriormente entrenaría el modelo INR para refinar esta transformación inicial, lo que es un problema de optimización más sencillo y que hace uso de las ventajas de ambos enfoques.
+
+Este es el enfoque utilizado por métodos en el estado del arte como HybridRetina \cite{liu2024progressiveretinalimageregistration}.
+
+Asimismo, se podrían explorar con más profundidad el preprocesado de las imágenes, ya que es inexistente en el método actual pero podría ser útil para mejorar la calidad de las imágenes y facilitar el registro.

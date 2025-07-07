@@ -1,0 +1,38 @@
+\chapter{Conclusiones}
+\label{chap:Conclusións}
+
+\lettrine{E}{n} conclusión, el proyecto de investigación realizado consistió en la adaptación del framework IDIR para el registro de retinografías.
+En especial valoramos el uso de la función de activación SIREN, propuesta como alternativa a la función ReLU para mejorar la representación de las deformaciones.
+
+La alineación de retinografías es un problema relevante ya que es un proceso laborioso para los expertos, pero con mucha utilidad clínica.
+La etapa inicial de la revisión del estado del arte reveló que ya existían varios trabajos previos que abordaban este problema, siendo los más exitosos los basados en métodos iterativos.
+Actualmente los métodos de aprendizaje profundo son una alternativa prometedora que está ganando prominencia en el campo. Particularmente, el uso de representaciones implícitas para esta tarea es un enfoque innovador que ya fue aplicado en otros campos de la imagen médica con buenos resultados.
+
+Para evaluar la efectividad del método propuesto, se escogieron dos conjuntos de datos de retinografías: FIRE, que permite la evaluación del método en imágenes reales, y RFMID, sobre el que se efectuaron transformaciones artificiales para simular diferentes escenarios de alineación.
+
+Durante la fase de experimentación se exploraron diferentes combinaciones de hiperparámetros (pérdida, regularización, resolución...) y se introdujeron diferentes técnicas para intentar mejorar la convergencia del modelo, como diferentes esquemas de muestreo, inicialización, y técnicas de ajuste dinámico del tamaño de lote.
+
+Algunas de las dificultades encontradas durante el desarrollo del proyecto fueron: la falta de documentación sobre el funcionamiento del código original, que dificultó su adaptación al nuevo dominio; el diseño del proceso de evaluación, en el cual fue complejo encontrar visualizaciones que permitiesen interpretar los resultados fácilmente; y el tiempo de cómputo que requerían algunos experimentos, que requirió la implementación de optimizaciones para facilitar la experimentación.
+
+Los resultados obtenidos muestran que esta arquitectura no es la más adecuada para la tarea de registro de retinografías.
+
+Sí se obtienen buenos resultados en el dataset RFMID, que se basa en imágenes con transformaciones lineales sintéticas, donde la función de activación ReLU tiende a obtener mejores resultados que SIREN, ya que está mejor preparada para representar las transformaciones lineales globales que se producen entre estas imágenes.
+Se observa también que el tamaño de la transformación tiene un impacto significativo en el rendimiento, ya que las imágenes de mayor tamaño presentan un mayor error de registro.
+
+En el dataset FIRE, que contiene imágenes reales, los resultados son peores que en el dataset RFMID, especialmente en las parejas de imágenes que presentan grandes deformaciones o bajo nivel de superposición.
+La función de activación SIREN obtiene mejores resultados aquí, ya que es capaz de representar mejor las deformaciones no lineales y locales que se producen entre las imágenes.
+
+Estas diferencias en el rendimiento destacan la importancia de la elección de la función de activación en función de la naturaleza específica de las transformaciones esperadas.
+La fase de experimentación también reveló que la regularización es un factor fundamental, especialmente en la función de activación SIREN, donde la ausencia de regularización lleva a un sobreajuste significativo y a un rendimiento muy pobre.
+
+Cabe destacar que el método presentado en este trabajo guía la optimización con tan solo la métrica de NCC, que depende únicamente de las intensidades de los píxeles, y que en registros con mucho desplazamiento o deformaciones complejas la topografía de función de pérdida será poco convexa y con múltiples mínimos locales, lo que dificulta la convergencia del modelo.
+Por el contrario, métodos como REMPE \cite{rempe} que obtienen resultados mucho mejores (registra con éxito la totalidad de la categoría S de FIRE) hacen uso de información adicional que les permite establecer correspondencias globales entre las imágenes.
+
+Una observación relevante es la diferencia entre el rendimiento entre el conjunto de datos sintético (RFMID) y el conjunto de datos real (FIRE). Esta brecha demuestra la dificultad de aplicar modelos entrenados en datos sintéticos a imágenes reales.
+
+Tener una función de pérdida que dependa solo de las intensidades de los píxeles, como la NCC, limita la capacidad del modelo para capturar correspondencias globales y estabilidad de optimización, especialmente en imágenes con grandes deformaciones o variaciones de apariencia.
+La inestabilidad de optimización es otro desafío importante, ya que es sensible a la inicialización y propensa a mínimos locales deficientes.
+
+Este trabajo muestra que los modelos \gls{INR} puramente basados en imágenes carecen de los mecanismos de correspondencia global y estabilidad de optimización necesarias para aproximar grandes deformaciones y variaciones de apariencia presentes en muchas de las imágenes clínicas de retina.
+
+Todos estos hallazgos responden a los objetivos propuestos en el inicio del proyecto, donde adaptamos el framework IDIR para el registro de retinografías, exploramos la función de activación SIREN y evaluamos el rendimiento del modelo en diferentes condiciones.

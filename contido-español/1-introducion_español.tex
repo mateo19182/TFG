@@ -1,0 +1,41 @@
+\chapter{Introducción}
+\label{chap:introducion}
+
+\lettrine{E} n este primer capítulo se exponen las motivaciones y objetivos de este trabajo. Además, se detallará la estructura de la memoria y los apartados que la conforman.
+
+\section{Motivación}
+\label{sec:motivacion}
+
+La oftalmología se vale del análisis de imágenes obtenidas por diversos métodos para realizar diagnósticos y seguimientos precisos. Sin embargo, dado que estas imágenes pueden provenir de distintas modalidades y ser tomadas desde distintos puntos en el espacio o en instantes separados en el tiempo, es preciso alinearlas para poder compararlas de manera efectiva. La alineación, también denominada registro, consiste en deformar dos o más imágenes con el objetivo de que las características de interés se encuentren en la misma posición (superpuestas). Este es un proceso tedioso y propenso a errores cuando se realiza manualmente, por lo que cualquier mejora en él es de gran utilidad para los profesionales de la salud. Este problema es adecuado para ser automatizado, ya que no requiere de un juicio clínico, sino que se basa en la comparación de características visuales de las imágenes.
+
+Existen diversas técnicas para realizar la alineación automática, especialmente con la llegada del aprendizaje profundo a la visión por computador, donde es habitual el uso de redes neuronales convolucionales (CNN). Sin embargo, estos modelos, aunque efectivos, presentan limitaciones significativas: requieren grandes conjuntos de datos para su entrenamiento, un recurso escaso y costoso en el ámbito médico, y generalmente muestran una precisión menor que los métodos convencionales.
+
+Las representaciones neuronales implícitas (INRs) emergen como un paradigma alternativo que modela la deformación como una función continua definida en los propios pesos de la red. Esta técnica ofrece ventajas clave, como la independencia de la resolución y la capacidad de entrenarse para cada par de imágenes, eliminando la necesidad de bases de datos. A pesar de su potencial, su aplicación específica al desafío del registro de retinografías permanece inexplorada, presentando una clara oportunidad de investigación.
+
+Para abordar esta laguna, este trabajo adapta el framework IDIR, propuesto por Wolterink et al. \cite{wolterink2021implicit} en el ámbito del registro de pulmones, a la tarea de alineación de imágenes oftalmológicas. El objetivo es determinar si esta metodología puede superar las limitaciones de los enfoques anteriores y ofrecer una solución robusta y precisa en este dominio.
+
+\section{Objetivos}
+\label{sec:obxectivos}
+
+En este trabajo se explorará el uso de redes de representación implícita para la alineación de imágenes oftalmológicas, para determinar si son aptas para esta tarea y si pueden superar las limitaciones de los métodos anteriores.
+Para ello, los objetivos específicos son:
+\begin{itemize}
+    \item Adaptar el trabajo de IDIR \cite{wolterink2021implicit} para aplicarlo a imágenes oftalmológicas de dos dimensiones.
+    \item Comparar el rendimiento del método propuesto en los conjuntos de datos de FIRE \cite{FIRE} y RFMID \cite{RFMiD}.
+    \item Analizar la influencia de distintos parámetros en el rendimiento, en particular la influencia de la función de activación SIREN.
+\end{itemize}
+
+\section{Estructura}
+\label{sec:estrutura}
+
+En esta sección se detallará la estructura de la memoria y los apartados que la conforman.
+
+\begin{itemize}
+    \item \textbf{Capítulo 1: Introducción}: en este capítulo se introduce el trabajo, explicando las motivaciones y objetivos del mismo.
+    \item \textbf{Capítulo 2: Contexto}: en este capítulo se explicará el contexto del trabajo, introduciendo conceptos básicos de visión por computador e imágenes médicas, así como el estado del arte en alineación de imágenes.
+    \item \textbf{Capítulo 3: Metodología y planificación}: en este capítulo se explicará la metodología empleada y la planificación del trabajo.
+    \item \textbf{Capítulo 4: Trabajo realizado}: en este capítulo se describe el trabajo realizado.
+    \item \textbf{Capítulo 5: Experimentos y resultados}: en este capítulo se presentarán los experimentos realizados y se discutirán los resultados obtenidos.
+    \item \textbf{Capítulo 6: Conclusiones}: en este capítulo se resumen las conclusiones del trabajo y sus implicaciones.
+    \item \textbf{Capítulo 7: Trabajo futuro}: en este capítulo se propondrán líneas de trabajo futuro.
+\end{itemize}

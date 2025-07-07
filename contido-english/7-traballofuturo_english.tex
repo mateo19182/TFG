@@ -1,0 +1,42 @@
+\chapter{Future work}
+\label{chap:Traballo futuro}
+
+\lettrine{T}{here} are several lines of future work that can be followed to improve the current system.
+The results obtained in this work, although they demonstrate the feasibility of adapting the IDIR framework for 2D ophthalmological image alignment, also reveal limitations in achieving the desired precision and robustness.
+The following lines of future work are considered promising to overcome these challenges and advance the field:
+
+\section{Alternative architectures}
+\label{sec:Arquitecturas alternativas}
+
+A relevant line of future work is the exploration of alternative architectures.
+While multilayer perceptrons (MLPs) are considered universal approximators \cite{HORNIK1989359} (they are capable of approximating any continuous function given a sufficient number of neurons), it is possible that the architecture used of 3 layers with 256 neurons per layer is not large enough to capture the complexities of transformations between retinographies.
+
+One option would be to increase the number of layers or neurons per layer. Another would be to implement the use of positional encoding, which seems to be useful for the registration task \cite{mueller2022instant}.
+
+Another very interesting idea is the use of cyclic consistency constraints, proposed by Van Harten et al. in the context of medical image registration \cite{van_Harten_2024}. It consists of training two networks simultaneously that estimate direct and inverse transformations (one from fixed to moving and another from moving to fixed), making them mutually regularize and stabilizing optimization.
+An advantage of this approach is that it produces a certainty metric by comparing the estimated transformations, which is very useful in clinical applications.
+
+It could also be interesting to explore the use of meta-learning, where an optimal weight initialization is learned from a dataset \cite{learnedinit}, or geometry conditioning, where prior anatomical knowledge is incorporated to simplify deformation complexity \cite{harten2023deformable}.
+
+\section{Invertibility}
+\label{sec:Invertibilidade}
+
+An interesting direction for future work is the exploration of methods that guarantee the invertibility of transformations learned by the network.
+The current IDIR network does not guarantee the invertibility of learned transformations, which means that it is not possible to reliably apply the inverse transformation.
+
+Thanks to the regularization terms used during training, there are few cases where the Jacobian determinant is negative (which would indicate that the transformation is not invertible).
+
+Approaches like i-RevNet \cite{jacobsen2018irevnetdeepinvertiblenetworks} or those based on velocity vector fields \cite{sun2024medicalimageregistrationneural} allow guaranteeing the invertibility of learned transformations, which could improve registration accuracy and robustness and would work as an implicit regulation mechanism.
+
+\section{Hybrid approach}
+\label{sec:Enfoque híbrido}
+
+Another line of future work is the exploration of hybrid approaches that combine neural network-based registration with traditional registration techniques.
+One possibility would be to use traditional registration to provide a robust initial and global registration, which could then be refined by a neural network.
+
+More specifically, it would consist of using a robust keypoint detector like SuperPoint \cite{superpoint} to extract features from the fixed and moving images, and using a keypoint matching algorithm like SuperGlue \cite{superglue} to obtain an initial transformation between the images.
+Subsequently, the INR model would be trained to refine this initial transformation, which is a simpler optimization problem and makes use of the advantages of both approaches.
+
+This is the approach used by state-of-the-art methods like HybridRetina \cite{liu2024progressiveretinalimageregistration}.
+
+Likewise, image preprocessing could be explored in more depth, as it is non-existent in the current method but could be useful to improve image quality and facilitate registration.

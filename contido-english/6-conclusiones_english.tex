@@ -1,0 +1,38 @@
+\chapter{Conclusions}
+\label{chap:Conclusións}
+
+\lettrine{I}{n} conclusion, the research project consisted of adapting the IDIR framework for retinal image registration.
+In particular, we evaluated the use of the SIREN activation function, proposed as an alternative to the ReLU function to improve the representation of deformations.
+
+Retinal image alignment is a relevant problem as it is a laborious process for experts, but with significant clinical utility.
+The initial stage of the literature review revealed that there were already several previous works addressing this problem, with the most successful ones being based on iterative methods.
+Currently, deep learning methods are a promising alternative that is gaining prominence in the field. Particularly, the use of implicit representations for this task is an innovative approach that has already been applied in other medical imaging fields with good results.
+
+To evaluate the effectiveness of the proposed method, two retinal image datasets were chosen: FIRE, which allows evaluation of the method on real images, and RFMID, on which artificial transformations were performed to simulate different alignment scenarios.
+
+During the experimentation phase, different combinations of hyperparameters (loss, regularization, resolution...) were explored and different techniques were introduced to try to improve model convergence, such as different sampling schemes, initialization, and dynamic batch size adjustment techniques.
+
+Some of the difficulties encountered during the project development were: the lack of documentation about the original code's operation, which made its adaptation to the new domain difficult; the design of the evaluation process, in which it was complex to find visualizations that would allow easy interpretation of results; and the computation time required by some experiments, which required the implementation of optimizations to facilitate experimentation.
+
+The results obtained show that this architecture is not the most suitable for the task of retinal image registration.
+
+Good results are obtained on the RFMID dataset, which is based on images with synthetic linear transformations, where the ReLU activation function tends to perform better than SIREN, as it is better prepared to represent the global linear transformations that occur between these images.
+It is also observed that the size of the transformation has a significant impact on performance, as larger images show higher registration error.
+
+In the FIRE dataset, which contains real images, the results are worse than in the RFMID dataset, especially in image pairs that present large deformations or low overlap.
+The SIREN activation function performs better here, as it is better able to represent the non-linear and local deformations that occur between images.
+
+These differences in performance highlight the importance of choosing the activation function based on the specific nature of the expected transformations.
+The experimentation phase also revealed that regularization is a fundamental factor, especially in the SIREN activation function, where the absence of regularization leads to significant overfitting and very poor performance.
+
+It should be noted that the method presented in this work guides optimization with only the NCC metric, which depends solely on pixel intensities, and that in registrations with large displacement or complex deformations, the loss function topology will be poorly convex and with multiple local minima, which makes model convergence difficult.
+In contrast, methods like REMPE \cite{rempe} that obtain much better results (successfully registering the entire S category of FIRE) make use of additional information that allows them to establish global correspondences between images.
+
+A relevant observation is the difference in performance between the synthetic dataset (RFMID) and the real dataset (FIRE). This gap demonstrates the difficulty of applying models trained on synthetic data to real images.
+
+Having a loss function that depends only on pixel intensities, such as NCC, limits the model's ability to capture global correspondences and optimization stability, especially in images with large deformations or appearance variations.
+Optimization instability is another important challenge, as it is sensitive to initialization and prone to poor local minima.
+
+This work shows that purely image-based \gls{INR} models lack the global correspondence mechanisms and optimization stability needed to approximate large deformations and appearance variations present in many clinical retinal images.
+
+All these findings respond to the objectives proposed at the beginning of the project, where we adapted the IDIR framework for retinal image registration, explored the SIREN activation function, and evaluated the model's performance under different conditions.

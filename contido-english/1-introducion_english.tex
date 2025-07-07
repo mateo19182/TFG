@@ -1,0 +1,41 @@
+\chapter{Introduction}
+\label{chap:introducion}
+
+\lettrine{I} n this first chapter, the motivations and objectives of this work are presented. Additionally, the structure of the report and its sections will be detailed.
+
+\section{Motivation}
+\label{sec:motivacion}
+
+Ophthalmology relies on the analysis of images obtained through various methods to make accurate diagnoses and follow-ups. However, since these images can come from different modalities and be taken from different points in space or at separate moments in time, they need to be aligned to be compared effectively. Alignment, also known as registration, consists of deforming two or more images with the goal of having the features of interest in the same position (superimposed). This is a tedious and error-prone process when done manually, so any improvement in it is of great utility for healthcare professionals. This problem is suitable for automation, as it does not require clinical judgment, but rather relies on comparing visual characteristics of the images.
+
+There are various techniques for performing automatic alignment, especially with the advent of deep learning in computer vision, where the use of convolutional neural networks (CNN) is common. However, these models, although effective, present significant limitations: they require large datasets for training, a scarce and costly resource in the medical field, and generally show lower precision than conventional methods.
+
+Implicit Neural Representations (INRs) emerge as an alternative paradigm that models deformation as a continuous function defined in the network weights themselves. This technique offers key advantages, such as resolution independence and the ability to train for each pair of images, eliminating the need for databases. Despite its potential, its specific application to the challenge of retinography registration remains unexplored, presenting a clear research opportunity.
+
+To address this gap, this work adapts the IDIR framework, proposed by Wolterink et al. \cite{wolterink2021implicit} in the field of lung registration, to the task of aligning ophthalmological images. The goal is to determine if this methodology can overcome the limitations of previous approaches and offer a robust and precise solution in this domain.
+
+\section{Objectives}
+\label{sec:obxectivos}
+
+This work will explore the use of implicit representation networks for ophthalmological image alignment, to determine if they are suitable for this task and if they can overcome the limitations of previous methods.
+For this, the specific objectives are:
+\begin{itemize}
+    \item Adapt the IDIR work \cite{wolterink2021implicit} to apply it to two-dimensional ophthalmological images.
+    \item Compare the performance of the proposed method on the FIRE \cite{FIRE} and RFMID \cite{RFMiD} datasets.
+    \item Analyze the influence of different parameters on performance, particularly the influence of the SIREN activation function.
+\end{itemize}
+
+\section{Structure}
+\label{sec:estrutura}
+
+This section will detail the structure of the report and its sections.
+
+\begin{itemize}
+    \item \textbf{Chapter 1: Introduction}: this chapter introduces the work, explaining its motivations and objectives.
+    \item \textbf{Chapter 2: Context}: this chapter will explain the context of the work, introducing basic concepts of computer vision and medical imaging, as well as the state of the art in image alignment.
+    \item \textbf{Chapter 3: Methodology and planning}: this chapter will explain the methodology used and the work planning.
+    \item \textbf{Chapter 4: Work carried out}: this chapter describes the work carried out.
+    \item \textbf{Chapter 5: Experiments and results}: this chapter will present the experiments conducted and discuss the results obtained.
+    \item \textbf{Chapter 6: Conclusions}: this chapter summarizes the conclusions of the work and their implications.
+    \item \textbf{Chapter 7: Future work}: this chapter will propose future lines of work.
+\end{itemize}
